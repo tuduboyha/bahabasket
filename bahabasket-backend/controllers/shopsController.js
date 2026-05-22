@@ -68,7 +68,7 @@ exports.createShop = async (req, res, next) => {
     // Generate URL-safe slug from shop name
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now();
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('shops')
       .insert({
         owner_id: req.user.id,
