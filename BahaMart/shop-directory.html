@@ -1495,7 +1495,7 @@ async function loadShops(page) {
       <div style="grid-column:1/-1;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:32px;text-align:center;">
         <div style="font-size:32px;margin-bottom:12px;">⚠️</div>
         <div style="font-weight:700;font-size:16px;color:var(--text-dark);margin-bottom:8px;">Could not load shops</div>
-        <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">${err.message}<br>Please make sure the backend server is running on port 5000.</div>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">${err.message}<br>Please check your internet connection and try again.</div>
         <button onclick="loadShops(1)" style="background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Try Again</button>
       </div>`);
   }
