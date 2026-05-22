@@ -1081,7 +1081,9 @@ async function finalSubmit(){
   try {
     // Collect form data
     const name     = document.getElementById('shopName').value.trim();
-    const whatsapp = document.getElementById('shopWa').value.trim();
+    // Clean WhatsApp: remove +91, spaces, dashes → keep only 10 digits
+    const rawWa    = document.getElementById('shopWa').value.trim();
+    const whatsapp = rawWa.replace(/\D/g, '').replace(/^91/, '').slice(-10);
     const address  = document.getElementById('shopAddr').value.trim();
     const city     = document.getElementById('shopArea').value.trim();
     const description = document.getElementById('shopDesc').value.trim();

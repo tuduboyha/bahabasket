@@ -42,9 +42,9 @@ const schemas = {
     category:    Joi.array().items(Joi.string()).min(1).required(),
     description: Joi.string().max(1000).optional().allow(''),
     whatsapp:    Joi.string().pattern(/^[6-9]\d{9}$/).required(),
-    address:     Joi.string().max(300).required(),
+    address:     Joi.string().max(300).optional().allow(''),
     city:        Joi.string().max(60).required(),
-    pincode:     Joi.string().length(6).pattern(/^\d+$/).required(),
+    pincode:     Joi.string().length(6).pattern(/^\d+$/).optional().allow(''),
   }),
 
   // Product
