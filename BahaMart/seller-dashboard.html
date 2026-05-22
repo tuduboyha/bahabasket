@@ -437,7 +437,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
       </div>
       <div class="nav-item" onclick="showSec('products',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span> Products
-        <span class="ni-badge orange">240</span>
+        <span class="ni-badge orange" id="prodNavCount">0</span>
       </div>
       <div class="nav-item" onclick="showSec('add-product',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></span> Add Product
@@ -887,7 +887,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
         <select class="field-input" style="width:auto;padding:8px 32px 8px 12px;font-size:13px;">
           <option>Sort: Newest</option><option>Most Inquiries</option><option>Price High</option><option>Price Low</option>
         </select>
-        <span style="margin-left:auto;font-size:12.5px;color:var(--text-light);">Showing 1–10 of 240</span>
+        <span style="margin-left:auto;font-size:12.5px;color:var(--text-light);" id="prodCountTop">Showing 0 products</span>
       </div>
 
       <div class="card">
@@ -903,7 +903,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
           </table>
         </div>
         <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 0;font-size:13px;color:var(--text-light);">
-          <span>Showing 1–10 of 240 products</span>
+          <span id="prodCountBottom">Showing 0 products</span>
           <div style="display:flex;gap:6px;">
             <button class="btn btn-ghost btn-sm">← Prev</button>
             <button class="btn btn-primary btn-sm">1</button>
@@ -1506,14 +1506,27 @@ async function loadShopProducts(shopId) {
     if (!data.success) return;
     _shopProducts = data.products || [];
 
-    // Update Live Products stat
+    const total = _shopProducts.length;
     const liveCount = _shopProducts.filter(p => p.is_active && p.stock > 0).length;
+
+    // Sidebar nav badge
+    const navBadge = document.getElementById('prodNavCount');
+    if (navBadge) navBadge.textContent = total;
+
+    // Table header + footer count
+    const countLabel = total === 0 ? 'No products yet' : `Showing ${total} product${total !== 1 ? 's' : ''}`;
+    const top = document.getElementById('prodCountTop');
+    const bot = document.getElementById('prodCountBottom');
+    if (top) top.textContent = countLabel;
+    if (bot) bot.textContent = countLabel;
+
+    // Live Products stat card
     const sn3 = document.getElementById('sn3');
     if (sn3) sn3.textContent = liveCount;
 
-    // Update products section subtitle
+    // Products section subtitle
     const prodSub = document.querySelector('#sec-products .sec-sub');
-    if (prodSub) prodSub.textContent = `${_shopProducts.length} products listed on your shop.`;
+    if (prodSub) prodSub.textContent = `${total} product${total !== 1 ? 's' : ''} listed on your shop.`;
 
     buildProductsTable();
     buildTopProducts();
