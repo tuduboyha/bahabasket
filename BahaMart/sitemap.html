@@ -182,12 +182,12 @@ button{cursor:pointer;font-family:var(--font-body);}
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <a href="local-bazaar-hub.html" class="logo">
+  <a href="index.html" class="logo">
     <div class="logo-icon">🛍️</div>
     <div class="logo-text"><div>Local <span>Bazaar</span> Hub</div><small>Apna Dukaan, Digital Duniya</small></div>
   </a>
   <div class="nav-right">
-    <a href="local-bazaar-hub.html" class="nav-link">🏠 Home</a>
+    <a href="index.html" class="nav-link">🏠 Home</a>
     <a href="shop-directory.html" class="nav-link">🏪 Shops</a>
     <a href="faq.html" class="nav-link">❓ FAQ</a>
     <a href="shopkeeper-registration.html" class="nav-link nav-btn">+ List Your Shop</a>
@@ -196,7 +196,7 @@ button{cursor:pointer;font-family:var(--font-body);}
 
 <!-- BREADCRUMB -->
 <div class="breadcrumb">
-  <a href="local-bazaar-hub.html">🏠 Home</a><span class="sep">›</span>
+  <a href="index.html">🏠 Home</a><span class="sep">›</span>
   <span class="current">🗺️ Sitemap</span>
 </div>
 
@@ -308,7 +308,7 @@ button{cursor:pointer;font-family:var(--font-body);}
 <div class="footer-mini">
   <div>© 2024 BahaBasket · Apna Dukaan, Digital Duniya · All Rights Reserved</div>
   <div class="footer-links-row">
-    <a href="local-bazaar-hub.html">Home</a>
+    <a href="index.html">Home</a>
     <a href="shop-directory.html">Shops</a>
     <a href="faq.html">FAQ</a>
     <a href="contact-us.html">Contact</a>
@@ -330,7 +330,7 @@ const SITEMAP = [
     id:'core', icon:'🏠', iconBg:'var(--primary-light)',
     title:'Core Pages', borderColor:'var(--primary)',
     pages:[
-      { icon:'🏠', iconBg:'#e8f0fe', title:'Homepage', url:'local-bazaar-hub.html', desc:'Main landing page — featured shops, categories, offers, how it works, and seller CTA.', badges:['seo'], priority:'High' },
+      { icon:'🏠', iconBg:'#e8f0fe', title:'Homepage', url:'index.html', desc:'Main landing page — featured shops, categories, offers, how it works, and seller CTA.', badges:['seo'], priority:'High' },
       { icon:'🗺️', iconBg:'#dcfce7', title:'Sitemap', url:'sitemap.html', desc:'This page — complete directory of all pages on BahaBasket.', badges:[], priority:'Low' },
       { icon:'🔍', iconBg:'#e8f0fe', title:'Search Results', url:'search-results.html', desc:'Live search with 7 filter groups, grid/list view, sort, sponsored banner, and product + shop tabs.', badges:['new'], priority:'High' },
       { icon:'❓', iconBg:'#f3e8ff', title:'How It Works', url:'how-it-works.html', desc:'Step-by-step guide for buyers and sellers. Dual-mode toggle, detailed steps, comparison table.', badges:[], priority:'Medium' },
@@ -513,7 +513,7 @@ function scrollTo(sectionId){
 function downloadXML(){
   const baseUrl = 'https://localbazaarhub.in/';
   const today = new Date().toISOString().split('T')[0];
-  const priorities = {'local-bazaar-hub.html':'1.0','shop-directory.html':'0.9','categories.html':'0.9','product-listings.html':'0.9','offers.html':'0.8','city-landing.html':'0.8','faq.html':'0.7','pricing.html':'0.7'};
+  const priorities = {'index.html':'1.0','shop-directory.html':'0.9','categories.html':'0.9','product-listings.html':'0.9','offers.html':'0.8','city-landing.html':'0.8','faq.html':'0.7','pricing.html':'0.7'};
 
   let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
   allPages.filter(p => !p.url.includes('?') && !['thankyou.html','coming-soon.html','admin-panel.html'].includes(p.url)).forEach(p => {

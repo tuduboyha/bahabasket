@@ -186,7 +186,7 @@ button{cursor:pointer;font-family:var(--font-body);}
 
 <!-- NAVBAR -->
 <nav class="navbar">
-  <a href="local-bazaar-hub.html" class="logo">
+  <a href="index.html" class="logo">
     <div class="logo-icon">🛍️</div>
     <div class="logo-text">
       <div>Local <span>Bazaar</span> Hub</div>
@@ -194,7 +194,7 @@ button{cursor:pointer;font-family:var(--font-body);}
     </div>
   </a>
   <div class="nav-right">
-    <a href="local-bazaar-hub.html" class="nav-link">🏠 Home</a>
+    <a href="index.html" class="nav-link">🏠 Home</a>
     <a href="shop-directory.html" class="nav-link">🏪 Shops</a>
     <a href="faq.html" class="nav-link">❓ FAQ</a>
   </div>
@@ -293,7 +293,7 @@ button{cursor:pointer;font-family:var(--font-body);}
             💎 View Plans
           </button>
         </div>
-        <button class="btn-secondary-cta" onclick="window.location='local-bazaar-hub.html'">
+        <button class="btn-secondary-cta" onclick="window.location='index.html'">
           🏠 Back to Homepage
         </button>
       </div>
@@ -487,7 +487,7 @@ button{cursor:pointer;font-family:var(--font-body);}
           💬 Chat on WhatsApp Instead (Faster)
         </button>
         <div class="btn-row">
-          <button class="btn-primary-cta" onclick="window.location='local-bazaar-hub.html'">🏠 Go to Homepage</button>
+          <button class="btn-primary-cta" onclick="window.location='index.html'">🏠 Go to Homepage</button>
           <button class="btn-secondary-cta" onclick="window.location='faq.html'">❓ Browse FAQ</button>
         </div>
       </div>
@@ -677,7 +677,7 @@ button{cursor:pointer;font-family:var(--font-body);}
 <div class="footer-mini">
   <div>© 2024 BahaBasket · Apna Dukaan, Digital Duniya</div>
   <div class="footer-links">
-    <a href="local-bazaar-hub.html">Home</a>
+    <a href="index.html">Home</a>
     <a href="faq.html">FAQ</a>
     <a href="contact-us.html">Contact</a>
     <a href="privacy-policy.html">Privacy</a>
@@ -788,7 +788,7 @@ function copyInvoiceId(){
   if(val) navigator.clipboard?.writeText(val).then(()=>alert('Invoice ID copied: '+val));
 }
 function copyLink(){
-  navigator.clipboard?.writeText(window.location.origin+'/local-bazaar-hub.html').then(()=>alert('Platform link copied!'));
+  navigator.clipboard?.writeText(window.location.origin+'/index.html').then(()=>alert('Platform link copied!'));
 }
 
 // ════════════════════════════════
@@ -811,7 +811,7 @@ function openWA(type){
 //  SHARE FUNCTIONS
 // ════════════════════════════════
 function shareShopWA(){
-  const msg = encodeURIComponent('I just listed my shop on BahaBasket! Now you can browse my products and contact me directly on WhatsApp. Check it out: '+window.location.origin+'/local-bazaar-hub.html');
+  const msg = encodeURIComponent('I just listed my shop on BahaBasket! Now you can browse my products and contact me directly on WhatsApp. Check it out: '+window.location.origin+'/index.html');
   window.open('https://wa.me/?text='+msg, '_blank');
 }
 function shareShopFB(){
@@ -840,7 +840,7 @@ if(type === 'contact'){
     if(cdEl) cdEl.textContent = count + 's';
     if(count <= 0){
       clearInterval(redirectTimer);
-      window.location = 'local-bazaar-hub.html';
+      window.location = 'index.html';
     }
   }, 1000);
 }

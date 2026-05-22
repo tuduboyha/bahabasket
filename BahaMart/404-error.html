@@ -364,7 +364,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 
     <!-- Action buttons -->
     <div class="error-actions">
-      <button class="btn-home" onclick="window.location='local-bazaar-hub.html'">
+      <button class="btn-home" onclick="window.location='index.html'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         Go to Homepage
       </button>
@@ -512,7 +512,7 @@ const timer = setInterval(()=>{
   countdown--;
   if(countdown <= 0){
     clearInterval(timer);
-    window.location = 'local-bazaar-hub.html';
+    window.location = 'index.html';
   } else {
     countEl.textContent = 'Auto-redirecting to homepage in ' + countdown + 's... (or click above to navigate now)';
   }
