@@ -861,6 +861,7 @@ select.finput{cursor:pointer;}
       </div>
       <div class="success-btns">
         <button class="btn-success-wa" onclick="openWA()"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.858L.057 23.571a.5.5 0 00.611.611l5.713-1.475A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.947 0-3.76-.527-5.31-1.438l-.38-.225-3.939 1.016 1.016-3.939-.225-.38A9.965 9.965 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> Follow Up on WhatsApp</button>
+        <a href="seller-dashboard.html" class="btn-success-home" style="background:var(--primary);color:#fff;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg> Go to Dashboard</a>
         <a href="index.html" class="btn-success-home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home Page</a>
       </div>
     </div>
@@ -870,6 +871,7 @@ select.finput{cursor:pointer;}
 <div id="site-footer"></div>
 
 <script>
+const API_BASE = 'https://bahabasket-production.up.railway.app/api';
 let currentStep = 1;
 let selectedPlan = 'free';
 let otpVerified = false;
@@ -1055,33 +1057,83 @@ function verifyOTP(){
   otpVerified = true;
 }
 
-// ── Final Submit ──
-function finalSubmit(){
+// ── Final Submit — Real API ──
+async function finalSubmit(){
   if(!document.getElementById('c1').checked || !document.getElementById('c2').checked){
     alert('Please agree to our Terms and Privacy Policy!'); return;
   }
+
+  // Check login
+  const token = localStorage.getItem('bb_token');
+  if(!token){
+    if(confirm('Shop banane ke liye pehle login karna hoga.\n\nLogin page pe jaaye?')){
+      localStorage.setItem('bb_redirect_after_login', 'shopkeeper-registration.html');
+      window.location = 'login-register.html';
+    }
+    return;
+  }
+
   const btn = document.getElementById('finalSubmitBtn');
-  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Submitting...';
-  btn.classList.add('loading');
+  const origText = btn.innerHTML;
+  btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Submitting...';
+  btn.disabled = true;
 
-  setTimeout(()=>{
-    const regId = 'LBH-2024-' + Math.floor(1000 + Math.random()*9000);
+  try {
+    // Collect form data
+    const name     = document.getElementById('shopName').value.trim();
+    const whatsapp = document.getElementById('shopWa').value.trim();
+    const address  = document.getElementById('shopAddr').value.trim();
+    const city     = document.getElementById('shopArea').value.trim();
+    const description = document.getElementById('shopDesc').value.trim();
+
+    // Get selected categories
+    const catMap = {
+      'Men Fashion':'men','Women Fashion':'women','Kids Wear':'kids',
+      'Electronics':'electronics','Mobile Accessories':'electronics',
+      'Footwear':'footwear','Jewellery':'jewellery','Home Decor':'home-decor',
+      'Beauty & Care':'beauty-care','Books & Stationery':'books',
+      'Food & Grocery':'grocery','Hardware & Tools':'hardware'
+    };
+    const selectedChips = [...document.querySelectorAll('.cat-chip.selected')]
+      .map(c => catMap[c.textContent.trim()] || c.textContent.trim().toLowerCase());
+    const category = selectedChips.length > 0 ? selectedChips : ['general'];
+
+    // POST to API
+    const res = await fetch(`${API_BASE}/shops`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({ name, category, description, whatsapp, address, city, pincode: '' })
+    });
+    const data = await res.json();
+
+    if(!data.success) throw new Error(data.error || 'Shop creation failed');
+
+    // ✅ Success!
+    const regId = 'BB-' + data.shop.id.slice(0,8).toUpperCase();
     document.getElementById('regId').textContent = regId;
-
     document.getElementById('formCard').style.display = 'none';
-    document.querySelector('.reg-sidebar').style.display = 'none';
+    const sidebar = document.querySelector('.reg-sidebar');
+    if(sidebar) sidebar.style.display = 'none';
     document.getElementById('successPage').style.display = 'block';
+    window.scrollTo({top:0,behavior:'smooth'});
 
     // WhatsApp confirmation
-    const name = document.getElementById('ownerName').value;
-    const shop = document.getElementById('shopName').value;
-    const wa = document.getElementById('ownerWa').value;
+    const ownerName = document.getElementById('ownerName').value;
     const msg = encodeURIComponent(
-      `Hello BahaBasket!\n\nMy shop registration has been submitted successfully!\n\n*Registration ID:* ${regId}\n*Owner:* ${name}\n*Shop:* ${shop}\n*WhatsApp:* ${wa}\n*Plan:* ${selectedPlan}\n\nI am waiting for verification.`
+      `Hello BahaBasket!\n\nMeri shop successfully register ho gayi!\n\n*Shop:* ${name}\n*Owner:* ${ownerName}\n*City:* ${city}\n*Registration ID:* ${regId}\n\nDashboard pe products add karunga!`
     );
-    setTimeout(()=>{ window.open('https://wa.me/919876543210?text='+msg,'_blank'); }, 800);
-    window.scrollTo({top:0,behavior:'smooth'});
-  }, 2000);
+    setTimeout(()=>{
+      window.open('https://wa.me/919876543210?text='+msg,'_blank');
+    }, 1000);
+
+  } catch(err) {
+    btn.innerHTML = origText;
+    btn.disabled = false;
+    alert('Error: ' + err.message + '\n\nPlease try again.');
+  }
 }
 
 // ── Photo upload ──
