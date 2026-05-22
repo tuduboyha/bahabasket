@@ -1122,14 +1122,10 @@ async function finalSubmit(){
     document.getElementById('successPage').style.display = 'block';
     window.scrollTo({top:0,behavior:'smooth'});
 
-    // WhatsApp confirmation
-    const ownerName = document.getElementById('ownerName').value;
-    const msg = encodeURIComponent(
-      `Hello BahaBasket!\n\nMeri shop successfully register ho gayi!\n\n*Shop:* ${name}\n*Owner:* ${ownerName}\n*City:* ${city}\n*Registration ID:* ${regId}\n\nDashboard pe products add karunga!`
-    );
+    // Auto-redirect to seller dashboard after 2 seconds
     setTimeout(()=>{
-      window.open('https://wa.me/919876543210?text='+msg,'_blank');
-    }, 1000);
+      window.location.href = 'seller-dashboard.html';
+    }, 2000);
 
   } catch(err) {
     btn.innerHTML = origText;
