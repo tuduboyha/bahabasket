@@ -1437,7 +1437,7 @@ body.shop-via-chat .card-chat-btn { display: flex !important; }
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-badge">✨ 500+ Local Shops · 10,000+ Products</div>
+  <div class="hero-badge">✨ <span id="heroBadgeShops">500+</span> Local Shops · <span id="heroBadgeProds">10,000+</span> Products</div>
   <h1>Your Local <span>Bazaar</span>,<br>Now Goes Digital!</h1>
   <p>Browse local shops, discover amazing products and connect directly with sellers on WhatsApp — no middleman, no extra charges.</p>
   <div class="hero-search">
@@ -1454,8 +1454,8 @@ body.shop-via-chat .card-chat-btn { display: flex !important; }
     <span class="hero-tag">🧒 Kids Dress</span>
   </div>
   <div class="hero-stats">
-    <div class="hero-stat"><div class="num">500+</div><div class="lbl">Local Shops</div></div>
-    <div class="hero-stat"><div class="num">10K+</div><div class="lbl">Products Listed</div></div>
+    <div class="hero-stat"><div class="num" id="heroStatShops">500+</div><div class="lbl">Local Shops</div></div>
+    <div class="hero-stat"><div class="num" id="heroStatProds">10K+</div><div class="lbl">Products Listed</div></div>
     <div class="hero-stat"><div class="num">25K+</div><div class="lbl">Happy Customers</div></div>
     <div class="hero-stat"><div class="num">15+</div><div class="lbl">Categories</div></div>
   </div>
@@ -3511,6 +3511,48 @@ async function loadFeaturedShops() {
 
 // Run on page load
 loadFeaturedShops();
+loadHeroStats();
+
+// ── Hero stats — real counts from API ─────────────────────────────────────
+async function loadHeroStats() {
+  try {
+    // Fetch total shops count
+    const [shopsRes, prodsRes] = await Promise.all([
+      fetch(`${API_BASE}/shops?limit=1`),
+      fetch(`${API_BASE}/products?limit=1`)
+    ]);
+    const shopsData = await shopsRes.json();
+    const prodsData = await prodsRes.json();
+
+    // Format number: 1234 → "1.2K+", 12 → "12+"
+    function fmt(n) {
+      if (!n || n < 1) return null;
+      if (n >= 1000) return Math.floor(n / 100) / 10 + 'K+';
+      return n + '+';
+    }
+
+    const shopCount = shopsData.success ? shopsData.total : null;
+    const prodCount = prodsData.success ? prodsData.total : null;
+
+    const shopFmt = fmt(shopCount);
+    const prodFmt = fmt(prodCount);
+
+    if (shopFmt) {
+      const s1 = document.getElementById('heroStatShops');
+      const s2 = document.getElementById('heroBadgeShops');
+      if (s1) s1.textContent = shopFmt;
+      if (s2) s2.textContent = shopFmt;
+    }
+    if (prodFmt) {
+      const p1 = document.getElementById('heroStatProds');
+      const p2 = document.getElementById('heroBadgeProds');
+      if (p1) p1.textContent = prodFmt;
+      if (p2) p2.textContent = prodFmt;
+    }
+  } catch (e) {
+    // Keep defaults on error
+  }
+}
 
 // ── WhatsApp button function ───────────────────────────────────────────────
 function openWA(shop, product, price) {
