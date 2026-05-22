@@ -22,14 +22,26 @@ app.use(express.urlencoded({ extended: true }));
 
 // ─── CORS ─────────────────────────────────────────────────────────────────────
 const allowedOrigins = [
-  process.env.FRONTEND_URL || 'http://localhost:3000',
-  'http://127.0.0.1:5500',   // VS Code Live Server
-  'http://localhost:5500',    // VS Code Live Server
+  'http://127.0.0.1:5500',
+  'http://localhost:5500',
+  'http://localhost:3000',
 ];
+// Add FRONTEND_URL(s) from env — supports comma-separated list or '*' for all
+if (process.env.FRONTEND_URL) {
+  if (process.env.FRONTEND_URL === '*') {
+    // Allow all origins (useful for dev / open API)
+    allowedOrigins.push('*');
+  } else {
+    process.env.FRONTEND_URL.split(',').forEach(u => allowedOrigins.push(u.trim()));
+  }
+}
 app.use(cors({
   origin: (origin, cb) => {
-    // Allow no-origin (Postman, curl) in dev; always allow listed origins
-    if (!origin || allowedOrigins.includes(origin)) return cb(null, true);
+    // Allow no-origin requests (Postman, curl, mobile apps)
+    if (!origin) return cb(null, true);
+    // Allow all if '*' is in list
+    if (allowedOrigins.includes('*')) return cb(null, true);
+    if (allowedOrigins.includes(origin)) return cb(null, true);
     cb(new Error(`CORS: Origin ${origin} not allowed`));
   },
   credentials: true
