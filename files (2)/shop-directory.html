@@ -1,0 +1,1287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Directory – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #111827;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --card-shadow: 0 2px 12px rgba(26,86,219,0.08);
+  --card-shadow-hover: 0 8px 32px rgba(26,86,219,0.15);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans', sans-serif; background: var(--bg); color: var(--text-dark); overflow-x: hidden; }
+h1,h2,h3,h4,h5 { font-family: 'Baloo 2', cursive; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--primary-dark);
+  color: #fff;
+  font-size: 12px;
+  padding: 6px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.topbar a { color: #c7d9ff; transition: color .2s; }
+.topbar a:hover { color: #fff; }
+.topbar .pill {
+  background: var(--accent); color: #fff;
+  padding: 2px 10px; border-radius: 20px;
+  font-weight: 600; font-size: 11px;
+}
+
+/* ── NAVBAR ── */
+.navbar {
+  background: var(--white);
+  border-bottom: 2px solid var(--border);
+  padding: 0 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  height: 68px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+.logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.logo-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+.logo-text { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 20px; }
+.logo-text span { color: var(--primary); }
+.logo-text small { color: var(--accent); font-size: 11px; display: block; line-height: 1; margin-top: -4px; font-weight: 500; }
+.nav-search {
+  flex: 1; max-width: 520px;
+  display: flex;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color .2s, box-shadow .2s;
+}
+.nav-search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
+.nav-search select {
+  background: var(--primary-light); border: none; outline: none;
+  padding: 0 12px; font-size: 13px; color: var(--primary-dark);
+  font-weight: 600; cursor: pointer; min-width: 120px;
+}
+.nav-search input {
+  flex: 1; border: none; outline: none;
+  background: transparent; padding: 0 14px; font-size: 14px; color: var(--text-dark);
+}
+.nav-search input::placeholder { color: var(--text-light); }
+.nav-search-btn {
+  background: var(--primary); border: none;
+  color: #fff; padding: 0 18px; font-size: 16px; transition: background .2s;
+}
+.nav-search-btn:hover { background: var(--primary-dark); }
+.nav-links { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.nav-links a {
+  padding: 8px 14px; border-radius: 8px; font-size: 13.5px;
+  font-weight: 500; color: var(--text-mid); transition: background .2s, color .2s; white-space: nowrap;
+}
+.nav-links a:hover { background: var(--primary-light); color: var(--primary); }
+.nav-links a.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+.nav-btn-register {
+  background: var(--accent); color: #fff !important;
+  padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; transition: background .2s !important;
+}
+.nav-btn-register:hover { background: #ea6c04 !important; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+.breadcrumb a { color: var(--primary); }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: var(--border); }
+.breadcrumb .current { color: var(--text-dark); font-weight: 600; }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  background: linear-gradient(135deg, #0f3460 0%, #1a56db 60%, #1e88e5 100%);
+  padding: 48px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.page-hero-inner { max-width: 1280px; margin: 0 auto; position: relative; }
+.page-hero h1 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; color: #fff; margin-bottom: 10px; }
+.page-hero h1 span { color: #fbbf24; }
+.page-hero p { color: rgba(255,255,255,.8); font-size: 15px; margin-bottom: 28px; }
+.hero-stats-row {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.h-stat {
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 10px;
+  padding: 12px 20px;
+  text-align: center;
+}
+.h-stat .num { font-family: 'Baloo 2', cursive; font-size: 24px; font-weight: 800; color: #fff; }
+.h-stat .lbl { font-size: 11px; color: rgba(255,255,255,.7); margin-top: 2px; }
+
+/* ── MAIN LAYOUT ── */
+.directory-layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 88px;
+}
+.filter-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.filter-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-title { font-family: 'Baloo 2', cursive; font-size: 16px; font-weight: 700; color: var(--text-dark); }
+.filter-clear { font-size: 12px; color: var(--primary); font-weight: 600; cursor: pointer; }
+.filter-clear:hover { text-decoration: underline; }
+.filter-body { padding: 16px 20px; }
+.filter-section { margin-bottom: 20px; }
+.filter-section:last-child { margin-bottom: 0; }
+.filter-section-title {
+  font-size: 13px; font-weight: 700;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 12px;
+}
+.filter-search-input {
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+  font-family: 'Noto Sans', sans-serif;
+  margin-bottom: 12px;
+}
+.filter-search-input:focus { border-color: var(--primary); }
+
+.check-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.check-item {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background .15s;
+}
+.check-item:hover { background: var(--bg); }
+.check-item input[type="checkbox"] {
+  width: 16px; height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.check-item label {
+  font-size: 13.5px; color: var(--text-mid);
+  cursor: pointer; flex: 1;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.check-count {
+  background: var(--bg);
+  color: var(--text-light);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+.rating-filter { display: flex; flex-direction: column; gap: 8px; }
+.rating-row {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer; padding: 6px 8px; border-radius: 6px;
+  transition: background .15s;
+}
+.rating-row:hover { background: var(--bg); }
+.rating-row input { accent-color: var(--primary); cursor: pointer; }
+.stars-sm { color: #fbbf24; font-size: 13px; }
+.rating-label { font-size: 13px; color: var(--text-mid); }
+
+.area-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.area-tag {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  color: var(--text-mid);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+}
+.area-tag:hover, .area-tag.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+
+.btn-apply-filter {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .2s;
+  margin-top: 4px;
+}
+.btn-apply-filter:hover { background: var(--primary-dark); }
+
+/* ── MAIN CONTENT ── */
+.main-content { min-width: 0; }
+
+/* Toolbar */
+.toolbar {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.toolbar-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.result-count { font-size: 14px; color: var(--text-mid); }
+.result-count strong { color: var(--text-dark); font-weight: 700; }
+.active-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.active-filter-tag {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.active-filter-tag .remove { cursor: pointer; font-size: 14px; line-height: 1; }
+.toolbar-right { display: flex; align-items: center; gap: 12px; }
+.sort-select {
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 12px;
+  font-size: 13px;
+  outline: none;
+  color: var(--text-dark);
+  cursor: pointer;
+  font-family: 'Noto Sans', sans-serif;
+}
+.view-toggle { display: flex; gap: 4px; }
+.view-btn {
+  width: 34px; height: 34px;
+  border: 2px solid var(--border);
+  border-radius: 7px;
+  background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: all .2s;
+  color: var(--text-light);
+}
+.view-btn.active, .view-btn:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+
+/* Category Tabs */
+.cat-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.cat-tab {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all .2s;
+}
+.cat-tab:hover { border-color: var(--primary); color: var(--primary); }
+.cat-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+.cat-tab .count { font-size: 11px; opacity: .8; }
+
+/* Shop Cards Grid */
+.shops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.shops-grid.list-view { grid-template-columns: 1fr; }
+
+/* Shop Card */
+.shop-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all .25s;
+  position: relative;
+}
+.shop-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-3px); border-color: transparent; }
+
+.shop-cover {
+  height: 110px;
+  position: relative;
+  overflow: hidden;
+}
+.shop-cover-bg {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 48px;
+  opacity: .2;
+}
+.cover-pattern {
+  position: absolute; inset: 0;
+  opacity: .12;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,.5) 8px, rgba(255,255,255,.5) 9px);
+}
+.shop-logo {
+  position: absolute;
+  bottom: -26px; left: 20px;
+  width: 54px; height: 54px;
+  background: #fff;
+  border-radius: 13px;
+  border: 3px solid #fff;
+  box-shadow: 0 4px 16px rgba(0,0,0,.15);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  z-index: 2;
+}
+.shop-badges {
+  position: absolute;
+  top: 10px; right: 10px;
+  display: flex; gap: 5px;
+}
+.badge {
+  font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: 5px; color: #fff;
+}
+.badge-featured { background: var(--accent); }
+.badge-verified { background: var(--primary); }
+.badge-hot { background: #dc2626; }
+.badge-new { background: #059669; }
+.badge-premium { background: #7c3aed; }
+
+/* Card Body */
+.shop-body { padding: 36px 20px 20px; }
+.shop-name-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.shop-name { font-family: 'Baloo 2', cursive; font-size: 17px; font-weight: 700; color: var(--text-dark); }
+.shop-category-tag {
+  font-size: 11px; color: var(--primary); font-weight: 600;
+  background: var(--primary-light); padding: 3px 9px; border-radius: 4px;
+  display: inline-block; margin-bottom: 8px; white-space: nowrap;
+}
+.shop-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+.stars { color: #fbbf24; font-size: 13px; letter-spacing: 1px; }
+.rating-num { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+.rating-cnt { font-size: 12px; color: var(--text-light); }
+.shop-desc {
+  font-size: 13px; color: var(--text-light);
+  line-height: 1.6; margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.shop-meta-row {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.meta-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--text-light);
+}
+.meta-dot { width: 6px; height: 6px; background: var(--whatsapp); border-radius: 50%; flex-shrink: 0; }
+.meta-dot.closed { background: #dc2626; }
+.shop-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
+.shop-tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.shop-actions { display: flex; gap: 8px; }
+.btn-wa {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--whatsapp); color: #fff;
+  border: none; padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 700;
+  transition: background .2s;
+}
+.btn-wa:hover { background: var(--whatsapp-dark); }
+.btn-view {
+  padding: 10px 14px;
+  background: var(--primary-light); color: var(--primary);
+  border: none; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600;
+  transition: all .2s;
+}
+.btn-view:hover { background: var(--primary); color: #fff; }
+.btn-save {
+  width: 40px; height: 40px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: all .2s;
+}
+.btn-save:hover { border-color: var(--accent); background: var(--accent-light); }
+
+/* LIST VIEW card */
+.shops-grid.list-view .shop-card {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+}
+.shops-grid.list-view .shop-cover { height: 100%; min-height: 140px; border-radius: 0; }
+.shops-grid.list-view .shop-logo { bottom: auto; top: 50%; transform: translateY(-50%); }
+.shops-grid.list-view .shop-body { padding: 20px 24px; }
+
+/* Featured Banner */
+.featured-banner {
+  background: linear-gradient(135deg, #fef3c7, #fff7ed);
+  border: 2px solid #fbbf24;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.featured-banner-icon { font-size: 32px; flex-shrink: 0; }
+.featured-banner-text { flex: 1; }
+.featured-banner-text h4 { font-family: 'Baloo 2', cursive; font-size: 16px; font-weight: 700; color: #92400e; margin-bottom: 2px; }
+.featured-banner-text p { font-size: 13px; color: #78350f; }
+.btn-feature-your-shop {
+  background: var(--accent); color: #fff;
+  border: none; padding: 9px 18px;
+  border-radius: 8px; font-size: 13px; font-weight: 700;
+  white-space: nowrap; transition: background .2s;
+}
+.btn-feature-your-shop:hover { background: #ea6c04; }
+
+/* Pagination */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; margin-top: 32px; flex-wrap: wrap;
+}
+.page-btn {
+  width: 38px; height: 38px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--white);
+  font-size: 14px; font-weight: 600;
+  color: var(--text-mid);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s;
+}
+.page-btn:hover { border-color: var(--primary); color: var(--primary); }
+.page-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.page-btn.prev-next { width: auto; padding: 0 14px; font-size: 13px; }
+
+/* No results */
+.no-results {
+  text-align: center; padding: 64px 24px;
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.no-results-icon { font-size: 56px; margin-bottom: 16px; }
+.no-results h3 { font-size: 20px; margin-bottom: 8px; }
+.no-results p { color: var(--text-light); font-size: 14px; }
+
+/* ── FLOATING WHATSAPP ── */
+.float-wa {
+  position: fixed; bottom: 28px; right: 28px;
+  z-index: 9999;
+}
+.float-wa-btn {
+  width: 56px; height: 56px;
+  background: var(--whatsapp); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 4px 20px rgba(37,211,102,.4);
+  cursor: pointer;
+  animation: float-bounce 3s infinite;
+}
+@keyframes float-bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ── FOOTER MINI ── */
+.footer-mini {
+  background: #0f172a; color: rgba(255,255,255,.5);
+  text-align: center; padding: 20px 24px; font-size: 13px; margin-top: 48px;
+}
+.footer-mini a { color: var(--primary); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .directory-layout { grid-template-columns: 240px 1fr; }
+}
+@media (max-width: 860px) {
+  .directory-layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .shops-grid.list-view .shop-card { grid-template-columns: 1fr; }
+  .shops-grid.list-view .shop-cover { min-height: 110px; }
+  .shops-grid.list-view .shop-logo { top: auto; bottom: -26px; transform: none; }
+  .nav-links { display: none; }
+}
+@media (max-width: 600px) {
+  .directory-layout { padding: 20px 14px; }
+  .shops-grid { grid-template-columns: 1fr; }
+  .page-hero { padding: 32px 16px; }
+  .hero-stats-row { gap: 12px; }
+  .h-stat { padding: 10px 14px; }
+  .topbar-left span:not(:first-child) { display: none; }
+}
+
+/* Animate in */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to { opacity:1; transform: translateY(0); }
+}
+.shop-card { animation: fadeUp .4s ease both; }
+.shop-card:nth-child(1) { animation-delay: .05s; }
+.shop-card:nth-child(2) { animation-delay: .1s; }
+.shop-card:nth-child(3) { animation-delay: .15s; }
+.shop-card:nth-child(4) { animation-delay: .2s; }
+.shop-card:nth-child(5) { animation-delay: .25s; }
+.shop-card:nth-child(6) { animation-delay: .3s; }
+.shop-card:nth-child(7) { animation-delay: .35s; }
+.shop-card:nth-child(8) { animation-delay: .4s; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>📍 Apne Shehar ka Online Bazaar</span>
+    <span class="pill">🔥 500+ Shops Listed</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#">📞 +91 98765 43210</a>
+    <a href="#">Seller Login</a>
+    <a href="#">हिंदी</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </div>
+  <div class="nav-search">
+    <select>
+      <option>All Categories</option>
+      <option>Men Fashion</option>
+      <option>Women Fashion</option>
+      <option>Kids Wear</option>
+      <option>Electronics</option>
+      <option>Mobile Accessories</option>
+    </select>
+    <input type="text" placeholder="Search shops, products, brands...">
+    <button class="nav-search-btn">🔍</button>
+  </div>
+  <div class="nav-links">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html" class="active">Shops</a>
+    <a href="#">Offers</a>
+    <a href="#">Categories</a>
+    <a href="#" class="nav-btn-register">+ List Your Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a>
+  <span class="sep">›</span>
+  <span class="current">🏪 Shop Directory</span>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1>🏪 Shop <span>Directory</span></h1>
+    <p>Apne shehar ke sabse trusted local shops — ek jagah pe. Filter karein, compare karein, WhatsApp pe seedha contact karein.</p>
+    <div class="hero-stats-row">
+      <div class="h-stat"><div class="num">500+</div><div class="lbl">Registered Shops</div></div>
+      <div class="h-stat"><div class="num">12</div><div class="lbl">Categories</div></div>
+      <div class="h-stat"><div class="num">25+</div><div class="lbl">City Areas</div></div>
+      <div class="h-stat"><div class="num">4.7★</div><div class="lbl">Avg Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN LAYOUT -->
+<div class="directory-layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+
+    <!-- Search Filter -->
+    <div class="filter-card">
+      <div class="filter-header">
+        <span class="filter-title">🔍 Filters</span>
+        <span class="filter-clear" onclick="clearFilters()">Clear All</span>
+      </div>
+      <div class="filter-body">
+
+        <!-- Shop Search -->
+        <div class="filter-section">
+          <div class="filter-section-title">Shop Name</div>
+          <input type="text" class="filter-search-input" placeholder="e.g. Sharma Cloth...">
+        </div>
+
+        <!-- Category -->
+        <div class="filter-section">
+          <div class="filter-section-title">Category</div>
+          <ul class="check-list">
+            <li class="check-item">
+              <input type="checkbox" id="c1" checked>
+              <label for="c1">All Shops <span class="check-count">500</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c2">
+              <label for="c2">👔 Men Fashion <span class="check-count">120</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c3">
+              <label for="c3">👗 Women Fashion <span class="check-count">145</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c4">
+              <label for="c4">🧒 Kids Wear <span class="check-count">68</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c5">
+              <label for="c5">📱 Electronics <span class="check-count">92</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c6">
+              <label for="c6">🎧 Mobile Accessories <span class="check-count">75</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c7">
+              <label for="c7">👟 Footwear <span class="check-count">54</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c8">
+              <label for="c8">💍 Jewellery <span class="check-count">46</span></label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Rating -->
+        <div class="filter-section">
+          <div class="filter-section-title">Minimum Rating</div>
+          <div class="rating-filter">
+            <div class="rating-row">
+              <input type="radio" name="rating" id="r0" checked>
+              <label for="r0" class="rating-label">Any Rating</label>
+            </div>
+            <div class="rating-row">
+              <input type="radio" name="rating" id="r4">
+              <label for="r4"><span class="stars-sm">★★★★★</span> <span class="rating-label">4.5+</span></label>
+            </div>
+            <div class="rating-row">
+              <input type="radio" name="rating" id="r3">
+              <label for="r3"><span class="stars-sm">★★★★☆</span> <span class="rating-label">4.0+</span></label>
+            </div>
+            <div class="rating-row">
+              <input type="radio" name="rating" id="r2">
+              <label for="r2"><span class="stars-sm">★★★☆☆</span> <span class="rating-label">3.0+</span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Area -->
+        <div class="filter-section">
+          <div class="filter-section-title">Area / Locality</div>
+          <div class="area-tags" id="areaTags">
+            <span class="area-tag active" onclick="toggleArea(this)">All Areas</span>
+            <span class="area-tag" onclick="toggleArea(this)">Gandhi Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Station Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">Sarafa Bazar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Civil Lines</span>
+            <span class="area-tag" onclick="toggleArea(this)">MG Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">New Market</span>
+            <span class="area-tag" onclick="toggleArea(this)">Indra Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Vijay Nagar</span>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="filter-section">
+          <div class="filter-section-title">Shop Status</div>
+          <ul class="check-list">
+            <li class="check-item">
+              <input type="checkbox" id="s1" checked>
+              <label for="s1">✅ Open Now <span class="check-count">312</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="s2">
+              <label for="s2">⭐ Featured Shops <span class="check-count">48</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="s3">
+              <label for="s3">✔️ Verified Only <span class="check-count">380</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="s4">
+              <label for="s4">🆕 New Shops <span class="check-count">24</span></label>
+            </li>
+          </ul>
+        </div>
+
+        <button class="btn-apply-filter">Apply Filters</button>
+      </div>
+    </div>
+
+    <!-- Map Preview -->
+    <div class="filter-card">
+      <div class="filter-header">
+        <span class="filter-title">📍 Shop Map</span>
+      </div>
+      <div style="padding:0;">
+        <div style="background: linear-gradient(135deg, var(--primary-light), #dbeafe); height: 160px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; font-size:36px; cursor:pointer;" onclick="alert('Google Maps integration WordPress mein hogi')">
+          🗺️
+          <span style="font-size:13px; color:var(--primary); font-weight:600;">Map View Kholein</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <main class="main-content">
+
+    <!-- Featured Banner -->
+    <div class="featured-banner">
+      <span class="featured-banner-icon">⭐</span>
+      <div class="featured-banner-text">
+        <h4>Apni Shop Ko Featured Karein!</h4>
+        <p>Homepage aur directory mein top position paen — sirf ₹499/month se</p>
+      </div>
+      <button class="btn-feature-your-shop">Feature My Shop</button>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="cat-tabs" id="catTabs">
+      <div class="cat-tab active" onclick="filterCat(this,'all')">🏪 All Shops <span class="count">(500)</span></div>
+      <div class="cat-tab" onclick="filterCat(this,'men')">👔 Men Fashion</div>
+      <div class="cat-tab" onclick="filterCat(this,'women')">👗 Women Fashion</div>
+      <div class="cat-tab" onclick="filterCat(this,'kids')">🧒 Kids Wear</div>
+      <div class="cat-tab" onclick="filterCat(this,'electronics')">📱 Electronics</div>
+      <div class="cat-tab" onclick="filterCat(this,'mobile')">🎧 Mobile Access.</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <span class="result-count">Showing <strong>500</strong> shops</span>
+        <div class="active-filters" id="activeFilters">
+          <span class="active-filter-tag">✅ Open Now <span class="remove" onclick="removeFilter(this)">×</span></span>
+          <span class="active-filter-tag">📍 All Areas <span class="remove" onclick="removeFilter(this)">×</span></span>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <select class="sort-select" id="sortSelect">
+          <option>Sort: Featured First</option>
+          <option>Sort: Rating High→Low</option>
+          <option>Sort: Most Reviews</option>
+          <option>Sort: Newest First</option>
+          <option>Sort: A→Z</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Grid View">⊞</button>
+          <button class="view-btn" id="listBtn" onclick="setView('list')" title="List View">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shops Grid -->
+    <div class="shops-grid" id="shopsGrid">
+
+      <!-- Shop 1 — Featured -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #1a56db, #1e88e5);">
+          <div class="shop-cover-bg">👔</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">👔</div>
+          <div class="shop-badges">
+            <span class="badge badge-featured">⭐ Featured</span>
+            <span class="badge badge-verified">✔ Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name-row">
+            <div class="shop-name">Sharma Cloth House</div>
+          </div>
+          <span class="shop-category-tag">👔 Men Fashion</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.8</span>
+            <span class="rating-cnt">(124 reviews)</span>
+          </div>
+          <div class="shop-desc">Premium men's clothing — kurta, shirt, trouser, suit — sab kuch ek jagah. Wholesale bhi available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item">📍 Gandhi Nagar</span>
+            <span class="meta-item">📦 240 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Kurta</span>
+            <span class="shop-tag">Shirt</span>
+            <span class="shop-tag">Suit</span>
+            <span class="shop-tag">Wholesale</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Sharma Cloth House')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 2 -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #f97316, #fb923c);">
+          <div class="shop-cover-bg">🎧</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">🎧</div>
+          <div class="shop-badges">
+            <span class="badge badge-hot">🔥 Hot</span>
+            <span class="badge badge-verified">✔ Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Digital Zone Electronics</div>
+          <span class="shop-category-tag">📱 Electronics</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.5</span>
+            <span class="rating-cnt">(89 reviews)</span>
+          </div>
+          <div class="shop-desc">Mobiles, laptops, earphones, chargers aur sab accessories. Best price guarantee ke saath.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item">📍 Station Road</span>
+            <span class="meta-item">📦 180 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Mobile</span>
+            <span class="shop-tag">Laptop</span>
+            <span class="shop-tag">Earphones</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Digital Zone')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 3 -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">
+          <div class="shop-cover-bg">👗</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">👗</div>
+          <div class="shop-badges">
+            <span class="badge badge-premium">👑 Premium</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Meera Saree Center</div>
+          <span class="shop-category-tag">👗 Women Fashion</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.9</span>
+            <span class="rating-cnt">(210 reviews)</span>
+          </div>
+          <div class="shop-desc">Banarasi, Kanjivaram, Georgette — har occasion ke liye perfect saree. Blouse stitching bhi available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item">📍 Sarafa Bazar</span>
+            <span class="meta-item">📦 320 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Saree</span>
+            <span class="shop-tag">Lehenga</span>
+            <span class="shop-tag">Suit</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Meera Saree Center')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 4 -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #059669, #10b981);">
+          <div class="shop-cover-bg">🧒</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">🧒</div>
+          <div class="shop-badges">
+            <span class="badge badge-new">🆕 New</span>
+            <span class="badge badge-verified">✔ Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Little Star Kids Wear</div>
+          <span class="shop-category-tag">🧒 Kids Wear</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.3</span>
+            <span class="rating-cnt">(56 reviews)</span>
+          </div>
+          <div class="shop-desc">Bacchon ke liye stylish aur comfortable kapde — school uniform se leke party wear tak sab kuch.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item">📍 Civil Lines</span>
+            <span class="meta-item">📦 150 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">School Uniform</span>
+            <span class="shop-tag">Party Wear</span>
+            <span class="shop-tag">Infant</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Little Star Kids Wear')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 5 -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #dc2626, #f87171);">
+          <div class="shop-cover-bg">📱</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">📱</div>
+          <div class="shop-badges">
+            <span class="badge badge-featured">⭐ Featured</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Mobile Master</div>
+          <span class="shop-category-tag">🎧 Mobile Accessories</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.7</span>
+            <span class="rating-cnt">(98 reviews)</span>
+          </div>
+          <div class="shop-desc">Har mobile ka cover, tempered glass, charger, cable — sabse saste daam mein. Bulk order welcome.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot closed"></span> Closed Now</span>
+            <span class="meta-item">📍 MG Road</span>
+            <span class="meta-item">📦 430 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Cover</span>
+            <span class="shop-tag">Charger</span>
+            <span class="shop-tag">Tempered</span>
+            <span class="shop-tag">Bulk</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Mobile Master')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 6 -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #d97706, #fbbf24);">
+          <div class="shop-cover-bg">👟</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">👟</div>
+          <div class="shop-badges">
+            <span class="badge badge-verified">✔ Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Step In Footwear</div>
+          <span class="shop-category-tag">👟 Footwear</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.2</span>
+            <span class="rating-cnt">(73 reviews)</span>
+          </div>
+          <div class="shop-desc">Sports shoes, formal shoes, sandals aur chappals — men, women aur kids teeno ke liye. Branded aur local dono.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item">📍 New Market</span>
+            <span class="meta-item">📦 280 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Sports</span>
+            <span class="shop-tag">Formal</span>
+            <span class="shop-tag">Sandal</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Step In Footwear')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 7 -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #0891b2, #22d3ee);">
+          <div class="shop-cover-bg">💍</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">💍</div>
+          <div class="shop-badges">
+            <span class="badge badge-premium">👑 Premium</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Rani Jewellery House</div>
+          <span class="shop-category-tag">💍 Jewellery</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.9</span>
+            <span class="rating-cnt">(187 reviews)</span>
+          </div>
+          <div class="shop-desc">Gold, silver, artificial aur bridal jewellery. Custom design bhi available. 25 saal purani dukaan.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item">📍 Sarafa Bazar</span>
+            <span class="meta-item">📦 195 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Gold</span>
+            <span class="shop-tag">Bridal</span>
+            <span class="shop-tag">Custom</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Rani Jewellery House')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 8 -->
+      <div class="shop-card">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #4f46e5, #818cf8);">
+          <div class="shop-cover-bg">🏠</div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo">🏠</div>
+          <div class="shop-badges">
+            <span class="badge badge-new">🆕 New</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Home Decor Palace</div>
+          <span class="shop-category-tag">🏠 Home Decor</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.1</span>
+            <span class="rating-cnt">(34 reviews)</span>
+          </div>
+          <div class="shop-desc">Ghar ko sundar banana ho toh yahan zaroor aaiye — curtains, cushions, wall art, lights aur bahut kuch.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item">📍 Vijay Nagar</span>
+            <span class="meta-item">📦 120 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Curtains</span>
+            <span class="shop-tag">Wall Art</span>
+            <span class="shop-tag">Lights</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Home Decor Palace')">💬 WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)">🤍</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /shops-grid -->
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="page-btn prev-next">← Prev</button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">4</button>
+      <button class="page-btn">5</button>
+      <span style="color:var(--text-light); padding: 0 4px;">...</span>
+      <button class="page-btn">25</button>
+      <button class="page-btn prev-next">Next →</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- FOOTER MINI -->
+<div class="footer-mini">
+  © 2024 <a href="local-bazaar-hub.html">Local Bazaar Hub</a> · Apna Dukaan, Digital Duniya · All Rights Reserved
+</div>
+
+<!-- FLOATING WHATSAPP -->
+<div class="float-wa">
+  <div class="float-wa-btn" title="WhatsApp Support">💬</div>
+</div>
+
+<script>
+// WhatsApp open
+function openWA(shopName) {
+  const msg = encodeURIComponent(`Hello! Maine Local Bazaar Hub pe "${shopName}" ki shop dekhi. Kya aap mujhe aur details de sakte hain?`);
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+}
+
+// Save/wishlist toggle
+function toggleSave(btn) {
+  btn.textContent = btn.textContent === '🤍' ? '❤️' : '🤍';
+}
+
+// View toggle (grid / list)
+function setView(mode) {
+  const grid = document.getElementById('shopsGrid');
+  const gridBtn = document.getElementById('gridBtn');
+  const listBtn = document.getElementById('listBtn');
+  if (mode === 'list') {
+    grid.classList.add('list-view');
+    listBtn.classList.add('active');
+    gridBtn.classList.remove('active');
+  } else {
+    grid.classList.remove('list-view');
+    gridBtn.classList.add('active');
+    listBtn.classList.remove('active');
+  }
+}
+
+// Category tab filter
+function filterCat(el, cat) {
+  document.querySelectorAll('.cat-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Area tag toggle
+function toggleArea(el) {
+  document.querySelectorAll('.area-tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Remove active filter tag
+function removeFilter(btn) {
+  btn.closest('.active-filter-tag').remove();
+}
+
+// Clear all filters
+function clearFilters() {
+  document.querySelectorAll('.check-item input').forEach(c => c.checked = false);
+  document.getElementById('c1').checked = true;
+  document.querySelectorAll('input[name="rating"]').forEach(r => r.checked = false);
+  document.getElementById('r0').checked = true;
+  document.querySelectorAll('.area-tag').forEach(t => t.classList.remove('active'));
+  document.querySelector('.area-tag').classList.add('active');
+  document.getElementById('activeFilters').innerHTML = '';
+}
+
+// Sort change
+document.getElementById('sortSelect').addEventListener('change', function() {
+  console.log('Sorting by:', this.value);
+  // WordPress mein AJAX se sort hoga
+});
+
+// Pagination
+document.querySelectorAll('.page-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.classList.contains('prev-next')) return;
+    document.querySelectorAll('.page-btn:not(.prev-next)').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,1420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seller Dashboard – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#1a56db; --primary-dark:#1042b0; --primary-light:#e8f0fe;
+  --accent:#f97316; --accent-light:#fff7ed;
+  --whatsapp:#25D366; --whatsapp-dark:#128C7E;
+  --text-dark:#0f172a; --text-mid:#334155; --text-light:#64748b;
+  --border:#e2e8f0; --bg:#f8fafc; --white:#ffffff;
+  --success:#16a34a; --success-bg:#dcfce7;
+  --danger:#dc2626; --danger-bg:#fee2e2;
+  --warning:#d97706; --warning-bg:#fef3c7;
+  --purple:#7c3aed; --purple-bg:#f3e8ff;
+  --radius:14px; --radius-sm:8px;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Noto Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-hover:0 8px 32px rgba(26,86,219,.13);
+  --sidebar-w:256px;
+  --header-h:64px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;min-height:100vh;}
+h1,h2,h3,h4{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ══ TOPBAR ══ */
+.topbar{background:var(--primary-dark);color:rgba(255,255,255,.8);font-size:12px;padding:5px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.topbar a{color:#c7d9ff;}
+.topbar .tb-badge{background:var(--accent);color:#fff;padding:1px 8px;border-radius:10px;font-weight:700;font-size:11px;}
+
+/* ══ HEADER ══ */
+.header{background:var(--white);border-bottom:2px solid var(--border);height:var(--header-h);padding:0 22px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.logo{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.logo-icon{width:36px;height:36px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:17px;}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:17px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:10px;display:block;line-height:1;margin-top:-3px;}
+.header-center{flex:1;display:flex;justify-content:center;}
+.header-search{display:flex;background:var(--bg);border:2px solid var(--border);border-radius:9px;overflow:hidden;max-width:360px;width:100%;transition:border-color .2s;}
+.header-search:focus-within{border-color:var(--primary);}
+.header-search input{flex:1;border:none;outline:none;background:transparent;padding:7px 13px;font-size:13px;color:var(--text-dark);font-family:var(--font-body);}
+.header-search input::placeholder{color:var(--text-light);}
+.header-search button{background:var(--primary);border:none;color:#fff;padding:0 14px;font-size:13px;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.hdr-btn{width:34px;height:34px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;position:relative;transition:all .18s;}
+.hdr-btn:hover{border-color:var(--primary);background:var(--primary-light);}
+.hdr-dot{position:absolute;top:5px;right:5px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:1.5px solid var(--white);}
+.hdr-shop-info{display:flex;align-items:center;gap:8px;padding:5px 10px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);cursor:pointer;transition:all .18s;}
+.hdr-shop-info:hover{border-color:var(--primary);}
+.hdr-shop-av{width:28px;height:28px;border-radius:7px;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;font-size:14px;color:#fff;font-weight:800;}
+.hdr-shop-name{font-size:12.5px;font-weight:700;color:var(--text-dark);}
+.hdr-shop-plan{font-size:10px;color:var(--purple);font-weight:700;}
+.menu-toggle{display:none;width:34px;height:34px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);align-items:center;justify-content:center;font-size:17px;}
+
+/* ══════════════════════════════
+   LAYOUT
+══════════════════════════════ */
+.dash-layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:calc(100vh - var(--header-h));}
+
+/* ══ SIDEBAR ══ */
+.sidebar{background:var(--white);border-right:1px solid var(--border);position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));overflow-y:auto;display:flex;flex-direction:column;}
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150;}
+
+/* Shop status block */
+.shop-status-block{padding:18px 16px;border-bottom:1px solid var(--border);}
+.ssb-header{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.ssb-logo{width:46px;height:46px;border-radius:11px;background:linear-gradient(135deg,var(--primary),#2563eb);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;}
+.ssb-info .ssb-name{font-family:var(--font-display);font-size:14px;font-weight:800;color:var(--text-dark);}
+.ssb-info .ssb-cat{font-size:11.5px;color:var(--text-light);}
+.ssb-badges{display:flex;gap:5px;flex-wrap:wrap;}
+.ssb-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;}
+.ssb-plan{background:var(--purple-bg);color:var(--purple);}
+.ssb-verified{background:var(--success-bg);color:var(--success);}
+.ssb-open{background:var(--success-bg);color:var(--success);}
+/* Plan expiry */
+.plan-expiry{display:flex;align-items:center;justify-content:space-between;margin-top:10px;background:var(--accent-light);border:1px solid #fed7aa;border-radius:8px;padding:7px 10px;}
+.pe-text{font-size:11.5px;color:var(--warning);font-weight:600;}
+.pe-renew{font-size:11px;font-weight:700;color:var(--accent);cursor:pointer;}
+/* Profile completeness */
+.shop-completeness{margin-top:10px;}
+.sc-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:4px;}
+.sc-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.sc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--success));transition:width .6s;}
+
+/* Nav */
+.sidebar-nav{flex:1;padding:12px 10px;}
+.nav-group-label{font-size:10px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.7px;padding:7px 8px 3px;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:all .16s;position:relative;margin-bottom:1px;}
+.nav-item:hover{background:var(--bg);color:var(--text-dark);}
+.nav-item.active{background:var(--primary-light);color:var(--primary);font-weight:700;}
+.nav-item.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:var(--primary);border-radius:0 3px 3px 0;}
+.ni-icon{font-size:15px;width:20px;text-align:center;flex-shrink:0;}
+.ni-badge{margin-left:auto;font-size:10px;font-weight:800;padding:1px 6px;border-radius:8px;color:#fff;}
+.ni-badge.red{background:var(--danger);}
+.ni-badge.green{background:var(--success);}
+.ni-badge.orange{background:var(--accent);}
+
+.sidebar-footer{padding:12px 10px;border-top:1px solid var(--border);}
+.btn-view-shop{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:9px;border-radius:9px;background:var(--primary-light);color:var(--primary);border:1.5px solid var(--primary);font-size:13px;font-weight:700;transition:all .2s;margin-bottom:7px;}
+.btn-view-shop:hover{background:var(--primary);color:#fff;}
+.btn-logout{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;border-radius:9px;background:var(--bg);border:1.5px solid var(--border);color:var(--text-light);font-size:13px;font-weight:600;transition:all .2s;}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-bg);}
+
+/* ══════════════════════════════
+   MAIN AREA
+══════════════════════════════ */
+.main-area{padding:26px;min-width:0;}
+.page-sec{display:none;animation:fadeUp .25s ease;}
+.page-sec.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* Section header */
+.sec-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px;}
+.sec-title{font-size:21px;font-weight:800;color:var(--text-dark);}
+.sec-sub{font-size:13px;color:var(--text-light);margin-top:2px;}
+
+/* Common components */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);}
+.card-title{font-family:var(--font-display);font-size:14.5px;font-weight:700;color:var(--text-dark);margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* Stat cards */
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;transition:all .22s;position:relative;overflow:hidden;cursor:default;}
+.stat-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-hover);}
+.stat-card .sc-glow{position:absolute;top:-20px;right:-20px;width:100px;height:100px;border-radius:50%;opacity:.07;}
+.stat-card.blue .sc-glow{background:var(--primary);}
+.stat-card.green .sc-glow{background:var(--success);}
+.stat-card.orange .sc-glow{background:var(--accent);}
+.stat-card.purple .sc-glow{background:var(--purple);}
+.stat-card.red .sc-glow{background:var(--danger);}
+.sc-hdr{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:10px;}
+.sc-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.sc-icon.blue{background:var(--primary-light);}
+.sc-icon.green{background:var(--success-bg);}
+.sc-icon.orange{background:var(--accent-light);}
+.sc-icon.purple{background:var(--purple-bg);}
+.sc-icon.red{background:var(--danger-bg);}
+.sc-trend{font-size:11px;font-weight:700;padding:2px 7px;border-radius:8px;}
+.sc-trend.up{background:var(--success-bg);color:var(--success);}
+.sc-trend.down{background:var(--danger-bg);color:var(--danger);}
+.sc-num{font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--text-dark);line-height:1;margin-bottom:3px;}
+.sc-label{font-size:12px;color:var(--text-light);}
+
+/* Chart bars */
+.chart-wrap{display:flex;align-items:flex-end;gap:5px;height:72px;padding:0 2px;}
+.chart-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.chart-bar{width:100%;border-radius:3px 3px 0 0;min-height:4px;transition:height .6s ease;}
+.chart-lbl{font-size:9px;color:var(--text-light);}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border-radius:9px;font-size:13.5px;font-weight:600;border:none;cursor:pointer;transition:all .2s;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-dark);}
+.btn-ghost{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-warning{background:var(--warning);color:#fff;}
+.btn-wa{background:var(--whatsapp);color:#fff;}
+.btn-wa:hover{background:var(--whatsapp-dark);}
+.btn-sm{padding:6px 12px;font-size:12.5px;}
+.btn-icon{width:30px;height:30px;padding:0;justify-content:center;}
+
+/* Badge */
+.badge{display:inline-flex;align-items:center;gap:3px;font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;}
+.badge-success{background:var(--success-bg);color:var(--success);}
+.badge-danger{background:var(--danger-bg);color:var(--danger);}
+.badge-warning{background:var(--warning-bg);color:var(--warning);}
+.badge-primary{background:var(--primary-light);color:var(--primary);}
+.badge-purple{background:var(--purple-bg);color:var(--purple);}
+.badge-gray{background:var(--bg);color:var(--text-light);border:1px solid var(--border);}
+
+/* Table */
+.tbl-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+th{padding:10px 13px;text-align:left;font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border);background:var(--bg);white-space:nowrap;}
+td{padding:12px 13px;border-bottom:1px solid var(--border);color:var(--text-mid);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg);}
+.td-bold{font-weight:600;color:var(--text-dark);}
+.td-mono{font-family:var(--font-mono);font-size:13px;}
+
+/* Form */
+.field-group{margin-bottom:15px;}
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:5px;}
+.req{color:var(--danger);}
+.field-input{width:100%;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 13px;font-size:14px;color:var(--text-dark);outline:none;transition:border-color .2s,box-shadow .2s;font-family:var(--font-body);background:var(--white);}
+.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:13px;}
+.field-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:13px;}
+
+/* Toggle */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);}
+.toggle-row:last-child{border-bottom:none;}
+.tr-info strong{display:block;font-size:13.5px;color:var(--text-dark);margin-bottom:1px;}
+.tr-info small{font-size:12px;color:var(--text-light);}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{display:none;}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:11px;transition:background .2s;cursor:pointer;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.15);}
+.toggle input:checked+.toggle-slider{background:var(--success);}
+.toggle input:checked+.toggle-slider::before{transform:translateX(18px);}
+
+/* Progress bar */
+.prog-row{margin-bottom:9px;}
+.prog-lbl{display:flex;justify-content:space-between;font-size:12px;color:var(--text-light);margin-bottom:4px;}
+.prog-lbl .pval{font-weight:600;color:var(--text-mid);}
+.prog-bg{height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;transition:width .7s ease;}
+
+/* Photo upload grid */
+.photo-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.photo-cell{aspect-ratio:1;border-radius:10px;border:2px dashed var(--border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;background:var(--bg);}
+.photo-cell.has-img{border-style:solid;}
+.photo-cell:hover{border-color:var(--primary);background:var(--primary-light);}
+.photo-cell .ph-icon{font-size:22px;}
+.photo-cell .ph-txt{font-size:11px;color:var(--text-light);}
+.photo-cell .ph-remove{position:absolute;top:5px;right:5px;width:20px;height:20px;background:rgba(220,38,38,.85);border-radius:50%;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+
+/* Save bar */
+.save-bar{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--border);padding:13px 22px;display:flex;align-items:center;gap:12px;margin:20px -26px -26px;box-shadow:0 -4px 14px rgba(0,0,0,.05);}
+.save-bar-msg{font-size:13px;color:var(--text-light);flex:1;}
+
+/* Plan cards */
+.plan-card{border-radius:var(--radius);padding:22px;text-align:center;border:2px solid var(--border);background:var(--white);transition:all .22s;position:relative;}
+.plan-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.plan-card.current{border-color:var(--primary);background:var(--primary-light);}
+.plan-card.recommended{border-color:var(--purple);}
+.plan-recommend-tag{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--purple);color:#fff;font-size:11px;font-weight:800;padding:3px 12px;border-radius:20px;white-space:nowrap;}
+.plan-icon{font-size:32px;margin-bottom:8px;}
+.plan-name{font-family:var(--font-display);font-size:17px;font-weight:800;margin-bottom:4px;}
+.plan-price{font-family:var(--font-mono);font-size:28px;font-weight:700;color:var(--primary);margin-bottom:12px;}
+.plan-price small{font-size:14px;color:var(--text-light);font-family:var(--font-body);font-weight:400;}
+.plan-feats{list-style:none;text-align:left;display:flex;flex-direction:column;gap:7px;margin-bottom:16px;}
+.plan-feats li{font-size:13px;color:var(--text-mid);display:flex;align-items:flex-start;gap:7px;}
+.plan-feats li span{flex-shrink:0;}
+
+/* Inquiry card */
+.inq-card{display:flex;align-items:flex-start;gap:13px;padding:14px 0;border-bottom:1px solid var(--border);}
+.inq-card:last-child{border-bottom:none;}
+.inq-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;}
+.inq-body{flex:1;}
+.inq-name{font-weight:700;font-size:14px;color:var(--text-dark);margin-bottom:2px;}
+.inq-product{font-size:12.5px;color:var(--text-light);margin-bottom:6px;}
+.inq-msg{font-size:13px;color:var(--text-mid);background:var(--bg);border-radius:7px;padding:8px 11px;border-left:3px solid var(--whatsapp);line-height:1.6;}
+.inq-meta{display:flex;align-items:center;gap:10px;margin-top:7px;font-size:11.5px;color:var(--text-light);}
+.inq-actions{display:flex;flex-direction:column;gap:5px;flex-shrink:0;}
+
+/* Review item */
+.rev-item{padding:14px 0;border-bottom:1px solid var(--border);}
+.rev-item:last-child{border-bottom:none;}
+.rev-hdr{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.rev-av{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;flex-shrink:0;}
+.rev-name{font-weight:700;font-size:14px;color:var(--text-dark);}
+.rev-date{font-size:12px;color:var(--text-light);}
+.rev-stars{color:#fbbf24;font-size:13px;margin-bottom:5px;}
+.rev-text{font-size:13.5px;color:var(--text-mid);line-height:1.7;}
+.rev-reply-box{margin-top:10px;background:var(--primary-light);border-radius:8px;padding:10px 13px;}
+.rev-reply-box textarea{width:100%;border:1.5px solid var(--border);border-radius:7px;padding:8px 10px;font-size:13px;font-family:var(--font-body);outline:none;resize:vertical;min-height:60px;background:var(--white);}
+.rev-reply-box textarea:focus{border-color:var(--primary);}
+
+/* Payout card */
+.payout-card{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:var(--radius);padding:24px 26px;color:#fff;position:relative;overflow:hidden;}
+.payout-card::before{content:'💰';position:absolute;right:20px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.08;}
+.pc-label{font-size:12px;color:rgba(255,255,255,.7);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:5px;}
+.pc-amount{font-family:var(--font-mono);font-size:40px;font-weight:700;color:#fff;margin-bottom:16px;}
+.pc-meta{font-size:13px;color:rgba(255,255,255,.75);margin-bottom:16px;}
+.btn-payout{background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.35);color:#fff;padding:10px 20px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;}
+.btn-payout:hover{background:rgba(255,255,255,.3);}
+
+/* Notification dot */
+.notif-item{display:flex;align-items:flex-start;gap:10px;padding:11px 12px;border-radius:9px;transition:background .15s;cursor:pointer;}
+.notif-item:hover{background:var(--bg);}
+.notif-item.unread{background:var(--primary-light);}
+.ni-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.ni-body .ni-title{font-size:13.5px;font-weight:600;color:var(--text-dark);margin-bottom:2px;}
+.ni-body .ni-sub{font-size:12.5px;color:var(--text-light);line-height:1.5;}
+.ni-time{margin-left:auto;font-size:11px;color:var(--text-light);white-space:nowrap;}
+
+/* QR code placeholder */
+.qr-box{width:130px;height:130px;background:var(--bg);border:2px solid var(--border);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:52px;cursor:pointer;transition:all .2s;}
+.qr-box:hover{border-color:var(--primary);background:var(--primary-light);}
+
+/* RESPONSIVE */
+@media(max-width:1060px){.grid-4{grid-template-columns:repeat(2,1fr);}.grid-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:860px){
+  .dash-layout{grid-template-columns:1fr;}
+  .sidebar{position:fixed;left:0;top:var(--header-h);bottom:0;z-index:160;transform:translateX(-100%);transition:transform .3s ease;height:calc(100vh - var(--header-h));}
+  .sidebar.open{transform:none;}
+  .sidebar-overlay{display:block;}
+  .menu-toggle{display:flex;}
+  .header-center{display:none;}
+}
+@media(max-width:640px){.main-area{padding:14px;}.grid-2{grid-template-columns:1fr;}.field-row-2,.field-row-3{grid-template-columns:1fr;}.photo-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:400px){.grid-4{grid-template-columns:1fr 1fr;}.photo-grid{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay" style="display:none;" onclick="closeSidebar()"></div>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>🏪 Seller Dashboard — <strong style="color:#fff;">Sharma Cloth House</strong> &nbsp;<span class="tb-badge">👑 Premium</span></div>
+  <div style="display:flex;gap:16px;"><a href="local-bazaar-hub.html">View Site</a><a href="#">Help</a></div>
+</div>
+
+<!-- HEADER -->
+<header class="header">
+  <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰</button>
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Seller Dashboard</small>
+    </div>
+  </a>
+  <div class="header-center">
+    <div class="header-search">
+      <input type="text" placeholder="Search products, inquiries...">
+      <button>🔍</button>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="hdr-btn" onclick="showSec('notifications',null)" title="Notifications">
+      🔔<div class="hdr-dot"></div>
+    </div>
+    <div class="hdr-btn" title="View Public Shop" onclick="window.location='shop-profile.html'">👁️</div>
+    <div class="hdr-shop-info">
+      <div class="hdr-shop-av">S</div>
+      <div>
+        <div class="hdr-shop-name">Sharma Cloth House</div>
+        <div class="hdr-shop-plan">👑 Premium Plan</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- DASHBOARD LAYOUT -->
+<div class="dash-layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Shop status block -->
+    <div class="shop-status-block">
+      <div class="ssb-header">
+        <div class="ssb-logo">👔</div>
+        <div class="ssb-info">
+          <div class="ssb-name">Sharma Cloth House</div>
+          <div class="ssb-cat">Men Fashion · Gandhi Nagar, Indore</div>
+        </div>
+      </div>
+      <div class="ssb-badges">
+        <span class="ssb-badge ssb-plan">👑 Premium</span>
+        <span class="ssb-badge ssb-verified">✔ Verified</span>
+        <span class="ssb-badge ssb-open">● Open</span>
+      </div>
+      <div class="plan-expiry">
+        <span class="pe-text">⏰ Plan expires: Jan 15, 2025</span>
+        <span class="pe-renew" onclick="showSec('plans',null)">Renew →</span>
+      </div>
+      <div class="shop-completeness">
+        <div class="sc-label"><span>Shop Profile</span><span style="font-weight:700;color:var(--primary);">88%</span></div>
+        <div class="sc-bar"><div class="sc-fill" style="width:88%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Nav -->
+    <div class="sidebar-nav">
+      <div class="nav-group-label">Overview</div>
+      <div class="nav-item active" onclick="showSec('overview',this)">
+        <span class="ni-icon">📊</span> Dashboard
+      </div>
+      <div class="nav-item" onclick="showSec('analytics',this)">
+        <span class="ni-icon">📈</span> Analytics
+      </div>
+
+      <div class="nav-group-label" style="margin-top:8px;">Shop</div>
+      <div class="nav-item" onclick="showSec('shop-profile',this)">
+        <span class="ni-icon">🏪</span> Shop Profile
+      </div>
+      <div class="nav-item" onclick="showSec('products',this)">
+        <span class="ni-icon">📦</span> Products
+        <span class="ni-badge orange">240</span>
+      </div>
+      <div class="nav-item" onclick="showSec('add-product',this)">
+        <span class="ni-icon">➕</span> Add Product
+      </div>
+      <div class="nav-item" onclick="showSec('offers',this)">
+        <span class="ni-icon">🔥</span> My Offers
+        <span class="ni-badge green">3</span>
+      </div>
+      <div class="nav-item" onclick="showSec('gallery',this)">
+        <span class="ni-icon">📸</span> Photo Gallery
+      </div>
+
+      <div class="nav-group-label" style="margin-top:8px;">Customers</div>
+      <div class="nav-item" onclick="showSec('inquiries',this)">
+        <span class="ni-icon">💬</span> WA Inquiries
+        <span class="ni-badge red">7</span>
+      </div>
+      <div class="nav-item" onclick="showSec('reviews',this)">
+        <span class="ni-icon">⭐</span> Reviews
+        <span class="ni-badge orange">124</span>
+      </div>
+
+      <div class="nav-group-label" style="margin-top:8px;">Finance</div>
+      <div class="nav-item" onclick="showSec('plans',this)">
+        <span class="ni-icon">💎</span> Membership Plan
+      </div>
+      <div class="nav-item" onclick="showSec('payments',this)">
+        <span class="ni-icon">💳</span> Payment History
+      </div>
+
+      <div class="nav-group-label" style="margin-top:8px;">Account</div>
+      <div class="nav-item" onclick="showSec('notifications',this)">
+        <span class="ni-icon">🔔</span> Notifications
+        <span class="ni-badge red">5</span>
+      </div>
+      <div class="nav-item" onclick="showSec('settings',this)">
+        <span class="ni-icon">⚙️</span> Settings
+      </div>
+      <div class="nav-item" onclick="showSec('support',this)">
+        <span class="ni-icon">🎧</span> Help & Support
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="btn-view-shop" onclick="window.location='shop-profile.html'">👁️ View Public Shop</button>
+      <button class="btn-logout" onclick="if(confirm('Logout?')){window.location='login-register.html';}">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN AREA ══ -->
+  <div class="main-area">
+
+    <!-- ════ OVERVIEW ════ -->
+    <div class="page-sec active" id="sec-overview">
+      <div class="sec-hdr">
+        <div>
+          <div class="sec-title">👋 Good Morning, Ramesh ji!</div>
+          <div class="sec-sub">Here's your shop performance for today — Wednesday, December 18, 2024.</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm" onclick="showSec('add-product',null)">➕ Add Product</button>
+          <button class="btn btn-primary btn-sm" onclick="window.location='shop-profile.html'">👁️ View Shop</button>
+        </div>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid-4" style="margin-bottom:20px;">
+        <div class="stat-card blue">
+          <div class="sc-glow"></div>
+          <div class="sc-hdr"><div class="sc-icon blue">💬</div><span class="sc-trend up">↑ 18%</span></div>
+          <div class="sc-num" id="sn1">0</div>
+          <div class="sc-label">WA Inquiries Today</div>
+        </div>
+        <div class="stat-card green">
+          <div class="sc-glow"></div>
+          <div class="sc-hdr"><div class="sc-icon green">👁️</div><span class="sc-trend up">↑ 24%</span></div>
+          <div class="sc-num" id="sn2">0</div>
+          <div class="sc-label">Profile Views Today</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="sc-glow"></div>
+          <div class="sc-hdr"><div class="sc-icon orange">📦</div><span class="sc-trend up">↑ 5%</span></div>
+          <div class="sc-num" id="sn3">0</div>
+          <div class="sc-label">Live Products</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="sc-glow"></div>
+          <div class="sc-hdr"><div class="sc-icon purple">⭐</div><span class="sc-trend up">↑ 2%</span></div>
+          <div class="sc-num">4.8</div>
+          <div class="sc-label">Average Rating</div>
+        </div>
+      </div>
+
+      <!-- Charts + Quick actions -->
+      <div class="grid-2" style="margin-bottom:18px;">
+        <!-- Weekly inquiries chart -->
+        <div class="card">
+          <div class="card-title">📊 This Week's WA Inquiries
+            <select style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);color:var(--text-mid);outline:none;">
+              <option>This Week</option><option>Last Week</option><option>This Month</option>
+            </select>
+          </div>
+          <div class="chart-wrap" id="weekChart"></div>
+          <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12px;color:var(--text-light);">
+            <span>Total this week: <strong style="color:var(--text-mid);">86 inquiries</strong></span>
+            <span>Best day: <strong style="color:var(--success);">Thursday (22)</strong></span>
+          </div>
+        </div>
+
+        <!-- Quick actions -->
+        <div class="card">
+          <div class="card-title">⚡ Quick Actions</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <button class="btn btn-primary" style="justify-content:flex-start;" onclick="showSec('add-product',null)">➕ Add New Product</button>
+            <button class="btn btn-ghost" style="justify-content:flex-start;" onclick="showSec('shop-profile',null)">✏️ Edit Shop Profile</button>
+            <button class="btn btn-ghost" style="justify-content:flex-start;" onclick="showSec('offers',null)">🔥 Create New Offer</button>
+            <button class="btn btn-ghost" style="justify-content:flex-start;" onclick="showSec('gallery',null)">📸 Upload Shop Photos</button>
+            <button class="btn btn-wa" style="justify-content:flex-start;" onclick="shareShop()">💬 Share Shop on WhatsApp</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Recent inquiries + top products -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">💬 Recent Inquiries
+            <button class="btn btn-ghost btn-sm" onclick="showSec('inquiries',null)">All →</button>
+          </div>
+          <div id="overviewInquiries"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🏆 Top Products by Inquiry
+            <button class="btn btn-ghost btn-sm" onclick="showSec('products',null)">All →</button>
+          </div>
+          <div id="topProducts"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ ANALYTICS ════ -->
+    <div class="page-sec" id="sec-analytics">
+      <div class="sec-hdr">
+        <div><div class="sec-title">📈 Analytics</div><div class="sec-sub">Detailed performance metrics for your shop.</div></div>
+        <select class="field-input" style="width:auto;font-size:13px;padding:7px 12px;">
+          <option>Last 7 Days</option><option>Last 30 Days</option><option>Last 3 Months</option>
+        </select>
+      </div>
+
+      <div class="grid-4" style="margin-bottom:18px;">
+        <div class="stat-card blue"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon blue">👁️</div><span class="sc-trend up">↑ 34%</span></div><div class="sc-num">4,820</div><div class="sc-label">Total Profile Views</div></div>
+        <div class="stat-card green"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon green">💬</div><span class="sc-trend up">↑ 28%</span></div><div class="sc-num">1,240</div><div class="sc-label">Total WA Clicks</div></div>
+        <div class="stat-card orange"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon orange">🔍</div><span class="sc-trend up">↑ 15%</span></div><div class="sc-num">2,380</div><div class="sc-label">Search Appearances</div></div>
+        <div class="stat-card purple"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon purple">📊</div></div><div class="sc-num">25.7%</div><div class="sc-label">Inquiry Rate</div></div>
+      </div>
+
+      <div class="grid-2" style="margin-bottom:18px;">
+        <div class="card">
+          <div class="card-title">📍 Traffic Sources</div>
+          <div id="trafficSources"></div>
+        </div>
+        <div class="card">
+          <div class="card-title">📦 Products by Inquiry Count</div>
+          <div id="productsByInquiry"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📅 Monthly Inquiry Trend (2024)</div>
+        <div class="chart-wrap" id="monthlyChart" style="height:90px;"></div>
+      </div>
+    </div>
+
+    <!-- ════ SHOP PROFILE EDITOR ════ -->
+    <div class="page-sec" id="sec-shop-profile">
+      <div class="sec-hdr">
+        <div><div class="sec-title">🏪 Edit Shop Profile</div><div class="sec-sub">Update your shop information visible to buyers.</div></div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">Basic Information</div>
+          <div class="field-group">
+            <label class="field-label">Shop Name <span class="req">*</span></label>
+            <input type="text" class="field-input" value="Sharma Cloth House">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Shop Tagline</label>
+            <input type="text" class="field-input" value="Premium Men's Ethnic & Western Wear — Since 1998">
+          </div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <label class="field-label">Category <span class="req">*</span></label>
+              <select class="field-input"><option selected>Men Fashion</option><option>Women Fashion</option><option>Electronics</option></select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Year Established</label>
+              <input type="number" class="field-input" value="1998">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Shop Description</label>
+            <textarea class="field-input" rows="4">Sharma Cloth House was established in 1998 in Gandhi Nagar Market. We specialize in premium cotton kurtas, ethnic wear, formal shirts and wedding sherwanis.</textarea>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">Contact & Location</div>
+          <div class="field-group">
+            <label class="field-label">WhatsApp Number <span class="req">*</span></label>
+            <input type="tel" class="field-input" value="+91 98765 43210">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Alternate Phone</label>
+            <input type="tel" class="field-input" value="+91 87654 32109">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Full Address <span class="req">*</span></label>
+            <textarea class="field-input" rows="2">Shop No. 12, Gandhi Nagar Market, Near SBI Bank, Indore – 452001</textarea>
+          </div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <label class="field-label">City <span class="req">*</span></label>
+              <select class="field-input"><option selected>Indore</option><option>Bhopal</option></select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Area / Locality</label>
+              <input type="text" class="field-input" value="Gandhi Nagar">
+            </div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label class="field-label">Google Maps Link</label>
+            <input type="url" class="field-input" placeholder="https://maps.google.com/...">
+          </div>
+        </div>
+      </div>
+
+      <!-- Working hours -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">🕐 Working Hours</div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;" id="workingHoursGrid"></div>
+      </div>
+
+      <!-- Payment methods -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">💳 Payment Methods Accepted</div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;" id="paymentMethods"></div>
+      </div>
+
+      <div class="save-bar">
+        <div class="save-bar-msg">⚠️ Unsaved changes — save before leaving.</div>
+        <button class="btn btn-ghost btn-sm">Reset</button>
+        <button class="btn btn-primary btn-sm" onclick="alert('✅ Shop profile updated successfully!')">💾 Save Profile</button>
+      </div>
+    </div>
+
+    <!-- ════ PRODUCTS ════ -->
+    <div class="page-sec" id="sec-products">
+      <div class="sec-hdr">
+        <div><div class="sec-title">📦 My Products</div><div class="sec-sub">240 products listed on your shop.</div></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-ghost btn-sm">📥 Export</button>
+          <button class="btn btn-primary btn-sm" onclick="showSec('add-product',null)">➕ Add Product</button>
+        </div>
+      </div>
+
+      <!-- Filter bar -->
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;align-items:center;">
+        <input type="text" class="field-input" style="max-width:240px;padding:8px 12px;" placeholder="🔍 Search products...">
+        <select class="field-input" style="width:auto;padding:8px 12px;font-size:13px;">
+          <option>All Status</option><option>Live</option><option>Draft</option><option>Out of Stock</option>
+        </select>
+        <select class="field-input" style="width:auto;padding:8px 12px;font-size:13px;">
+          <option>All Categories</option><option>Kurta Sets</option><option>Shirts</option><option>Sherwani</option>
+        </select>
+        <select class="field-input" style="width:auto;padding:8px 12px;font-size:13px;">
+          <option>Sort: Newest</option><option>Most Inquiries</option><option>Price High</option><option>Price Low</option>
+        </select>
+        <span style="margin-left:auto;font-size:12.5px;color:var(--text-light);">Showing 1–10 of 240</span>
+      </div>
+
+      <div class="card">
+        <div class="tbl-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><input type="checkbox" onchange="document.querySelectorAll('tbody input[type=checkbox]').forEach(c=>c.checked=this.checked)"></th>
+                <th>Product</th><th>Category</th><th>Price</th><th>WA Inquiries</th><th>Status</th><th>Added</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody"></tbody>
+          </table>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 0 0;font-size:13px;color:var(--text-light);">
+          <span>Showing 1–10 of 240 products</span>
+          <div style="display:flex;gap:6px;">
+            <button class="btn btn-ghost btn-sm">← Prev</button>
+            <button class="btn btn-primary btn-sm">1</button>
+            <button class="btn btn-ghost btn-sm">2</button>
+            <button class="btn btn-ghost btn-sm">3</button>
+            <button class="btn btn-ghost btn-sm">Next →</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ ADD PRODUCT ════ -->
+    <div class="page-sec" id="sec-add-product">
+      <div class="sec-hdr">
+        <div><div class="sec-title">➕ Add New Product</div><div class="sec-sub">Fill in product details and upload photos.</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="showSec('products',null)">← Back to Products</button>
+      </div>
+
+      <div class="grid-2">
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="card">
+            <div class="card-title">📝 Product Information</div>
+            <div class="field-group">
+              <label class="field-label">Product Title <span class="req">*</span></label>
+              <input type="text" class="field-input" placeholder="e.g. Men's Premium Cotton Kurta Set – Festive 2024">
+            </div>
+            <div class="field-row-2">
+              <div class="field-group">
+                <label class="field-label">Category <span class="req">*</span></label>
+                <select class="field-input"><option value="">Select</option><option>Kurta Sets</option><option>Shirts</option><option>Sherwani</option><option>Trousers</option><option>Jackets</option></select>
+              </div>
+              <div class="field-group">
+                <label class="field-label">Sub-Category</label>
+                <input type="text" class="field-input" placeholder="e.g. Ethnic Wear">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Description</label>
+              <textarea class="field-input" rows="4" placeholder="Describe the product — material, features, occasion, care instructions..."></textarea>
+            </div>
+            <div class="field-row-3">
+              <div class="field-group">
+                <label class="field-label">Selling Price <span class="req">*</span></label>
+                <input type="number" class="field-input" placeholder="₹599">
+              </div>
+              <div class="field-group">
+                <label class="field-label">MRP (Original)</label>
+                <input type="number" class="field-input" placeholder="₹999">
+              </div>
+              <div class="field-group">
+                <label class="field-label">Stock Status</label>
+                <select class="field-input"><option>In Stock</option><option>Out of Stock</option><option>Limited</option></select>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">📏 Variants (Optional)</div>
+            <div class="field-row-2">
+              <div class="field-group">
+                <label class="field-label">Available Sizes</label>
+                <input type="text" class="field-input" placeholder="S, M, L, XL, XXL">
+              </div>
+              <div class="field-group">
+                <label class="field-label">Available Colors</label>
+                <input type="text" class="field-input" placeholder="Blue, Green, Red, White">
+              </div>
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <label class="field-label">Custom Stitching Available?</label>
+              <select class="field-input"><option>No</option><option>Yes — ₹150 extra</option><option>Yes — Free</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;">
+          <div class="card">
+            <div class="card-title">📸 Product Photos <span style="font-size:12px;font-weight:400;color:var(--text-light);">(max 5 photos)</span></div>
+            <div class="photo-grid" id="productPhotoGrid"></div>
+            <div style="margin-top:10px;font-size:12px;color:var(--text-light);">📌 First photo will be the main display image. Min 400×400px recommended.</div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">💬 WhatsApp Settings</div>
+            <div class="field-group">
+              <label class="field-label">WhatsApp Number for this Product</label>
+              <input type="tel" class="field-input" value="+91 98765 43210">
+            </div>
+            <div class="field-group" style="margin-bottom:0;">
+              <label class="field-label">Pre-filled Inquiry Message</label>
+              <textarea class="field-input" rows="3">Hello Sharma Cloth House! I am interested in: [Product Name]. Is it available?</textarea>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-title">⚙️ Publish Settings</div>
+            <div class="toggle-row">
+              <div class="tr-info"><strong>Publish immediately</strong><small>Product will go live right away</small></div>
+              <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-row">
+              <div class="tr-info"><strong>Show on Homepage</strong><small>Feature in "New Arrivals" section</small></div>
+              <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            </div>
+            <div style="display:flex;gap:8px;margin-top:14px;">
+              <button class="btn btn-ghost btn-sm" style="flex:1;" onclick="alert('Saved as draft.')">💾 Save as Draft</button>
+              <button class="btn btn-primary btn-sm" style="flex:1;" onclick="alert('✅ Product published successfully!')">🚀 Publish Product</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ OFFERS ════ -->
+    <div class="page-sec" id="sec-offers">
+      <div class="sec-hdr">
+        <div><div class="sec-title">🔥 My Offers & Deals</div><div class="sec-sub">Manage discount offers visible on your shop profile.</div></div>
+        <button class="btn btn-primary btn-sm" onclick="alert('Offer creation form opens here.')">+ Create Offer</button>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;" id="offersListSeller"></div>
+    </div>
+
+    <!-- ════ GALLERY ════ -->
+    <div class="page-sec" id="sec-gallery">
+      <div class="sec-hdr">
+        <div><div class="sec-title">📸 Photo Gallery</div><div class="sec-sub">Upload photos of your shop, products, and team. (Max 8 photos)</div></div>
+      </div>
+      <div class="card">
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;" id="galleryGrid"></div>
+        <div style="margin-top:14px;font-size:12.5px;color:var(--text-light);">✅ 5 of 8 photo slots used. Upload 3 more to complete your gallery.</div>
+      </div>
+    </div>
+
+    <!-- ════ INQUIRIES ════ -->
+    <div class="page-sec" id="sec-inquiries">
+      <div class="sec-hdr">
+        <div><div class="sec-title">💬 WA Inquiries Received</div><div class="sec-sub">Track all WhatsApp inquiries from buyers. <strong style="color:var(--danger);">7 new today.</strong></div></div>
+        <button class="btn btn-ghost btn-sm">📥 Export</button>
+      </div>
+      <div class="grid-4" style="margin-bottom:16px;">
+        <div class="stat-card green"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon green">💬</div></div><div class="sc-num">48</div><div class="sc-label">This Month</div></div>
+        <div class="stat-card blue"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon blue">📊</div></div><div class="sc-num">1,240</div><div class="sc-label">All Time</div></div>
+        <div class="stat-card orange"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon orange">🏆</div></div><div class="sc-num">Kurta Set</div><div class="sc-label">Most Inquired Product</div></div>
+        <div class="stat-card purple"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon purple">⏱️</div></div><div class="sc-num">~12 min</div><div class="sc-label">Avg Response Time</div></div>
+      </div>
+      <div class="card">
+        <div id="inquiriesListFull"></div>
+      </div>
+    </div>
+
+    <!-- ════ REVIEWS ════ -->
+    <div class="page-sec" id="sec-reviews">
+      <div class="sec-hdr">
+        <div><div class="sec-title">⭐ Customer Reviews</div><div class="sec-sub">124 reviews · Average 4.8 / 5</div></div>
+      </div>
+      <div class="grid-2" style="margin-bottom:16px;">
+        <div class="card" style="display:flex;align-items:center;gap:20px;">
+          <div style="text-align:center;">
+            <div style="font-size:52px;font-weight:800;color:var(--text-dark);font-family:var(--font-mono);">4.8</div>
+            <div style="color:#fbbf24;font-size:18px;">★★★★★</div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:3px;">124 reviews</div>
+          </div>
+          <div style="flex:1;">
+            <div id="reviewBars"></div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">📊 Review Insights</div>
+          <div id="reviewInsights"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">Recent Reviews <span style="font-size:12px;font-weight:400;color:var(--text-light);">— Click reply to respond publicly</span></div>
+        <div id="reviewsList"></div>
+      </div>
+    </div>
+
+    <!-- ════ PLANS ════ -->
+    <div class="page-sec" id="sec-plans">
+      <div class="sec-hdr">
+        <div><div class="sec-title">💎 Membership Plan</div><div class="sec-sub">Current plan: <strong style="color:var(--purple);">👑 Premium — ₹999/month</strong> · Expires Jan 15, 2025</div></div>
+      </div>
+      <div class="grid-3" style="margin-bottom:20px;" id="plansGrid"></div>
+      <div class="card">
+        <div class="card-title">📋 Plan Features Comparison</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Feature</th><th>Free</th><th>Growth</th><th>Premium</th></tr></thead>
+            <tbody id="planCompareTable"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ PAYMENT HISTORY ════ -->
+    <div class="page-sec" id="sec-payments">
+      <div class="sec-hdr">
+        <div><div class="sec-title">💳 Payment History</div><div class="sec-sub">All your subscription payments.</div></div>
+        <button class="btn btn-ghost btn-sm">📥 Download Receipts</button>
+      </div>
+      <div class="grid-2" style="margin-bottom:18px;">
+        <div class="payout-card">
+          <div class="pc-label">Total Paid (All Time)</div>
+          <div class="pc-amount">₹8,991</div>
+          <div class="pc-meta">9 months on paid plans · Member since March 2024</div>
+          <button class="btn-payout" onclick="alert('Invoice PDF generated and opened.')">📄 Download All Invoices</button>
+        </div>
+        <div class="card">
+          <div class="card-title">Next Billing</div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Plan</span><strong>👑 Premium</strong></div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Due Date</span><strong>January 15, 2025</strong></div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Amount</span><strong style="color:var(--primary);">₹999</strong></div>
+          <div style="padding:12px 0;display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Auto-renewal</span><span class="badge badge-success">✅ Enabled</span></div>
+          <div style="display:flex;gap:8px;margin-top:10px;">
+            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="alert('Redirecting to Razorpay payment page...')">💳 Pay Now</button>
+            <button class="btn btn-ghost btn-sm" onclick="alert('Auto-renewal disabled. Plan will expire on Jan 15, 2025.')">Cancel Auto-renewal</button>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title">📋 Payment History</div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Invoice ID</th><th>Plan</th><th>Amount</th><th>Method</th><th>Date</th><th>Status</th><th>Receipt</th></tr></thead>
+            <tbody id="paymentTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ NOTIFICATIONS ════ -->
+    <div class="page-sec" id="sec-notifications">
+      <div class="sec-hdr">
+        <div><div class="sec-title">🔔 Notifications</div><div class="sec-sub">5 unread notifications.</div></div>
+        <button class="btn btn-ghost btn-sm" onclick="document.querySelectorAll('.notif-item.unread').forEach(n=>n.classList.remove('unread'))">✅ Mark All Read</button>
+      </div>
+      <div class="card" id="notifsList"></div>
+    </div>
+
+    <!-- ════ SETTINGS ════ -->
+    <div class="page-sec" id="sec-settings">
+      <div class="sec-hdr">
+        <div><div class="sec-title">⚙️ Account Settings</div><div class="sec-sub">Manage your seller account preferences.</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🔔 Notification Settings</div>
+          <div class="toggle-row"><div class="tr-info"><strong>New WA Inquiry Alert</strong><small>Get WhatsApp alert for every new inquiry</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="tr-info"><strong>New Review Alert</strong><small>When a customer leaves a review</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="tr-info"><strong>Plan Expiry Reminder</strong><small>7 days before plan expires</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="tr-info"><strong>Platform Updates</strong><small>New features and announcements</small></div><label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label></div>
+          <div class="toggle-row"><div class="tr-info"><strong>Weekly Performance Report</strong><small>Summary of inquiries and views</small></div><label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label></div>
+        </div>
+        <div class="card">
+          <div class="card-title">🔒 Account Security</div>
+          <div class="field-group"><label class="field-label">Current Password</label><input type="password" class="field-input" placeholder="Enter current password"></div>
+          <div class="field-group"><label class="field-label">New Password</label><input type="password" class="field-input" placeholder="Min 8 characters"></div>
+          <div class="field-group" style="margin-bottom:14px;"><label class="field-label">Confirm Password</label><input type="password" class="field-input" placeholder="Re-enter new password"></div>
+          <button class="btn btn-primary btn-sm" onclick="alert('✅ Password updated!')">🔑 Update Password</button>
+          <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
+            <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:10px;">⚠️ Danger Zone</div>
+            <button class="btn btn-danger btn-sm" onclick="if(confirm('This will permanently close your shop and delete all products. Are you sure?')){alert('Shop closure request submitted.');}">🗑️ Close My Shop</button>
+          </div>
+        </div>
+      </div>
+      <div class="save-bar">
+        <div class="save-bar-msg">Settings will apply to your seller account.</div>
+        <button class="btn btn-primary btn-sm" onclick="alert('✅ Settings saved!')">💾 Save Settings</button>
+      </div>
+    </div>
+
+    <!-- ════ SUPPORT ════ -->
+    <div class="page-sec" id="sec-support">
+      <div class="sec-hdr">
+        <div><div class="sec-title">🎧 Help & Support</div><div class="sec-sub">We're here to help you succeed on Local Bazaar Hub.</div></div>
+      </div>
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📞 Contact Support</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <button class="btn btn-wa" onclick="window.open('https://wa.me/919876543210?text=Hello! I am a seller on Local Bazaar Hub and need help.','_blank')">💬 WhatsApp Support (Fastest)</button>
+            <button class="btn btn-ghost" onclick="window.location='contact-us.html'">📧 Email Support</button>
+            <button class="btn btn-ghost" onclick="alert('Calling +91 98765 43210...')">📞 Call Us: +91 98765 43210</button>
+          </div>
+          <div style="margin-top:16px;padding:12px;background:var(--success-bg);border-radius:9px;font-size:13px;color:var(--success);">
+            <strong>Support Hours:</strong> Monday – Saturday, 10 AM – 7 PM IST. Average response time: 2 hours.
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">❓ Quick FAQ</div>
+          <div id="sellerFAQ"></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-area -->
+</div><!-- /dash-layout -->
+
+<!-- FLOATING WA -->
+<div style="position:fixed;bottom:26px;right:26px;z-index:999;">
+  <div style="width:50px;height:50px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.4);animation:floatBounce 3s ease-in-out infinite;" onclick="window.open('https://wa.me/919876543210?text=Hello! I need help with my seller account.','_blank')">💬</div>
+</div>
+<style>@keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}</style>
+
+<script>
+// ── NAVIGATION ──
+function showSec(id, navEl){
+  document.querySelectorAll('.page-sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(navEl) navEl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.innerWidth<=860) closeSidebar();
+}
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar'),ov=document.getElementById('sidebarOverlay');
+  const open=sb.classList.toggle('open');
+  ov.style.display=open?'block':'none';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').style.display='none';
+}
+
+// ── COUNTER ANIMATION ──
+function animCount(id,target,prefix='',suffix=''){
+  const el=document.getElementById(id);
+  if(!el) return;
+  let cur=0,steps=50;
+  const inc=target/steps;
+  const t=setInterval(()=>{
+    cur+=inc;
+    if(cur>=target){cur=target;clearInterval(t);}
+    const val=target>=1000?Math.floor(cur).toLocaleString('en-IN'):Math.floor(cur);
+    el.textContent=prefix+val+suffix;
+  },24);
+}
+
+// ── CHART BUILDER ──
+function buildChart(id,data,height='72px'){
+  const el=document.getElementById(id);
+  if(!el) return;
+  const max=Math.max(...data.map(d=>d.val));
+  el.style.height=height;
+  el.innerHTML=data.map(d=>`
+    <div class="chart-col">
+      <div class="chart-bar" style="height:${(d.val/max*88)+'%'};background:${d.color||'var(--primary)'};opacity:${d.highlight?1:.65};"></div>
+      <div class="chart-lbl">${d.label}</div>
+    </div>`).join('');
+}
+
+// ── PRODUCTS TABLE ──
+const productsData=[
+  {name:"Men's Premium Cotton Kurta Set",cat:"Kurta Sets",price:"₹599",inq:124,status:"live",date:"Dec 15"},
+  {name:"Formal Linen Shirt – Office Wear",cat:"Shirts",price:"₹449",inq:88,status:"live",date:"Dec 12"},
+  {name:"Wedding Sherwani – Heavy Embroidery",cat:"Sherwani",price:"₹3,499",inq:56,status:"live",date:"Dec 10"},
+  {name:"Men's Pathani Suit – Eid Special",cat:"Kurta Sets",price:"₹799",inq:74,status:"live",date:"Dec 8"},
+  {name:"Slim Fit Chino Trousers – Navy",cat:"Trousers",price:"₹349",inq:42,status:"live",date:"Dec 5"},
+  {name:"Embroidered Nehru Jacket",cat:"Jackets",price:"₹1,199",inq:38,status:"live",date:"Dec 1"},
+  {name:"Men's Kurta Dhoti Set",cat:"Kurta Sets",price:"₹549",inq:29,status:"draft",date:"Nov 28"},
+  {name:"Casual Cotton Shirt – Checks",cat:"Shirts",price:"₹299",inq:0,status:"out_of_stock",date:"Nov 25"},
+];
+const statusMap={live:'<span class="badge badge-success">✅ Live</span>',draft:'<span class="badge badge-warning">📝 Draft</span>',out_of_stock:'<span class="badge badge-danger">❌ Out of Stock</span>'};
+
+function buildProductsTable(){
+  const el=document.getElementById('productsTableBody');
+  if(!el) return;
+  el.innerHTML=productsData.map((p,i)=>`
+    <tr>
+      <td><input type="checkbox"></td>
+      <td class="td-bold">${p.name}</td>
+      <td><span class="badge badge-gray">${p.cat}</span></td>
+      <td class="td-mono">${p.price}</td>
+      <td><span class="badge badge-primary">💬 ${p.inq}</span></td>
+      <td>${statusMap[p.status]}</td>
+      <td style="font-size:12px;color:var(--text-light);">${p.date}</td>
+      <td>
+        <div style="display:flex;gap:4px;">
+          <button class="btn btn-ghost btn-sm btn-icon" title="Edit" onclick="showSec('add-product',null)">✏️</button>
+          <button class="btn btn-ghost btn-sm btn-icon" title="View">👁️</button>
+          <button class="btn btn-danger btn-sm btn-icon" title="Delete" onclick="if(confirm('Delete this product?')){this.closest('tr').remove();}">🗑</button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+// ── OVERVIEW INQUIRIES ──
+const inquiriesData=[
+  {name:"Rahul M.",product:"Men's Kurta Set",msg:"Size L Royal Blue available?",time:"15 min ago",color:"#1a56db"},
+  {name:"Priya S.",product:"Linen Shirt",msg:"Home delivery to Vijay Nagar?",time:"1 hr ago",color:"#ec4899"},
+  {name:"Arjun K.",product:"Sherwani Set",msg:"Can I see more photos?",time:"2 hrs ago",color:"#059669"},
+  {name:"Sunita R.",product:"Pathani Suit",msg:"What fabric is this?",time:"3 hrs ago",color:"#d97706"},
+];
+function buildOverviewInquiries(){
+  const el=document.getElementById('overviewInquiries');
+  if(!el) return;
+  el.innerHTML=inquiriesData.slice(0,4).map(inq=>`
+    <div class="inq-card">
+      <div class="inq-av" style="background:${inq.color};">${inq.name[0]}</div>
+      <div class="inq-body">
+        <div class="inq-name">${inq.name}</div>
+        <div class="inq-product">re: ${inq.product}</div>
+        <div class="inq-msg">"${inq.msg}"</div>
+        <div class="inq-meta"><span>🕐 ${inq.time}</span></div>
+      </div>
+      <div class="inq-actions">
+        <button class="btn btn-wa btn-sm" onclick="openWAReply('${inq.name}')">💬 Reply</button>
+      </div>
+    </div>`).join('');
+}
+function buildFullInquiries(){
+  const el=document.getElementById('inquiriesListFull');
+  if(!el) return;
+  el.innerHTML=inquiriesData.map(inq=>`
+    <div class="inq-card">
+      <div class="inq-av" style="background:${inq.color};">${inq.name[0]}</div>
+      <div class="inq-body">
+        <div class="inq-name">${inq.name}</div>
+        <div class="inq-product">📦 ${inq.product}</div>
+        <div class="inq-msg">"${inq.msg}"</div>
+        <div class="inq-meta"><span>🕐 ${inq.time}</span><span class="badge badge-warning">New</span></div>
+      </div>
+      <div class="inq-actions">
+        <button class="btn btn-wa btn-sm" onclick="openWAReply('${inq.name}')">💬 Reply on WhatsApp</button>
+        <button class="btn btn-ghost btn-sm">✅ Mark Replied</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── TOP PRODUCTS ──
+function buildTopProducts(){
+  const el=document.getElementById('topProducts');
+  if(!el) return;
+  el.innerHTML=productsData.slice(0,5).map((p,i)=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border);">
+      <div style="width:22px;height:22px;border-radius:50%;background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;">${i+1}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${p.name}</div>
+        <div style="font-size:11.5px;color:var(--text-light);">${p.price}</div>
+      </div>
+      <span class="badge badge-primary">💬 ${p.inq}</span>
+    </div>`).join('');
+}
+
+// ── REVIEWS ──
+const reviewsData=[
+  {name:"Rahul M.",stars:5,title:"Excellent quality!",text:"Very happy with the kurta. Fabric is genuine cotton and the stitching is perfect.",date:"Dec 10",color:"#1a56db",replied:false},
+  {name:"Pradeep S.",stars:4,title:"Good product, slightly large sizing",text:"Good quality products and helpful staff. Sizing runs slightly big — recommend one size down.",date:"Dec 5",color:"#059669",replied:true},
+  {name:"Amit V.",stars:5,title:"Best shop in Gandhi Nagar!",text:"Visited for my wedding sherwani. Amazing collection. Everyone loved it!",date:"Nov 28",color:"#f97316",replied:false},
+];
+function buildReviews(){
+  const el=document.getElementById('reviewsList');
+  if(!el) return;
+  el.innerHTML=reviewsData.map(r=>`
+    <div class="rev-item">
+      <div class="rev-hdr">
+        <div class="rev-av" style="background:${r.color};">${r.name[0]}</div>
+        <div><div class="rev-name">${r.name}</div><div class="rev-date">${r.date}</div></div>
+        ${r.replied?'<span class="badge badge-success" style="margin-left:auto;">✅ Replied</span>':'<span class="badge badge-warning" style="margin-left:auto;">⏳ Not replied</span>'}
+      </div>
+      <div class="rev-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      <div style="font-weight:700;font-size:14px;margin-bottom:5px;">${r.title}</div>
+      <div class="rev-text">${r.text}</div>
+      ${!r.replied?`
+        <div class="rev-reply-box" style="margin-top:10px;">
+          <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:6px;">Reply publicly:</div>
+          <textarea placeholder="Thank the customer or address their feedback..."></textarea>
+          <button class="btn btn-primary btn-sm" style="margin-top:8px;" onclick="this.closest('.rev-reply-box').innerHTML='<div style=padding:8px;background:var(--success-bg);border-radius:7px;font-size:13px;color:var(--success);>✅ Reply submitted successfully!</div>'">📨 Post Reply</button>
+        </div>`:
+        `<div style="margin-top:8px;padding:8px 10px;background:var(--success-bg);border-radius:7px;font-size:12.5px;color:var(--success);">✅ You have replied to this review.</div>`}
+    </div>`).join('');
+
+  // Review bars
+  const bars=document.getElementById('reviewBars');
+  if(bars) bars.innerHTML=[[5,82],[4,12],[3,4],[2,1],[1,1]].map(([s,p])=>`
+    <div class="prog-row">
+      <div class="prog-lbl"><span>${s}★</span><span class="pval">${p}%</span></div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${p}%;background:${s>=4?'#fbbf24':s===3?'#f97316':'#dc2626'};"></div></div>
+    </div>`).join('');
+
+  // Insights
+  const ins=document.getElementById('reviewInsights');
+  if(ins) ins.innerHTML=[
+    {label:"Quality",pct:92,color:"#1a56db"},
+    {label:"Service",pct:96,color:"#16a34a"},
+    {label:"WhatsApp Response",pct:88,color:"#f97316"},
+    {label:"Value for Money",pct:84,color:"#7c3aed"},
+  ].map(item=>`
+    <div class="prog-row">
+      <div class="prog-lbl"><span>${item.label}</span><span class="pval">${item.pct}%</span></div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${item.pct}%;background:${item.color};"></div></div>
+    </div>`).join('');
+}
+
+// ── PLANS ──
+function buildPlans(){
+  const el=document.getElementById('plansGrid');
+  if(!el) return;
+  const plans=[
+    {name:"Basic",icon:"🆓",price:"₹0",current:false,recommended:false,color:"var(--text-light)",features:["10 Products","Basic Profile","WhatsApp Button","Standard Listing"]},
+    {name:"Growth",icon:"🚀",price:"₹499",current:false,recommended:false,color:"var(--primary)",features:["100 Products","Featured in Search","Analytics Dashboard","Priority Support","Offer Banners"]},
+    {name:"Premium",icon:"👑",price:"₹999",current:true,recommended:true,color:"var(--purple)",features:["Unlimited Products","Top Search Ranking","Full Analytics","Dedicated Support","All Offer Types","Homepage Feature"]},
+  ];
+  el.innerHTML=plans.map(p=>`
+    <div class="plan-card ${p.current?'current':''} ${p.recommended?'recommended':''}">
+      ${p.recommended?'<div class="plan-recommend-tag">⭐ Current Plan</div>':''}
+      <div class="plan-icon">${p.icon}</div>
+      <div class="plan-name">${p.name}</div>
+      <div class="plan-price">${p.price}<small>/month</small></div>
+      <ul class="plan-feats">
+        ${p.features.map(f=>`<li><span>✓</span>${f}</li>`).join('')}
+      </ul>
+      ${p.current
+        ?'<button class="btn btn-success btn-sm" style="width:100%;" disabled>✅ Current Plan</button>'
+        :`<button class="btn btn-primary btn-sm" style="width:100%;" onclick="alert('Redirecting to payment for ${p.name} plan...')">Upgrade to ${p.name}</button>`}
+    </div>`).join('');
+
+  // Compare table
+  const ct=document.getElementById('planCompareTable');
+  if(ct) ct.innerHTML=[
+    {feat:"Products",free:"10",growth:"100",premium:"Unlimited"},
+    {feat:"Search Ranking",free:"Standard",growth:"Featured",premium:"Top Priority"},
+    {feat:"Analytics",free:"❌",growth:"✅ Basic",premium:"✅ Full"},
+    {feat:"Offer Banners",free:"❌",growth:"✅ 2 banners",premium:"✅ Unlimited"},
+    {feat:"Homepage Feature",free:"❌",growth:"❌",premium:"✅ Yes"},
+    {feat:"WhatsApp Support",free:"❌",growth:"✅ Yes",premium:"✅ Priority"},
+    {feat:"Monthly Price",free:"₹0",growth:"₹499",premium:"₹999"},
+  ].map(r=>`<tr><td class="td-bold">${r.feat}</td><td>${r.free}</td><td>${r.growth}</td><td style="color:var(--purple);font-weight:700;">${r.premium}</td></tr>`).join('');
+}
+
+// ── PAYMENTS TABLE ──
+function buildPaymentsTable(){
+  const el=document.getElementById('paymentTableBody');
+  if(!el) return;
+  el.innerHTML=[
+    {id:"INV-20241215",plan:"👑 Premium",amount:"₹999",method:"UPI (GPay)",date:"Dec 15, 2024",status:"paid"},
+    {id:"INV-20241115",plan:"👑 Premium",amount:"₹999",method:"UPI (GPay)",date:"Nov 15, 2024",status:"paid"},
+    {id:"INV-20241015",plan:"👑 Premium",amount:"₹999",method:"Bank Transfer",date:"Oct 15, 2024",status:"paid"},
+    {id:"INV-20240915",plan:"🚀 Growth",amount:"₹499",method:"UPI",date:"Sep 15, 2024",status:"paid"},
+    {id:"INV-20240815",plan:"🚀 Growth",amount:"₹499",method:"Cash",date:"Aug 15, 2024",status:"paid"},
+  ].map(p=>`
+    <tr>
+      <td class="td-mono" style="font-size:12px;">${p.id}</td>
+      <td class="td-bold">${p.plan}</td>
+      <td class="td-mono" style="color:var(--success);font-weight:700;">${p.amount}</td>
+      <td style="font-size:12.5px;">${p.method}</td>
+      <td style="font-size:12.5px;color:var(--text-light);">${p.date}</td>
+      <td><span class="badge badge-success">✅ Paid</span></td>
+      <td><button class="btn btn-ghost btn-sm" onclick="alert('Downloading invoice ${p.id}...')">📄</button></td>
+    </tr>`).join('');
+}
+
+// ── GALLERY ──
+function buildGallery(){
+  const el=document.getElementById('galleryGrid');
+  if(!el) return;
+  const slots=['🏪 Shop Front','🛍️ Inside View','👔 Kurta Display','🎩 Sherwani Section','👕 Shirts Section','','',''];
+  el.innerHTML=slots.map((s,i)=>s?`
+    <div class="photo-cell has-img" style="background:var(--primary-light);border-color:var(--primary);">
+      <div style="font-size:28px;">${s.split(' ')[0]}</div>
+      <div style="font-size:11px;color:var(--primary);font-weight:600;">${s.split(' ').slice(1).join(' ')}</div>
+      <div class="ph-remove" onclick="this.closest('.photo-cell').innerHTML='<div class=ph-icon>📷</div><div class=ph-txt>Upload Photo</div>';this.closest('.photo-cell').classList.remove('has-img')">✕</div>
+    </div>`
+    :`<div class="photo-cell" onclick="alert('File picker opens — choose shop/product photo.')"><div class="ph-icon">📷</div><div class="ph-txt">Upload Photo</div></div>`).join('');
+}
+
+// ── ADD PRODUCT PHOTOS ──
+function buildProductPhotos(){
+  const el=document.getElementById('productPhotoGrid');
+  if(!el) return;
+  el.innerHTML=Array(5).fill(0).map((_, i)=>
+    i===0?`<div class="photo-cell" onclick="alert('Upload main product photo.')"><div class="ph-icon">📸</div><div class="ph-txt">Main Photo</div></div>`
+    :`<div class="photo-cell" onclick="alert('Upload extra photo ${i+1}.')"><div class="ph-icon">➕</div><div class="ph-txt">Photo ${i+1}</div></div>`).join('');
+}
+
+// ── WORKING HOURS ──
+function buildWorkingHours(){
+  const el=document.getElementById('workingHoursGrid');
+  if(!el) return;
+  const days=['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+  const hrs={Monday:'10:00 AM – 7:00 PM',Tuesday:'10:00 AM – 7:00 PM',Wednesday:'10:00 AM – 7:00 PM',Thursday:'10:00 AM – 7:00 PM',Friday:'10:00 AM – 7:00 PM',Saturday:'10:00 AM – 6:00 PM',Sunday:'Closed'};
+  el.innerHTML=days.map(d=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:var(--bg);border-radius:8px;">
+      <span style="font-size:13px;font-weight:600;color:var(--text-mid);min-width:80px;">${d}</span>
+      <input type="text" class="field-input" style="flex:1;padding:6px 10px;font-size:13px;" value="${hrs[d]}">
+    </div>`).join('');
+}
+
+// ── PAYMENT METHODS ──
+function buildPaymentMethods(){
+  const el=document.getElementById('paymentMethods');
+  if(!el) return;
+  const methods=[{m:'Cash',on:true},{m:'UPI (GPay)',on:true},{m:'PhonePe',on:true},{m:'Paytm',on:true},{m:'Credit Card',on:false},{m:'Bank Transfer',on:true}];
+  el.innerHTML=methods.map(p=>`
+    <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1.5px solid ${p.on?'var(--primary)':'var(--border)'};background:${p.on?'var(--primary-light)':'var(--bg)'};cursor:pointer;" onclick="this.style.borderColor=this.style.borderColor==='rgb(26, 86, 219)'?'var(--border)':'var(--primary)';this.style.background=this.style.background.includes('rgb(232, 240, 254)')?'var(--bg)':'var(--primary-light)';">
+      <span style="font-size:14px;font-weight:700;color:${p.on?'var(--primary)':'var(--text-light)'};">${p.on?'✅':'⬜'} ${p.m}</span>
+    </div>`).join('');
+}
+
+// ── OFFERS ──
+function buildOffers(){
+  const el=document.getElementById('offersListSeller');
+  if(!el) return;
+  [{title:"Festive Kurta Sale",disc:"40% Off All Kurtas",desc:"Valid on all kurta sets in the festive season.",expires:"Dec 31, 2024",status:"active",color:"linear-gradient(135deg,#1a56db,#2563eb)"},
+   {title:"Buy 2 Get 1 Free",disc:"33% Effective Saving",desc:"Purchase any 2 items from shirt section, get 1 free.",expires:"Dec 25, 2024",status:"active",color:"linear-gradient(135deg,#f97316,#fb923c)"},
+   {title:"Winter Clearance",disc:"Up to 60% Off",desc:"End-of-season clearance on selected items.",expires:"Jan 5, 2025",status:"draft",color:"linear-gradient(135deg,#7c3aed,#a78bfa)"},
+  ].forEach(o=>{
+    const div=document.createElement('div');
+    div.style.cssText='border-radius:var(--radius);padding:22px 24px;position:relative;overflow:hidden;';
+    div.style.background=o.color;
+    div.innerHTML=`
+      <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:64px;opacity:.1;">🎁</div>
+      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;">${o.status==='active'?'✅ Active':'📝 Draft'}</div>
+      <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:#fff;margin-bottom:3px;">${o.title}</div>
+      <div style="background:rgba(0,0,0,.2);color:#fff;font-size:12px;font-weight:800;padding:2px 9px;border-radius:4px;display:inline-block;margin-bottom:7px;">${o.disc}</div>
+      <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:12px;">${o.desc}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+        <span style="font-size:12px;color:rgba(255,255,255,.65);">⏰ Expires: ${o.expires}</span>
+        <div style="display:flex;gap:6px;">
+          <button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:6px 14px;border-radius:7px;font-size:12.5px;font-weight:700;cursor:pointer;" onclick="alert('Edit offer form opens here.')">✏️ Edit</button>
+          <button style="background:rgba(220,38,38,.4);border:1px solid rgba(220,38,38,.5);color:#fff;padding:6px 12px;border-radius:7px;font-size:12.5px;cursor:pointer;" onclick="if(confirm('Delete this offer?')){this.closest('div').closest('div').remove();}">🗑️</button>
+        </div>
+      </div>`;
+    el.appendChild(div);
+  });
+}
+
+// ── ANALYTICS ──
+function buildAnalytics(){
+  const ts=document.getElementById('trafficSources');
+  if(ts) ts.innerHTML=[[52,'Search','#1a56db'],[28,'Direct Link','#16a34a'],[12,'Homepage Featured','#f97316'],[8,'WhatsApp Share','#25D366']].map(([p,l,c])=>`
+    <div class="prog-row">
+      <div class="prog-lbl"><span>${l}</span><span class="pval">${p}%</span></div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${p}%;background:${c};"></div></div>
+    </div>`).join('');
+  const pi=document.getElementById('productsByInquiry');
+  if(pi) pi.innerHTML=productsData.slice(0,5).map((p,i)=>`
+    <div class="prog-row">
+      <div class="prog-lbl"><span>${p.name.slice(0,28)}…</span><span class="pval">${p.inq}</span></div>
+      <div class="prog-bg"><div class="prog-fill" style="width:${(p.inq/124*100).toFixed(0)}%;background:var(--primary);"></div></div>
+    </div>`).join('');
+}
+
+// ── NOTIFICATIONS ──
+function buildNotifs(){
+  const el=document.getElementById('notifsList');
+  if(!el) return;
+  const notifs=[
+    {icon:"💬",color:"#1a56db",title:"New inquiry from Rahul M.","sub":"Re: Men's Kurta Set — 'Size L Royal Blue available?'","time":"15 min ago",unread:true},
+    {icon:"⭐",color:"#fbbf24",title:"New 5-star review received","sub":"Amit Verma left a review: 'Best shop in Gandhi Nagar!'","time":"1 hr ago",unread:true},
+    {icon:"⏰",color:"#f97316",title:"Plan expires in 28 days","sub":"Your Premium Plan expires on Jan 15, 2025. Renew now.","time":"Today",unread:true},
+    {icon:"📊",color:"#16a34a",title:"Weekly performance report ready","sub":"You got 86 inquiries this week — 18% more than last week!","time":"Yesterday",unread:true},
+    {icon:"💬",color:"#1a56db",title:"New inquiry from Priya S.","sub":"Re: Linen Shirt — 'Home delivery to Vijay Nagar?'","time":"2 days ago",unread:false},
+    {icon:"🏆",color:"#7c3aed",title:"Your shop reached 1,000 WA inquiries!","sub":"Congratulations! Sharma Cloth House hit a major milestone.","time":"3 days ago",unread:false},
+  ];
+  el.innerHTML=notifs.map(n=>`
+    <div class="notif-item ${n.unread?'unread':''}" onclick="this.classList.remove('unread')">
+      <div class="ni-dot" style="background:${n.color};"></div>
+      <div class="ni-body"><div class="ni-title">${n.title}</div><div class="ni-sub">${n.sub}</div></div>
+      <div class="ni-time">${n.time}</div>
+    </div>`).join('');
+}
+
+// ── SELLER FAQ ──
+function buildFAQ(){
+  const el=document.getElementById('sellerFAQ');
+  if(!el) return;
+  const faqs=[
+    {q:"How do I add more products?",a:"Go to Add Product in the sidebar."},
+    {q:"When does my plan renew?",a:"Jan 15, 2025. You'll get a 7-day reminder."},
+    {q:"How do I respond to reviews?",a:"Go to Reviews tab and click Post Reply."},
+    {q:"Can I change my WhatsApp number?",a:"Yes — in Shop Profile settings."},
+  ];
+  el.innerHTML=faqs.map(f=>`
+    <div style="padding:10px 0;border-bottom:1px solid var(--border);">
+      <div style="font-weight:700;font-size:13.5px;color:var(--text-dark);margin-bottom:3px;">Q: ${f.q}</div>
+      <div style="font-size:13px;color:var(--text-mid);">→ ${f.a}</div>
+    </div>`).join('');
+}
+
+// ── SHARE SHOP ──
+function shareShop(){
+  const msg=encodeURIComponent('Check out my shop Sharma Cloth House on Local Bazaar Hub! Premium Men\'s Fashion at best prices. '+window.location.origin+'/shop/sharma-cloth-house');
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+function openWAReply(name){
+  const msg=encodeURIComponent(`Hello ${name}! Thank you for your inquiry. I would be happy to help you!`);
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+
+// ── INIT ──
+setTimeout(()=>{
+  animCount('sn1',24);
+  animCount('sn2',186);
+  animCount('sn3',240);
+  buildChart('weekChart',[
+    {label:'Mon',val:8,color:'var(--primary)'},{label:'Tue',val:14,color:'var(--primary)'},
+    {label:'Wed',val:11,color:'var(--primary)'},{label:'Thu',val:22,color:'var(--success)',highlight:true},
+    {label:'Fri',val:17,color:'var(--primary)'},{label:'Sat',val:9,color:'var(--primary)'},
+    {label:'Sun',val:5,color:'var(--primary)'},
+  ]);
+  buildChart('monthlyChart',[
+    {label:'Jan',val:48},{label:'Feb',val:54},{label:'Mar',val:62},{label:'Apr',val:58},
+    {label:'May',val:70},{label:'Jun',val:76},{label:'Jul',val:82},{label:'Aug',val:78},
+    {label:'Sep',val:88},{label:'Oct',val:94},{label:'Nov',val:102},{label:'Dec',val:116,color:'var(--success)',highlight:true},
+  ],'90px');
+  buildProductsTable();
+  buildOverviewInquiries();
+  buildFullInquiries();
+  buildTopProducts();
+  buildReviews();
+  buildPlans();
+  buildPaymentsTable();
+  buildGallery();
+  buildProductPhotos();
+  buildWorkingHours();
+  buildPaymentMethods();
+  buildOffers();
+  buildAnalytics();
+  buildNotifs();
+  buildFAQ();
+  // animate progress bars
+  setTimeout(()=>{document.querySelectorAll('.prog-fill,.sc-fill,.pc-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>{b.style.width=w;},100);});},200);
+},150);
+</script>
+</body>
+</html>

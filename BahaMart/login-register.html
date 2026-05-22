@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Register – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #0f172a;
+  --text-mid: #334155;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Noto Sans', sans-serif;
+  --shadow-card: 0 4px 24px rgba(26,86,219,0.10), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-strong: 0 16px 56px rgba(26,86,219,0.16);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; height: 100%; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
+h1,h2,h3,h4 { font-family: var(--font-display); }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: var(--font-body); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* ── TOP BAR ── */
+.topbar { background: var(--primary-dark); color: #fff; font-size: 12px; padding: 6px 20px; display: flex; justify-content: space-between; align-items: center; }
+.topbar a { color: #c7d9ff; }
+.topbar a:hover { color: #fff; }
+
+/* ── NAVBAR ── */
+.navbar { background: var(--white); border-bottom: 2px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 20px; height: 64px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.logo-text { font-family: var(--font-display); font-weight: 800; font-size: 18px; }
+.logo-text span { color: var(--primary); }
+.logo-text small { color: var(--accent); font-size: 10px; display: block; line-height: 1; margin-top: -3px; }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.nav-right a { font-size: 13px; color: var(--text-mid); font-weight: 500; padding: 7px 14px; border-radius: 7px; transition: background .2s; }
+.nav-right a:hover { background: var(--primary-light); color: var(--primary); }
+
+/* ══════════════════════════════════════
+   MAIN PAGE LAYOUT
+══════════════════════════════════════ */
+.page-wrap {
+  min-height: calc(100vh - 120px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ── LEFT PANEL (Branding) ── */
+.left-panel {
+  background: linear-gradient(145deg, #0f3460 0%, #1a56db 45%, #2563eb 75%, #1d4ed8 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 48px 40px;
+  position: relative; overflow: hidden;
+}
+.left-panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.lp-deco-1 { position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: rgba(255,255,255,.05); border-radius: 50%; }
+.lp-deco-2 { position: absolute; bottom: -80px; left: -40px; width: 300px; height: 300px; background: rgba(255,255,255,.04); border-radius: 50%; }
+.lp-deco-3 { position: absolute; top: 40%; left: -60px; width: 180px; height: 180px; background: rgba(249,115,22,.08); border-radius: 50%; }
+.lp-content { position: relative; z-index: 1; text-align: center; max-width: 380px; }
+.lp-logo { width: 70px; height: 70px; background: rgba(255,255,255,.15); backdrop-filter: blur(8px); border: 2px solid rgba(255,255,255,.25); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 24px; }
+.lp-title { font-size: clamp(26px,3vw,38px); font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+.lp-title span { color: #fbbf24; }
+.lp-sub { font-size: 15px; color: rgba(255,255,255,.78); line-height: 1.75; margin-bottom: 36px; }
+.lp-features { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+.lp-feature { display: flex; align-items: center; gap: 14px; }
+.lp-feature-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; color: #fff; }
+.lp-feature-text strong { display: block; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 1px; }
+.lp-feature-text span { font-size: 12px; color: rgba(255,255,255,.65); }
+.lp-stats { display: flex; gap: 20px; justify-content: center; margin-top: 36px; }
+.lp-stat { background: rgba(255,255,255,.1); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 14px 18px; text-align: center; }
+.lp-stat .num { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: #fff; }
+.lp-stat .lbl { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 2px; }
+/* Testimonial strip */
+.lp-testi { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 16px; margin-top: 28px; text-align: left; }
+.lp-testi-text { font-size: 13px; color: rgba(255,255,255,.82); line-height: 1.6; font-style: italic; margin-bottom: 10px; }
+.lp-testi-author { display: flex; align-items: center; gap: 9px; }
+.testi-av { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#fbbf24,#f59e0b); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.testi-name { font-size: 13px; font-weight: 700; color: #fff; }
+.testi-role { font-size: 11px; color: rgba(255,255,255,.6); }
+
+/* ── RIGHT PANEL (Form) ── */
+.right-panel {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 32px;
+  overflow-y: auto;
+}
+.form-wrap { width: 100%; max-width: 440px; }
+
+/* Mode Toggle (Login / Register) */
+.mode-toggle {
+  display: flex; background: var(--bg); border-radius: 12px; padding: 4px; margin-bottom: 28px;
+  border: 1px solid var(--border);
+}
+.mode-btn {
+  flex: 1; padding: 10px 16px; border-radius: 9px; border: none; background: transparent;
+  font-size: 14px; font-weight: 600; color: var(--text-light);
+  transition: all .22s; cursor: pointer;
+}
+.mode-btn.active { background: var(--white); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+
+/* Form header */
+.form-header { margin-bottom: 24px; }
+.form-title { font-family: var(--font-display); font-size: clamp(22px,3vw,28px); font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
+.form-sub { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+.form-sub a { color: var(--primary); font-weight: 600; }
+
+/* Social login */
+.social-btns { display: flex; gap: 10px; margin-bottom: 22px; }
+.social-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--white); font-size: 13.5px; font-weight: 600; color: var(--text-mid);
+  cursor: pointer; transition: all .2s;
+}
+.social-btn:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+.social-icon { display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* Divider */
+.divider { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-text { font-size: 12px; color: var(--text-light); font-weight: 500; white-space: nowrap; }
+
+/* Form fields */
+.form-panel { display: none; }
+.form-panel.active { display: block; animation: fadeSlide .3s ease; }
+@keyframes fadeSlide { from{opacity:0;transform:translateX(12px);}to{opacity:1;transform:none;} }
+
+.field-group { margin-bottom: 16px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; }
+.field-label .req { color: var(--danger); }
+.field-wrap { position: relative; }
+.field-input {
+  width: 100%; border: 2px solid var(--border); border-radius: var(--radius-sm);
+  padding: 11px 14px; font-size: 14px; color: var(--text-dark);
+  outline: none; transition: border-color .2s, box-shadow .2s;
+  font-family: var(--font-body); background: var(--white);
+}
+.field-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,.09); }
+.field-input.has-icon { padding-left: 42px; }
+.field-input.has-icon-right { padding-right: 42px; }
+.field-input.err { border-color: var(--danger); }
+.field-input.success { border-color: var(--success); }
+.field-icon-left { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; }
+.field-icon-right { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); font-size: 15px; cursor: pointer; color: var(--text-light); transition: color .2s; }
+.field-icon-right:hover { color: var(--primary); }
+.field-hint { font-size: 11.5px; color: var(--text-light); margin-top: 4px; }
+.field-err { font-size: 11.5px; color: var(--danger); margin-top: 4px; display: none; }
+.field-input.err ~ .field-err { display: block; }
+
+/* Phone input with flag */
+.phone-wrap { display: flex; gap: 8px; }
+.country-code { display: flex; align-items: center; gap: 6px; background: var(--primary-light); border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 0 12px; font-size: 13px; font-weight: 600; color: var(--primary-dark); cursor: pointer; white-space: nowrap; transition: border-color .2s; flex-shrink: 0; }
+.country-code:focus { border-color: var(--primary); outline: none; }
+
+/* Password strength */
+.strength-bar { height: 4px; border-radius: 2px; margin-top: 6px; background: var(--border); overflow: hidden; }
+.strength-fill { height: 100%; border-radius: 2px; transition: width .3s, background .3s; width: 0; }
+.strength-text { font-size: 11px; margin-top: 3px; font-weight: 600; }
+
+/* Account type selector */
+.account-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.account-type-card {
+  border: 2px solid var(--border); border-radius: var(--radius); padding: 16px 14px;
+  cursor: pointer; transition: all .2s; text-align: center; background: var(--white);
+}
+.account-type-card:hover { border-color: var(--primary); }
+.account-type-card.selected { border-color: var(--primary); background: var(--primary-light); }
+.at-icon { font-size: 28px; margin-bottom: 7px; }
+.at-name { font-weight: 700; font-size: 14px; color: var(--text-dark); margin-bottom: 2px; }
+.at-desc { font-size: 11px; color: var(--text-light); line-height: 1.4; }
+.account-type-card.selected .at-name { color: var(--primary); }
+
+/* OTP section */
+.otp-section { text-align: center; padding: 8px 0 16px; }
+.otp-sent-msg { font-size: 13px; color: var(--text-mid); line-height: 1.6; margin-bottom: 20px; }
+.otp-sent-msg strong { color: var(--primary); }
+.otp-inputs { display: flex; gap: 10px; justify-content: center; margin-bottom: 16px; }
+.otp-box {
+  width: 52px; height: 58px; border: 2px solid var(--border); border-radius: 10px;
+  text-align: center; font-size: 22px; font-weight: 800;
+  font-family: var(--font-display); color: var(--primary); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.otp-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+.otp-box.filled { border-color: var(--success); background: #f0fdf4; }
+.otp-resend { font-size: 13px; color: var(--text-light); }
+.otp-resend a { color: var(--primary); font-weight: 600; cursor: pointer; }
+.otp-timer { color: var(--danger); font-weight: 700; }
+
+/* Checkbox */
+.check-row { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 14px; }
+.check-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; margin-top: 2px; }
+.check-row label { font-size: 13px; color: var(--text-mid); cursor: pointer; line-height: 1.5; }
+.check-row a { color: var(--primary); font-weight: 600; }
+
+/* Submit button */
+.btn-submit {
+  width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff; border: none; padding: 14px; border-radius: 10px;
+  font-size: 15px; font-weight: 800; letter-spacing: .2px;
+  transition: all .22s; box-shadow: 0 4px 16px rgba(26,86,219,.3);
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  margin-bottom: 14px;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 7px 24px rgba(26,86,219,.35); }
+.btn-submit:active { transform: scale(.98); }
+.btn-submit.loading { opacity: .72; pointer-events: none; }
+
+/* Forgot password link */
+.forgot-link { text-align: right; margin-top: -8px; margin-bottom: 14px; }
+.forgot-link a { font-size: 12.5px; color: var(--primary); font-weight: 600; }
+.forgot-link a:hover { text-decoration: underline; }
+
+/* Register steps */
+.reg-steps { display: flex; align-items: center; gap: 0; margin-bottom: 24px; }
+.reg-step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+.reg-step-circle {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  transition: all .25s; position: relative; z-index: 1;
+}
+.reg-step.active .reg-step-circle { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 0 0 4px rgba(26,86,219,.12); }
+.reg-step.done .reg-step-circle { border-color: var(--success); background: var(--success); color: #fff; }
+.reg-step-label { font-size: 10px; color: var(--text-light); font-weight: 600; text-align: center; white-space: nowrap; }
+.reg-step.active .reg-step-label { color: var(--primary); }
+.reg-step.done .reg-step-label { color: var(--success); }
+.reg-step-line { flex: 1; height: 2px; background: var(--border); margin-bottom: 18px; transition: background .25s; }
+.reg-step-line.done { background: var(--success); }
+
+/* Progress sub-form */
+.sub-form { display: none; }
+.sub-form.active { display: block; animation: fadeSlide .28s ease; }
+
+/* Success screen */
+.success-screen { display: none; text-align: center; padding: 20px 0; }
+.success-screen.active { display: block; animation: popIn .4s cubic-bezier(.34,1.56,.64,1); }
+@keyframes popIn { from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);} }
+.success-emoji { font-size: 72px; margin-bottom: 16px; }
+.success-title { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--success); margin-bottom: 10px; }
+.success-msg { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 24px; }
+.success-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn-go-home { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; background: var(--primary); color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 700; transition: background .2s; }
+.btn-go-home:hover { background: var(--primary-dark); }
+.btn-go-shop { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; background: var(--whatsapp); color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 700; transition: background .2s; }
+.btn-go-shop:hover { background: var(--whatsapp-dark); }
+
+/* Forgot password modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 2000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(3px); }
+.modal-overlay.open { display: flex; animation: fadeIn .2s ease; }
+@keyframes fadeIn { from{opacity:0;}to{opacity:1;} }
+.modal-box { background: var(--white); border-radius: var(--radius); padding: 32px; width: 100%; max-width: 400px; box-shadow: var(--shadow-strong); animation: slideUp .25s ease; }
+@keyframes slideUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;} }
+.modal-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+.modal-sub { font-size: 13.5px; color: var(--text-light); line-height: 1.6; margin-bottom: 22px; }
+.modal-close-btn { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: var(--bg); border-radius: 50%; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.modal-box { position: relative; }
+
+/* Trust bar at bottom */
+.trust-bar { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 10px 0 0; flex-wrap: wrap; }
+.trust-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--text-light); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .page-wrap { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { padding: 32px 20px; min-height: calc(100vh - 120px); }
+  .form-wrap { max-width: 100%; }
+}
+@media(max-width:480px) {
+  .field-row { grid-template-columns: 1fr; }
+  .account-type-grid { grid-template-columns: 1fr 1fr; }
+  .social-btns { flex-direction: column; }
+  .otp-inputs { gap: 7px; }
+  .otp-box { width: 44px; height: 52px; font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:4px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>BahaBasket — India's Hyperlocal Marketplace</div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="22" height="22"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </a>
+  <div class="nav-right">
+    <a href="local-bazaar-hub.html">← Back to Home</a>
+  </div>
+</nav>
+
+<!-- ══ MAIN PAGE ══ -->
+<div class="page-wrap">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="lp-deco-1"></div>
+    <div class="lp-deco-2"></div>
+    <div class="lp-deco-3"></div>
+    <div class="lp-content">
+      <div class="lp-logo"><svg viewBox="0 0 24 24" fill="none" width="42" height="42">
+        <path d="M4 7L5 3h14l1 4H4z" fill="#fbbf24"/>
+        <rect x="2" y="7" width="20" height="4" rx="1" fill="#f97316"/>
+        <rect x="2" y="10" width="20" height="12" rx="1" fill="#dbeafe"/>
+        <rect x="9.5" y="14" width="5" height="8" rx="1" fill="#2563eb"/>
+        <circle cx="13.5" cy="18" r="0.7" fill="#fbbf24"/>
+        <rect x="3" y="11.5" width="5" height="4" rx="0.8" fill="#93c5fd"/>
+        <rect x="16" y="11.5" width="5" height="4" rx="0.8" fill="#93c5fd"/>
+        <rect x="3.5" y="12" width="1.5" height="1.5" rx="0.3" fill="#fff" opacity="0.7"/>
+        <rect x="16.5" y="12" width="1.5" height="1.5" rx="0.3" fill="#fff" opacity="0.7"/>
+      </svg></div>
+      <h2 class="lp-title">Welcome to<br><span>BahaBasket</span></h2>
+      <p class="lp-sub">Join thousands of buyers and sellers on India's fastest-growing hyperlocal marketplace. Shop locally, connect directly on WhatsApp.</p>
+      <div class="lp-features">
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></div>
+          <div class="lp-feature-text">
+            <strong>Direct WhatsApp Shopping</strong>
+            <span>Connect with sellers instantly — no middleman</span>
+          </div>
+        </div>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg></div>
+          <div class="lp-feature-text">
+            <strong>500+ Verified Local Shops</strong>
+            <span>Fashion, Electronics, Jewellery & more</span>
+          </div>
+        </div>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+          <div class="lp-feature-text">
+            <strong>Safe & Secure Platform</strong>
+            <span>All shops manually verified by our team</span>
+          </div>
+        </div>
+        <div class="lp-feature">
+          <div class="lp-feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></div>
+          <div class="lp-feature-text">
+            <strong>Free for Buyers, Free Basic for Sellers</strong>
+            <span>No hidden charges, no commissions</span>
+          </div>
+        </div>
+      </div>
+      <div class="lp-stats">
+        <div class="lp-stat"><div class="num">500+</div><div class="lbl">Shops</div></div>
+        <div class="lp-stat"><div class="num">25K+</div><div class="lbl">Users</div></div>
+        <div class="lp-stat"><div class="num">4.8★</div><div class="lbl">Rating</div></div>
+      </div>
+      <div class="lp-testi">
+        <div class="lp-testi-text">"BahaBasket ne meri dukaan ka business 3x badha diya! WhatsApp integration ekdum amazing hai."</div>
+        <div class="lp-testi-author">
+          <div class="testi-av">R</div>
+          <div>
+            <div class="testi-name">Ramesh Sharma</div>
+            <div class="testi-role">Shop Owner · Gandhi Nagar, Indore</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+      <!-- Mode toggle: Login / Buyer / Seller -->
+      <div class="mode-toggle" id="modeToggle" style="gap:4px;">
+        <button class="mode-btn active" id="loginModeBtn" onclick="setMode('login')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:4px;"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg>Login</button>
+        <button class="mode-btn" id="regModeBtn" onclick="setMode('register')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:4px;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>Buyer</button>
+        <button class="mode-btn" id="sellerModeBtn" onclick="setMode('seller')" style="color:#f97316;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:4px;"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg>Seller</button>
+      </div>
+
+      <!-- ════════════════════
+           LOGIN PANEL
+      ════════════════════ -->
+      <div class="form-panel active" id="loginPanel">
+
+        <!-- Login type toggle -->
+        <div style="display:flex;background:#f8fafc;border:1.5px solid var(--border);border-radius:10px;padding:4px;margin-bottom:20px;gap:4px;">
+          <button id="loginBuyerBtn" onclick="setLoginType('buyer')"
+            style="flex:1;padding:9px;border-radius:8px;border:none;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(26,86,219,.2);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 001.99 1.61h9.72a2 2 0 001.99-1.61L23 6H6"/></svg>Buyer Login
+          </button>
+          <button id="loginSellerBtn" onclick="setLoginType('seller')"
+            style="flex:1;padding:9px;border-radius:8px;border:none;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;background:transparent;color:var(--text-light);">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg>Seller Login
+          </button>
+        </div>
+
+        <div class="form-header">
+          <h2 class="form-title" id="loginTitle">Welcome Back! <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" width="26" height="26" style="vertical-align:-4px;"><path d="M20.5 10c0-1.1-.9-2-2-2s-2 .9-2 2v4M16.5 10V6c0-1.1-.9-2-2-2s-2 .9-2 2v4M12.5 10V5c0-1.1-.9-2-2-2s-2 .9-2 2v5M8.5 10V7c0-1.1-.9-2-2-2s-2 .9-2 2v7c0 4.418 3.582 8 8 8s8-3.582 8-8v-4c0-1.1-.9-2-2-2s-2 .9-2 2"/></svg></h2>
+          <p class="form-sub" id="loginSubtitle">Login to access your account, saved shops, and order history.</p>
+        </div>
+
+        <!-- Social login -->
+        <div class="social-btns">
+          <button class="social-btn" onclick="socialLogin('Google')">
+            <span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+</svg></span> Continue with Google
+          </button>
+          <button class="social-btn" onclick="socialLogin('Facebook')">
+            <span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+</svg></span> Continue with Facebook
+          </button>
+        </div>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <div class="divider-text">or login with phone / email</div>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- Login sub-mode: Phone OTP vs Password -->
+        <div style="display:flex;gap:8px;margin-bottom:18px;">
+          <button class="filter-chip active" id="loginOtpBtn" onclick="setLoginMode('otp',this)" style="padding:7px 16px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg>Phone OTP</button>
+          <button class="filter-chip" id="loginPassBtn" onclick="setLoginMode('pass',this)" style="padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);font-size:12.5px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg>Password</button>
+        </div>
+
+        <!-- Phone OTP login -->
+        <div id="loginOtpForm">
+          <div class="field-group">
+            <label class="field-label">WhatsApp / Phone Number <span class="req">*</span></label>
+            <div class="phone-wrap">
+              <button class="country-code"><span style="font-size:11px;font-weight:800;background:#f97316;color:#fff;border-radius:3px;padding:1px 4px;letter-spacing:.5px;">IN</span> +91</button>
+              <div class="field-wrap" style="flex:1;">
+                <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg></span>
+                <input type="tel" class="field-input has-icon" id="loginPhone" placeholder="98765 43210" maxlength="10">
+              </div>
+            </div>
+          </div>
+          <button class="btn-submit" id="sendOtpBtn" onclick="sendLoginOTP()">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> Send OTP on WhatsApp
+          </button>
+
+          <!-- OTP input (hidden initially) -->
+          <div id="otpInputSection" style="display:none;">
+            <div class="otp-section">
+              <div class="otp-sent-msg">OTP sent to <strong id="otpSentTo">+91 XXXXX XXXXX</strong> via WhatsApp. Please enter the 6-digit code below.</div>
+              <div class="otp-inputs">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,1)" id="otp1">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,2)" id="otp2">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,3)" id="otp3">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,4)" id="otp4">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,5)" id="otp5">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,6)" id="otp6">
+              </div>
+              <div class="otp-resend">Didn't receive OTP? <a onclick="resendOTP()">Resend</a> in <span class="otp-timer" id="otpCountdown">30s</span></div>
+            </div>
+            <button class="btn-submit" onclick="verifyLoginOTP()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/><line x1="12" y1="16" x2="12" y2="16" stroke-linecap="round" stroke-width="3"/></svg> Verify OTP &amp; Login</button>
+          </div>
+        </div>
+
+        <!-- Password login -->
+        <div id="loginPassForm" style="display:none;">
+          <div class="field-group">
+            <label class="field-label">Email or Phone <span class="req">*</span></label>
+            <div class="field-wrap">
+              <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+              <input type="text" class="field-input has-icon" id="loginEmail" placeholder="email@example.com or phone">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Password <span class="req">*</span></label>
+            <div class="field-wrap">
+              <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+              <input type="password" class="field-input has-icon has-icon-right" id="loginPassword" placeholder="Enter your password">
+              <span class="field-icon-right" onclick="togglePass('loginPassword',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            </div>
+          </div>
+          <div class="forgot-link"><a onclick="openForgotModal()">Forgot password?</a></div>
+          <div class="check-row">
+            <input type="checkbox" id="rememberMe" checked>
+            <label for="rememberMe">Keep me logged in on this device</label>
+          </div>
+          <button class="btn-submit" onclick="passwordLogin()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg> Login to My Account</button>
+        </div>
+
+        <div style="text-align:center;font-size:13px;color:var(--text-light);">
+          Don't have an account? <a id="createAccLink" onclick="setMode('register')" style="color:var(--primary);font-weight:700;cursor:pointer;">Create one free →</a>
+        </div>
+
+        <div class="trust-bar" style="margin-top:20px;">
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:4px;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Secure Login</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:4px;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Verified Platform</div>
+          <div class="trust-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Privacy Protected</div>
+        </div>
+      </div>
+
+      <!-- ════════════════════
+           REGISTER PANEL
+      ════════════════════ -->
+      <div class="form-panel" id="registerPanel">
+
+        <!-- Step indicators -->
+        <div class="reg-steps" id="regSteps">
+          <div class="reg-step active" id="rs1">
+            <div class="reg-step-circle" id="rc1">1</div>
+            <div class="reg-step-label">Account Type</div>
+          </div>
+          <div class="reg-step-line" id="rl1"></div>
+          <div class="reg-step" id="rs2">
+            <div class="reg-step-circle" id="rc2">2</div>
+            <div class="reg-step-label">Your Details</div>
+          </div>
+          <div class="reg-step-line" id="rl2"></div>
+          <div class="reg-step" id="rs3">
+            <div class="reg-step-circle" id="rc3">3</div>
+            <div class="reg-step-label">Verify Phone</div>
+          </div>
+          <div class="reg-step-line" id="rl3"></div>
+          <div class="reg-step" id="rs4">
+            <div class="reg-step-circle" id="rc4">4</div>
+            <div class="reg-step-label">Done!</div>
+          </div>
+        </div>
+
+        <!-- STEP 1: Account type -->
+        <div class="sub-form active" id="regStep1">
+          <div class="form-header">
+            <h2 class="form-title">Create Buyer Account <svg viewBox="0 0 24 24" fill="#fbbf24" width="22" height="22" style="vertical-align:-3px;"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z"/><path d="M20 16l.7 2.3L23 19l-2.3.7L20 22l-.7-2.3L17 19l2.3-.7L20 16z"/><path d="M4 16l.7 2.3L7 19l-2.3.7L4 22l-.7-2.3L1 19l2.3-.7L4 16z"/></svg></h2>
+            <p class="form-sub">Join BahaBasket and start exploring 500+ local shops in your city.</p>
+          </div>
+
+          <!-- Benefits for buyer -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+            <div style="background:#e8f0fe;border:1px solid #bfdbfe;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;line-height:1;"><svg viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2" width="20" height="20"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg></span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#1e40af;">Browse Shops</div>
+                <div style="font-size:11px;color:#1a56db;">500+ local shops</div>
+              </div>
+            </div>
+            <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;line-height:1;"><svg viewBox="0 0 24 24" fill="#16a34a" width="20" height="20"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#14532d;">WhatsApp</div>
+                <div style="font-size:11px;color:#16a34a;">Direct contact</div>
+              </div>
+            </div>
+            <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;line-height:1;"><svg viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="1" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#92400e;">Wishlist</div>
+                <div style="font-size:11px;color:#b45309;">Save products</div>
+              </div>
+            </div>
+            <div style="background:#f3e8ff;border:1px solid #e9d5ff;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;line-height:1;"><svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" width="20" height="20"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="#7c3aed" stroke="none"/></svg></span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#4c1d95;">Nearby</div>
+                <div style="font-size:11px;color:#7c3aed;">Local first</div>
+              </div>
+            </div>
+          </div>
+          <!-- Social register shortcut -->
+          <div class="social-btns" style="margin-bottom:16px;">
+            <button class="social-btn" onclick="socialLogin('Google')"><span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+</svg></span> Sign up with Google</button>
+            <button class="social-btn" onclick="socialLogin('Facebook')"><span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+</svg></span> Sign up with Facebook</button>
+          </div>
+          <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">or register with phone</div>
+            <div class="divider-line"></div>
+          </div>
+          <button class="btn-submit" onclick="goRegStep(2)">Continue → </button>
+          <div style="text-align:center;font-size:13px;color:var(--text-light);margin-top:10px;">Already have an account? <a onclick="setMode('login');setLoginType('buyer');" style="color:var(--primary);font-weight:700;cursor:pointer;">Login here →</a></div>
+          <div style="margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:11px 14px;text-align:center;font-size:13px;color:#92400e;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:4px;"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg> Are you a Shop Owner? <a onclick="setMode('seller')" style="color:#f97316;font-weight:700;cursor:pointer;">Register your Shop here →</a>
+          </div>
+        </div>
+
+        <!-- STEP 2: Personal details -->
+        <div class="sub-form" id="regStep2">
+          <div class="form-header">
+            <h2 class="form-title" id="regStep2Title">Your Personal Details</h2>
+            <p class="form-sub">Fill in your basic information to create your account.</p>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field-group">
+              <label class="field-label">First Name <span class="req">*</span></label>
+              <div class="field-wrap">
+                <input type="text" class="field-input" id="regFirstName" placeholder="First name">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Last Name <span class="req">*</span></label>
+              <div class="field-wrap">
+                <input type="text" class="field-input" id="regLastName" placeholder="Last name">
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">WhatsApp Number <span class="req">*</span></label>
+            <div class="phone-wrap">
+              <button class="country-code"><span style="font-size:11px;font-weight:800;background:#f97316;color:#fff;border-radius:3px;padding:1px 4px;letter-spacing:.5px;">IN</span> +91</button>
+              <div class="field-wrap" style="flex:1;">
+                <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg></span>
+                <input type="tel" class="field-input has-icon" id="regPhone" placeholder="98765 43210" maxlength="10">
+              </div>
+            </div>
+            <div class="field-hint">OTP will be sent to this number for verification.</div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Email Address</label>
+            <div class="field-wrap">
+              <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></span>
+              <input type="email" class="field-input has-icon" id="regEmail" placeholder="you@example.com (optional)">
+            </div>
+            <div class="field-hint">Optional — for order confirmations and updates.</div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field-group">
+              <label class="field-label">City <span class="req">*</span></label>
+              <select class="field-input" id="regCity">
+                <option value="">Select City</option>
+                <option>Indore</option><option>Bhopal</option><option>Jabalpur</option>
+                <option>Ujjain</option><option>Gwalior</option><option>Raipur</option>
+                <option>Nagpur</option><option>Ranchi</option><option>Patna</option>
+                <option>Lucknow</option><option>Kanpur</option><option>Agra</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Gender</label>
+              <select class="field-input" id="regGender">
+                <option value="">Prefer not to say</option>
+                <option>Male</option><option>Female</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Create Password <span class="req">*</span></label>
+            <div class="field-wrap">
+              <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+              <input type="password" class="field-input has-icon has-icon-right" id="regPassword" placeholder="Minimum 8 characters" oninput="checkStrength(this.value)">
+              <span class="field-icon-right" onclick="togglePass('regPassword',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+            </div>
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <div class="strength-text" id="strengthText" style="color:var(--text-light);">Enter password to check strength</div>
+          </div>
+
+          <!-- Buyer only — no seller fields here -->
+
+          <div class="check-row">
+            <input type="checkbox" id="agreeTerms" checked>
+            <label for="agreeTerms">I agree to the <a href="privacy-policy.html" target="_blank">Terms of Service</a> and <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</label>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <button style="flex:0 0 auto;padding:14px 20px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="goRegStep(1)">← Back</button>
+            <button class="btn-submit" style="margin-bottom:0;flex:1;" onclick="goRegStep(3)">Send OTP to Verify →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Verify Phone OTP -->
+        <div class="sub-form" id="regStep3">
+          <div class="form-header">
+            <h2 class="form-title">Verify Your Phone <svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="22" height="22" style="vertical-align:-3px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg></h2>
+            <p class="form-sub">We've sent a 6-digit OTP to your WhatsApp number. Please enter it below to verify your account.</p>
+          </div>
+          <div class="otp-section">
+            <div class="otp-sent-msg">OTP sent to <strong id="regOtpSentTo">+91 XXXXX XXXXX</strong></div>
+            <div class="otp-inputs">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,1)" id="rotp1">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,2)" id="rotp2">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,3)" id="rotp3">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,4)" id="rotp4">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,5)" id="rotp5">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,6)" id="rotp6">
+            </div>
+            <div class="otp-resend">Didn't receive OTP? <a onclick="resendRegOTP()">Resend</a> in <span class="otp-timer" id="regOtpCountdown">30s</span></div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button style="flex:0 0 auto;padding:14px 20px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="goRegStep(2)">← Back</button>
+            <button class="btn-submit" style="margin-bottom:0;flex:1;" onclick="verifyRegOTP()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Verify &amp; Create Account</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Success -->
+        <div class="sub-form" id="regStep4">
+          <div class="success-screen active">
+            <div class="success-emoji"><svg viewBox="0 0 24 24" fill="none" width="72" height="72"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" fill="#fbbf24"/><path d="M20 16l.7 2.3L23 19l-2.3.7L20 22l-.7-2.3L17 19l2.3-.7L20 16z" fill="#f97316"/><path d="M4 16l.7 2.3L7 19l-2.3.7L4 22l-.7-2.3L1 19l2.3-.7L4 16z" fill="#3b82f6"/><circle cx="19" cy="6" r="1.5" fill="#ef4444"/><circle cx="5" cy="6" r="1" fill="#8b5cf6"/><path d="M16 2l1 2.5M8 2l-1 2.5" stroke="#16a34a" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+            <div class="success-title" id="regSuccessTitle">Account Created!</div>
+            <div class="success-msg" id="regSuccessMsg">
+              Welcome to BahaBasket! Your account has been successfully created. Start exploring local shops and connect with sellers on WhatsApp.
+            </div>
+            <div class="success-actions" id="regSuccessActions">
+              <button class="btn-go-home" onclick="window.location='user-dashboard.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Account</button>
+              <button class="btn-go-shop" onclick="window.location='shop-directory.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg> Explore Shops</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /register panel -->
+
+      <!-- ════════════════════
+           SELLER PANEL
+      ════════════════════ -->
+      <div class="form-panel" id="sellerPanel">
+
+        <div class="form-header">
+          <h2 class="form-title">Register Your Shop <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" width="24" height="24" style="vertical-align:-3px;"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg></h2>
+          <p class="form-sub">List your local shop on BahaBasket and start getting WhatsApp inquiries from thousands of local customers — <strong>100% Free!</strong></p>
+        </div>
+
+        <!-- Benefits strip -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;">
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="line-height:1;"><svg viewBox="0 0 24 24" fill="none" stroke="#b45309" stroke-width="2" width="20" height="20"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-linecap="round" stroke-width="3"/></svg></span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#92400e;">Free Listing</div>
+              <div style="font-size:11.5px;color:#b45309;">100 products free</div>
+            </div>
+          </div>
+          <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="line-height:1;"><svg viewBox="0 0 24 24" fill="#16a34a" width="20" height="20"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg></span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#14532d;">WhatsApp Orders</div>
+              <div style="font-size:11.5px;color:#16a34a;">Direct from buyers</div>
+            </div>
+          </div>
+          <div style="background:#e8f0fe;border:1px solid #bfdbfe;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="line-height:1;"><svg viewBox="0 0 24 24" fill="none" stroke="#1e40af" stroke-width="2" width="20" height="20"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#1e40af;">Easy Setup</div>
+              <div style="font-size:11.5px;color:#1a56db;">5 min registration</div>
+            </div>
+          </div>
+          <div style="background:#f3e8ff;border:1px solid #e9d5ff;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="line-height:1;"><svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" width="20" height="20"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#4c1d95;">Dashboard</div>
+              <div style="font-size:11.5px;color:#7c3aed;">Analytics & reports</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick seller form -->
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);"><svg viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" width="16" height="16"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg></span>
+            <input type="text" id="sellerShopName" placeholder="Shop Name *"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);"><svg viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+            <input type="text" id="sellerOwnerName" placeholder="Owner Name *"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);"><svg viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" width="16" height="16"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg></span>
+            <input type="tel" id="sellerPhone" placeholder="WhatsApp Number * (10 digits)"
+              maxlength="10"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);"><svg viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" width="16" height="16"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="#64748b" stroke="none"/></svg></span>
+            <select id="sellerArea"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:#fff;appearance:none;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+              <option value="">Select Your Area *</option>
+              <option>Gandhi Nagar</option>
+              <option>Vijay Nagar</option>
+              <option>MG Road</option>
+              <option>Sarafa Bazaar</option>
+              <option>South Tukoganj</option>
+              <option>Palasia</option>
+              <option>Rajwada</option>
+              <option>Bhawarkuan</option>
+              <option>Khajrana</option>
+              <option>Scheme No. 54</option>
+              <option>Other Area</option>
+            </select>
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);"><svg viewBox="0 0 24 24" fill="none" stroke="#64748b" stroke-width="2" width="16" height="16"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>
+            <select id="sellerCat"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:#fff;appearance:none;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+              <option value="">Shop Category *</option>
+              <option>Men Fashion</option>
+              <option>Women Fashion</option>
+              <option>Kids Wear</option>
+              <option>Electronics</option>
+              <option>Jewellery</option>
+              <option>Footwear</option>
+              <option>Home Decor</option>
+              <option>Daily Needs</option>
+              <option>Beauty &amp; Care</option>
+              <option>Books &amp; Stationery</option>
+              <option>General Store</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;cursor:pointer;">
+          <input type="checkbox" id="sellerTerms" style="margin-top:3px;width:16px;height:16px;accent-color:var(--primary);">
+          <span style="font-size:13px;color:var(--text-mid);">I agree to the <a href="privacy-policy.html" style="color:var(--primary);font-weight:600;">Terms & Conditions</a> and confirm all details are correct.</span>
+        </label>
+
+        <!-- Submit -->
+        <button onclick="submitSellerReg()" class="btn-submit" style="background:linear-gradient(135deg,#f97316,#ea580c);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg> Register My Shop Free
+        </button>
+
+        <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-light);">
+          Already registered? <a onclick="setMode('login');setLoginType('seller');" style="color:#f97316;font-weight:700;cursor:pointer;">Login here →</a>
+        </div>
+
+        <div style="margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--text-light);text-align:center;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:3px;"><path d="M9 21h6M12 3a6 6 0 016 6c0 2.22-1.21 4.16-3 5.2V17a1 1 0 01-1 1H10a1 1 0 01-1-1v-2.8C7.21 13.16 6 11.22 6 9a6 6 0 016-6z"/></svg> Want full shop setup with photos &amp; products?<br>
+          <a href="shopkeeper-registration.html" style="color:var(--primary);font-weight:700;">Complete Registration →</a>
+        </div>
+
+      </div>
+      <!-- /seller panel -->
+
+      <!-- LOGIN SUCCESS SCREEN -->
+      <div id="loginSuccess" style="display:none;text-align:center;padding:20px 0;">
+        <div class="success-screen active">
+          <div class="success-emoji" id="loginSuccessEmoji"><svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" width="72" height="72"><path d="M20.5 10c0-1.1-.9-2-2-2s-2 .9-2 2v4M16.5 10V6c0-1.1-.9-2-2-2s-2 .9-2 2v4M12.5 10V5c0-1.1-.9-2-2-2s-2 .9-2 2v5M8.5 10V7c0-1.1-.9-2-2-2s-2 .9-2 2v7c0 4.418 3.582 8 8 8s8-3.582 8-8v-4c0-1.1-.9-2-2-2s-2 .9-2 2"/></svg></div>
+          <div class="success-title" style="color:var(--primary);" id="loginSuccessTitle">Welcome Back!</div>
+          <div class="success-msg" id="loginSuccessMsg">You have been logged in successfully. Redirecting...</div>
+          <div style="margin:14px 0;">
+            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
+              <div id="loginRedirectBar" style="height:100%;background:var(--primary);width:0%;transition:width 3s linear;border-radius:2px;"></div>
+            </div>
+          </div>
+          <div class="success-actions" id="loginSuccessActions">
+            <button class="btn-go-home" onclick="window.location='local-bazaar-hub.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Go to Homepage</button>
+            <button class="btn-go-shop" onclick="window.location='shop-directory.html'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg> Browse Shops</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /form-wrap -->
+  </div><!-- /right-panel -->
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" onclick="closeForgotModal()">✕</button>
+    <div id="forgotStep1">
+      <h3 class="modal-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="vertical-align:-3px;margin-right:6px;"><circle cx="7.5" cy="15.5" r="5.5"/><path d="M21 2l-9.6 9.6M15.5 7.5l3 3"/></svg>Reset Your Password</h3>
+      <p class="modal-sub">Enter your registered phone number or email. We'll send you an OTP to reset your password.</p>
+      <div class="field-group">
+        <label class="field-label">Phone or Email <span class="req">*</span></label>
+        <div class="field-wrap">
+          <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>
+          <input type="text" class="field-input has-icon" id="forgotInput" placeholder="+91 98765 43210 or email">
+        </div>
+      </div>
+      <button class="btn-submit" onclick="sendForgotOTP()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg> Send Reset OTP</button>
+    </div>
+    <div id="forgotStep2" style="display:none;">
+      <h3 class="modal-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="vertical-align:-3px;margin-right:6px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg>Enter OTP</h3>
+      <p class="modal-sub">Enter the OTP sent to your phone / email and create a new password.</p>
+      <div class="otp-inputs" style="justify-content:flex-start;margin-bottom:16px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+      </div>
+      <div class="field-group">
+        <label class="field-label">New Password <span class="req">*</span></label>
+        <div class="field-wrap">
+          <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
+          <input type="password" class="field-input has-icon has-icon-right" placeholder="New password (min 8 chars)">
+          <span class="field-icon-right" style="cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="resetPasswordDone()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Reset Password</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══════════════════════════════════════════
+//  API CONFIG — BahaBasket Backend
+// ══════════════════════════════════════════
+const API_BASE = 'http://localhost:5000/api';
+
+// Save auth token + user to localStorage after login/register
+function saveAuth(token, user){
+  localStorage.setItem('bb_token', token);
+  localStorage.setItem('bb_user', JSON.stringify(user));
+}
+
+// Check if already logged in → redirect
+(function(){
+  const token = localStorage.getItem('bb_token');
+  if(token){
+    const user = JSON.parse(localStorage.getItem('bb_user') || '{}');
+    // Don't auto-redirect — just show logged-in state if needed
+  }
+})();
+
+// Show inline error banner
+function showError(msg){
+  document.querySelectorAll('.api-error').forEach(e => e.remove());
+  const div = document.createElement('div');
+  div.className = 'api-error';
+  div.style.cssText = 'background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;font-weight:500;animation:fadeSlide .3s ease;';
+  div.textContent = '⚠ ' + msg;
+  const activePanel = document.querySelector('.form-panel.active');
+  const btn = activePanel?.querySelector('.btn-submit');
+  if(btn) btn.parentNode.insertBefore(div, btn);
+  setTimeout(() => div.remove(), 6000);
+}
+
+// ── MODE TOGGLE (Login / Register) ──
+function setMode(mode){
+  document.getElementById('loginPanel').classList.toggle('active', mode==='login');
+  document.getElementById('registerPanel').classList.toggle('active', mode==='register');
+  const sp = document.getElementById('sellerPanel');
+  if(sp) sp.classList.toggle('active', mode==='seller');
+  document.getElementById('loginModeBtn').classList.toggle('active', mode==='login');
+  document.getElementById('regModeBtn').classList.toggle('active', mode==='register');
+  const selBtn = document.getElementById('sellerModeBtn');
+  if(selBtn){
+    selBtn.classList.toggle('active', mode==='seller');
+    selBtn.style.color = mode==='seller' ? '#f97316' : '#f97316';
+  }
+  document.getElementById('loginSuccess').style.display = 'none';
+}
+
+// Auto-open tab from URL param: ?mode=seller or ?mode=register
+const urlMode = new URLSearchParams(window.location.search).get('mode');
+if(urlMode === 'seller') setMode('seller');
+else if(urlMode === 'register') setMode('register');
+
+// ── LOGIN: OTP vs Password ──
+function setLoginMode(type, el){
+  document.getElementById('loginOtpForm').style.display = type==='otp' ? 'block' : 'none';
+  document.getElementById('loginPassForm').style.display = type==='pass' ? 'block' : 'none';
+  document.getElementById('loginOtpBtn').style.cssText = type==='otp' ? 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;' : 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);font-size:12.5px;font-weight:600;cursor:pointer;';
+  document.getElementById('loginPassBtn').style.cssText = type==='pass' ? 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;' : 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);font-size:12.5px;font-weight:600;cursor:pointer;';
+}
+
+// ── SEND LOGIN OTP ──
+let otpTimer = null;
+async function sendLoginOTP(){
+  const phone = document.getElementById('loginPhone').value.trim();
+  if(phone.length < 10){ showError('Please enter a valid 10-digit phone number.'); return; }
+
+  const btn = document.getElementById('sendOtpBtn');
+  btn.classList.add('loading');
+  btn.textContent = 'Sending OTP...';
+
+  try {
+    const res  = await fetch(`${API_BASE}/auth/send-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'Could not send OTP. Please try again.');
+
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> OTP Sent!';
+    btn.style.background = 'linear-gradient(135deg,var(--success),#15803d)';
+    document.getElementById('otpInputSection').style.display = 'block';
+    document.getElementById('otpSentTo').textContent = '+91 ' + phone.substring(0,5) + 'XXXXX';
+    startOtpTimer('otpCountdown');
+    document.getElementById('otp1').focus();
+
+  } catch(err) {
+    btn.classList.remove('loading');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg> Send OTP on WhatsApp';
+    showError(err.message);
+  }
+}
+
+function startOtpTimer(id){
+  let t = 30;
+  clearInterval(otpTimer);
+  otpTimer = setInterval(()=>{
+    t--;
+    const el = document.getElementById(id);
+    if(el) el.textContent = t+'s';
+    if(t<=0){ clearInterval(otpTimer); if(el) el.textContent = 'now'; }
+  },1000);
+}
+
+function otpMove(input, idx){
+  input.value = input.value.replace(/[^0-9]/g,'');
+  if(input.value){ input.classList.add('filled'); }
+  else { input.classList.remove('filled'); }
+  if(input.value && idx < 6){
+    const boxes = document.querySelectorAll('#otpInputSection .otp-box');
+    if(boxes[idx]) boxes[idx].focus();
+  }
+}
+
+function regOtpMove(input, idx){
+  input.value = input.value.replace(/[^0-9]/g,'');
+  if(input.value){ input.classList.add('filled'); }
+  else { input.classList.remove('filled'); }
+  if(input.value && idx < 6){
+    const boxes = document.querySelectorAll('#regStep3 .otp-box');
+    if(boxes[idx]) boxes[idx].focus();
+  }
+}
+
+function showLoginSuccess(){
+  document.getElementById('loginPanel').style.display='none';
+  document.getElementById('loginSuccess').style.display='block';
+
+  const isSeller = loginType === 'seller';
+  document.getElementById('loginSuccessEmoji').innerHTML = isSeller
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="72" height="72"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" width="72" height="72"><path d="M20.5 10c0-1.1-.9-2-2-2s-2 .9-2 2v4M16.5 10V6c0-1.1-.9-2-2-2s-2 .9-2 2v4M12.5 10V5c0-1.1-.9-2-2-2s-2 .9-2 2v5M8.5 10V7c0-1.1-.9-2-2-2s-2 .9-2 2v7c0 4.418 3.582 8 8 8s8-3.582 8-8v-4c0-1.1-.9-2-2-2s-2 .9-2 2"/></svg>';
+  document.getElementById('loginSuccessTitle').textContent  = isSeller ? 'Seller Login Successful!' : 'Welcome Back!';
+  document.getElementById('loginSuccessMsg').textContent    = isSeller
+    ? 'Redirecting you to your Seller Dashboard...'
+    : 'Logged in successfully. Redirecting to your account...';
+
+  // Update action buttons
+  const actions = document.getElementById('loginSuccessActions');
+  if(isSeller){
+    actions.innerHTML = `
+      <button class="btn-go-home" onclick="window.location='seller-dashboard.html'" style="background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Go to Seller Dashboard</button>
+      <button class="btn-go-shop" onclick="window.location='local-bazaar-hub.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Homepage</button>`;
+  } else {
+    actions.innerHTML = `
+      <button class="btn-go-home" onclick="window.location='user-dashboard.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Account</button>
+      <button class="btn-go-shop" onclick="window.location='shop-directory.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg> Browse Shops</button>`;
+  }
+
+  // Progress bar animation
+  setTimeout(()=>{ document.getElementById('loginRedirectBar').style.width='100%'; }, 100);
+  setTimeout(()=>{ window.location = getRedirectUrl(); }, 3000);
+}
+
+function resendOTP(){ startOtpTimer('otpCountdown'); }
+function resendRegOTP(){ startOtpTimer('regOtpCountdown'); }
+
+// ── LOGIN TYPE (buyer / seller) ──
+let loginType = 'buyer';
+function setLoginType(type){
+  loginType = type;
+  const buyerBtn  = document.getElementById('loginBuyerBtn');
+  const sellerBtn = document.getElementById('loginSellerBtn');
+  const title     = document.getElementById('loginTitle');
+  const subtitle  = document.getElementById('loginSubtitle');
+  const otpBtn    = document.getElementById('sendOtpBtn');
+  const createLink = document.getElementById('createAccLink');
+
+  if(type === 'buyer'){
+    // Buyer button — blue active
+    buyerBtn.style.background  = 'var(--primary)';
+    buyerBtn.style.color       = '#fff';
+    buyerBtn.style.boxShadow   = '0 2px 8px rgba(26,86,219,.2)';
+    sellerBtn.style.background = 'transparent';
+    sellerBtn.style.color      = 'var(--text-light)';
+    sellerBtn.style.boxShadow  = 'none';
+
+    // Title
+    title.innerHTML      = 'Welcome Back! <svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" width="26" height="26" style="vertical-align:-4px;"><path d="M20.5 10c0-1.1-.9-2-2-2s-2 .9-2 2v4M16.5 10V6c0-1.1-.9-2-2-2s-2 .9-2 2v4M12.5 10V5c0-1.1-.9-2-2-2s-2 .9-2 2v5M8.5 10V7c0-1.1-.9-2-2-2s-2 .9-2 2v7c0 4.418 3.582 8 8 8s8-3.582 8-8v-4c0-1.1-.9-2-2-2s-2 .9-2 2"/></svg>';
+    subtitle.textContent = 'Login to access your account, saved shops, and order history.';
+
+    // OTP button — blue
+    if(otpBtn){
+      otpBtn.style.background = 'linear-gradient(135deg,var(--primary),var(--primary-dark))';
+      otpBtn.style.boxShadow  = '0 4px 16px rgba(26,86,219,.28)';
+    }
+
+    // "Create one free" → Buyer register tab
+    if(createLink){
+      createLink.textContent = 'Create one free →';
+      createLink.style.color = 'var(--primary)';
+      createLink.onclick = function(){ setMode('register'); };
+    }
+
+  } else {
+    // Seller button — orange active
+    sellerBtn.style.background = '#f97316';
+    sellerBtn.style.color      = '#fff';
+    sellerBtn.style.boxShadow  = '0 2px 8px rgba(249,115,22,.25)';
+    buyerBtn.style.background  = 'transparent';
+    buyerBtn.style.color       = 'var(--text-light)';
+    buyerBtn.style.boxShadow   = 'none';
+
+    // Title
+    title.innerHTML      = 'Seller Login <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" width="24" height="24" style="vertical-align:-3px;"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg>';
+    subtitle.textContent = 'Login to your Seller Dashboard to manage products, view inquiries and analytics.';
+
+    // OTP button — orange (same as seller color)
+    if(otpBtn){
+      otpBtn.style.background = 'linear-gradient(135deg,#f97316,#ea580c)';
+      otpBtn.style.boxShadow  = '0 4px 16px rgba(249,115,22,.35)';
+    }
+
+    // "Create one free" → Seller register tab
+    if(createLink){
+      createLink.textContent = 'Register your shop free →';
+      createLink.style.color = '#f97316';
+      createLink.onclick = function(){ setMode('seller'); };
+    }
+  }
+}
+
+function getRedirectUrl(){
+  return loginType === 'seller' ? 'seller-dashboard.html' : 'user-dashboard.html';
+}
+
+async function verifyLoginOTP(){
+  const phone = document.getElementById('loginPhone').value.trim();
+  const otp   = ['otp1','otp2','otp3','otp4','otp5','otp6'].map(id=>document.getElementById(id).value).join('');
+  if(otp.length < 6){ showError('Please enter the complete 6-digit OTP.'); return; }
+
+  try {
+    const res  = await fetch(`${API_BASE}/auth/verify-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone, otp })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'Invalid OTP. Please try again.');
+
+    saveAuth(data.token, data.user);
+    showLoginSuccess();
+
+  } catch(err) {
+    showError(err.message);
+  }
+}
+
+async function passwordLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPassword').value;
+  if(!email || !pass){ showError('Please fill in all required fields.'); return; }
+
+  try {
+    const res  = await fetch(`${API_BASE}/auth/login`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ email, password: pass })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'Login failed. Check your credentials.');
+
+    saveAuth(data.token, data.user);
+    showLoginSuccess();
+
+  } catch(err) {
+    showError(err.message);
+  }
+}
+
+// ── REGISTER STEPS ──
+let currentRegStep = 1;
+let selectedAccountType = 'buyer';
+
+function selectAccType(el, type){
+  document.querySelectorAll('.account-type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAccountType = type;
+}
+
+function _updateStepUI(step){
+  document.getElementById('regStep'+currentRegStep).classList.remove('active');
+  document.getElementById('regStep'+step).classList.add('active');
+  for(let i=1;i<=4;i++){
+    const ps = document.getElementById('rs'+i);
+    const pc = document.getElementById('rc'+i);
+    if(!ps||!pc) continue;
+    ps.classList.remove('active','done');
+    if(i < step){ ps.classList.add('done'); pc.innerHTML = '✓'; }
+    else if(i===step){ ps.classList.add('active'); pc.textContent=i; }
+    else{ pc.textContent=i; }
+    const line = document.getElementById('rl'+i);
+    if(line) line.classList.toggle('done', i<step);
+  }
+  currentRegStep = step;
+}
+
+async function goRegStep(step){
+  if(step > currentRegStep){
+
+    // Step 2 → 3: Validate + Send OTP via API
+    if(currentRegStep===2){
+      const firstName = document.getElementById('regFirstName').value.trim();
+      const phone     = document.getElementById('regPhone').value.trim();
+      const city      = document.getElementById('regCity').value;
+      const pass      = document.getElementById('regPassword').value;
+      const agree     = document.getElementById('agreeTerms').checked;
+
+      if(!firstName || !phone || !city || !pass){ showError('Please fill in all required fields.'); return; }
+      if(phone.length < 10){ showError('Please enter a valid 10-digit phone number.'); return; }
+      if(pass.length < 8){   showError('Password must be at least 8 characters.'); return; }
+      if(!agree){            showError('Please agree to the Terms of Service and Privacy Policy.'); return; }
+
+      // Call API to send OTP
+      try {
+        const res  = await fetch(`${API_BASE}/auth/send-otp`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ phone })
+        });
+        const data = await res.json();
+        if(!data.success) throw new Error(data.error || 'Could not send OTP.');
+
+        document.getElementById('regOtpSentTo').textContent = '+91 ' + phone.substring(0,5) + 'XXXXX';
+        startOtpTimer('regOtpCountdown');
+
+      } catch(err) {
+        showError(err.message);
+        return;
+      }
+    }
+
+  }
+  _updateStepUI(step);
+}
+
+async function verifyRegOTP(){
+  const otp = ['rotp1','rotp2','rotp3','rotp4','rotp5','rotp6'].map(id=>document.getElementById(id).value).join('');
+  if(otp.length < 6){ showError('Please enter the complete 6-digit OTP.'); return; }
+
+  const phone     = document.getElementById('regPhone').value.trim();
+  const firstName = document.getElementById('regFirstName').value.trim();
+  const lastName  = document.getElementById('regLastName').value.trim();
+  const email     = document.getElementById('regEmail').value.trim();
+  const city      = document.getElementById('regCity').value;
+
+  try {
+    // Step 1: Verify OTP — creates Supabase auth user + our users table row
+    const otpRes  = await fetch(`${API_BASE}/auth/verify-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone, otp })
+    });
+    const otpData = await otpRes.json();
+    if(!otpData.success) throw new Error(otpData.error || 'Invalid OTP. Please try again.');
+
+    saveAuth(otpData.token, otpData.user);
+
+    // Step 2: Update profile with name, city, email
+    await fetch(`${API_BASE}/auth/me`, {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${otpData.token}` },
+      body:    JSON.stringify({ name: `${firstName} ${lastName}`.trim(), city, email })
+    });
+
+    // Step 3: Redirect based on account type
+    if(selectedAccountType === 'seller'){
+      localStorage.setItem('lbh_seller_phone',    phone);
+      localStorage.setItem('lbh_seller_name',     firstName);
+      localStorage.setItem('lbh_phone_verified',  'true');
+
+      _updateStepUI(4);
+      document.getElementById('regSuccessMsg').innerHTML =
+        'Phone verified! Now complete your shop setup.<br><strong>Redirecting to Shop Registration...</strong>';
+      document.getElementById('regSuccessActions').innerHTML = `
+        <button class="btn-go-home" onclick="window.location='shopkeeper-registration.html'"
+          style="background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;gap:7px;">
+          Complete Shop Registration →
+        </button>`;
+      setTimeout(()=>{ window.location='shopkeeper-registration.html'; }, 3000);
+
+    } else {
+      document.getElementById('regSuccessMsg').textContent =
+        'Welcome to BahaBasket! Your account is ready. Start exploring local shops!';
+      _updateStepUI(4);
+    }
+
+  } catch(err) {
+    showError(err.message);
+  }
+}
+
+// ── SELLER EXTRA FIELDS ──
+document.querySelectorAll('.account-type-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.getElementById('sellerExtraFields').style.display = selectedAccountType==='seller' ? 'block' : 'none';
+  });
+});
+function selectAccType(el, type){
+  document.querySelectorAll('.account-type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAccountType = type;
+  document.getElementById('sellerExtraFields').style.display = type==='seller' ? 'block' : 'none';
+  const title = document.getElementById('regStep2Title');
+  if(title) title.textContent = type==='seller' ? 'Shop Owner Details' : 'Your Personal Details';
+}
+
+// ── PASSWORD STRENGTH ──
+function checkStrength(val){
+  const fill = document.getElementById('strengthFill');
+  const text = document.getElementById('strengthText');
+  if(!fill||!text) return;
+  let score = 0;
+  if(val.length >= 8) score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+  const levels = [
+    {w:'0%',c:'var(--border)',t:'Enter password'},
+    {w:'25%',c:'var(--danger)',t:'Weak'},
+    {w:'50%',c:'var(--warning)',t:'Fair'},
+    {w:'75%',c:'var(--accent)',t:'Good'},
+    {w:'100%',c:'var(--success)',t:'Strong ✓'},
+  ];
+  const lvl = val.length===0 ? levels[0] : levels[Math.min(score,4)];
+  fill.style.width = lvl.w;
+  fill.style.background = lvl.c;
+  text.textContent = val.length===0 ? 'Enter password to check strength' : lvl.t;
+  text.style.color = lvl.c;
+}
+
+// ── TOGGLE PASSWORD VISIBILITY ──
+function togglePass(inputId, iconEl){
+  const input = document.getElementById(inputId);
+  if(!input) return;
+  input.type = input.type==='password' ? 'text' : 'password';
+  iconEl.innerHTML = input.type==='password'
+    ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>'
+    : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>';
+}
+
+// ── FORGOT PASSWORD MODAL ──
+function openForgotModal(){
+  document.getElementById('forgotModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeForgotModal(){
+  document.getElementById('forgotModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function sendForgotOTP(){
+  const val = document.getElementById('forgotInput').value.trim();
+  if(!val){ alert('Please enter your phone or email.'); return; }
+  document.getElementById('forgotStep1').style.display='none';
+  document.getElementById('forgotStep2').style.display='block';
+}
+function resetPasswordDone(){
+  closeForgotModal();
+  alert('✅ Password reset successfully! Please login with your new password.');
+  document.getElementById('forgotStep1').style.display='block';
+  document.getElementById('forgotStep2').style.display='none';
+  document.getElementById('forgotInput').value='';
+}
+document.getElementById('forgotModal').addEventListener('click',function(e){
+  if(e.target===this) closeForgotModal();
+});
+
+// ── SOCIAL LOGIN ──
+function socialLogin(platform){
+  alert(`Connecting to ${platform}...\n\n(WordPress mein: WP OAuth plugin se ${platform} login integrate hoga)`);
+}
+
+// ── KEYBOARD: ESC to close modals ──
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeForgotModal();
+});
+
+function submitSellerReg(){
+  const shop  = document.getElementById('sellerShopName')?.value.trim();
+  const owner = document.getElementById('sellerOwnerName')?.value.trim();
+  const phone = document.getElementById('sellerPhone')?.value.trim();
+  const area  = document.getElementById('sellerArea')?.value;
+  const cat   = document.getElementById('sellerCat')?.value;
+  const terms = document.getElementById('sellerTerms')?.checked;
+
+  if(!shop){ alert('Please enter your shop name.'); return; }
+  if(!owner){ alert('Please enter owner name.'); return; }
+  if(!phone || phone.length!==10){ alert('Please enter a valid 10-digit WhatsApp number.'); return; }
+  if(!area){ alert('Please select your area.'); return; }
+  if(!cat){ alert('Please select shop category.'); return; }
+  if(!terms){ alert('Please agree to Terms & Conditions.'); return; }
+
+  // Save to localStorage
+  const sellerData = { shop, owner, phone, area, cat, registeredAt: new Date().toISOString() };
+  localStorage.setItem('lbh_seller_reg', JSON.stringify(sellerData));
+
+  // Show success
+  document.getElementById('sellerPanel').innerHTML = `
+    <div style="text-align:center;padding:32px 0;">
+      <div style="margin-bottom:16px;"><svg viewBox="0 0 24 24" fill="none" width="72" height="72"><path d="M12 2l1.5 4.5L18 8l-4.5 1.5L12 14l-1.5-4.5L6 8l4.5-1.5L12 2z" fill="#fbbf24"/><path d="M20 16l.7 2.3L23 19l-2.3.7L20 22l-.7-2.3L17 19l2.3-.7L20 16z" fill="#f97316"/><path d="M4 16l.7 2.3L7 19l-2.3.7L4 22l-.7-2.3L1 19l2.3-.7L4 16z" fill="#3b82f6"/><circle cx="19" cy="6" r="1.5" fill="#ef4444"/><circle cx="5" cy="6" r="1" fill="#8b5cf6"/></svg></div>
+      <h2 style="font-family:'Sora',sans-serif;font-size:24px;font-weight:900;color:var(--text-dark);margin-bottom:10px;">Shop Registered!</h2>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:20px;line-height:1.7;">
+        <strong>${shop}</strong> has been submitted for review.<br>
+        Our team will verify and activate your shop within <strong>24–48 hours</strong>.<br>
+        You'll receive a WhatsApp confirmation on <strong>+91 ${phone}</strong>.
+      </p>
+      <div style="background:var(--success-bg);border:1px solid var(--success);border-radius:12px;padding:14px;margin-bottom:20px;font-size:13.5px;color:var(--text-mid);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" width="14" height="14" style="vertical-align:-2px;margin-right:4px;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Registration ID: <strong>LBH-${Math.floor(Math.random()*9000)+1000}</strong>
+      </div>
+      <a href="shopkeeper-registration.html" style="display:flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;padding:14px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;margin-bottom:10px;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> Complete Full Registration →
+      </a>
+      <a href="local-bazaar-hub.html" style="display:flex;align-items:center;justify-content:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:12px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Back to Homepage
+      </a>
+    </div>`;
+}
+</script>
+</body>
+</html>

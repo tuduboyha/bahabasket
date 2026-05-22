@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categories – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #111827;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --card-shadow: 0 2px 12px rgba(26,86,219,0.08);
+  --card-shadow-hover: 0 10px 36px rgba(26,86,219,0.16);
+  --radius: 16px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans', sans-serif; background: var(--bg); color: var(--text-dark); overflow-x: hidden; }
+h1,h2,h3,h4,h5 { font-family: 'Baloo 2', cursive; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 10px 24px; display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text-light);
+}
+.breadcrumb a { color: var(--primary); }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: var(--border); }
+.breadcrumb .current { color: var(--text-dark); font-weight: 600; }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  background: linear-gradient(135deg, #0f3460 0%, #1a56db 55%, #1e88e5 100%);
+  padding: 52px 24px 64px; position: relative; overflow: hidden; text-align: center;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.page-hero-inner { max-width: 700px; margin: 0 auto; position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+  color: #fff; border: 1px solid rgba(255,255,255,.25);
+  padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  margin-bottom: 20px;
+}
+.page-hero h1 { font-size: clamp(28px,4vw,44px); font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.2; }
+.page-hero h1 span { color: #fbbf24; }
+.page-hero p { color: rgba(255,255,255,.8); font-size: 15px; margin-bottom: 28px; line-height: 1.7; }
+.hero-search-bar {
+  max-width: 540px; margin: 0 auto;
+  display: flex; background: #fff; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,.22);
+}
+.hero-search-bar input { flex: 1; border: none; outline: none; padding: 16px 20px; font-size: 15px; color: var(--text-dark); }
+.hero-search-bar input::placeholder { color: #9ca3af; }
+.hero-search-bar button { background: var(--accent); border: none; color: #fff; padding: 0 26px; font-size: 20px; transition: background .2s; }
+.hero-search-bar button:hover { background: #ea6c04; }
+
+/* ── WAVE DIVIDER ── */
+.wave-divider { display: block; margin-top: -2px; line-height: 0; }
+.wave-divider svg { display: block; }
+
+/* ── SECTION COMMONS ── */
+.section { padding: 52px 24px; }
+.section-alt { background: var(--white); }
+.max-w { max-width: 1280px; margin: 0 auto; }
+.section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; gap: 16px; flex-wrap: wrap; }
+.section-title { font-size: clamp(20px,3vw,28px); font-weight: 800; color: var(--text-dark); }
+.section-title span { color: var(--primary); }
+.section-sub { font-size: 14px; color: var(--text-light); margin-top: 4px; }
+.view-all {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--primary); font-weight: 600; font-size: 14px;
+  padding: 8px 16px; border: 2px solid var(--primary); border-radius: 8px;
+  transition: background .25s, color .25s, border-color .25s; white-space: nowrap; text-decoration: none;
+}
+.view-all:hover { background: var(--primary); color: #fff; }
+.view-all.pink  { color: #be185d; border-color: #be185d; }
+.view-all.pink:hover  { background: #be185d; color: #fff; }
+.view-all.green { color: #059669; border-color: #059669; }
+.view-all.green:hover { background: #059669; color: #fff; }
+.view-all.amber { color: #d97706; border-color: #d97706; }
+.view-all.amber:hover { background: #d97706; color: #fff; }
+.view-all.red   { color: #dc2626; border-color: #dc2626; }
+.view-all.red:hover   { background: #dc2626; color: #fff; }
+
+/* ── MAIN CATEGORY GRID (Big Cards) ── */
+.main-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.main-cat-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--card-shadow);
+  border: 2px solid transparent;
+}
+.main-cat-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--card-shadow-hover); border-color: rgba(255,255,255,.3); }
+.main-cat-card .card-bg {
+  padding: 36px 24px 28px;
+  position: relative;
+  min-height: 200px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.main-cat-card .card-bg::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,.55) 100%);
+}
+.card-pattern {
+  position: absolute; inset: 0; opacity: .08;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.6) 10px, rgba(255,255,255,.6) 11px);
+}
+.card-content { position: relative; z-index: 1; }
+.card-emoji { line-height: 0; margin-bottom: 10px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
+.card-name { font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; text-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.card-count { font-size: 13px; color: rgba(255,255,255,.8); }
+.card-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: rgba(255,255,255,.2); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
+.card-arrow {
+  position: absolute; bottom: 14px; right: 14px;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,.2); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 14px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s, transform .25s;
+}
+.main-cat-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+/* ── SUBCATEGORY SECTION ── */
+.sub-section { margin-bottom: 48px; }
+.sub-section-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px; padding-bottom: 14px;
+  border-bottom: 2px solid var(--border);
+}
+.sub-section-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  line-height: 0; flex-shrink: 0;
+}
+.sub-section-info h3 { font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 700; color: var(--text-dark); }
+.sub-section-info p { font-size: 13px; color: var(--text-light); }
+.sub-section-header .view-all { margin-left: auto; }
+
+.sub-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;
+}
+.sub-cat-card {
+  background: var(--white); border-radius: 12px;
+  border: 2px solid var(--border); padding: 18px 14px;
+  text-align: center; cursor: pointer;
+  transition: all .22s; position: relative; overflow: hidden;
+}
+.sub-cat-card:hover { border-color: var(--primary); box-shadow: var(--card-shadow-hover); transform: translateY(-3px); }
+.sub-cat-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: var(--primary); transform: scaleX(0); transition: transform .22s;
+}
+.sub-cat-card:hover::after { transform: scaleX(1); }
+.sub-emoji { line-height: 0; margin-bottom: 8px; display: flex; justify-content: center; }
+.sub-name { font-weight: 600; font-size: 13px; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+.sub-count { font-size: 11px; color: var(--text-light); }
+
+/* ── POPULAR TAGS CLOUD ── */
+.tags-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+.tag-item {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--white); border: 2px solid var(--border);
+  color: var(--text-mid); padding: 7px 16px; border-radius: 24px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all .2s;
+}
+.tag-item:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+.tag-item .tag-count { font-size: 11px; color: var(--text-light); background: var(--bg); padding: 1px 7px; border-radius: 10px; }
+.tag-item.hot { border-color: #fbbf24; background: #fffbeb; color: #92400e; }
+.tag-item.hot:hover { background: #fef3c7; }
+
+/* ── FEATURED CATEGORY BANNER ── */
+.cat-banner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cat-banner {
+  border-radius: var(--radius); padding: 32px 28px;
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+  display: flex; align-items: center; gap: 20px;
+}
+.cat-banner:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,.14); }
+.cat-banner-text { flex: 1; position: relative; z-index: 1; }
+.cat-banner-text .label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.7); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.cat-banner-text h3 { font-family: 'Baloo 2', cursive; font-size: clamp(18px,2.5vw,26px); font-weight: 800; color: #fff; margin-bottom: 6px; line-height: 1.2; }
+.cat-banner-text p { font-size: 13px; color: rgba(255,255,255,.75); margin-bottom: 16px; }
+.cat-banner-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.4);
+  color: #fff; padding: 8px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s;
+}
+.cat-banner-btn:hover { background: rgba(255,255,255,.35); }
+.cat-banner-icon { line-height: 0; opacity: .25; position: absolute; right: 20px; bottom: 10px; }
+.cat-banner.blue { background: linear-gradient(135deg, #1a56db, #1e88e5); }
+.cat-banner.orange { background: linear-gradient(135deg, #f97316, #fb923c); }
+
+/* ── TRENDING SECTION ── */
+.trending-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;
+}
+.trending-card {
+  background: var(--white); border-radius: var(--radius); border: 1px solid var(--border);
+  padding: 18px; display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: all .22s;
+}
+.trending-card:hover { box-shadow: var(--card-shadow-hover); border-color: transparent; transform: translateY(-2px); }
+.trending-rank {
+  font-family: 'Baloo 2', cursive; font-size: 28px; font-weight: 800;
+  color: var(--border); min-width: 36px; text-align: center;
+}
+.trending-card:nth-child(1) .trending-rank { color: #fbbf24; }
+.trending-card:nth-child(2) .trending-rank { color: #9ca3af; }
+.trending-card:nth-child(3) .trending-rank { color: #d97706; }
+.trending-info { flex: 1; }
+.trending-name { font-weight: 700; font-size: 14px; color: var(--text-dark); margin-bottom: 2px; }
+.trending-meta { font-size: 12px; color: var(--text-light); }
+.trending-icon { line-height: 0; }
+
+/* ── SHOP COUNT BANNER ── */
+.count-banner {
+  background: linear-gradient(135deg, var(--primary-light), #dbeafe);
+  border-radius: var(--radius); padding: 28px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; border: 2px solid rgba(26,86,219,.1);
+  margin-bottom: 32px;
+}
+.count-items { display: flex; gap: 40px; flex-wrap: wrap; }
+.count-item { text-align: center; }
+.count-item .num { font-family: 'Baloo 2', cursive; font-size: 32px; font-weight: 800; color: var(--primary); line-height: 1; }
+.count-item .lbl { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.count-banner-btn {
+  background: var(--primary); color: #fff; border: none;
+  padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 700; transition: background .2s;
+}
+.count-banner-btn:hover { background: var(--primary-dark); }
+
+/* ── FLOATING WHATSAPP ── */
+.float-wa { position: fixed; bottom: 28px; right: 28px; z-index: 9999; }
+.float-wa-btn {
+  width: 56px; height: 56px; background: var(--whatsapp); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; line-height: 0;
+  box-shadow: 0 4px 20px rgba(37,211,102,.4); cursor: pointer;
+  animation: float-bounce 3s infinite;
+}
+@keyframes float-bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) { .main-cat-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px) {
+  .main-cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .cat-banner-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .main-cat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .sub-cat-grid { grid-template-columns: repeat(3, 1fr); }
+  .section { padding: 36px 14px; }
+  .page-hero { padding: 36px 16px 48px; }
+.cat-banner { padding: 22px 18px; }
+  .count-items { gap: 24px; }
+}
+@media (max-width: 380px) {
+  .main-cat-grid { grid-template-columns: 1fr; }
+  .sub-cat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(22px); }
+  to { opacity:1; transform: translateY(0); }
+}
+.main-cat-card { animation: fadeUp .45s ease both; }
+.main-cat-card:nth-child(1) { animation-delay: .04s; }
+.main-cat-card:nth-child(2) { animation-delay: .09s; }
+.main-cat-card:nth-child(3) { animation-delay: .14s; }
+.main-cat-card:nth-child(4) { animation-delay: .19s; }
+.main-cat-card:nth-child(5) { animation-delay: .24s; }
+.main-cat-card:nth-child(6) { animation-delay: .29s; }
+.main-cat-card:nth-child(7) { animation-delay: .34s; }
+.main-cat-card:nth-child(8) { animation-delay: .39s; }
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="13" height="13"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
+  <span class="sep">›</span>
+  <span class="current" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-dark)" stroke-width="2" width="13" height="13"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> All Categories</span>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="hero-badge"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="13" height="13"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> 15 Categories · 10,000+ Products</div>
+    <h1>Right Category, <span>Right Shop</span></h1>
+    <p>From Men, Women &amp; Kids Fashion to Electronics — browse your category and connect directly with local shops on WhatsApp.</p>
+    <div class="hero-search-bar">
+      <input type="text" placeholder="Search Kurta, Saree, Mobile, Earphones...">
+      <button>→</button>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<svg class="wave-divider" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 40" preserveAspectRatio="none" style="background:#1e88e5;">
+  <path fill="#f8fafc" d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z"/>
+</svg>
+
+<!-- ══ MAIN CATEGORIES BIG GRID ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="22" height="22"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg> All <span>Categories</span></div>
+      <div class="section-sub">Select your preferred category</div>
+    </div>
+  </div>
+
+  <div class="count-banner">
+    <div class="count-items">
+      <div class="count-item"><div class="num">15</div><div class="lbl">Categories</div></div>
+      <div class="count-item"><div class="num">10K+</div><div class="lbl">Products</div></div>
+      <div class="count-item"><div class="num">500+</div><div class="lbl">Shops</div></div>
+      <div class="count-item"><div class="num">25K+</div><div class="lbl">Customers</div></div>
+    </div>
+    <button class="count-banner-btn" onclick="window.location='shop-directory.html'" style="display:inline-flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="15" height="15"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg> View All Shops →</button>
+  </div>
+
+  <div class="main-cat-grid">
+
+    <!-- Men Fashion -->
+    <div class="main-cat-card" onclick="window.location='#men-fashion'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #1a56db, #3b82f6);">
+        <div class="card-pattern"></div>
+        <span class="card-badge" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="#fbbf24" stroke="none" width="11" height="11"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Top Seller</span>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div>
+          <div class="card-name">Men Fashion</div>
+          <div class="card-count">1,240 Products · 120 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Women Fashion -->
+    <div class="main-cat-card" onclick="window.location='#women-fashion'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #be185d, #ec4899);">
+        <div class="card-pattern"></div>
+        <span class="card-badge" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="11" height="11"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Most Popular</span>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg></div>
+          <div class="card-name">Women Fashion</div>
+          <div class="card-count">2,180 Products · 145 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Kids Wear -->
+    <div class="main-cat-card" onclick="window.location='#kids-wear'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #059669, #34d399);">
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><circle cx="12" cy="7" r="4"/><path d="M5.5 21.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/></svg></div>
+          <div class="card-name">Kids Wear</div>
+          <div class="card-count">890 Products · 68 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Electronics -->
+    <div class="main-cat-card" onclick="window.location='#electronics'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #d97706, #fbbf24);">
+        <div class="card-pattern"></div>
+        <span class="card-badge" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="11" height="11"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Flash Deals</span>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div class="card-name">Electronics</div>
+          <div class="card-count">560 Products · 92 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Mobile Accessories -->
+    <div class="main-cat-card" onclick="window.location='#mobile-acc'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #dc2626, #f87171);">
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          <div class="card-name">Mobile Accessories</div>
+          <div class="card-count">430 Products · 75 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Footwear -->
+    <div class="main-cat-card" onclick="window.location='#footwear'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><path d="M3 16l2-8h11l3 5-2 3H5a2 2 0 0 1-2-3v0z"/><path d="M7 8v4"/><path d="M18 16l1 4H3"/></svg></div>
+          <div class="card-name">Footwear</div>
+          <div class="card-count">720 Products · 54 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Jewellery -->
+    <div class="main-cat-card" onclick="window.location='#jewellery'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #0891b2, #22d3ee);">
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><polyline points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="12" y2="9"/></svg></div>
+          <div class="card-name">Jewellery</div>
+          <div class="card-count">380 Products · 46 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Home Decor -->
+    <div class="main-cat-card" onclick="window.location='#home-decor'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #4f46e5, #818cf8);">
+        <div class="card-pattern"></div>
+        <div class="card-content">
+          <div class="card-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.5" width="42" height="42"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="card-name">Home Decor</div>
+          <div class="card-count">290 Products · 38 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ MEN FASHION SUBCATEGORIES ══ -->
+<section class="section section-alt" id="men-fashion">
+  <div class="max-w">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #dbeafe;"><svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="26" height="26"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div>
+        <div class="sub-section-info">
+          <h3>Men Fashion</h3>
+          <p>1,240 products · 120 shops available</p>
+        </div>
+        <a href="#" class="view-all">View All Products →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div><div class="sub-name">Casual T-Shirts</div><div class="sub-count">186 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/><line x1="9" y1="7" x2="15" y2="7"/></svg></div><div class="sub-name">Formal Shirts</div><div class="sub-count">142 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M5 3h14v10l-7 8-7-8V3z"/><line x1="5" y1="9" x2="19" y2="9"/></svg></div><div class="sub-name">Trousers & Pants</div><div class="sub-count">98 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M12 2l-2 4H6l-2 4h4v12h8V10h4L18 6h-4l-2-4z"/></svg></div><div class="sub-name">Jackets & Blazers</div><div class="sub-count">74 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div><div class="sub-name">Kurta & Ethnic</div><div class="sub-count">210 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/></svg></div><div class="sub-name">Innerwear</div><div class="sub-count">63 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg></div><div class="sub-name">Shawl & Stole</div><div class="sub-count">48 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M6 16V7a6 6 0 0 1 12 0v9"/></svg></div><div class="sub-name">Caps & Hats</div><div class="sub-count">55 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg></div><div class="sub-name">Wedding Sherwani</div><div class="sub-count">89 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="30" height="30"><path d="M3 16l2-8h11l3 5-2 3H5a2 2 0 0 1-2-3v0z"/><path d="M18 16l1 4H3"/></svg></div><div class="sub-name">Dhoti & Lungi</div><div class="sub-count">41 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ WOMEN FASHION SUBCATEGORIES ══ -->
+    <div class="sub-section" id="women-fashion">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #fce7f3;"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="26" height="26"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg></div>
+        <div class="sub-section-info">
+          <h3>Women Fashion</h3>
+          <p>2,180 products · 145 shops available</p>
+        </div>
+        <a href="#" class="view-all pink">View All Products →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg></div><div class="sub-name">Saree</div><div class="sub-count">420 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><path d="M12 2l-3 5H5l2 13h10l2-13h-4l-3-5z"/></svg></div><div class="sub-name">Salwar Suit</div><div class="sub-count">310 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><polyline points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="12" y2="9"/></svg></div><div class="sub-name">Lehenga Choli</div><div class="sub-count">198 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div><div class="sub-name">Kurti & Top</div><div class="sub-count">275 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div><div class="sub-name">Western Wear</div><div class="sub-count">156 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><path d="M12 2l-2 4H6l-2 4h4v12h8V10h4L18 6h-4l-2-4z"/></svg></div><div class="sub-name">Winter Wear</div><div class="sub-count">112 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></div><div class="sub-name">Night Wear</div><div class="sub-count">89 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9z"/></svg></div><div class="sub-name">Dupatta & Stole</div><div class="sub-count">134 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="sub-name">Bridal Wear</div><div class="sub-count">176 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#be185d" stroke-width="2" width="30" height="30"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg></div><div class="sub-name">Maternity Wear</div><div class="sub-count">62 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ KIDS WEAR SUBCATEGORIES ══ -->
+    <div class="sub-section" id="kids-wear">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #d1fae5;"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="26" height="26"><circle cx="12" cy="7" r="4"/><path d="M5.5 21.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/></svg></div>
+        <div class="sub-section-info">
+          <h3>Kids Wear</h3>
+          <p>890 products · 68 shops available</p>
+        </div>
+        <a href="#" class="view-all green">View All Products →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="30" height="30"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div><div class="sub-name">Infant (0–2 yrs)</div><div class="sub-count">145 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="30" height="30"><circle cx="12" cy="7" r="4"/><path d="M5.5 21.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/></svg></div><div class="sub-name">Boys (3–10 yrs)</div><div class="sub-count">198 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="30" height="30"><circle cx="12" cy="7" r="4"/><path d="M5.5 21.5c0-3.6 2.9-6.5 6.5-6.5s6.5 2.9 6.5 6.5"/><line x1="9" y1="21" x2="15" y2="21"/></svg></div><div class="sub-name">Girls (3–10 yrs)</div><div class="sub-count">214 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="30" height="30"><path d="M4 20V8l8-4 8 4v12"/><path d="M9 20v-8h6v8"/><rect x="10" y="4" width="4" height="4"/></svg></div><div class="sub-name">School Uniform</div><div class="sub-count">86 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="30" height="30"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div class="sub-name">Party Wear</div><div class="sub-count">124 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="30" height="30"><polyline points="13 2 13 9 20 9"/><path d="M21 14a9 9 0 1 1-18 0 9 9 0 0 1 18 0z"/></svg></div><div class="sub-name">Sports Wear</div><div class="sub-count">67 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" width="30" height="30"><line x1="12" y1="2" x2="12" y2="6"/><line x1="12" y1="18" x2="12" y2="22"/><line x1="4.93" y1="4.93" x2="7.76" y2="7.76"/><line x1="16.24" y1="16.24" x2="19.07" y2="19.07"/><line x1="2" y1="12" x2="6" y2="12"/><line x1="18" y1="12" x2="22" y2="12"/><line x1="4.93" y1="19.07" x2="7.76" y2="16.24"/><line x1="16.24" y1="7.76" x2="19.07" y2="4.93"/></svg></div><div class="sub-name">Winter Collection</div><div class="sub-count">56 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ ELECTRONICS SUBCATEGORIES ══ -->
+    <div class="sub-section" id="electronics">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="26" height="26"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <div class="sub-section-info">
+          <h3>Electronics</h3>
+          <p>560 products · 92 shops available</p>
+        </div>
+        <a href="#" class="view-all amber">View All Products →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div class="sub-name">Smartphones</div><div class="sub-count">128 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div><div class="sub-name">Laptops & PC</div><div class="sub-count">76 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><rect x="2" y="7" width="20" height="15" rx="2"/><polyline points="17 2 12 7 7 2"/></svg></div><div class="sub-name">Smart TV</div><div class="sub-count">45 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg></div><div class="sub-name">Smart Watches</div><div class="sub-count">89 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div><div class="sub-name">Cameras</div><div class="sub-count">38 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><rect x="6" y="2" width="12" height="20" rx="2"/><line x1="6" y1="10" x2="18" y2="10"/><line x1="6" y1="14" x2="18" y2="14"/></svg></div><div class="sub-name">Power Banks</div><div class="sub-count">62 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><line x1="6" y1="5" x2="6" y2="19"/><line x1="18" y1="5" x2="18" y2="19"/><line x1="6" y1="8" x2="18" y2="8"/><line x1="6" y1="16" x2="18" y2="16"/><rect x="2" y="8" width="4" height="8" rx="1"/><rect x="18" y="8" width="4" height="8" rx="1"/></svg></div><div class="sub-name">Gaming Gadgets</div><div class="sub-count">44 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="30" height="30"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="sub-name">Chargers & Cables</div><div class="sub-count">78 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ MOBILE ACCESSORIES SUBCATEGORIES ══ -->
+    <div class="sub-section" id="mobile-acc">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #fee2e2;"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="26" height="26"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+        <div class="sub-section-info">
+          <h3>Mobile Accessories</h3>
+          <p>430 products · 75 shops available</p>
+        </div>
+        <a href="#" class="view-all red">View All Products →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="30" height="30"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div><div class="sub-name">Earphones & Headphones</div><div class="sub-count">112 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="30" height="30"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div class="sub-name">Mobile Covers</div><div class="sub-count">98 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="30" height="30"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div><div class="sub-name">Tempered Glass</div><div class="sub-count">64 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="30" height="30"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div><div class="sub-name">Fast Chargers</div><div class="sub-count">55 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="30" height="30"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div><div class="sub-name">Data Cables</div><div class="sub-count">48 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="30" height="30"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><div class="sub-name">Bluetooth Speakers</div><div class="sub-count">53 products</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FEATURED CATEGORY BANNERS ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" width="22" height="22"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Special <span>Collections</span></div>
+      <div class="section-sub">Special categories for special occasions</div>
+    </div>
+  </div>
+  <div class="cat-banner-grid">
+    <div class="cat-banner blue">
+      <div class="cat-banner-text">
+        <div class="label" style="display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" width="11" height="11"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Festival Season</div>
+        <h3>Wedding &amp; Bridal Collection</h3>
+        <p>The most beautiful wedding collection — saree, lehenga &amp; sherwani, all in one place</p>
+        <button class="cat-banner-btn">Explore Collection →</button>
+      </div>
+      <div class="cat-banner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" width="80" height="80"><polyline points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="12" y2="9"/></svg></div>
+    </div>
+    <div class="cat-banner orange">
+      <div class="cat-banner-text">
+        <div class="label" style="display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" width="11" height="11"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Tech Zone</div>
+        <h3>Latest Gadgets &amp; Electronics</h3>
+        <p>Latest smartphones, earphones &amp; accessories — directly from local shops</p>
+        <button class="cat-banner-btn">Shop Gadgets →</button>
+      </div>
+      <div class="cat-banner-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" width="80" height="80"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRENDING CATEGORIES ══ -->
+<section class="section section-alt">
+  <div class="max-w">
+    <div class="section-header">
+      <div>
+        <div class="section-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="22" height="22"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg> Trending <span>Right Now</span></div>
+        <div class="section-sub">Most searched categories today</div>
+      </div>
+    </div>
+    <div class="trending-grid">
+      <div class="trending-card">
+        <div class="trending-rank">1</div>
+        <div class="trending-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="30" height="30"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg></div>
+        <div class="trending-info">
+          <div class="trending-name">Banarasi Saree</div>
+          <div class="trending-meta">2,400+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">2</div>
+        <div class="trending-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="30" height="30"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+        <div class="trending-info">
+          <div class="trending-name">Wireless Earphones</div>
+          <div class="trending-meta">1,890+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">3</div>
+        <div class="trending-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="30" height="30"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div>
+        <div class="trending-info">
+          <div class="trending-name">Men Kurta Set</div>
+          <div class="trending-meta">1,650+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">4</div>
+        <div class="trending-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="30" height="30"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+        <div class="trending-info">
+          <div class="trending-name">Mobile Cover</div>
+          <div class="trending-meta">1,420+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">5</div>
+        <div class="trending-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="30" height="30"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg></div>
+        <div class="trending-info">
+          <div class="trending-name">Kids Party Dress</div>
+          <div class="trending-meta">1,180+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">6</div>
+        <div class="trending-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="30" height="30"><path d="M2 18l4-8 3 5 3-3 3 4 3-2 2 4H2z"/><path d="M2 18h20"/></svg></div>
+        <div class="trending-info">
+          <div class="trending-name">Sports Shoes</div>
+          <div class="trending-meta">980+ searches today</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ POPULAR TAGS ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="22" height="22"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> Popular <span>Tags</span></div>
+      <div class="section-sub">Most searched keywords</div>
+    </div>
+  </div>
+  <div class="tags-cloud">
+    <div class="tag-item hot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:3px"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-5-4-9-4-9z"/><path d="M12 14c-1 0-2-.9-2-2 0-2 2-4 2-4s2 2 2 4c0 1.1-.9 2-2 2z"/></svg>Silk Saree <span class="tag-count">420</span></div>
+    <div class="tag-item hot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:3px"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-5-4-9-4-9z"/><path d="M12 14c-1 0-2-.9-2-2 0-2 2-4 2-4s2 2 2 4c0 1.1-.9 2-2 2z"/></svg>Wedding Lehenga <span class="tag-count">310</span></div>
+    <div class="tag-item">Cotton Kurta <span class="tag-count">286</span></div>
+    <div class="tag-item">Bluetooth Earphones <span class="tag-count">254</span></div>
+    <div class="tag-item hot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:3px"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-5-4-9-4-9z"/><path d="M12 14c-1 0-2-.9-2-2 0-2 2-4 2-4s2 2 2 4c0 1.1-.9 2-2 2z"/></svg>Kids Dress <span class="tag-count">198</span></div>
+    <div class="tag-item">iPhone Cover <span class="tag-count">187</span></div>
+    <div class="tag-item">Sports Shoes Men <span class="tag-count">176</span></div>
+    <div class="tag-item">Salwar Suit <span class="tag-count">164</span></div>
+    <div class="tag-item">Formal Shirt <span class="tag-count">152</span></div>
+    <div class="tag-item">School Uniform <span class="tag-count">143</span></div>
+    <div class="tag-item">Tempered Glass <span class="tag-count">138</span></div>
+    <div class="tag-item hot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:3px"><path d="M12 2c0 0-4 4-4 9a4 4 0 0 0 8 0c0-5-4-9-4-9z"/><path d="M12 14c-1 0-2-.9-2-2 0-2 2-4 2-4s2 2 2 4c0 1.1-.9 2-2 2z"/></svg>Bridal Jewellery <span class="tag-count">127</span></div>
+    <div class="tag-item">Smart Watch <span class="tag-count">118</span></div>
+    <div class="tag-item">Fast Charger <span class="tag-count">112</span></div>
+    <div class="tag-item">Sandals Women <span class="tag-count">108</span></div>
+    <div class="tag-item">Kurtis Set <span class="tag-count">104</span></div>
+    <div class="tag-item">Wall Decor <span class="tag-count">98</span></div>
+    <div class="tag-item">Power Bank <span class="tag-count">94</span></div>
+    <div class="tag-item">Boys T-Shirt <span class="tag-count">88</span></div>
+    <div class="tag-item">Designer Dupatta <span class="tag-count">82</span></div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+
+<!-- FLOATING WHATSAPP -->
+<div class="float-wa">
+  <div class="float-wa-btn" title="WhatsApp Support"><svg viewBox="0 0 16 16" fill="#fff" width="28" height="28"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326zM7.994 14.521a6.573 6.573 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.557 6.557 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592zm3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.729.729 0 0 0-.529.247c-.182.198-.691.677-.691 1.654 0 .977.71 1.916.81 2.049.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232z"/></svg></div>
+</div>
+
+<script>
+// Tag click
+document.querySelectorAll('.tag-item').forEach(tag => {
+  tag.addEventListener('click', function() {
+    const text = this.textContent.trim().replace(/\d+/g,'').trim();
+    alert('Searching for: ' + text + '\n(Will redirect to product listing page in WordPress)');
+  });
+});
+
+// Sub-cat card click
+document.querySelectorAll('.sub-cat-card').forEach(card => {
+  card.addEventListener('click', function() {
+    this.style.borderColor = 'var(--primary)';
+    this.style.background = 'var(--primary-light)';
+    setTimeout(() => {
+      this.style.borderColor = '';
+      this.style.background = '';
+    }, 300);
+  });
+});
+
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
+</script>
+<script src="components.js"></script>
+</body>
+</html>

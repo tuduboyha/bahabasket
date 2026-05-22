@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Results for "kurta" – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#1a56db; --primary-dark:#1042b0; --primary-light:#e8f0fe;
+  --accent:#f97316; --accent-light:#fff7ed;
+  --whatsapp:#25D366; --whatsapp-dark:#128C7E;
+  --text-dark:#0f172a; --text-mid:#334155; --text-light:#64748b;
+  --border:#e2e8f0; --bg:#f8fafc; --white:#ffffff;
+  --success:#16a34a; --success-bg:#dcfce7;
+  --danger:#dc2626; --danger-bg:#fee2e2;
+  --warning:#d97706; --warning-bg:#fef3c7;
+  --purple:#7c3aed; --purple-bg:#f3e8ff;
+  --radius:14px; --radius-sm:8px;
+  --font-display:'Sora',sans-serif; --font-body:'Noto Sans',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-hover:0 8px 32px rgba(26,86,219,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* topbar + navbar → components.js se inject hota hai */
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:9px 22px;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-light);flex-wrap:wrap;}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ── SEARCH RESULTS HEADER ── */
+.results-header{background:var(--white);border-bottom:1px solid var(--border);padding:16px 22px;}
+.rh-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px;}
+.rh-query{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--text-dark);}
+.rh-query span{color:var(--primary);}
+.rh-count{font-size:13px;color:var(--text-light);margin-top:2px;}
+.rh-count strong{color:var(--text-dark);}
+.rh-sort{display:flex;align-items:center;gap:10px;}
+.rh-sort-label{font-size:13px;color:var(--text-light);white-space:nowrap;}
+.sort-select{border:1.5px solid var(--border);border-radius:8px;padding:7px 34px 7px 12px;font-size:13px;background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;color:var(--text-mid);outline:none;cursor:pointer;font-family:var(--font-body);transition:border-color .2s;-webkit-appearance:none;appearance:none;}
+.sort-select:focus{border-color:var(--primary);}
+/* View toggles */
+.view-toggles{display:flex;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;}
+.view-btn{width:34px;height:34px;border:none;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:background .18s,color .18s;color:var(--text-light);}
+.view-btn:hover{background:var(--primary-light);color:var(--primary);}
+.view-btn.active{background:var(--primary);color:#fff;}
+/* Related searches */
+.related-searches{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.rs-label{font-size:12.5px;color:var(--text-light);font-weight:600;flex-shrink:0;}
+.rs-chip{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:4px 12px;border-radius:16px;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .18s;}
+.rs-chip:hover{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+.search-layout{max-width:1280px;margin:0 auto;padding:22px 22px 56px;display:grid;grid-template-columns:260px 1fr;gap:22px;align-items:start;}
+
+/* ══════════════════════════════
+   FILTER SIDEBAR
+══════════════════════════════ */
+.filter-sidebar{position:sticky;top:76px;}
+.filter-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;box-shadow:var(--shadow);}
+.filter-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.filter-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text-dark);}
+.filter-clear{font-size:12px;color:var(--primary);font-weight:600;cursor:pointer;}
+.filter-clear:hover{text-decoration:underline;}
+.filter-body{padding:16px 18px;}
+.filter-section{margin-bottom:18px;}
+.filter-section:last-child{margin-bottom:0;}
+.fs-title{font-size:12px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.check-item{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 7px;border-radius:6px;transition:background .15s;}
+.check-item:hover{background:var(--bg);}
+.check-item input[type="checkbox"]{width:15px;height:15px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;}
+.check-item label{font-size:13px;color:var(--text-mid);cursor:pointer;flex:1;display:flex;align-items:center;gap:5px;}
+.cc{background:var(--bg);color:var(--text-light);font-size:11px;padding:1px 6px;border-radius:8px;font-weight:600;margin-left:auto;}
+/* Price range */
+.price-divider{text-align:center;font-size:11px;color:var(--text-light);margin:10px 0 8px;letter-spacing:.3px;}
+.price-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.price-input{width:100%;border:1.5px solid var(--border);border-radius:7px;padding:7px 10px;font-size:13px;outline:none;transition:border-color .2s;font-family:var(--font-body);}
+.price-input:focus{border-color:var(--primary);}
+/* Dual range slider */
+.dual-range{position:relative;height:22px;margin:4px 0 6px;}
+.range-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:4px;background:var(--border);border-radius:2px;}
+.range-fill{position:absolute;height:100%;background:var(--primary);border-radius:2px;}
+.dual-range .range-slider{position:absolute;width:100%;top:50%;transform:translateY(-50%);-webkit-appearance:none;appearance:none;background:transparent;pointer-events:none;height:22px;margin:0;padding:0;}
+.dual-range .range-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.22);cursor:pointer;pointer-events:all;transition:transform .15s;}
+.dual-range .range-slider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+.dual-range .range-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.22);cursor:pointer;pointer-events:all;}
+.price-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-top:2px;}
+/* Rating filter */
+.rating-filter{display:flex;flex-direction:column;}
+.rating-option{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;}
+.rating-option input{accent-color:var(--primary);cursor:pointer;}
+.rat-stars{color:#fbbf24;font-size:13px;}
+.rat-label{font-size:13px;color:var(--text-mid);}
+/* Area tags */
+.area-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.area-tag{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:4px 10px;border-radius:16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;outline:none;}
+.area-tag:hover,.area-tag.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary);font-weight:600;}
+/* Apply button */
+.btn-apply{width:100%;background:var(--primary);color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:700;transition:background .2s;margin-top:4px;}
+.btn-apply:hover{background:var(--primary-dark);}
+/* Active filter tags (in results bar) */
+.active-filters{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+.af-tag{display:flex;align-items:center;gap:4px;background:var(--primary-light);color:var(--primary);border:1px solid var(--primary);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.af-tag .rm{cursor:pointer;font-size:13px;}
+/* Mobile filter expand/collapse */
+.filter-chevron{transition:transform .3s;flex-shrink:0;color:var(--text-light);}
+.filter-card.expanded .filter-chevron{transform:rotate(180deg);}
+@media(max-width:860px){
+  .filter-header{cursor:pointer;user-select:none;}
+  .filter-body{max-height:0;overflow:hidden;padding:0;transition:max-height .35s ease,padding .35s ease;}
+  .filter-card.expanded .filter-body{max-height:2000px;padding:16px 18px;}
+}
+/* Mobile filter sidebar as overlay drawer */
+.filter-close-btn{display:none;width:28px;height:28px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);align-items:center;justify-content:center;font-size:15px;cursor:pointer;color:var(--text-mid);flex-shrink:0;transition:background .15s;}
+.filter-close-btn:hover{background:var(--danger-bg);border-color:var(--danger);color:var(--danger);}
+@media(max-width:860px){
+  .filter-sidebar.mobile-open{display:block;position:fixed;top:0;left:0;right:0;bottom:0;z-index:400;background:rgba(0,0,0,.5);}
+  .filter-sidebar.mobile-open .filter-card{position:absolute;top:0;left:0;bottom:0;width:min(320px,92vw);border-radius:0;overflow-y:auto;animation:slideIn .28s ease;box-shadow:4px 0 24px rgba(0,0,0,.18);}
+  .filter-sidebar.mobile-open .filter-body{max-height:none !important;padding:16px 18px !important;overflow-y:visible !important;transition:none !important;}
+  .filter-sidebar.mobile-open .filter-chevron{display:none;}
+  .filter-sidebar.mobile-open .filter-close-btn{display:flex;}
+}
+
+/* ══════════════════════════════
+   RESULTS AREA
+══════════════════════════════ */
+.results-area{}
+
+/* Result tabs (Products / Shops / All) */
+.result-tabs{display:flex;gap:4px;margin-bottom:18px;background:var(--white);border:1px solid var(--border);border-radius:11px;padding:4px;}
+.rt-btn{flex:1;padding:10px 14px;border-radius:8px;border:none;background:transparent;font-size:13.5px;font-weight:600;color:var(--text-light);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.rt-btn:hover{background:var(--bg);color:var(--text-dark);}
+.rt-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(26,86,219,.25);}
+.rt-count{background:rgba(255,255,255,.22);padding:1px 7px;border-radius:8px;font-size:11px;font-weight:800;}
+.rt-btn:not(.active) .rt-count{background:var(--bg);color:var(--text-light);}
+
+/* Sponsored banner */
+.sponsored-banner{background:linear-gradient(135deg,var(--accent-light),#fff7ed);border:1.5px solid #fed7aa;border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px;}
+.sb-badge{background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:5px;flex-shrink:0;white-space:nowrap;}
+.sb-content{flex:1;}
+.sb-title{font-weight:700;font-size:14px;color:var(--text-dark);margin-bottom:2px;}
+.sb-sub{font-size:12.5px;color:var(--text-light);}
+.sb-btn{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;flex-shrink:0;}
+.sb-btn:hover{background:#ea6c04;}
+
+/* ── PRODUCTS GRID ── */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
+.products-grid.list-view{grid-template-columns:1fr;}
+
+/* Product card — grid mode */
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .25s;position:relative;}
+.product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px);border-color:transparent;}
+.prod-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:pcShimmer 1.4s ease-in-out infinite;}
+@keyframes pcShimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.prod-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+.product-card:hover .prod-img-wrap img{transform:scale(1.06);}
+.prod-img-wrap .pc-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);display:flex;align-items:center;justify-content:center;width:82px;height:82px;border-radius:18px;transition:transform .4s;}
+.product-card:hover .prod-img-wrap .pc-icon{transform:translate(-50%,-50%) scale(1.08);}
+.prod-badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;color:#fff;}
+.badge-sale{background:var(--danger);}
+.badge-new{background:var(--primary);}
+.badge-hot{background:var(--accent);}
+.badge-bestseller{background:var(--success);}
+.prod-wishlist{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(255,255,255,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .2s;box-shadow:0 2px 8px rgba(0,0,0,.12);border:none;cursor:pointer;}
+.product-card:hover .prod-wishlist{opacity:1;}
+.prod-gallery-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.6);}
+.dot.active{background:#fff;width:14px;border-radius:3px;}
+.prod-body{padding:12px 14px 14px;}
+.prod-shop-row{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-light);margin-bottom:5px;}
+.shop-dot{width:6px;height:6px;border-radius:50%;background:var(--whatsapp);flex-shrink:0;}
+.prod-title{font-weight:600;font-size:13.5px;color:var(--text-dark);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.prod-price-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.prod-price{font-family:var(--font-display);font-size:19px;font-weight:800;color:var(--primary);}
+.prod-mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;}
+.prod-disc{font-size:12px;color:var(--success);font-weight:700;}
+.prod-rating{display:flex;align-items:center;gap:4px;margin-bottom:10px;}
+.stars-xs{color:#fbbf24;font-size:11px;}
+.rating-val{font-size:12px;font-weight:600;color:var(--text-dark);}
+.rating-cnt-sm{font-size:11px;color:var(--text-light);}
+.prod-inq{font-size:11px;color:var(--text-light);}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:var(--whatsapp);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;transition:background .2s,transform .1s;}
+.btn-wa:hover{background:var(--whatsapp-dark);}
+.btn-wa:active{transform:scale(.97);}
+.btn-wa svg{width:15px;height:15px;flex-shrink:0;}
+
+/* Product card — list mode */
+.products-grid.list-view .product-card{display:grid;grid-template-columns:180px 1fr;}
+.products-grid.list-view .prod-img-wrap{aspect-ratio:unset;height:100%;min-height:170px;border-radius:0;}
+.products-grid.list-view .prod-body{padding:16px 20px;display:flex;flex-direction:column;justify-content:space-between;}
+.products-grid.list-view .prod-title{-webkit-line-clamp:3;font-size:15px;}
+.products-grid.list-view .prod-price{font-size:22px;}
+.products-grid.list-view .btn-wa{width:auto;padding:10px 22px;align-self:flex-start;}
+
+/* ── SHOPS SECTION ── */
+.shops-section{display:none;}
+.shops-section.active{display:block;}
+.shops-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.shop-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;cursor:pointer;transition:all .25s;display:flex;gap:14px;align-items:flex-start;}
+.shop-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);border-color:transparent;}
+.sc-logo{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:1px solid var(--border);}
+.sc-body{flex:1;min-width:0;}
+.sc-name-row{display:flex;align-items:center;gap:7px;margin-bottom:3px;flex-wrap:wrap;}
+.sc-name{font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--text-dark);}
+.sc-verified{background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;}
+.sc-open{background:var(--success-bg);color:var(--success);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;}
+.sc-meta{font-size:12px;color:var(--text-light);margin-bottom:7px;}
+.sc-stats{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+.sc-stat{font-size:12px;color:var(--text-mid);display:flex;align-items:center;gap:3px;}
+.sc-stat strong{color:var(--text-dark);}
+.sc-actions{display:flex;gap:7px;}
+.btn-wa-shop{display:flex;align-items:center;gap:5px;background:var(--whatsapp);color:#fff;border:none;padding:7px 14px;border-radius:7px;font-size:12.5px;font-weight:700;transition:background .2s;}
+.btn-wa-shop:hover{background:var(--whatsapp-dark);}
+.btn-view-shop{display:flex;align-items:center;gap:5px;background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:7px 12px;border-radius:7px;font-size:12.5px;font-weight:600;transition:all .2s;}
+.btn-view-shop:hover{border-color:var(--primary);color:var(--primary);}
+
+/* No results */
+.no-results{text-align:center;padding:60px 20px;}
+.nr-icon{font-size:72px;margin-bottom:16px;}
+.nr-title{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text-dark);margin-bottom:8px;}
+.nr-sub{font-size:14px;color:var(--text-light);max-width:380px;margin:0 auto 24px;line-height:1.75;}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:28px;flex-wrap:wrap;gap:12px;}
+.pg-info{font-size:13px;color:var(--text-light);}
+.pg-btns{display:flex;gap:6px;align-items:center;}
+.pg-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:13.5px;font-weight:600;color:var(--text-mid);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;}
+.pg-btn:hover{border-color:var(--primary);color:var(--primary);}
+.pg-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.pg-btn.arrow{font-size:15px;}
+.pg-btn:disabled{opacity:.4;pointer-events:none;}
+
+/* Mobile filter drawer */
+.mobile-filter-btn{display:none;align-items:center;gap:7px;background:var(--white);border:1.5px solid var(--border);color:var(--text-mid);padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:600;transition:all .2s;position:relative;}
+.mobile-filter-btn:hover{border-color:var(--primary);color:var(--primary);}
+.mobile-filter-badge{position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:var(--primary);color:#fff;border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.filter-drawer{position:fixed;inset:0;z-index:300;display:none;}
+.filter-drawer.open{display:flex;}
+.fd-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);}
+.fd-panel{position:absolute;left:0;top:0;bottom:0;width:min(320px,90vw);background:var(--white);overflow-y:auto;padding:20px;animation:slideIn .28s ease;}
+@keyframes slideIn{from{transform:translateX(-100%);}to{transform:none;}}
+.fd-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;}
+
+/* Recently searched */
+.recent-searches{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:16px;box-shadow:var(--shadow);}
+.recent-title{font-size:12px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.recent-list{display:flex;flex-wrap:wrap;gap:7px;}
+.recent-item{display:flex;align-items:center;gap:5px;background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:5px 11px;border-radius:16px;font-size:12.5px;cursor:pointer;transition:all .18s;}
+.recent-item:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
+
+/* Float WA */
+.float-wa{position:fixed;bottom:26px;right:26px;z-index:999;}
+.float-wa-btn{width:52px;height:52px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.4);animation:fwaBounce 3s ease-in-out infinite;}
+@keyframes fwaBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.search-layout{grid-template-columns:240px 1fr;}}
+@media(max-width:860px){
+  .search-layout{grid-template-columns:1fr;}
+  .filter-sidebar{display:none;}
+  .mobile-filter-btn{display:flex;}
+  .nav-right .nav-link{display:none;}
+  .shops-grid{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .products-grid{grid-template-columns:1fr 1fr;}
+  .search-layout{padding:14px 14px 48px;}
+  .results-header{padding:12px 14px;}
+  .navbar{padding:0 14px;}
+  .products-grid.list-view{grid-template-columns:1fr;}
+  .products-grid.list-view .product-card{grid-template-columns:120px 1fr;}
+  .products-grid.list-view .prod-img-wrap{min-height:120px;}
+}
+@media(max-width:380px){.products-grid{grid-template-columns:1fr;}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+@keyframes popIn{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
+.product-card{animation:fadeUp .3s ease both;}
+.product-card:nth-child(1){animation-delay:.04s;}
+.product-card:nth-child(2){animation-delay:.08s;}
+.product-card:nth-child(3){animation-delay:.12s;}
+.product-card:nth-child(4){animation-delay:.16s;}
+.product-card:nth-child(5){animation-delay:.20s;}
+.product-card:nth-child(6){animation-delay:.24s;}
+.product-card:nth-child(7){animation-delay:.28s;}
+.product-card:nth-child(8){animation-delay:.32s;}
+.product-card:nth-child(9){animation-delay:.36s;}
+.product-card:nth-child(10){animation-delay:.40s;}
+.product-card:nth-child(11){animation-delay:.44s;}
+.product-card:nth-child(12){animation-delay:.48s;}
+</style>
+</head>
+<body>
+
+<!-- PINCODE / LOCATION MODAL -->
+<div id="pincodeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:20px;padding:28px 26px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:popIn .25s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:var(--text-dark);">📍 Set Your Location</div>
+      <button onclick="closePincodeModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);line-height:1;">✕</button>
+    </div>
+    <button onclick="requestLocation(true)" style="width:100%;display:flex;align-items:center;gap:12px;background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:14px 16px;cursor:pointer;margin-bottom:14px;transition:all .2s;"
+      onmouseover="this.style.background='var(--primary)';this.querySelector('.gps-text').style.color='#fff';this.querySelector('.gps-sub').style.color='rgba(255,255,255,.75)'"
+      onmouseout="this.style.background='var(--primary-light)';this.querySelector('.gps-text').style.color='var(--primary)';this.querySelector('.gps-sub').style.color='var(--text-light)'">
+      <span style="font-size:26px;">📡</span>
+      <div style="text-align:left;">
+        <div class="gps-text" style="font-size:14px;font-weight:700;color:var(--primary);">Use My Current Location</div>
+        <div class="gps-sub" style="font-size:12px;color:var(--text-light);">Auto-detect via GPS</div>
+      </div>
+    </button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <span style="font-size:12px;color:var(--text-light);">OR</span>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:13px;font-weight:600;color:var(--text-mid);display:block;margin-bottom:7px;">Enter Pincode Manually</label>
+      <div style="display:flex;gap:9px;">
+        <input type="number" id="pincodeInput" placeholder="e.g. 452001" maxlength="6"
+          style="flex:1;border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:15px;color:var(--text-dark);outline:none;font-family:'Noto Sans',sans-serif;transition:border-color .2s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"
+          onkeydown="if(event.key==='Enter')applyPincode()">
+        <button onclick="applyPincode()" style="background:var(--primary);color:#fff;border:none;padding:10px 18px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Apply</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-light);margin-bottom:8px;">Popular Areas in Indore:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;" id="popularPincodes"></div>
+    </div>
+    <!-- State indicators -->
+    <div id="locDetecting" style="display:none;margin-top:14px;padding:12px 16px;background:var(--primary-light);border-radius:10px;align-items:center;gap:10px;font-size:13px;color:var(--primary);font-weight:600;">
+      <span style="animation:spin 1s linear infinite;display:inline-block;">⏳</span> Detecting your location…
+    </div>
+    <div id="locDetected" style="display:none;margin-top:14px;padding:12px 16px;background:var(--success-bg);border-radius:10px;align-items:center;gap:10px;">
+      <span style="font-size:16px;">✅</span>
+      <div style="font-size:13px;font-weight:600;color:var(--success);" id="locAreaName">Location detected</div>
+    </div>
+    <div id="locError" style="display:none;margin-top:14px;padding:12px 16px;background:var(--danger-bg);border-radius:10px;align-items:center;gap:10px;font-size:13px;color:var(--danger);font-weight:600;">
+      <span>⚠️</span> Could not detect location. Please enter pincode manually.
+    </div>
+  </div>
+</div>
+
+<!-- SHARED HEADER — components.js se inject hota hai -->
+<div id="site-header"></div>
+<script src="components.js"></script>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
+  <span class="sep">›</span>
+  <a href="shop-directory.html">Search</a>
+  <span class="sep">›</span>
+  <span class="current">Results for "kurta"</span>
+</div>
+
+<!-- SEARCH RESULTS HEADER -->
+<div class="results-header">
+  <div class="rh-top">
+    <div>
+      <div class="rh-query">Search results for <span>"kurta"</span></div>
+      <div class="rh-count"><strong>148 products</strong> and <strong>24 shops</strong> found in <strong>Indore</strong></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <button class="mobile-filter-btn" onclick="toggleMobileFilter()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> Filters
+        <div class="mobile-filter-badge">3</div>
+      </button>
+      <div class="rh-sort">
+        <span class="rh-sort-label">Sort by:</span>
+        <select class="sort-select" id="sortSelect" onchange="sortResults(this.value)">
+          <option value="relevance">Most Relevant</option>
+          <option value="inquiries">Most Inquiries</option>
+          <option value="rating">Highest Rated</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="newest">Newest First</option>
+        </select>
+      </div>
+      <div class="view-toggles">
+        <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid View"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></button>
+        <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List View"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+      </div>
+    </div>
+  </div>
+  <!-- Related searches -->
+  <div class="related-searches">
+    <span class="rs-label">Related:</span>
+    <span class="rs-chip" onclick="setSearch('cotton kurta')">cotton kurta</span>
+    <span class="rs-chip" onclick="setSearch('kurta set')">kurta set</span>
+    <span class="rs-chip" onclick="setSearch('wedding kurta')">wedding kurta</span>
+    <span class="rs-chip" onclick="setSearch('pathani suit')">pathani suit</span>
+    <span class="rs-chip" onclick="setSearch('ethnic wear')">ethnic wear</span>
+    <span class="rs-chip" onclick="setSearch('sherwani')">sherwani</span>
+    <span class="rs-chip" onclick="setSearch('kurta pajama')">kurta pajama</span>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="search-layout">
+
+  <!-- ══ FILTER SIDEBAR ══ -->
+  <div class="filter-sidebar" id="filterSidebar">
+    <div class="filter-card" id="filterCard">
+
+      <div class="filter-header" onclick="toggleFilterMobile()">
+        <span class="filter-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Filter Products</span>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span class="filter-clear" onclick="event.stopPropagation();clearAllFilters()">Clear All</span>
+          <button class="filter-close-btn" onclick="event.stopPropagation();closeMobileFilter()" title="Close">✕</button>
+          <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+
+      <div class="filter-body">
+
+        <!-- Category -->
+        <div class="filter-section">
+          <div class="fs-title">Category</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="fc1" checked onchange="onCatChange(this)"><label for="fc1">All Categories <span class="cc">148</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc2" onchange="onCatChange(this)"><label for="fc2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion <span class="cc">86</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc3" onchange="onCatChange(this)"><label for="fc3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Women Fashion <span class="cc">12</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc4" onchange="onCatChange(this)"><label for="fc4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Kids Wear <span class="cc">8</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc5" onchange="onCatChange(this)"><label for="fc5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Electronics <span class="cc">14</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc6" onchange="onCatChange(this)"><label for="fc6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>Mobile Accessories <span class="cc">10</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc7" onchange="onCatChange(this)"><label for="fc7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Footwear <span class="cc">18</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc8" onchange="onCatChange(this)"><label for="fc8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><polygon points="6 3 18 3 22 9 12 22 2 9 6 3"/><polyline points="2 9 12 9 18 3"/><line x1="12" y1="9" x2="12" y2="22"/></svg>Jewellery <span class="cc">10</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Price Range -->
+        <div class="filter-section">
+          <div class="fs-title">Price Range (₹)</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="pr0a"><label for="pr0a">Under ₹99 <span class="cc">0</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr0b"><label for="pr0b">Under ₹199 <span class="cc">0</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr0c"><label for="pr0c">Under ₹499 <span class="cc">2</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr0d"><label for="pr0d">Under ₹999 <span class="cc">8</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr3"><label for="pr3">₹1,000 – ₹2,500 <span class="cc">3</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr4"><label for="pr4">₹2,500 – ₹5,000 <span class="cc">1</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr5"><label for="pr5">Above ₹5,000 <span class="cc">0</span></label></li>
+          </ul>
+          <div class="price-divider">Custom Range</div>
+          <div class="price-inputs">
+            <input type="number" class="price-input" placeholder="Min ₹" value="0" id="priceMin" min="0" max="10000" oninput="syncFromInputs()">
+            <input type="number" class="price-input" placeholder="Max ₹" value="10000" id="priceMax" min="0" max="10000" oninput="syncFromInputs()">
+          </div>
+          <div class="dual-range">
+            <div class="range-track"><div class="range-fill" id="rangeFill"></div></div>
+            <input type="range" class="range-slider" min="0" max="10000" value="0" id="sliderMin" oninput="syncFromSliders()">
+            <input type="range" class="range-slider" min="0" max="10000" value="10000" id="sliderMax" oninput="syncFromSliders()">
+          </div>
+          <div class="price-label"><span>₹0</span><span>₹10,000</span></div>
+        </div>
+
+        <!-- Minimum Rating -->
+        <div class="filter-section">
+          <div class="fs-title">Minimum Rating</div>
+          <div class="rating-filter">
+            <div class="rating-option"><input type="radio" name="rat" id="r4"><span class="rat-stars">★★★★★</span><span class="rat-label">4.5 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rat" id="r3"><span class="rat-stars">★★★★☆</span><span class="rat-label">4.0 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rat" id="r2"><span class="rat-stars">★★★☆☆</span><span class="rat-label">3.0 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rat" id="r0" checked><span class="rat-stars">★☆☆☆☆</span><span class="rat-label">Any Rating</span></div>
+          </div>
+        </div>
+
+        <!-- Availability -->
+        <div class="filter-section">
+          <div class="fs-title">Availability</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="av1" checked><label for="av1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>In Stock <span class="cc">136</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av2"><label for="av2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>On Sale <span class="cc">96</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av3"><label for="av3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>New Arrivals <span class="cc">24</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av4"><label for="av4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured <span class="cc">48</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av5"><label for="av5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verified Shop <span class="cc">84</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av6"><label for="av6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Open Now <span class="cc">96</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av7"><label for="av7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Home Delivery <span class="cc">72</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Discount -->
+        <div class="filter-section">
+          <div class="fs-title">Discount</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="dc1"><label for="dc1">10% or more <span class="cc">128</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc2"><label for="dc2">20% or more <span class="cc">96</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc3"><label for="dc3">30% or more <span class="cc">72</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc4"><label for="dc4">40% or more <span class="cc">48</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc5"><label for="dc5">50% or more <span class="cc">22</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Shop Area -->
+        <div class="filter-section">
+          <div class="fs-title">Shop Area</div>
+          <div class="area-tags">
+            <span class="area-tag active" onclick="toggleArea(this)">All</span>
+            <span class="area-tag" onclick="toggleArea(this)">Gandhi Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Vijay Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Sarafa Bazaar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Rajwada</span>
+            <span class="area-tag" onclick="toggleArea(this)">MG Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">Palasia</span>
+            <span class="area-tag" onclick="toggleArea(this)">Siyaganj</span>
+            <span class="area-tag" onclick="toggleArea(this)">South Tukoganj</span>
+            <span class="area-tag" onclick="toggleArea(this)">Malharganj</span>
+            <span class="area-tag" onclick="toggleArea(this)">Navlakha</span>
+            <span class="area-tag" onclick="toggleArea(this)">Khajrana</span>
+            <span class="area-tag" onclick="toggleArea(this)">Civil Lines</span>
+            <span class="area-tag" onclick="toggleArea(this)">Station Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">Bengali Square</span>
+            <span class="area-tag" onclick="toggleArea(this)">New Market</span>
+          </div>
+        </div>
+
+        <button class="btn-apply" onclick="applyFilters();if(window.innerWidth<=860)collapseFilterMobile()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13" style="vertical-align:-1px;margin-right:5px;"><polyline points="20 6 9 17 4 12"/></svg>Apply Filters</button>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ RESULTS AREA ══ -->
+  <div class="results-area">
+
+    <!-- Recently searched -->
+    <div class="recent-searches">
+      <div class="recent-title"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Your Recent Searches</div>
+      <div class="recent-list">
+        <span class="recent-item" onclick="setSearch('cotton kurta set')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> cotton kurta set</span>
+        <span class="recent-item" onclick="setSearch('blue kurta')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> blue kurta</span>
+        <span class="recent-item" onclick="setSearch('saree')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> saree</span>
+        <span class="recent-item" onclick="setSearch('bluetooth earphones')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> bluetooth earphones</span>
+        <span class="recent-item" onclick="setSearch('party dress')"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> party dress</span>
+      </div>
+    </div>
+
+    <!-- Result tabs -->
+    <div class="result-tabs">
+      <button class="rt-btn active" id="tabAll" onclick="setTab('all',this)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> All Results <span class="rt-count">172</span>
+      </button>
+      <button class="rt-btn" id="tabProducts" onclick="setTab('products',this)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><line x1="16.5" y1="9.4" x2="7.55" y2="4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg> Products <span class="rt-count">148</span>
+      </button>
+      <button class="rt-btn" id="tabShops" onclick="setTab('shops',this)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M1 21h22"/><path d="M9 21V9h6v12"/></svg> Shops <span class="rt-count">24</span>
+      </button>
+    </div>
+
+    <!-- Sponsored banner -->
+    <div class="sponsored-banner">
+      <span class="sb-badge"><svg width="11" height="11" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Sponsored</span>
+      <div class="sb-content">
+        <div class="sb-title">Sharma Cloth House — Premium Kurta Collection 2024</div>
+        <div class="sb-sub"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:2px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Gandhi Nagar, Indore · 240 products · ★ 4.8 · Open Now</div>
+      </div>
+      <button class="sb-btn" onclick="window.location='shop-profile.html'">Visit Shop →</button>
+    </div>
+
+    <!-- Products grid -->
+    <div id="productsSection">
+      <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px;flex-wrap:wrap;box-shadow:var(--shadow);">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span id="resultCount" style="font-size:13px;color:var(--text-mid);white-space:nowrap;">Showing <strong style="color:var(--text-dark);">12</strong> products</span>
+          <div class="active-filters" id="activeFilters">
+            <span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>In Stock <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>
+            <span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>All Areas <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>
+          </div>
+        </div>
+      </div>
+      <div id="localBanner" style="display:none;background:linear-gradient(135deg,var(--primary-light),#dbeafe);border:1.5px solid rgba(26,86,219,.2);border-radius:12px;padding:12px 16px;margin-bottom:14px;align-items:center;gap:12px;flex-wrap:wrap;animation:fadeIn .3s ease;"></div>
+      <div class="products-grid" id="productsGrid"></div>
+      <div id="noResults" style="display:none;text-align:center;padding:48px 20px;flex-direction:column;align-items:center;">
+        <div style="font-size:56px;margin-bottom:14px;">🔍</div>
+        <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--text-dark);margin-bottom:8px;">No products found</div>
+        <div style="font-size:13.5px;color:var(--text-light);max-width:340px;line-height:1.7;">Try adjusting your filters or <span onclick="clearAllFilters()" style="color:var(--primary);font-weight:700;cursor:pointer;">clear all filters</span> to see more results.</div>
+      </div>
+    </div>
+
+    <!-- All-tab shops divider (only visible in All Results mode) -->
+    <div id="shopsDivider" style="display:none;margin:28px 0 18px;display:none;">
+      <div style="display:flex;align-items:center;gap:12px;">
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+        <span style="font-size:13px;font-weight:700;color:var(--text-mid);white-space:nowrap;display:flex;align-items:center;gap:6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M1 21h22"/><path d="M9 21V9h6v12"/></svg>
+          Matching Shops <span style="background:var(--primary);color:#fff;font-size:11px;padding:1px 7px;border-radius:20px;font-weight:700;">24</span>
+        </span>
+        <div style="flex:1;height:1px;background:var(--border);"></div>
+      </div>
+    </div>
+
+    <!-- Shops section -->
+    <div class="shops-section" id="shopsSection">
+      <div style="margin-bottom:14px;font-size:14px;font-weight:600;color:var(--text-mid);">
+        Found <strong style="color:var(--text-dark);">24 shops</strong> matching "kurta" in Indore
+      </div>
+      <div class="shops-grid" id="shopsGrid"></div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="paginationWrap">
+      <div class="pg-info">Showing 1–12 of 148 products</div>
+      <div class="pg-btns">
+        <button class="pg-btn arrow" disabled>←</button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn" onclick="goPage(2)">2</button>
+        <button class="pg-btn" onclick="goPage(3)">3</button>
+        <button class="pg-btn" onclick="goPage(4)">4</button>
+        <span style="color:var(--text-light);font-size:14px;padding:0 4px;">…</span>
+        <button class="pg-btn" onclick="goPage(13)">13</button>
+        <button class="pg-btn arrow" onclick="goPage(2)">→</button>
+      </div>
+    </div>
+
+  </div><!-- /results-area -->
+</div><!-- /search-layout -->
+
+<!-- MOBILE FILTER DRAWER -->
+<div class="filter-drawer" id="filterDrawer">
+  <div class="fd-overlay" onclick="closeMobileFilter()"></div>
+  <div class="fd-panel">
+    <button class="fd-close" onclick="closeMobileFilter()">✕</button>
+    <h3 style="font-family:var(--font-display);font-size:17px;font-weight:800;margin-bottom:16px;padding-top:4px;display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg> Filter Results</h3>
+    <!-- Category -->
+    <div style="margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:10px;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg> Category</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;">
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;">Men Fashion</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;font-weight:500;cursor:pointer;" onclick="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)';this.style.color='var(--primary)'">Kurta Sets</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;font-weight:500;cursor:pointer;" onclick="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)';this.style.color='var(--primary)'">Ethnic Wear</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;font-weight:500;cursor:pointer;" onclick="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)';this.style.color='var(--primary)'">Sherwani</span>
+      </div>
+    </div>
+    <!-- Price -->
+    <div style="margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:10px;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Price Range</div>
+      <div style="display:flex;gap:8px;">
+        <input type="number" class="price-input" placeholder="Min ₹" style="flex:1;">
+        <span style="color:var(--text-light);align-self:center;">–</span>
+        <input type="number" class="price-input" placeholder="Max ₹" style="flex:1;">
+      </div>
+    </div>
+    <!-- Rating -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:10px;display:flex;align-items:center;gap:6px;"><svg width="13" height="13" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Minimum Rating</div>
+      <div style="display:flex;gap:7px;">
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:700;cursor:pointer;">4★+</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;cursor:pointer;">3★+</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;cursor:pointer;">Any</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button style="flex:1;padding:11px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="closeMobileFilter()">Reset</button>
+      <button style="flex:1;padding:11px;border-radius:9px;background:var(--primary);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;" onclick="closeMobileFilter()">Apply Filters</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHARED FOOTER + FLOAT-WA — components.js se inject hota hai -->
+<div id="site-footer"></div>
+<script>injectComponents();</script>
+
+<script>
+// ── PRODUCTS DATA ──
+const allProducts = [
+  {name:"Men's Premium Cotton Kurta Set",price:599,mrp:999,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/kurta,india?lock=101",shop:"Sharma Cloth House",rating:4.8,reviews:124,inq:286,badge:"bestseller",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
+  {name:"Banarasi Silk Kurta – Festive Edition",price:1299,mrp:2199,disc:"41%",discNum:41,img:"https://loremflickr.com/300/300/silk,fashion?lock=102",shop:"Meera Saree Center",rating:4.7,reviews:88,inq:142,badge:"hot",category:"Men Fashion",cat:"men-fashion",area:"Sarafa Bazaar",instock:1,verified:1,open:1,delivery:1},
+  {name:"Men's Linen Kurta – Summer Collection",price:449,mrp:699,disc:"36%",discNum:36,img:"https://loremflickr.com/300/300/linen,fashion?lock=103",shop:"Sharma Cloth House",rating:4.6,reviews:72,inq:98,badge:"new",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
+  {name:"Embroidered Nehru Collar Kurta",price:899,mrp:1499,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/embroidery,india?lock=104",shop:"Royal Ethnic Wear",rating:4.5,reviews:56,inq:76,badge:"",category:"Men Fashion",cat:"men-fashion",area:"MG Road",instock:1,verified:1,open:1,delivery:0},
+  {name:"Men's Cotton Kurta Pajama Set – White",price:549,mrp:899,disc:"39%",discNum:39,img:"https://loremflickr.com/300/300/cotton,india?lock=105",shop:"Gandhi Nagar Cloths",rating:4.4,reviews:48,inq:64,badge:"sale",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:0,delivery:1},
+  {name:"Wedding Sherwani Kurta – Heavy Work",price:3499,mrp:5500,disc:"36%",discNum:36,img:"https://loremflickr.com/300/300/wedding,fashion?lock=106",shop:"Sharma Cloth House",rating:4.9,reviews:96,inq:188,badge:"bestseller",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
+  {name:"Men's Pathani Kurta Suit – Eid Special",price:799,mrp:1299,disc:"38%",discNum:38,img:"https://loremflickr.com/300/300/ethnic,fashion?lock=107",shop:"Fashion Hub Indore",rating:4.5,reviews:42,inq:58,badge:"hot",category:"Men Fashion",cat:"men-fashion",area:"Vijay Nagar",instock:1,verified:0,open:1,delivery:1},
+  {name:"Casual Linen Kurta – Checks Pattern",price:399,mrp:649,disc:"38%",discNum:38,img:"https://loremflickr.com/300/300/casual,fashion?lock=108",shop:"Style Street",rating:4.3,reviews:34,inq:44,badge:"new",category:"Men Fashion",cat:"men-fashion",area:"Palasia",instock:1,verified:0,open:1,delivery:0},
+  {name:"Printed Cotton Kurta – Floral Design",price:349,mrp:599,disc:"42%",discNum:42,img:"https://loremflickr.com/300/300/textile,india?lock=109",shop:"Vijay Nagar Fashions",rating:4.2,reviews:28,inq:36,badge:"sale",category:"Men Fashion",cat:"men-fashion",area:"Vijay Nagar",instock:1,verified:0,open:1,delivery:1},
+  {name:"Heavy Embroidered Festival Kurta",price:1499,mrp:2499,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/festival,fashion?lock=110",shop:"Royal Ethnic Wear",rating:4.6,reviews:62,inq:84,badge:"",category:"Men Fashion",cat:"men-fashion",area:"MG Road",instock:1,verified:1,open:1,delivery:0},
+  {name:"Men's Dhoti Kurta Traditional Set",price:649,mrp:1099,disc:"41%",discNum:41,img:"https://loremflickr.com/300/300/traditional,india?lock=111",shop:"Gandhi Nagar Cloths",rating:4.4,reviews:38,inq:52,badge:"",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:0,verified:1,open:0,delivery:1},
+  {name:"Slim Fit Bandhgala Kurta Jacket",price:1199,mrp:1999,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/formal,fashion?lock=112",shop:"Sharma Cloth House",rating:4.7,reviews:54,inq:72,badge:"hot",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
+];
+
+const allShops = [
+  {name:"Sharma Cloth House",cat:"Men Fashion",rating:4.8,reviews:124,products:240,inq:1240,emoji:"👔",color:"#1a56db",area:"Gandhi Nagar",open:true,verified:true,desc:"Premium Men's Ethnic & Western Wear. Wholesale & Retail since 1998."},
+  {name:"Royal Ethnic Wear",cat:"Men Fashion",rating:4.6,reviews:88,products:180,inq:860,emoji:"👗",color:"#7c3aed",area:"MG Road",open:true,verified:true,desc:"Exclusive ethnic collection for men. Kurtas, Sherwanis, Pathani Suits."},
+  {name:"Gandhi Nagar Cloths",cat:"Men & Women Fashion",rating:4.5,reviews:72,products:320,inq:640,emoji:"🛍️",color:"#f97316",area:"Gandhi Nagar",open:false,verified:true,desc:"Complete family fashion store. Best prices in Gandhi Nagar market."},
+  {name:"Fashion Hub Indore",cat:"Men Fashion",rating:4.4,reviews:56,products:150,inq:520,emoji:"🏪",color:"#059669",area:"Vijay Nagar",open:true,verified:false,desc:"Trendy kurta and ethnic wear for all occasions. Fast WhatsApp delivery."},
+];
+
+const badgeMap = {
+  bestseller:{cls:'badge-bestseller',text:`<svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Bestseller`},
+  hot:{cls:'badge-hot',text:`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Hot`},
+  new:{cls:'badge-new',text:`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>New`},
+  sale:{cls:'badge-sale',text:`<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><line x1="19" y1="5" x2="5" y2="19"/><circle cx="6.5" cy="6.5" r="2.5"/><circle cx="17.5" cy="17.5" r="2.5"/></svg>Sale`},
+  '':null,
+};
+
+// ── ICON HELPERS ──
+const HEART_OUT = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+const HEART_FILL = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
+function toggleWish(btn){
+  const on = btn.dataset.w === '1';
+  btn.dataset.w = on ? '' : '1';
+  btn.innerHTML = on ? HEART_OUT : HEART_FILL;
+}
+
+// ── BUILD PRODUCTS ──
+function buildProducts(data){
+  // Apply current sort
+  const sorted = [...data];
+  const sv = typeof currentSort !== 'undefined' ? currentSort : 'relevance';
+  if(sv === 'price_asc') sorted.sort((a,b) => a.price - b.price);
+  else if(sv === 'price_desc') sorted.sort((a,b) => b.price - a.price);
+  else if(sv === 'rating') sorted.sort((a,b) => b.rating - a.rating);
+  else if(sv === 'inquiries') sorted.sort((a,b) => b.inq - a.inq);
+  else if(sv === 'newest') sorted.reverse();
+  // ── Local bias: relevance sort mein local shop products pehle ──
+  if(sv === 'relevance' && typeof userLocationData !== 'undefined' && userLocationData && (userLocationData.shopAreas||[]).length){
+    const _localNames = getLocalShopNames(userLocationData.shopAreas);
+    sorted.sort(function(a,b){
+      const aL = _localNames.some(function(s){ return a.shop.toLowerCase().includes(s); });
+      const bL = _localNames.some(function(s){ return b.shop.toLowerCase().includes(s); });
+      return (aL === bL) ? 0 : aL ? -1 : 1;
+    });
+  }
+  data = sorted;
+
+  const grid = document.getElementById('productsGrid');
+  const isListView = grid.classList.contains('list-view');
+  const ICON_BG  = {bestseller:'#dcfce7',hot:'#fff7ed',new:'#e8f0fe',sale:'#fee2e2','':`#f1f5f9`};
+  const ICON_STR = {bestseller:'#16a34a',hot:'#f97316',new:'#1a56db',sale:'#dc2626','':`#94a3b8`};
+  const shirt = (bg,s) => `<div class="pc-icon" style="background:${bg};display:none;"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="${s}" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.86H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.86l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div>`;
+  const storeSVG = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M1 21h22"/><path d="M9 21V9h6v12"/></svg>`;
+  const msgSVG   = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
+  const waSVG    = `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  const eyeSVG   = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  grid.innerHTML = data.map((p,i) => {
+    const b  = badgeMap[p.badge];
+    const bg = ICON_BG[p.badge]  || ICON_BG[''];
+    const st = ICON_STR[p.badge] || ICON_STR[''];
+    const _isLocal = typeof userLocationData !== 'undefined' && userLocationData && (userLocationData.shopAreas||[]).length &&
+      getLocalShopNames(userLocationData.shopAreas).some(function(s){ return p.shop.toLowerCase().includes(s); });
+    return `
+    <div class="product-card" onclick="window.location='product-detail.html'">
+      <div class="prod-img-wrap">
+        <img src="${p.img}" alt="${p.name}" loading="lazy" onload="this.closest('.prod-img-wrap').style.animation='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        ${shirt(bg,st)}
+        ${b ? `<span class="prod-badge ${b.cls}">${b.text}</span>` : ''}
+        <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Save">${HEART_OUT}</button>
+        ${_isLocal ? `<span style="position:absolute;bottom:8px;left:8px;background:rgba(26,86,219,.88);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:5px;backdrop-filter:blur(3px);letter-spacing:.2px;">📍 Near You</span>` : ''}
+        <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+      </div>
+      <div class="prod-body">
+        <div class="prod-shop-row"><span class="shop-dot"></span>${p.shop}</div>
+        <div class="prod-title">${p.name}</div>
+        <div class="prod-price-row">
+          <span class="prod-price">₹${p.price.toLocaleString('en-IN')}</span>
+          <span class="prod-mrp">₹${p.mrp.toLocaleString('en-IN')}</span>
+          <span class="prod-disc">${p.disc} Off</span>
+        </div>
+        <div class="prod-rating">
+          <span class="stars-xs">★★★★★</span>
+          <span class="rating-val">${p.rating}</span>
+          <span class="rating-cnt-sm">(${p.reviews})</span>
+          <span class="prod-inq">· ${msgSVG}${p.inq}</span>
+        </div>
+        <button class="btn-wa" onclick="event.stopPropagation();openWAProduct('${p.name}','${p.shop}')">${waSVG} WhatsApp</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── BUILD SHOPS ──
+function buildShops(){
+  const grid = document.getElementById('shopsGrid');
+  const mapPinSVG = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>`;
+  const starSVG   = `<svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`;
+  const pkgSVG    = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><line x1="16.5" y1="9.4" x2="7.55" y2="4.24"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`;
+  const msgSVG    = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
+  const waSVG     = `<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
+  const chkSVG    = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const storeLogo = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M1 21h22"/><path d="M9 21V9h6v12"/></svg>`;
+
+  // ── Local bias: user ke area ki shops pehle ──
+  const _shopsSorted = [...allShops];
+  if(userLocationData && (userLocationData.shopAreas||[]).length){
+    const _localShopNames = getLocalShopNames(userLocationData.shopAreas);
+    _shopsSorted.sort(function(a,b){
+      const aL = _localShopNames.some(function(n){ return a.name.toLowerCase().includes(n); });
+      const bL = _localShopNames.some(function(n){ return b.name.toLowerCase().includes(n); });
+      return (aL === bL) ? 0 : aL ? -1 : 1;
+    });
+  }
+
+  grid.innerHTML = _shopsSorted.map(function(s){
+    const _isLocalShop = userLocationData && (userLocationData.shopAreas||[]).length &&
+      getLocalShopNames(userLocationData.shopAreas).some(function(n){ return s.name.toLowerCase().includes(n); });
+    return `
+    <div class="shop-card" onclick="window.location='shop-profile.html'" style="${_isLocalShop ? 'border-color:rgba(26,86,219,.3);box-shadow:0 0 0 2px rgba(26,86,219,.08),var(--shadow);' : ''}">
+      <div class="sc-logo" style="background:linear-gradient(135deg,${s.color},${s.color}aa);">${storeLogo}</div>
+      <div class="sc-body">
+        <div class="sc-name-row">
+          <span class="sc-name">${s.name}</span>
+          ${s.verified ? `<span class="sc-verified">${chkSVG}Verified</span>` : ''}
+          ${s.open ? `<span class="sc-open"><svg width="8" height="8" viewBox="0 0 24 24" fill="#16a34a" stroke="none" style="vertical-align:-1px;margin-right:3px;"><circle cx="12" cy="12" r="12"/></svg>Open</span>` : '<span style="background:var(--danger-bg);color:var(--danger);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;">Closed</span>'}
+          ${_isLocalShop ? `<span style="background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">📍 Near You</span>` : ''}
+        </div>
+        <div class="sc-meta">${mapPinSVG}${s.area}, Indore &middot; ${s.cat}</div>
+        <div class="sc-stats">
+          <span class="sc-stat">${starSVG}<strong>${s.rating}</strong> (${s.reviews})</span>
+          <span class="sc-stat">${pkgSVG}<strong>${s.products}</strong> products</span>
+          <span class="sc-stat">${msgSVG}<strong>${s.inq.toLocaleString('en-IN')}+</strong> inquiries</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--text-light);margin-bottom:10px;line-height:1.5;">${s.desc}</div>
+        <div class="sc-actions">
+          <button class="btn-wa-shop" onclick="event.stopPropagation();openWAShop('${s.name}')">${waSVG} WhatsApp</button>
+          <button class="btn-view-shop" onclick="event.stopPropagation();window.location='shop-profile.html'">View Shop →</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── LOCATION STATE ──
+let userLocationData = null;
+
+// ── TABS ──
+let currentTab = 'all';
+function setTab(tab, btn){
+  currentTab = tab;
+  document.querySelectorAll('.rt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const ps = document.getElementById('productsSection');
+  const ss = document.getElementById('shopsSection');
+  const pg = document.getElementById('paginationWrap');
+  const sd = document.getElementById('shopsDivider');
+  if(tab === 'shops'){
+    ps.style.display = 'none';
+    ss.classList.add('active');
+    pg.style.display = 'none';
+    sd.style.display = 'none';
+  } else if(tab === 'products'){
+    ps.style.display = 'block';
+    ss.classList.remove('active');
+    pg.style.display = '';
+    sd.style.display = 'none';
+  } else {
+    ps.style.display = 'block';
+    ss.classList.add('active');
+    pg.style.display = '';
+    sd.style.display = 'block';
+  }
+}
+
+// ── VIEW TOGGLE ──
+function setView(view){
+  const grid = document.getElementById('productsGrid');
+  document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+  document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
+  if(view === 'list'){
+    grid.classList.add('list-view');
+  } else {
+    grid.classList.remove('list-view');
+  }
+  updateFilters();
+}
+
+// ── SORT ──
+let currentSort = 'relevance';
+function sortResults(val){
+  currentSort = val;
+  updateFilters();
+}
+
+// ── FILTERS ──
+
+// Category mutual exclusion (UI only — apply via button)
+function onCatChange(el){
+  const specific = ['fc2','fc3','fc4','fc5','fc6','fc7','fc8'];
+  if(el.id === 'fc1'){
+    if(el.checked) specific.forEach(id => document.getElementById(id).checked = false);
+  } else {
+    if(el.checked) document.getElementById('fc1').checked = false;
+    const anyChecked = specific.some(id => document.getElementById(id).checked);
+    if(!anyChecked) document.getElementById('fc1').checked = true;
+  }
+}
+
+// Area tag selection (UI only — apply via button)
+function toggleArea(el){
+  document.querySelectorAll('.area-tags .area-tag').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Dual range slider sync (UI only)
+function updateRangeFill(){
+  const min = +document.getElementById('sliderMin').value;
+  const max = +document.getElementById('sliderMax').value;
+  const fill = document.getElementById('rangeFill');
+  if(fill){
+    fill.style.left  = (min / 10000 * 100) + '%';
+    fill.style.width = ((max - min) / 10000 * 100) + '%';
+  }
+}
+function syncFromSliders(){
+  let min = +document.getElementById('sliderMin').value;
+  let max = +document.getElementById('sliderMax').value;
+  if(min > max){ const t=min; min=max; max=t;
+    document.getElementById('sliderMin').value = min;
+    document.getElementById('sliderMax').value = max; }
+  document.getElementById('priceMin').value = min;
+  document.getElementById('priceMax').value = max;
+  updateRangeFill();
+}
+function syncFromInputs(){
+  let min = Math.min(10000, Math.max(0, +document.getElementById('priceMin').value || 0));
+  let max = Math.min(10000, Math.max(0, +document.getElementById('priceMax').value || 10000));
+  if(min > max) min = max;
+  document.getElementById('sliderMin').value = min;
+  document.getElementById('sliderMax').value = max;
+  updateRangeFill();
+}
+
+// Apply Filters (called by button)
+function applyFilters(){
+  const allCat = document.getElementById('fc1').checked;
+  const catMap = {fc2:'men-fashion',fc3:'women-fashion',fc4:'kids-wear',fc5:'electronics',fc6:'mobile-accessories',fc7:'footwear',fc8:'jewellery'};
+  const selCats = [];
+  if(!allCat) Object.entries(catMap).forEach(([id,cat])=>{ if(document.getElementById(id).checked) selCats.push(cat); });
+
+  const priceRanges = [
+    {id:'pr0a',min:0,   max:98,        label:'Under ₹99'},
+    {id:'pr0b',min:0,   max:198,       label:'Under ₹199'},
+    {id:'pr0c',min:0,   max:498,       label:'Under ₹499'},
+    {id:'pr0d',min:0,   max:998,       label:'Under ₹999'},
+    {id:'pr3', min:1000,max:2499,      label:'₹1,000 – ₹2,500'},
+    {id:'pr4', min:2500,max:4999,      label:'₹2,500 – ₹5,000'},
+    {id:'pr5', min:5000,max:Infinity,  label:'Above ₹5,000'},
+  ];
+  const selPrices = priceRanges.filter(r => document.getElementById(r.id).checked);
+  const sliderMin = +document.getElementById('priceMin').value || 0;
+  const sliderMax = +document.getElementById('priceMax').value || 10000;
+  const sliderActive = sliderMin > 0 || sliderMax < 10000;
+
+  const minRating = document.getElementById('r4').checked ? 4.5
+    : document.getElementById('r3').checked ? 4.0
+    : document.getElementById('r2').checked ? 3.0 : 0;
+
+  const needInStock   = document.getElementById('av1').checked;
+  const needOnSale    = document.getElementById('av2').checked;
+  const needNewArr    = document.getElementById('av3').checked;
+  const needFeatured  = document.getElementById('av4').checked;
+  const needVerified  = document.getElementById('av5').checked;
+  const needOpen      = document.getElementById('av6').checked;
+  const needDelivery  = document.getElementById('av7').checked;
+  const selArea = (document.querySelector('.area-tags .area-tag.active')?.textContent?.trim() || 'All');
+
+  const discLevels = [
+    {id:'dc1',min:10},{id:'dc2',min:20},{id:'dc3',min:30},{id:'dc4',min:40},{id:'dc5',min:50},
+  ];
+  const selDiscs = discLevels.filter(d => document.getElementById(d.id).checked);
+  const minDisc  = selDiscs.length ? Math.min(...selDiscs.map(d => d.min)) : 0;
+
+  const filtered = allProducts.filter(p => {
+    if(!allCat && selCats.length && !selCats.includes(p.cat)) return false;
+    if(selPrices.length && sliderActive){
+      const inChk    = selPrices.some(r => p.price >= r.min && p.price <= r.max);
+      const inSlider = p.price >= sliderMin && p.price <= sliderMax;
+      if(!inChk && !inSlider) return false;
+    } else if(selPrices.length && !selPrices.some(r => p.price >= r.min && p.price <= r.max)) return false;
+    else if(sliderActive && (p.price < sliderMin || p.price > sliderMax)) return false;
+    if(p.rating < minRating)        return false;
+    if(needInStock  && !p.instock)                              return false;
+    if(needOnSale   && p.discNum <= 0)                          return false;
+    if(needNewArr   && p.badge !== 'new')                       return false;
+    if(needFeatured && p.badge !== 'bestseller' && p.badge !== 'hot') return false;
+    if(needVerified && !p.verified)                             return false;
+    if(needOpen     && !p.open)                                 return false;
+    if(needDelivery && !p.delivery)                             return false;
+    if(minDisc > 0  && p.discNum < minDisc) return false;
+    if(selArea !== 'All' && p.area !== selArea) return false;
+    return true;
+  });
+
+  buildProducts(filtered);
+
+  // Result count
+  const rc = document.getElementById('resultCount');
+  if(rc) rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${filtered.length}</strong> product${filtered.length!==1?'s':''}`;
+
+  // No results
+  const noRes = document.getElementById('noResults');
+  if(noRes) noRes.style.display = filtered.length === 0 ? 'flex' : 'none';
+
+  // Active filter tags (af-tag style like product-listings.html)
+  const chips = [];
+  if(!allCat && selCats.length){
+    const labels = {'men-fashion':'Men Fashion','women-fashion':'Women Fashion','kids-wear':'Kids Wear','electronics':'Electronics','mobile-accessories':'Mobile Accessories','footwear':'Footwear','jewellery':'Jewellery'};
+    selCats.forEach(c => chips.push(labels[c]||c));
+  }
+  selPrices.forEach(r => chips.push(r.label));
+  if(sliderActive) chips.push(`₹${sliderMin.toLocaleString('en-IN')} – ₹${sliderMax.toLocaleString('en-IN')}`);
+  if(minRating > 0) chips.push(`${minRating}★ & above`);
+  if(needInStock)  chips.push('In Stock');
+  if(needOnSale)   chips.push('On Sale');
+  if(needNewArr)   chips.push('New Arrivals');
+  if(needFeatured) chips.push('Featured');
+  if(needVerified) chips.push('Verified Shop');
+  if(needOpen)     chips.push('Open Now');
+  if(needDelivery) chips.push('Home Delivery');
+  if(minDisc > 0)  chips.push(`${minDisc}%+ Discount`);
+  if(selArea !== 'All') chips.push(selArea);
+
+  const af = document.getElementById('activeFilters');
+  af.innerHTML = chips.map(ch =>
+    `<span class="af-tag">${ch} <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>`
+  ).join('');
+}
+
+// Keep updateFilters as alias so any stale references work
+function updateFilters(){ applyFilters(); }
+
+function clearAllFilters(){
+  document.querySelectorAll('.filter-body input[type="checkbox"]').forEach(cb => cb.checked = false);
+  ['pr0a','pr0b','pr0c','pr0d','pr3','pr4','pr5'].forEach(id => document.getElementById(id).checked = false);
+  document.getElementById('fc1').checked = true;
+  document.getElementById('av1').checked = true;
+  document.querySelectorAll('input[name="rat"]').forEach(r => r.checked = false);
+  document.getElementById('r0').checked = true;
+  document.querySelectorAll('.area-tags .area-tag').forEach(t => t.classList.remove('active'));
+  document.querySelector('.area-tags .area-tag').classList.add('active');
+  document.getElementById('priceMin').value = 0;
+  document.getElementById('priceMax').value = 10000;
+  document.getElementById('sliderMin').value = 0;
+  document.getElementById('sliderMax').value = 10000;
+  updateRangeFill();
+  buildProducts(allProducts);
+  const rc = document.getElementById('resultCount');
+  if(rc) rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${allProducts.length}</strong> products`;
+  const noRes = document.getElementById('noResults');
+  if(noRes) noRes.style.display = 'none';
+  const af = document.getElementById('activeFilters');
+  af.innerHTML = `<span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>In Stock <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span><span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>All Areas <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>`;
+}
+
+// Mobile filter sidebar toggle (product-listings.html style)
+function toggleFilterMobile(){
+  if(window.innerWidth > 860) return;
+  document.getElementById('filterCard').classList.toggle('expanded');
+}
+function collapseFilterMobile(){
+  document.getElementById('filterCard').classList.remove('expanded');
+  document.getElementById('filterSidebar').classList.remove('mobile-open');
+  document.body.style.overflow = '';
+}
+
+// ── MOBILE FILTER (sidebar as overlay drawer) ──
+function toggleMobileFilter(){
+  const sb = document.getElementById('filterSidebar');
+  sb.classList.toggle('mobile-open');
+  document.body.style.overflow = sb.classList.contains('mobile-open') ? 'hidden' : '';
+}
+function closeMobileFilter(){
+  document.getElementById('filterSidebar').classList.remove('mobile-open');
+  document.getElementById('filterDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── SEARCH ──
+function doSearch(){
+  const inp = document.getElementById('navSearchInput');
+  const q = inp ? inp.value.trim() : '';
+  if(!q) return;
+  document.querySelector('.rh-query').innerHTML = `Search results for <span>"${q}"</span>`;
+  document.querySelector('.breadcrumb .current').textContent = `Results for "${q}"`;
+  document.title = `Search Results for "${q}" – BahaBasket`;
+  updateFilters();
+}
+function clearSearch(){
+  const inp = document.getElementById('navSearchInput');
+  if(inp){ inp.value = ''; inp.focus(); }
+}
+function setSearch(q){
+  const inp = document.getElementById('navSearchInput');
+  if(inp) inp.value = q;
+  doSearch();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── PAGINATION ──
+function goPage(n){
+  document.querySelectorAll('.pg-btn:not(.arrow)').forEach((b,i) => b.classList.toggle('active', parseInt(b.textContent) === n));
+  window.scrollTo({top:document.querySelector('.results-header').offsetTop - 80, behavior:'smooth'});
+}
+
+// ── WA ──
+function openWAProduct(name, shop){
+  const msg = encodeURIComponent(`Hello ${shop}! I found your product on BahaBasket: *${name}*. Is it available?`);
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+function openWAShop(shop){
+  const msg = encodeURIComponent(`Hello ${shop}! I found your shop on BahaBasket. Please share your product catalogue.`);
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+
+// ── INIT ──
+// Overlay click → close mobile filter
+document.getElementById('filterSidebar').addEventListener('click', function(e){
+  if(e.target === this) closeMobileFilter();
+});
+buildProducts(allProducts);
+buildShops();
+// All tab default: show both products + shops
+document.getElementById('shopsSection').classList.add('active');
+document.getElementById('shopsDivider').style.display = 'block';
+// Init range fill
+updateRangeFill();
+// Init result count
+const _rc = document.getElementById('resultCount');
+if(_rc) _rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${allProducts.length}</strong> products`;
+
+// Shared navbar — search recommendation + default query
+document.addEventListener('DOMContentLoaded', function(){
+  const inp      = document.getElementById('navSearchInput');
+  const drop     = document.getElementById('searchDropdown');
+  const dropInner= document.getElementById('searchDropdownInner');
+  if(!inp) return;
+
+  // URL se query lao, nahi toh 'kurta' default
+  const urlQ = new URLSearchParams(window.location.search).get('q');
+  inp.value = urlQ || 'kurta';
+
+  // ── Dropdown close helper ──
+  function closeDrop(){ if(drop) drop.style.display='none'; }
+
+  // ── Highlight matching text ──
+  function hl(text, q){
+    const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    return text.replace(re,'<mark style="background:#fef9c3;color:var(--text-dark);border-radius:2px;padding:0 1px;">$1</mark>');
+  }
+
+  // ── Show suggestions from allProducts ──
+  function showSuggestions(q){
+    if(!drop || !dropInner) return;
+    const ql = q.toLowerCase();
+
+    // Products match
+    const matched = allProducts.filter(p =>
+      p.name.toLowerCase().includes(ql) ||
+      (p.shop||'').toLowerCase().includes(ql) ||
+      (p.category||'').toLowerCase().includes(ql)
+    ).slice(0, 6);
+
+    // Unique shop names
+    const shops = [...new Set(
+      allProducts
+        .filter(p => (p.shop||'').toLowerCase().includes(ql))
+        .map(p => p.shop)
+    )].slice(0, 3);
+
+    if(!matched.length && !shops.length){
+      dropInner.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">
+        No results for "<strong>${q}</strong>"</div>`;
+      drop.style.display = 'block';
+      return;
+    }
+
+    let html = '';
+
+    // Shops section
+    if(shops.length){
+      html += `<div style="padding:8px 16px 4px;font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.6px;">🏪 Shops</div>`;
+      shops.forEach(s => {
+        html += `<div onclick="setSearch('${s.replace(/'/g,"\\'")}');closeDrop_SR()" style="display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">
+          <span style="font-size:18px;">🏪</span>
+          <span style="font-size:13.5px;font-weight:600;">${hl(s,q)}</span>
+        </div>`;
+      });
+    }
+
+    // Products section
+    if(matched.length){
+      html += `<div style="padding:8px 16px 4px;font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.6px;${shops.length?'border-top:1px solid var(--border);':''}">📦 Products</div>`;
+      matched.forEach(p => {
+        const disc = p.mrp ? Math.round((1-p.price/p.mrp)*100) : 0;
+        html += `<div onclick="setSearch('${p.name.replace(/'/g,"\\'")}');closeDrop_SR()" style="display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">
+          <img src="${p.img}" alt="" style="width:36px;height:36px;border-radius:8px;object-fit:cover;flex-shrink:0;" onerror="this.style.background='var(--primary-light)';this.src=''">
+          <div style="flex:1;min-width:0;">
+            <div style="font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${hl(p.name,q)}</div>
+            <div style="font-size:11.5px;color:var(--text-light);">🏪 ${p.shop}</div>
+          </div>
+          <div style="text-align:right;flex-shrink:0;">
+            <div style="font-size:13px;font-weight:800;color:var(--primary);">₹${p.price}</div>
+            ${disc>0?`<div style="font-size:10px;background:#fee2e2;color:#dc2626;padding:1px 5px;border-radius:4px;font-weight:700;">${disc}% OFF</div>`:''}
+          </div>
+        </div>`;
+      });
+    }
+
+    // Footer — "See all results"
+    html += `<div style="border-top:1px solid var(--border);padding:10px 16px;">
+      <div onclick="doSearch();closeDrop_SR()" style="text-align:center;font-size:13px;font-weight:700;color:var(--primary);cursor:pointer;padding:6px;border-radius:8px;transition:background .15s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
+        🔍 See all results for "<strong>${q}</strong>"
+      </div></div>`;
+
+    dropInner.innerHTML = html;
+    drop.style.display = 'block';
+  }
+
+  // ── Expose closeDrop globally (used in onclick) ──
+  window.closeDrop_SR = closeDrop;
+
+  // ── oninput: show suggestions ──
+  inp.addEventListener('input', function(){
+    const q = this.value.trim();
+    if(q.length < 2){ closeDrop(); return; }
+    showSuggestions(q);
+  });
+
+  // ── Enter key: run search ──
+  inp.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){ doSearch(); closeDrop(); }
+  });
+
+  // ── Outside click: close dropdown ──
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.nav-search') && !e.target.closest('#searchDropdown'))
+      closeDrop();
+  });
+});
+
+// ══════════════════════════════
+//  LOCATION SYSTEM
+// ══════════════════════════════
+const PINCODE_MAP = {
+  '452001': {area:'Gandhi Nagar / Old Palasia', city:'Indore', shopAreas:['gandhi','mg'], rank:1},
+  '452002': {area:'Vijay Nagar',               city:'Indore', shopAreas:['vijay','palasia'], rank:2},
+  '452003': {area:'South Tukoganj / Sarafa',   city:'Indore', shopAreas:['sarafa','south'], rank:3},
+  '452005': {area:'MG Road / Manik Bagh',      city:'Indore', shopAreas:['mg'], rank:5},
+  '452008': {area:'Palasia / New Palasia',     city:'Indore', shopAreas:['palasia','vijay'], rank:8},
+  '452010': {area:'Khajrana / Banganga',       city:'Indore', shopAreas:['south'], rank:10},
+};
+const POPULAR_PINCODES = [
+  {code:'452001', label:'Gandhi Nagar'},
+  {code:'452002', label:'Vijay Nagar'},
+  {code:'452003', label:'South Tukoganj'},
+  {code:'452005', label:'MG Road'},
+  {code:'452008', label:'Palasia'},
+  {code:'452010', label:'Khajrana'},
+];
+
+window.addEventListener('load', function(){
+  const saved = localStorage.getItem('lbh_pincode');
+  if(saved && PINCODE_MAP[saved]){
+    applyLocationData(saved, PINCODE_MAP[saved], 'saved');
+  } else {
+    requestLocation(false);
+  }
+  buildPopularPincodes();
+});
+
+function requestLocation(fromModal){
+  if(!navigator.geolocation){
+    if(fromModal) showLocState('error');
+    return;
+  }
+  if(fromModal) showLocState('detecting');
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      const lat = pos.coords.latitude, lon = pos.coords.longitude;
+      fetch('https://nominatim.openstreetmap.org/reverse?lat='+lat+'&lon='+lon+'&format=json')
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          const pc = (d.address && (d.address.postcode || '')) || '';
+          const pincode = pc.replace(/\s/g,'').slice(0,6);
+          if(pincode && PINCODE_MAP[pincode]){
+            if(fromModal) showLocState('detected', PINCODE_MAP[pincode].area);
+            applyLocationData(pincode, PINCODE_MAP[pincode], 'gps');
+            setTimeout(function(){ if(fromModal) closePincodeModal(); }, 1200);
+          } else if(pincode){
+            const info = {
+              area: (d.address && (d.address.suburb || d.address.neighbourhood || d.address.city_district)) || 'Your Area',
+              city: (d.address && (d.address.city || d.address.town)) || 'Indore',
+              shopAreas: [], rank: 99
+            };
+            PINCODE_MAP[pincode] = info;
+            if(fromModal) showLocState('detected', info.area);
+            applyLocationData(pincode, info, 'gps');
+            setTimeout(function(){ if(fromModal) closePincodeModal(); }, 1200);
+          } else {
+            if(fromModal) showLocState('error');
+          }
+        })
+        .catch(function(){ if(fromModal) showLocState('error'); });
+    },
+    function(){ if(fromModal) showLocState('error'); },
+    {timeout:8000, maximumAge:300000}
+  );
+}
+
+function applyPincode(){
+  const val = document.getElementById('pincodeInput').value.trim();
+  if(val.length !== 6 || !/^\d{6}$/.test(val)){
+    const inp = document.getElementById('pincodeInput');
+    inp.style.borderColor = 'var(--danger)';
+    setTimeout(function(){ inp.style.borderColor = 'var(--border)'; }, 1500);
+    return;
+  }
+  const info = PINCODE_MAP[val] || {area:'Pincode '+val, city:'Indore', shopAreas:[], rank:99};
+  showLocState('detected', info.area);
+  applyLocationData(val, info, 'manual');
+  setTimeout(function(){ closePincodeModal(); }, 900);
+}
+
+function openPincodeModal(){
+  const m = document.getElementById('pincodeModal');
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  showLocState('none');
+}
+function closePincodeModal(){
+  document.getElementById('pincodeModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function buildPopularPincodes(){
+  const wrap = document.getElementById('popularPincodes');
+  if(!wrap) return;
+  wrap.innerHTML = POPULAR_PINCODES.map(function(p){
+    return `<button onclick="applyLocationData('${p.code}',PINCODE_MAP['${p.code}'],'chip');closePincodeModal()"
+      style="background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:5px 12px;border-radius:16px;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .18s;"
+      onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)';this.style.background='var(--primary-light)'"
+      onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-mid)';this.style.background='var(--bg)'"
+      >📍 ${p.label}</button>`;
+  }).join('');
+}
+
+function showLocState(state, areaName){
+  ['locDetecting','locDetected','locError'].forEach(function(id){
+    const el = document.getElementById(id);
+    if(el) el.style.display = 'none';
+  });
+  if(state === 'detecting'){
+    const el = document.getElementById('locDetecting');
+    if(el) el.style.display = 'flex';
+  } else if(state === 'detected'){
+    const el = document.getElementById('locDetected');
+    if(el){
+      el.style.display = 'flex';
+      const na = document.getElementById('locAreaName');
+      if(na && areaName) na.textContent = 'Located: ' + areaName;
+    }
+  } else if(state === 'error'){
+    const el = document.getElementById('locError');
+    if(el) el.style.display = 'flex';
+  }
+}
+
+function getLocalShopNames(shopAreas){
+  const areaShopMap = {
+    'gandhi': ['sharma cloth house','gandhi nagar cloths'],
+    'mg':     ['royal ethnic wear'],
+    'vijay':  ['fashion hub indore','vijay nagar fashions'],
+    'palasia':['style street','vijay nagar fashions'],
+    'sarafa': ['meera saree center'],
+    'south':  ['meera saree center'],
+  };
+  const names = [];
+  (shopAreas||[]).forEach(function(area){
+    (areaShopMap[area]||[]).forEach(function(n){
+      if(names.indexOf(n) === -1) names.push(n);
+    });
+  });
+  return names;
+}
+
+function applyLocationData(pincode, info, source){
+  if(!info) return;
+  userLocationData = info;
+  localStorage.setItem('lbh_pincode', pincode);
+
+  // Nav location name update
+  const navLoc = document.getElementById('navLocName');
+  if(navLoc){
+    const shortArea = info.area.split('/')[0].trim().split(' ').slice(0,2).join(' ');
+    navLoc.textContent = shortArea;
+  }
+
+  // Show local banner
+  const banner = document.getElementById('localBanner');
+  if(banner){
+    banner.style.display = 'flex';
+    banner.innerHTML =
+      `<span style="font-size:22px;flex-shrink:0;">📍</span>` +
+      `<div style="flex:1;min-width:0;">` +
+        `<div style="font-size:14px;font-weight:700;color:var(--primary-dark);">Showing local results near <strong>${info.area}</strong></div>` +
+        `<div style="font-size:12.5px;color:var(--text-mid);margin-top:2px;">Local shop products appear first &nbsp;·&nbsp; ` +
+          `<span onclick="resetLocation()" style="color:var(--primary);font-weight:600;cursor:pointer;text-decoration:underline;">Show all areas</span>` +
+        `</div>` +
+      `</div>` +
+      `<button onclick="openPincodeModal()" ` +
+        `style="background:var(--white);border:1.5px solid var(--primary);color:var(--primary);padding:7px 13px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;flex-shrink:0;white-space:nowrap;transition:all .2s;" ` +
+        `onmouseover="this.style.background='var(--primary)';this.style.color='#fff'" ` +
+        `onmouseout="this.style.background='var(--white)';this.style.color='var(--primary)'"` +
+      `>📡 Change</button>`;
+  }
+
+  // Re-render products + shops with local bias applied
+  applyFilters();
+  buildShops();
+}
+
+function resetLocation(){
+  userLocationData = null;
+  localStorage.removeItem('lbh_pincode');
+  const banner = document.getElementById('localBanner');
+  if(banner) banner.style.display = 'none';
+  const navLoc = document.getElementById('navLocName');
+  if(navLoc) navLoc.textContent = 'Indore';
+  applyFilters();
+  buildShops();
+}
+</script>
+</body>
+</html>

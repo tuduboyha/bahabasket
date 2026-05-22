@@ -1,0 +1,977 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Reviews — BahaBasket</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --primary:#1a56db; --primary-dark:#1042b0; --primary-light:#e8f0fe;
+  --accent:#f97316; --accent-light:#fff7ed;
+  --whatsapp:#25D366; --whatsapp-dark:#128C7E;
+  --text-dark:#111827; --text-mid:#374151; --text-light:#6b7280;
+  --border:#e5e7eb; --bg:#f8fafc; --white:#ffffff;
+  --card-shadow:0 2px 12px rgba(26,86,219,0.08);
+  --card-shadow-hover:0 8px 32px rgba(26,86,219,0.15);
+  --radius:14px; --radius-sm:8px;
+  --success:#16a34a; --warning:#f59e0b; --danger:#dc2626;
+}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);}
+a{text-decoration:none;color:inherit;}
+
+/* ── TOPBAR ── */
+.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:7px 22px;display:flex;align-items:center;justify-content:space-between;font-size:12.5px;gap:12px;flex-wrap:wrap;}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar .pill{background:rgba(255,255,255,.18);border-radius:50px;padding:2px 10px;font-size:11.5px;font-weight:600;}
+
+/* ── NAVBAR ── */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:16px;height:68px;position:sticky;top:0;z-index:200;box-shadow:0 2px 16px rgba(0,0,0,.06);flex-wrap:wrap;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--primary),var(--accent));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.logo-text{font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:var(--text-dark);line-height:1.1;}
+.logo-text span{color:var(--primary);}
+.logo-text small{display:block;font-size:10px;font-weight:400;color:var(--text-light);}
+.nav-search{flex:1;max-width:500px;height:44px;display:flex;align-items:center;background:var(--bg);border:2px solid var(--border);border-radius:50px;overflow:hidden;transition:all .25s;}
+.nav-search:focus-within{border-color:var(--primary);box-shadow:0 0 0 4px rgba(26,86,219,.1);background:var(--white);}
+.nav-search-icon{padding:0 8px 0 14px;color:var(--text-light);display:flex;align-items:center;}
+.nav-search input{flex:1;border:none;background:transparent;font-size:14px;color:var(--text-dark);outline:none;font-family:'Noto Sans',sans-serif;}
+.nav-search-btn{background:var(--primary);color:#fff;border:none;padding:0 20px;height:100%;font-size:13.5px;font-weight:600;cursor:pointer;transition:background .2s;}
+.nav-search-btn:hover{background:var(--primary-dark);}
+.nav-links{display:flex;align-items:center;gap:10px;margin-left:auto;}
+.nav-link-login{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--primary);border:1.5px solid var(--primary);background:var(--primary-light);transition:all .2s;}
+.nav-link-login:hover{background:var(--primary);color:#fff;}
+.nav-btn-register{background:var(--accent);color:#fff;padding:8px 16px;border-radius:8px;font-weight:600;font-size:13px;transition:background .2s;border:1.5px solid transparent;}
+.nav-btn-register:hover{background:#ea6c04;}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;font-size:13px;color:var(--text-light);}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb span{margin:0 6px;}
+
+/* ── PAGE ── */
+.page-wrap{max-width:900px;margin:0 auto;padding:32px 24px;}
+
+/* ── HEADER ── */
+.rev-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:28px;flex-wrap:wrap;gap:12px;}
+.rev-title{display:flex;align-items:center;gap:12px;}
+.rev-title h1{font-family:'Baloo 2',cursive;font-size:26px;font-weight:800;color:var(--text-dark);}
+
+/* ── STATS BAR ── */
+.rev-stats{display:flex;align-items:center;gap:0;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:0;margin-bottom:24px;overflow:hidden;}
+.rev-stat{flex:1;text-align:center;padding:16px 12px;border-right:1px solid var(--border);}
+.rev-stat:last-child{border-right:none;}
+.rev-stat .val{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;}
+.rev-stat .lbl{font-size:12px;color:var(--text-light);margin-top:2px;}
+.val-blue{color:var(--primary);}
+.val-green{color:var(--success);}
+.val-yellow{color:var(--warning);}
+.val-orange{color:var(--accent);}
+
+/* ── TABS ── */
+.rev-tabs{display:flex;gap:6px;margin-bottom:20px;flex-wrap:wrap;}
+.rev-tab{padding:8px 18px;border-radius:50px;border:1.5px solid var(--border);background:var(--white);font-size:13px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;}
+.rev-tab:hover{border-color:var(--primary);color:var(--primary);}
+.rev-tab.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.tab-cnt{background:rgba(255,255,255,.3);border-radius:50px;padding:1px 7px;font-size:11px;font-weight:800;}
+.rev-tab:not(.active) .tab-cnt{background:var(--bg);color:var(--text-light);}
+
+/* ── REVIEW CARD ── */
+.rev-list{display:flex;flex-direction:column;gap:14px;}
+.rev-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;transition:all .2s;}
+.rev-card:hover{box-shadow:var(--card-shadow);border-color:rgba(26,86,219,.2);}
+.rev-card-top{display:flex;align-items:flex-start;gap:14px;margin-bottom:12px;}
+.rev-shop-img{width:52px;height:52px;border-radius:12px;overflow:hidden;flex-shrink:0;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:26px;border:1px solid var(--border);}
+.rev-shop-info{flex:1;}
+.rev-shop-name{font-weight:700;font-size:15px;color:var(--text-dark);margin-bottom:3px;}
+.rev-shop-cat{font-size:12px;color:var(--text-light);display:flex;align-items:center;gap:4px;}
+.rev-meta{text-align:right;flex-shrink:0;}
+.rev-date{font-size:12px;color:var(--text-light);margin-bottom:6px;}
+.rev-status{font-size:11px;padding:3px 10px;border-radius:50px;font-weight:700;}
+.status-published{background:#dcfce7;color:var(--success);}
+.status-pending{background:#fef9c3;color:#ca8a04;}
+.status-rejected{background:#fee2e2;color:var(--danger);}
+
+/* Stars */
+.stars-row{display:flex;align-items:center;gap:6px;margin-bottom:8px;}
+.stars{display:flex;gap:2px;}
+.star{font-size:16px;}
+.star.filled{color:#f59e0b;}
+.star.empty{color:#d1d5db;}
+.rating-num{font-size:13px;font-weight:700;color:var(--text-dark);}
+
+/* Review text */
+.rev-text{font-size:14px;color:var(--text-mid);line-height:1.6;margin-bottom:10px;}
+.rev-product{display:inline-flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:5px 10px;font-size:12.5px;color:var(--text-mid);margin-bottom:10px;}
+.rev-product svg{flex-shrink:0;}
+
+/* Shop reply */
+.rev-reply{background:#f0f7ff;border:1px solid rgba(26,86,219,.15);border-radius:10px;padding:12px 14px;margin-top:8px;}
+.rev-reply-head{display:flex;align-items:center;gap:8px;margin-bottom:6px;font-size:12.5px;font-weight:700;color:var(--primary);}
+.rev-reply-text{font-size:13px;color:var(--text-mid);line-height:1.5;}
+
+/* Actions */
+.rev-actions{display:flex;align-items:center;gap:8px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);flex-wrap:wrap;}
+.btn-edit{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:12.5px;font-weight:600;color:var(--text-mid);cursor:pointer;transition:all .2s;font-family:'Noto Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;}
+.btn-edit:hover{border-color:var(--primary);color:var(--primary);}
+.btn-delete{padding:7px 14px;border-radius:8px;border:1.5px solid #fca5a5;background:#fef2f2;font-size:12.5px;font-weight:600;color:var(--danger);cursor:pointer;transition:all .2s;font-family:'Noto Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;}
+.btn-delete:hover{background:#fee2e2;}
+.btn-wa{padding:7px 14px;border-radius:8px;border:none;background:var(--whatsapp);color:#fff;font-size:12.5px;font-weight:700;cursor:pointer;transition:background .2s;font-family:'Noto Sans',sans-serif;display:inline-flex;align-items:center;gap:5px;}
+.btn-wa:hover{background:var(--whatsapp-dark);}
+.helpful-count{margin-left:auto;font-size:12px;color:var(--text-light);display:flex;align-items:center;gap:4px;}
+
+/* ── WRITE REVIEW CTA ── */
+.write-rev-cta{background:linear-gradient(135deg,var(--primary-light),#fff);border:1.5px solid rgba(26,86,219,.2);border-radius:var(--radius);padding:20px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px;flex-wrap:wrap;}
+.write-rev-cta h3{font-family:'Baloo 2',cursive;font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.write-rev-cta p{font-size:13px;color:var(--text-light);}
+.btn-write-rev{padding:10px 22px;border-radius:10px;border:none;background:var(--primary);color:#fff;font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans',sans-serif;display:inline-flex;align-items:center;gap:8px;white-space:nowrap;}
+.btn-write-rev:hover{background:var(--primary-dark);transform:translateY(-1px);}
+
+/* ── WRITE REVIEW MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-overlay.open{display:flex;}
+.modal{background:#fff;border-radius:20px;padding:28px 26px;max-width:500px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2);animation:popIn .25s ease;max-height:90vh;overflow-y:auto;}
+@keyframes popIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal h3{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--text-dark);margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--text-light);margin-bottom:20px;}
+.form-group{margin-bottom:16px;}
+.form-label{font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:6px;display:block;}
+.star-select{display:flex;gap:6px;margin-bottom:4px;}
+.star-select span{font-size:28px;cursor:pointer;color:#d1d5db;transition:color .15s;}
+.star-select span.active,.star-select span:hover{color:#f59e0b;}
+.form-input,.form-textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;font-family:'Noto Sans',sans-serif;color:var(--text-dark);outline:none;transition:border-color .2s;}
+.form-input:focus,.form-textarea:focus{border-color:var(--primary);}
+.form-textarea{resize:vertical;min-height:100px;}
+.modal-btns{display:flex;gap:10px;margin-top:20px;}
+.btn-cancel{flex:1;padding:12px;border:1.5px solid var(--border);border-radius:10px;background:var(--bg);font-size:13.5px;font-weight:600;color:var(--text-mid);cursor:pointer;font-family:'Noto Sans',sans-serif;}
+.btn-submit{flex:2;padding:12px;border:none;border-radius:10px;background:var(--primary);color:#fff;font-size:13.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans',sans-serif;transition:background .2s;}
+.btn-submit:hover{background:var(--primary-dark);}
+
+/* ── EMPTY STATE ── */
+.rev-empty{text-align:center;padding:70px 24px;display:none;}
+.rev-empty-icon{font-size:64px;opacity:.35;margin-bottom:16px;}
+.rev-empty h2{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;margin-bottom:8px;}
+.rev-empty p{color:var(--text-light);margin-bottom:24px;}
+
+/* ── UNDO TOAST ── */
+.undo-toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:12px 20px;border-radius:50px;display:flex;align-items:center;gap:12px;font-size:13.5px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,.25);z-index:9999;white-space:nowrap;animation:slideUp .3s ease;}
+.undo-btn{background:var(--accent);color:#fff;border:none;padding:5px 14px;border-radius:50px;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Noto Sans',sans-serif;}
+@keyframes slideUp{from{opacity:0;transform:translateX(-50%) translateY(20px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+
+/* ── FLOAT WA ── */
+.float-wa{position:fixed;bottom:24px;right:24px;width:56px;height:56px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(37,211,102,.4);cursor:pointer;z-index:999;transition:all .3s;}
+.float-wa:hover{transform:scale(1.1);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  .navbar{flex-wrap:wrap;height:auto;padding:8px 12px;}
+  .nav-search{order:3;flex:0 0 100%;max-width:100%;margin-bottom:4px;height:40px;}
+  .nav-links{margin-left:auto;}
+  .rev-stats{flex-wrap:wrap;}
+  .rev-stat{min-width:50%;}
+}
+@media(max-width:480px){
+  .rev-card-top{flex-wrap:wrap;}
+  .rev-meta{text-align:left;}
+  .rev-stats .rev-stat{min-width:50%;}
+}
+
+/* ── FOOTER ── */
+.footer { background: #0f172a; color: rgba(255,255,255,.75); padding: 56px 24px 24px; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+  max-width: 1280px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.footer-brand h3 { font-family: 'Baloo 2', cursive; font-size: 22px; color: #fff; margin-bottom: 10px; }
+.footer-brand p { font-size: 14px; line-height: 1.7; margin-bottom: 20px; }
+.footer-social { display: flex; gap: 10px; }
+.social-btn {
+  width: 36px; height: 36px;
+  background: rgba(255,255,255,.1);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: background .2s;
+  cursor: pointer;
+}
+.social-btn:hover { background: var(--primary); }
+.social-btn.fb:hover  { background: #1877f2; }
+.social-btn.ig:hover  { background: #e1306c; }
+.social-btn.x-btn:hover { background: #000; }
+.social-btn.wa:hover  { background: var(--whatsapp); }
+.footer-col h4 { font-family: 'Baloo 2', cursive; font-size: 16px; color: #fff; margin-bottom: 16px; }
+.footer-links { list-style: none; }
+.footer-links li { margin-bottom: 10px; }
+.footer-links a { font-size: 13.5px; color: rgba(255,255,255,.6); transition: color .2s; }
+.footer-links a:hover { color: #fff; }
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,.1);
+  padding-top: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: gap;
+  font-size: 13px;
+  color: rgba(255,255,255,.4);
+  max-width: 1280px;
+  margin: 0 auto;
+  gap: 12px;
+}
+.footer-bottom a { color: var(--primary); }
+
+/* ══════════════════════════════════════
+   FLOATING WHATSAPP
+══════════════════════════════════════ */
+.float-wa {
+  position: fixed;
+  bottom: 28px; right: 28px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.float-wa-btn {
+  width: 58px; height: 58px;
+  background: var(--whatsapp);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px;
+  box-shadow: 0 4px 20px rgba(37,211,102,.4);
+  cursor: pointer;
+  animation: float-bounce 3s infinite;
+  transition: transform .2s;
+}
+.float-wa-btn:hover { transform: scale(1.1); }
+@keyframes float-bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+.float-wa-tooltip {
+  background: #fff;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-dark);
+  box-shadow: 0 4px 20px rgba(0,0,0,.12);
+  white-space: nowrap;
+  border: 1px solid var(--border);
+}
+
+/* ══════════════════════════════════════
+   TESTIMONIALS
+══════════════════════════════════════ */
+.testimonials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+}
+.testimonial-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 24px;
+  border: 1px solid var(--border);
+  transition: box-shadow .2s;
+}
+.testimonial-card:hover { box-shadow: var(--card-shadow-hover); }
+.testi-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+.testi-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), #1e88e5);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  color: #fff;
+  font-weight: 700;
+  font-family: 'Baloo 2', cursive;
+  flex-shrink: 0;
+}
+.testi-name { font-weight: 700; font-size: 15px; }
+.testi-role { font-size: 12px; color: var(--text-light); }
+.testi-stars { color: #fbbf24; font-size: 14px; margin-bottom: 10px; }
+.testi-text { font-size: 14px; color: var(--text-mid); line-height: 1.6; }
+.testi-tag { margin-top: 12px; display: inline-block; background: var(--primary-light); color: var(--primary); font-size: 11px; font-weight: 600; padding: 3px 10px; border-radius: 4px; }
+
+/* ══════════════════════════════════════
+   TRUST BAR
+══════════════════════════════════════ */
+.trust-bar {
+  background: var(--primary-dark);
+  padding: 20px 24px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 10px;
+  color: rgba(255,255,255,.85);
+  font-size: 13.5px;
+  font-weight: 500;
+}
+.trust-item i { flex-shrink: 0; }
+
+/* ══════════════════════════════════════
+   HOW IT WORKS
+══════════════════════════════════════ */
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 24px;
+  position: relative;
+}
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 36px; left: 10%; right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--border), var(--primary), var(--border));
+  z-index: 0;
+}
+.step-card {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.step-num {
+  width: 72px; height: 72px;
+  background: var(--white);
+  border: 3px solid var(--primary);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Baloo 2', cursive;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0 auto 16px;
+  position: relative;
+}
+.step-num .step-emoji { font-size: 28px; line-height: 1; }
+.step-title { font-family: 'Baloo 2', cursive; font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+.step-desc { font-size: 13px; color: var(--text-light); line-height: 1.6; }
+
+/* ══════════════════════════════════════
+   RESPONSIVE
+══════════════════════════════════════ */
+@media (max-width: 900px) {
+  .navbar { padding: 0 16px; gap: 10px; flex-wrap: wrap; height: auto; min-height: 68px; padding-top: 8px; padding-bottom: 8px; }
+  .nav-links { display: flex; gap: 6px; }
+  .logo-text small { display: none; }
+  .topbar { font-size: 11px; }
+  .offers-grid { grid-template-columns: 1fr; }
+  .vendor-inner { grid-template-columns: 1fr; gap: 32px; }
+  .footer-grid { grid-template-columns: 1fr 1fr; }
+  .steps-grid::before { display: none; }
+}
+@media (max-width: 640px) {
+  /* Row 1: Logo + Nav links */
+  /* Row 2: Location pill + Search bar (full width) */
+  .navbar { padding: 8px 12px; gap: 8px; }
+  .logo-text { font-size: 15px; }
+  .logo-text small { display: none; }
+  /* Location pill smaller */
+  #navLocBtn { padding: 0 10px !important; height: 38px !important; }
+  #navLocName { max-width: 60px !important; font-size: 12px !important; }
+  /* Search bar full width on second row */
+  .nav-search { order: 3; flex: 0 0 100%; max-width: 100% !important; height: 38px !important; margin-bottom: 4px; }
+  /* Nav links compact */
+  .nav-links { order: 2; margin-left: auto; gap: 5px; }
+  .nav-link-login { padding: 6px 10px !important; font-size: 12px !important; }
+  .nav-btn-register { padding: 6px 10px !important; font-size: 12px !important; }
+  /* Location pill also second row */
+  #navLocBtn { order: 3; }
+  /* Category bar sits below 2-row navbar (~110px) */
+  #catBarWrapper { top: 110px !important; }
+}
+@media (max-width: 600px) {
+  .hero { padding: 44px 16px 56px; }
+  .section { padding: 40px 16px; }
+  .cat-grid { grid-template-columns: repeat(3, 1fr); }
+  .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .trust-bar { gap: 20px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .hero-stats { gap: 24px; }
+  .float-wa { bottom: 16px; right: 16px; }
+  .plans-grid { grid-template-columns: 1fr; }
+  .plan-card.popular { transform: none; }
+}
+@media (max-width: 400px) {
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .product-grid { grid-template-columns: 1fr; }
+}
+
+/* ── ANIMATE ON LOAD ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(24px); }
+  to { opacity:1; transform: translateY(0); }
+}
+.hero h1 { animation: fadeUp .7s ease both; }
+.hero p { animation: fadeUp .7s .15s ease both; }
+.hero-search { animation: fadeUp .7s .25s ease both; }
+.hero-tags { animation: fadeUp .7s .35s ease both; }
+.hero-stats { animation: fadeUp .7s .45s ease both; }
+
+</style>
+</head>
+<body>
+
+<!-- PINCODE MODAL -->
+<div id="pincodeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:20px;padding:28px 26px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:popIn .25s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:var(--text-dark);">📍 Set Your Location</div>
+      <button onclick="closePincodeModal()" style="background:none;border:none;font-size:22px;cursor:pointer;color:var(--text-light);line-height:1;">✕</button>
+    </div>
+    <!-- GPS Button -->
+    <button onclick="requestLocation(true)"
+      style="width:100%;display:flex;align-items:center;gap:12px;background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:14px 16px;cursor:pointer;margin-bottom:14px;transition:all .2s;"
+      onmouseover="this.style.background='var(--primary)';this.querySelector('.gps-text').style.color='#fff';this.querySelector('.gps-sub').style.color='rgba(255,255,255,.75)'"
+      onmouseout="this.style.background='var(--primary-light)';this.querySelector('.gps-text').style.color='var(--primary)';this.querySelector('.gps-sub').style.color='var(--text-light)'">
+      <span style="font-size:26px;">📡</span>
+      <div style="text-align:left;">
+        <div class="gps-text" style="font-size:14px;font-weight:700;color:var(--primary);">Use My Current Location</div>
+        <div class="gps-sub" style="font-size:12px;color:var(--text-light);">Auto-detect via GPS</div>
+      </div>
+    </button>
+    <!-- Divider -->
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <span style="font-size:12px;color:var(--text-light);">OR</span>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+    </div>
+    <!-- Pincode Input -->
+    <div style="margin-bottom:14px;">
+      <label style="font-size:13px;font-weight:600;color:var(--text-mid);display:block;margin-bottom:7px;">Enter Pincode Manually</label>
+      <div style="display:flex;gap:9px;">
+        <input type="number" id="pincodeInput" placeholder="e.g. 452001" maxlength="6"
+          style="flex:1;border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:15px;color:var(--text-dark);outline:none;font-family:'Noto Sans',sans-serif;transition:border-color .2s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"
+          onkeydown="if(event.key==='Enter')applyPincode()">
+        <button onclick="applyPincode()" style="background:var(--primary);color:#fff;border:none;padding:10px 18px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Apply</button>
+      </div>
+    </div>
+    <!-- Popular Areas -->
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-light);margin-bottom:8px;">Popular Areas in Indore:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;" id="popularPincodes"></div>
+    </div>
+  </div>
+</div>
+
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>📍 Your City's Online Marketplace</span>
+    <span class="pill">🔥 NEW: WhatsApp Shopping</span>
+  </div>
+  <div class="topbar-right">
+  </div>
+</div>
+
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="local-bazaar-hub.html" class="logo" style="text-decoration:none;">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Your Shop, Now Digital</small>
+    </div>
+  </a>
+  <!-- OLX-style location pill — LEFT of search bar -->
+  <button id="navLocBtn" onclick="openPincodeModal()"
+    style="display:flex;align-items:center;gap:7px;flex-shrink:0;height:44px;padding:0 16px;background:var(--bg);border:2px solid var(--border);border-radius:50px;cursor:pointer;transition:all .25s;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.06);"
+    onmouseover="this.style.borderColor='var(--primary)';this.style.boxShadow='0 0 0 4px rgba(26,86,219,.1), 0 4px 16px rgba(26,86,219,.12)';this.style.background='var(--white)'"
+    onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)';this.style.background='var(--bg)'">
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+    <span id="navLocName" style="font-size:13.5px;font-weight:600;color:var(--text-dark);max-width:80px;overflow:hidden;text-overflow:ellipsis;">Indore</span>
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+
+  <div class="nav-search">
+    <span class="nav-search-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    </span>
+    <input type="text" id="navSearchInput" placeholder="Search products, shops, brands..."
+      onkeydown="if(event.key==='Enter') doSearch()">
+    <button class="nav-search-btn" onclick="doSearch()"><span>Search</span></button>
+  </div>
+
+  <!-- SEARCH DROPDOWN RESULTS -->
+  <div id="searchDropdown" style="display:none;position:absolute;top:66px;left:0;right:0;background:#fff;border:1.5px solid var(--border);border-top:none;border-radius:0 0 16px 16px;box-shadow:0 16px 40px rgba(0,0,0,.12);z-index:999;max-height:420px;overflow-y:auto;">
+    <div id="searchDropdownInner" style="padding:8px 0;"></div>
+  </div>
+  <div class="nav-links">
+    <a href="login-register.html" class="nav-link-login" style="display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:8px;font-size:13.5px;font-weight:600;color:var(--primary);border:1.5px solid var(--primary);background:var(--primary-light);transition:all .2s;white-space:nowrap;box-sizing:border-box;" onmouseover="this.style.background='var(--primary)';this.style.color='#fff';" onmouseout="this.style.background='var(--primary-light)';this.style.color='var(--primary)';"><svg style="vertical-align:-6px;margin-right:8px;flex-shrink:0;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Login</a>
+    <a href="login-register.html?mode=seller" class="nav-btn-register" style="box-sizing:border-box;border:1.5px solid transparent;">+ Register Shop</a>
+  </div>
+</nav>
+
+
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">Home</a><span>›</span>
+  <a href="user-dashboard.html">My Account</a><span>›</span>
+  My Reviews
+</div>
+
+<!-- PAGE -->
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="rev-header">
+    <div class="rev-title">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <h1>My <span style="color:var(--primary);">Reviews</span></h1>
+      <span style="background:var(--primary);color:#fff;border-radius:50px;padding:3px 12px;font-size:13px;font-weight:700;" id="revCount">5 reviews</span>
+    </div>
+    <button class="btn-write-rev" onclick="openWriteModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Write a Review
+    </button>
+  </div>
+
+  <!-- STATS -->
+  <div class="rev-stats">
+    <div class="rev-stat">
+      <div class="val val-blue" id="statTotal">5</div>
+      <div class="lbl">Total Reviews</div>
+    </div>
+    <div class="rev-stat">
+      <div class="val val-yellow" id="statAvg">4.4 ★</div>
+      <div class="lbl">Avg Rating</div>
+    </div>
+    <div class="rev-stat">
+      <div class="val val-green" id="statPub">4</div>
+      <div class="lbl">Published</div>
+    </div>
+    <div class="rev-stat">
+      <div class="val val-orange" id="statPending">1</div>
+      <div class="lbl">Pending</div>
+    </div>
+  </div>
+
+  <!-- WRITE REVIEW CTA -->
+  <div class="write-rev-cta">
+    <div>
+      <h3>Share your shopping experience</h3>
+      <p>Your reviews help other buyers find trusted local shops!</p>
+    </div>
+    <button class="btn-write-rev" onclick="openWriteModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+      Write Review
+    </button>
+  </div>
+
+  <!-- TABS -->
+  <div class="rev-tabs">
+    <div class="rev-tab active" onclick="filterTab('all',this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      All <span class="tab-cnt" id="cnt-all">5</span>
+    </div>
+    <div class="rev-tab" onclick="filterTab('published',this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+      Published <span class="tab-cnt" id="cnt-pub">4</span>
+    </div>
+    <div class="rev-tab" onclick="filterTab('pending',this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      Pending <span class="tab-cnt" id="cnt-pend">1</span>
+    </div>
+    <div class="rev-tab" onclick="filterTab('5star',this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+      5 Star <span class="tab-cnt" id="cnt-5">2</span>
+    </div>
+  </div>
+
+  <!-- REVIEW LIST -->
+  <div class="rev-list" id="revList"></div>
+  <div class="rev-empty" id="revEmpty">
+    <div class="rev-empty-icon">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#d1d5db" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    </div>
+    <h2>No Reviews Yet</h2>
+    <p>You haven't written any reviews. Share your experience with local shops!</p>
+    <button class="btn-write-rev" onclick="openWriteModal()">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Write First Review
+    </button>
+  </div>
+
+</div>
+
+<!-- WRITE REVIEW MODAL -->
+<div class="modal-overlay" id="writeModal" onclick="if(event.target===this)closeWriteModal()">
+  <div class="modal">
+    <h3>Write a Review</h3>
+    <div class="modal-sub">Share your experience with this shop</div>
+
+    <div class="form-group">
+      <label class="form-label">Select Shop</label>
+      <select class="form-input" id="modalShop">
+        <option value="">Choose a shop...</option>
+        <option>Sharma Cloth House</option>
+        <option>Meera Saree Center</option>
+        <option>Digital Zone</option>
+        <option>Rani Jewels</option>
+        <option>Little Star Kids</option>
+        <option>Step In Style</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your Rating</label>
+      <div class="star-select" id="starSelect">
+        <span onclick="setRating(1)" data-val="1">★</span>
+        <span onclick="setRating(2)" data-val="2">★</span>
+        <span onclick="setRating(3)" data-val="3">★</span>
+        <span onclick="setRating(4)" data-val="4">★</span>
+        <span onclick="setRating(5)" data-val="5">★</span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Review Title</label>
+      <input type="text" class="form-input" id="modalTitle" placeholder="Summarize your experience...">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your Review</label>
+      <textarea class="form-textarea" id="modalText" placeholder="Tell others about your experience — product quality, service, delivery..."></textarea>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Product Purchased (optional)</label>
+      <input type="text" class="form-input" id="modalProduct" placeholder="e.g. Men's Cotton Kurta Set">
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeWriteModal()">Cancel</button>
+      <button class="btn-submit" onclick="submitReview()">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="vertical-align:-2px;margin-right:5px;"><polyline points="20 6 9 17 4 12"/></svg>
+        Submit Review
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- UNDO TOAST -->
+<div class="undo-toast" id="undoToast" style="display:none;">
+  <span id="undoMsg">Review deleted</span>
+  <button class="undo-btn" onclick="undoDelete()">↩ Undo</button>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <h3>🛍️ BahaBasket</h3>
+      <p>India's hyperlocal digital marketplace. Discover the best local shops in your city and connect directly on WhatsApp.</p>
+      <div class="footer-social">
+        <div class="social-btn"><svg style="vertical-align:" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg></div>
+        <div class="social-btn"><svg style="vertical-align:" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></div>
+        <div class="social-btn x-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.744l7.737-8.835L2.25 2.25h6.893l4.263 5.632 5.838-5.632zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></div>
+        <div class="social-btn wa"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg></div>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul class="footer-links">
+        <li><a href="#"><svg style="vertical-align:-2px;margin-right:5px;opacity:.7;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Shop Directory</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>All Products</a></li>
+        <li><a href="#"><svg style="vertical-align:-2px;margin-right:5px;opacity:.7;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Today's Offers</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>Categories</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>For Sellers</h4>
+      <ul class="footer-links">
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Register Shop</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Add Products</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.57a2.41 2.41 0 0 0 3.41 0l7.57-7.57a2.41 2.41 0 0 0 0-3.41L13.7 2.71a2.41 2.41 0 0 0-3.41 0z"/></svg>Membership Plans</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/><line x1="2" y1="20" x2="22" y2="20"/></svg>Seller Dashboard</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Seller Help</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Support</h4>
+      <ul class="footer-links">
+        <li><a href="#"><svg style="vertical-align:-2px;margin-right:5px;opacity:.7;" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>About Us</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.9a16 16 0 0 0 6.09 6.09l.92-.92a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>Contact Us</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>FAQ</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>Privacy Policy</a></li>
+        <li><a href="#"><svg style="font-size:13px;vertical-align:-2px;margin-right:5px;opacity:.7;" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Terms of Service</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>© 2024 BahaBasket. Made with ❤️ for India's Local Businesses.</div>
+    <div><svg style="vertical-align:-2px;margin-right:5px;flex-shrink:0;" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Secure · <svg style="vertical-align:-2px;margin-right:5px;flex-shrink:0;" width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg> WhatsApp-Powered · <svg style="vertical-align:-2px;margin-right:5px;flex-shrink:0;" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Hyperlocal · 🇮🇳 Made in India</div>
+  </div>
+</footer>
+
+<!-- FLOAT WA -->
+<a href="https://wa.me/919876543210" target="_blank" class="float-wa">
+  <svg viewBox="0 0 24 24" width="28" height="28" fill="#fff"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.122 1.522 5.863L.044 23.428a.75.75 0 00.918.943l5.878-1.543A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.727 9.727 0 01-5.031-1.404l-.36-.214-3.733.98.997-3.642-.234-.374A9.718 9.718 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>
+</a>
+
+<script>
+const REVIEWS = [
+  {id:1, shop:'Sharma Cloth House', shopEmoji:'👔', cat:"Men's Fashion", rating:5,
+   title:'Excellent quality kurtas!', text:'Bought 3 kurtas for Diwali — all excellent quality. Sharma ji was very helpful on WhatsApp. Fast delivery too!',
+   product:"Men's Premium Cotton Kurta Set", date:'12 May 2026', status:'published', helpful:8, reply:"Thank you so much! We are glad you liked our collection. Visit again for Eid collection!"},
+
+  {id:2, shop:'Meera Saree Center', shopEmoji:'👗', cat:"Women's Fashion", rating:5,
+   title:'Best saree shop in Indore!', text:"Bought a Kanjivaram saree for my sister's wedding. Stunning quality and great price. Meera ji guided me very patiently.",
+   product:"Women's Silk Saree – Kanjivaram Style", date:'8 May 2026', status:'published', helpful:12, reply:null},
+
+  {id:3, shop:'Digital Zone', shopEmoji:'📱', cat:'Electronics', rating:4,
+   title:'Good electronics shop', text:'Bought boAt headphones — good price compared to Amazon. Shop is a bit crowded but staff is helpful. Will buy again.',
+   product:'boAt Rockerz 450 Headphones', date:'2 May 2026', status:'published', helpful:5, reply:"Thank you for your feedback! We keep expanding our stock. Do visit our MG Road store!"},
+
+  {id:4, shop:'Rani Jewels', shopEmoji:'💍', cat:'Jewellery', rating:4,
+   title:'Beautiful jewellery, fair price', text:'Got silver bangles for my mother. Quality is very good and price was reasonable. Packaging was also nice.',
+   product:'Diamond Cut Silver Bangles – Set of 4', date:'28 Apr 2026', status:'published', helpful:3, reply:null},
+
+  {id:5, shop:'Little Star Kids', shopEmoji:'🧒', cat:"Kids Wear", rating:3,
+   title:'Good but delivery was slow', text:'Kids dress quality is good but it took 3 days to arrange. WhatsApp response was also a bit slow. Overall okay.',
+   product:'Frock – Summer Collection', date:'20 Apr 2026', status:'pending', helpful:0, reply:null},
+]
+
+let items = [...REVIEWS];
+let currentTab = 'all';
+let lastDeleted = null;
+let undoTimer = null;
+let editingRating = 0;
+
+function starsHtml(rating, size=16) {
+  return [1,2,3,4,5].map(i =>
+    `<span class="star ${i<=rating?'filled':'empty'}" style="font-size:${size}px;">★</span>`
+  ).join('');
+}
+
+function buildCard(r) {
+  const statusMap = {published:'status-published',pending:'status-pending',rejected:'status-rejected'};
+  const statusLabel = {published:'✓ Published',pending:'⏳ Pending',rejected:'✗ Rejected'};
+  const replyHtml = r.reply ? `
+    <div class="rev-reply">
+      <div class="rev-reply-head">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Shop Reply
+      </div>
+      <div class="rev-reply-text">${r.reply}</div>
+    </div>` : '';
+
+  return `
+    <div class="rev-card" id="rev-${r.id}">
+      <div class="rev-card-top">
+        <div class="rev-shop-img">${r.shopEmoji}</div>
+        <div class="rev-shop-info">
+          <div class="rev-shop-name">${r.shop}</div>
+          <div class="rev-shop-cat">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+            ${r.cat}
+          </div>
+        </div>
+        <div class="rev-meta">
+          <div class="rev-date">${r.date}</div>
+          <span class="rev-status ${statusMap[r.status]}">${statusLabel[r.status]}</span>
+        </div>
+      </div>
+
+      <div class="stars-row">
+        <div class="stars">${starsHtml(r.rating)}</div>
+        <span class="rating-num">${r.rating}.0</span>
+      </div>
+
+      <div style="font-weight:700;font-size:14px;color:var(--text-dark);margin-bottom:6px;">${r.title}</div>
+      <div class="rev-text">${r.text}</div>
+
+      ${r.product ? `<div class="rev-product">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+        ${r.product}</div>` : ''}
+
+      ${replyHtml}
+
+      <div class="rev-actions">
+        <button class="btn-edit" onclick="editReview(${r.id})">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit
+        </button>
+        <button class="btn-delete" onclick="deleteReview(${r.id})">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
+          Delete
+        </button>
+        <button class="btn-wa" onclick="contactShop('${r.shop}')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/></svg>
+          Contact Shop
+        </button>
+        ${r.helpful > 0 ? `<span class="helpful-count">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+          ${r.helpful} helpful
+        </span>` : ''}
+      </div>
+    </div>`;
+}
+
+function render() {
+  let filtered = items.filter(r => {
+    if(currentTab === 'all') return true;
+    if(currentTab === 'published') return r.status === 'published';
+    if(currentTab === 'pending') return r.status === 'pending';
+    if(currentTab === '5star') return r.rating === 5;
+    return true;
+  });
+
+  const list = document.getElementById('revList');
+  const empty = document.getElementById('revEmpty');
+
+  if(!filtered.length) {
+    list.innerHTML = '';
+    empty.style.display = 'block';
+  } else {
+    list.innerHTML = filtered.map(buildCard).join('');
+    empty.style.display = 'none';
+  }
+  updateStats();
+}
+
+function updateStats() {
+  const total = items.length;
+  const pub = items.filter(r => r.status === 'published').length;
+  const pend = items.filter(r => r.status === 'pending').length;
+  const avg = total ? (items.reduce((s,r) => s+r.rating,0)/total).toFixed(1) : 0;
+  const fivestar = items.filter(r => r.rating === 5).length;
+
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statAvg').textContent = avg + ' ★';
+  document.getElementById('statPub').textContent = pub;
+  document.getElementById('statPending').textContent = pend;
+  document.getElementById('revCount').textContent = total + ' review' + (total!==1?'s':'');
+  document.getElementById('cnt-all').textContent = total;
+  document.getElementById('cnt-pub').textContent = pub;
+  document.getElementById('cnt-pend').textContent = pend;
+  document.getElementById('cnt-5').textContent = fivestar;
+}
+
+function filterTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.rev-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  render();
+}
+
+function deleteReview(id) {
+  const el = document.getElementById('rev-'+id);
+  if(el) { el.style.transition='all .3s'; el.style.opacity='0'; el.style.transform='translateX(20px)'; }
+  lastDeleted = items.find(r => r.id===id);
+  setTimeout(() => { items = items.filter(r => r.id!==id); render(); showUndo(); }, 300);
+}
+
+function showUndo() {
+  const toast = document.getElementById('undoToast');
+  const msg = document.getElementById('undoMsg');
+  if(msg && lastDeleted) msg.textContent = '"' + lastDeleted.title.slice(0,30) + '" deleted';
+  toast.style.display = 'flex';
+  clearTimeout(undoTimer);
+  undoTimer = setTimeout(() => { toast.style.display='none'; lastDeleted=null; }, 5000);
+}
+
+function undoDelete() {
+  if(!lastDeleted) return;
+  items.unshift(lastDeleted);
+  lastDeleted = null;
+  clearTimeout(undoTimer);
+  document.getElementById('undoToast').style.display = 'none';
+  render();
+}
+
+function editReview(id) {
+  const r = items.find(i => i.id===id);
+  if(!r) return;
+  document.getElementById('modalShop').value = r.shop;
+  document.getElementById('modalTitle').value = r.title;
+  document.getElementById('modalText').value = r.text;
+  document.getElementById('modalProduct').value = r.product || '';
+  setRating(r.rating);
+  openWriteModal();
+}
+
+function contactShop(name) {
+  const msg = encodeURIComponent('Hello ' + name + '! Regarding my recent review — ');
+  window.open('https://wa.me/919876543210?text='+msg, '_blank');
+}
+
+// ── WRITE MODAL ──
+function openWriteModal() {
+  editingRating = 0;
+  setRating(0);
+  document.getElementById('writeModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeWriteModal() {
+  document.getElementById('writeModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function setRating(val) {
+  editingRating = val;
+  document.querySelectorAll('.star-select span').forEach((s,i) => {
+    s.classList.toggle('active', i < val);
+  });
+}
+function submitReview() {
+  const shop = document.getElementById('modalShop').value;
+  const title = document.getElementById('modalTitle').value.trim();
+  const text = document.getElementById('modalText').value.trim();
+  if(!shop) { document.getElementById('modalShop').style.borderColor='var(--danger)'; return; }
+  if(!editingRating) { document.querySelector('.star-select').style.outline='2px solid var(--danger)'; return; }
+  if(!title) { document.getElementById('modalTitle').style.borderColor='var(--danger)'; return; }
+  if(!text) { document.getElementById('modalText').style.borderColor='var(--danger)'; return; }
+
+  const newRev = {
+    id: Date.now(), shop, shopEmoji:'🏪', cat:'General',
+    rating: editingRating, title, text,
+    product: document.getElementById('modalProduct').value.trim(),
+    date: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+    status:'pending', helpful:0, reply:null
+  };
+  items.unshift(newRev);
+  closeWriteModal();
+  render();
+  showToast('✅ Review submitted! It will be published after moderation.');
+}
+
+function showToast(msg) {
+  const t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2);';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+// Location functions
+function openPincodeModal(){const m=document.getElementById('pincodeModal');if(m){m.style.display='flex';document.body.style.overflow='hidden';}}
+function closePincodeModal(){const m=document.getElementById('pincodeModal');if(m){m.style.display='none';document.body.style.overflow='';}}
+function applyPincode(){const i=document.getElementById('pincodeInput');if(i&&i.value.length>=6){const e=document.getElementById('navLocName');if(e)e.textContent=i.value;closePincodeModal();}}
+function requestLocation(f){if(f)closePincodeModal();}
+document.getElementById('pincodeModal')?.addEventListener('click',function(e){if(e.target===this)closePincodeModal();});
+
+// Search
+function doSearch(){const q=document.getElementById('navSearchInput')?.value.trim();if(q)window.location='search-results.html?q='+encodeURIComponent(q);}
+
+// Init
+render();
+</script>
+</body>
+</html>

@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FAQ – Frequently Asked Questions | Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#0f172a;--text-mid:#334155;--text-light:#64748b;
+  --border:#e2e8f0;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--success-bg:#dcfce7;
+  --danger:#dc2626;
+  --warning:#d97706;--warning-bg:#fef3c7;
+  --purple:#7c3aed;--purple-bg:#f3e8ff;
+  --radius:14px;--radius-sm:8px;
+  --font-display:'Sora',sans-serif;--font-body:'Noto Sans',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-hover:0 8px 32px rgba(26,86,219,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+.topbar{background:var(--primary-dark);color:rgba(255,255,255,.75);font-size:12px;padding:5px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.topbar a{color:#c7d9ff;}
+.topbar a:hover{color:#fff;}
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 22px;display:flex;align-items:center;gap:14px;height:66px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:18px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:10px;display:block;line-height:1;margin-top:-3px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.nav-link{padding:7px 12px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text-mid);transition:background .18s,color .18s;white-space:nowrap;}
+.nav-link:hover{background:var(--primary-light);color:var(--primary);}
+.nav-btn{background:var(--accent);color:#fff!important;font-weight:700!important;padding:8px 16px;border-radius:8px;}
+.nav-btn:hover{background:#ea6c04!important;}
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:9px 22px;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-light);flex-wrap:wrap;}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* HERO */
+.faq-hero{background:linear-gradient(135deg,#0f3460 0%,#1a56db 50%,#2563eb 100%);padding:56px 22px 48px;text-align:center;position:relative;overflow:hidden;}
+.faq-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;}
+.hd{position:absolute;border-radius:50%;opacity:.06;}
+.hd1{width:280px;height:280px;background:#fff;top:-80px;left:-60px;}
+.hd2{width:220px;height:220px;background:var(--accent);bottom:-50px;right:-40px;}
+.hero-inner{position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:16px;}
+.hero-title{font-size:clamp(26px,4vw,42px);font-weight:800;color:#fff;margin-bottom:12px;line-height:1.2;}
+.hero-title span{color:#fbbf24;}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.78);max-width:520px;margin:0 auto 28px;line-height:1.75;}
+.faq-search-wrap{max-width:580px;margin:0 auto;}
+.faq-search{display:flex;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.2);}
+.faq-search input{flex:1;border:none;outline:none;padding:14px 18px;font-size:14px;color:var(--text-dark);font-family:var(--font-body);}
+.faq-search input::placeholder{color:var(--text-light);}
+.faq-search button{background:var(--primary);border:none;color:#fff;padding:0 24px;font-size:14px;font-weight:700;transition:background .2s;font-family:var(--font-display);}
+.faq-search button:hover{background:var(--primary-dark);}
+.hero-stats{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:20px;flex-wrap:wrap;}
+.hero-stat{font-size:13px;color:rgba(255,255,255,.7);display:flex;align-items:center;gap:5px;}
+.hero-stat strong{color:#fff;}
+
+/* CATEGORY NAV */
+.cat-nav{background:var(--white);border-bottom:1px solid var(--border);padding:0 22px;position:sticky;top:66px;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.cat-nav-inner{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;padding:8px 0;}
+.cat-nav-inner::-webkit-scrollbar{display:none;}
+.cat-pill{display:flex;align-items:center;gap:6px;padding:9px 15px;border-radius:9px;font-size:13px;font-weight:600;color:var(--text-light);cursor:pointer;transition:all .18s;white-space:nowrap;border:none;background:transparent;flex-shrink:0;}
+.cat-pill:hover{background:var(--bg);color:var(--text-dark);}
+.cat-pill.active{background:var(--primary-light);color:var(--primary);}
+.cp-count{background:var(--bg);color:var(--text-light);font-size:11px;font-weight:700;padding:1px 6px;border-radius:7px;}
+.cat-pill.active .cp-count{background:var(--primary);color:#fff;}
+
+/* MAIN LAYOUT */
+.faq-layout{max-width:1100px;margin:0 auto;padding:30px 22px 60px;display:grid;grid-template-columns:1fr 300px;gap:26px;align-items:start;}
+
+/* FAQ CONTENT */
+.search-info{display:none;background:var(--primary-light);border:1px solid rgba(26,86,219,.18);border-radius:10px;padding:12px 16px;margin-bottom:18px;font-size:13.5px;color:var(--primary);font-weight:600;align-items:center;justify-content:space-between;gap:10px;}
+.search-info.show{display:flex;}
+.search-info button{background:transparent;border:none;color:var(--primary);font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline;}
+.no-results{text-align:center;padding:56px 20px;display:none;}
+.nr-icon{font-size:60px;margin-bottom:14px;}
+.nr-title{font-family:var(--font-display);font-size:20px;font-weight:800;margin-bottom:8px;}
+.nr-sub{font-size:14px;color:var(--text-light);max-width:360px;margin:0 auto 20px;line-height:1.7;}
+
+/* FAQ GROUP */
+.faq-group{margin-bottom:30px;animation:fadeUp .35s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.faq-group-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;scroll-margin-top:140px;}
+.fg-icon{width:42px;height:42px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;}
+.fg-title{font-family:var(--font-display);font-size:19px;font-weight:800;color:var(--text-dark);}
+.fg-count{background:var(--bg);border:1px solid var(--border);color:var(--text-light);font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;}
+
+/* ACCORDION */
+.faq-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);margin-bottom:9px;overflow:hidden;transition:box-shadow .2s;scroll-margin-top:140px;}
+.faq-item:hover{box-shadow:var(--shadow-hover);}
+.faq-item.open{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.07),var(--shadow-hover);}
+.faq-question{display:flex;align-items:flex-start;gap:13px;padding:16px 18px;cursor:pointer;user-select:none;transition:background .15s;}
+.faq-question:hover{background:var(--bg);}
+.faq-item.open .faq-question{background:var(--primary-light);}
+.fq-num{width:26px;height:26px;border-radius:7px;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:var(--text-light);flex-shrink:0;margin-top:1px;transition:all .2s;}
+.faq-item.open .fq-num{background:var(--primary);color:#fff;border-color:var(--primary);}
+.fq-text{flex:1;font-size:14.5px;font-weight:700;color:var(--text-dark);line-height:1.45;}
+.faq-item.open .fq-text{color:var(--primary);}
+.fq-icon{width:26px;height:26px;border-radius:50%;background:var(--bg);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;transition:all .28s;color:var(--text-light);}
+.faq-item.open .fq-icon{background:var(--primary);color:#fff;border-color:var(--primary);transform:rotate(45deg);}
+.faq-answer{display:none;padding:0 18px 16px 57px;}
+.faq-item.open .faq-answer{display:block;animation:answerIn .25s ease;}
+@keyframes answerIn{from{opacity:0;transform:translateY(-5px);}to{opacity:1;transform:none;}}
+.faq-answer p{font-size:14px;color:var(--text-mid);line-height:1.85;margin-bottom:10px;}
+.faq-answer p:last-child{margin-bottom:0;}
+.faq-answer ul{list-style:none;display:flex;flex-direction:column;gap:7px;margin:8px 0;}
+.faq-answer ul li{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text-mid);}
+.faq-answer ul li::before{content:'→';color:var(--primary);font-weight:700;flex-shrink:0;}
+.ans-note{border-radius:0 8px 8px 0;padding:10px 14px;font-size:13.5px;line-height:1.65;margin-top:10px;}
+.ans-note.blue{background:var(--primary-light);border-left:3px solid var(--primary);color:var(--text-mid);}
+.ans-note.green{background:var(--success-bg);border-left:3px solid var(--success);color:var(--text-mid);}
+.ans-note.orange{background:var(--accent-light);border-left:3px solid var(--accent);color:var(--text-mid);}
+.ans-note.default{background:var(--primary-light);border-left:3px solid var(--primary);color:var(--text-mid);}
+.btn-wa-ans{display:inline-flex;align-items:center;gap:6px;background:var(--whatsapp);color:#fff;border:none;padding:9px 18px;border-radius:8px;font-size:13px;font-weight:700;margin-top:12px;transition:background .2s;cursor:pointer;}
+.btn-wa-ans:hover{background:var(--whatsapp-dark);}
+.faq-helpful{display:flex;align-items:center;gap:9px;margin-top:14px;padding-top:12px;border-top:1px solid var(--border);font-size:12.5px;color:var(--text-light);}
+.helpful-btn{display:flex;align-items:center;gap:4px;background:var(--bg);border:1px solid var(--border);color:var(--text-mid);padding:4px 10px;border-radius:7px;font-size:12.5px;cursor:pointer;transition:all .18s;}
+.helpful-btn:hover{border-color:var(--primary);color:var(--primary);}
+.share-q{margin-left:auto;font-size:12px;color:var(--text-light);cursor:pointer;}
+.share-q:hover{color:var(--primary);}
+
+/* SIDEBAR */
+.faq-sidebar{display:flex;flex-direction:column;gap:16px;position:sticky;top:140px;}
+.side-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;box-shadow:var(--shadow);}
+.sc-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:13px;display:flex;align-items:center;gap:7px;}
+.contact-opt{display:flex;align-items:flex-start;gap:11px;padding:10px 0;border-bottom:1px solid var(--border);}
+.contact-opt:last-of-type{border-bottom:none;}
+.co-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;}
+.co-title{font-weight:700;font-size:13px;color:var(--text-dark);margin-bottom:1px;}
+.co-sub{font-size:11.5px;color:var(--text-light);}
+.co-btn{margin-top:5px;display:inline-flex;align-items:center;gap:4px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:6px;border:none;cursor:pointer;transition:all .2s;}
+.tags-cloud{display:flex;flex-wrap:wrap;gap:7px;}
+.tag{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:5px 11px;border-radius:16px;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .18s;}
+.tag:hover{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+.ask-form .fg{margin-bottom:11px;}
+.ask-form label{display:block;font-size:12.5px;font-weight:600;color:var(--text-mid);margin-bottom:4px;}
+.ask-form input,.ask-form textarea,.ask-form select{width:100%;border:1.5px solid var(--border);border-radius:7px;padding:8px 11px;font-size:13.5px;color:var(--text-dark);outline:none;transition:border-color .2s;font-family:var(--font-body);background:var(--white);}
+.ask-form input:focus,.ask-form textarea:focus{border-color:var(--primary);}
+.ask-form textarea{resize:vertical;min-height:72px;}
+.btn-ask{width:100%;background:var(--primary);color:#fff;border:none;padding:10px;border-radius:8px;font-size:14px;font-weight:700;transition:background .2s;cursor:pointer;}
+.btn-ask:hover{background:var(--primary-dark);}
+.quick-link-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border-radius:8px;background:var(--bg);border:1px solid var(--border);font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:6px;transition:all .18s;cursor:pointer;}
+.quick-link-item:hover{border-color:var(--primary);color:var(--primary);}
+.footer-mini{background:#0f172a;color:rgba(255,255,255,.4);text-align:center;padding:18px 22px;font-size:13px;}
+.footer-mini a{color:rgba(255,255,255,.55);}
+.footer-mini a:hover{color:#60a5fa;}
+.footer-links-row{display:flex;justify-content:center;gap:16px;margin-top:6px;flex-wrap:wrap;}
+.float-wa{position:fixed;bottom:26px;right:26px;z-index:999;}
+.float-wa-btn{width:52px;height:52px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.4);animation:fwaBounce 3s ease-in-out infinite;}
+@keyframes fwaBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+@media(max-width:900px){.faq-layout{grid-template-columns:1fr;}.faq-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.faq-layout{padding:18px 14px 48px;}.faq-sidebar{grid-template-columns:1fr;}.faq-answer{padding-left:18px;}.nav-right .nav-link{display:none;}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div>📍 Local Bazaar Hub — Indore, MP</div>
+  <div style="display:flex;gap:14px;"><a href="contact-us.html">Contact</a><a href="login-register.html">Login</a></div>
+</div>
+
+<nav class="navbar">
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text"><div>Local <span>Bazaar</span> Hub</div><small>Apna Dukaan, Digital Duniya</small></div>
+  </a>
+  <div class="nav-right">
+    <a href="local-bazaar-hub.html" class="nav-link">🏠 Home</a>
+    <a href="shop-directory.html" class="nav-link">🏪 Shops</a>
+    <a href="about-us.html" class="nav-link">ℹ️ About</a>
+    <a href="contact-us.html" class="nav-link">📞 Contact</a>
+    <a href="shopkeeper-registration.html" class="nav-link nav-btn">+ List Your Shop</a>
+  </div>
+</nav>
+
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a><span class="sep">›</span>
+  <a href="contact-us.html">Help Center</a><span class="sep">›</span>
+  <span class="current">Frequently Asked Questions</span>
+</div>
+
+<div class="faq-hero">
+  <div class="hd hd1"></div><div class="hd hd2"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">❓ Help Center</div>
+    <h1 class="hero-title">How can we <span>help you?</span></h1>
+    <p class="hero-sub">Find answers to common questions about buying, selling, WhatsApp shopping, payments, and everything else about Local Bazaar Hub.</p>
+    <div class="faq-search-wrap">
+      <div class="faq-search">
+        <input type="text" id="faqInput" placeholder="Type your question... e.g. How to order via WhatsApp?" onkeyup="liveSearch(this.value)" onkeydown="if(event.key==='Enter')liveSearch(this.value)">
+        <button onclick="liveSearch(document.getElementById('faqInput').value)">🔍 Search</button>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat">❓ <strong>60+</strong> Questions Answered</div>
+      <div class="hero-stat">📂 <strong>6</strong> Categories</div>
+      <div class="hero-stat">💬 <strong>2 hr</strong> Support Response</div>
+      <div class="hero-stat">⭐ <strong>4.9/5</strong> Help Rating</div>
+    </div>
+  </div>
+</div>
+
+<div class="cat-nav">
+  <div class="cat-nav-inner">
+    <button class="cat-pill active" onclick="filterCat('all',this)">🔍 All <span class="cp-count">60</span></button>
+    <button class="cat-pill" onclick="filterCat('general',this)">🌐 General <span class="cp-count">10</span></button>
+    <button class="cat-pill" onclick="filterCat('buyers',this)">🛒 Buyers <span class="cp-count">12</span></button>
+    <button class="cat-pill" onclick="filterCat('sellers',this)">🏪 Sellers <span class="cp-count">14</span></button>
+    <button class="cat-pill" onclick="filterCat('whatsapp',this)">💬 WhatsApp <span class="cp-count">8</span></button>
+    <button class="cat-pill" onclick="filterCat('payments',this)">💳 Payments <span class="cp-count">10</span></button>
+    <button class="cat-pill" onclick="filterCat('technical',this)">🔧 Technical <span class="cp-count">6</span></button>
+  </div>
+</div>
+
+<div class="faq-layout">
+  <div id="faqContent">
+    <div class="search-info" id="searchInfo">
+      <span id="searchInfoTxt"></span>
+      <button onclick="clearSearch()">✕ Clear</button>
+    </div>
+    <div class="no-results" id="noResults">
+      <div class="nr-icon">🔍</div>
+      <div class="nr-title">No questions found</div>
+      <div class="nr-sub">Try a different keyword or browse by category above. Can't find your answer? Ask us on WhatsApp!</div>
+      <button onclick="window.open('https://wa.me/919876543210?text=Hello! I have a question about Local Bazaar Hub.','_blank')" style="background:var(--whatsapp);color:#fff;border:none;padding:11px 22px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;">💬 Ask on WhatsApp</button>
+    </div>
+    <div id="faqGroups"></div>
+  </div>
+
+  <aside class="faq-sidebar">
+    <div class="side-card">
+      <div class="sc-title">📞 Still Have Questions?</div>
+      <div class="contact-opt">
+        <div class="co-icon" style="background:#dcfce7;">💬</div>
+        <div><div class="co-title">WhatsApp Support</div><div class="co-sub">Replies in ~15 minutes</div>
+        <button class="co-btn" style="background:#dcfce7;color:var(--success);" onclick="window.open('https://wa.me/919876543210?text=Hello! I need help.','_blank')">Chat Now →</button></div>
+      </div>
+      <div class="contact-opt">
+        <div class="co-icon" style="background:var(--primary-light);">📧</div>
+        <div><div class="co-title">Email Support</div><div class="co-sub">support@localbazaarhub.in</div>
+        <button class="co-btn" style="background:var(--primary-light);color:var(--primary);" onclick="window.location='contact-us.html'">Email Us →</button></div>
+      </div>
+      <div class="contact-opt">
+        <div class="co-icon" style="background:#fef3c7;">📞</div>
+        <div><div class="co-title">Call Us</div><div class="co-sub">+91 98765 43210 · Mon–Sat</div>
+        <button class="co-btn" style="background:#fef3c7;color:#92400e;" onclick="window.location='tel:+919876543210'">Call Now →</button></div>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-title">✍️ Submit a Question</div>
+      <div class="ask-form">
+        <div class="fg"><label>Your Name</label><input type="text" placeholder="Priya Singh"></div>
+        <div class="fg"><label>Category</label>
+          <select><option>General</option><option>For Buyers</option><option>For Sellers</option><option>WhatsApp</option><option>Payments</option><option>Technical</option></select>
+        </div>
+        <div class="fg"><label>Your Question</label><textarea placeholder="Type your question..."></textarea></div>
+        <button class="btn-ask" onclick="alert('✅ Question submitted! We will add it to the FAQ within 48 hours.')">📨 Submit</button>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-title">🔥 Popular Topics</div>
+      <div class="tags-cloud">
+        <span class="tag" onclick="quickSearch('WhatsApp order')">💬 WA Order</span>
+        <span class="tag" onclick="quickSearch('register shop')">🏪 Register</span>
+        <span class="tag" onclick="quickSearch('delivery')">🚚 Delivery</span>
+        <span class="tag" onclick="quickSearch('refund')">↩️ Refund</span>
+        <span class="tag" onclick="quickSearch('pricing plan')">💎 Plans</span>
+        <span class="tag" onclick="quickSearch('verification')">✔ Verify</span>
+        <span class="tag" onclick="quickSearch('account')">👤 Account</span>
+        <span class="tag" onclick="quickSearch('payment')">💳 Payment</span>
+        <span class="tag" onclick="quickSearch('photo')">📸 Photos</span>
+        <span class="tag" onclick="quickSearch('return')">🔄 Return</span>
+      </div>
+    </div>
+
+    <div class="side-card">
+      <div class="sc-title">🔗 Quick Links</div>
+      <div class="quick-link-item" onclick="window.location='shopkeeper-registration.html'">🏪 Register Your Shop</div>
+      <div class="quick-link-item" onclick="window.location='login-register.html'">🔑 Login / Register</div>
+      <div class="quick-link-item" onclick="window.location='privacy-policy.html'">📋 Terms & Privacy</div>
+      <div class="quick-link-item" onclick="window.location='contact-us.html'">📞 Contact Support</div>
+      <div class="quick-link-item" onclick="window.location='seller-dashboard.html'">📊 Seller Dashboard</div>
+    </div>
+  </aside>
+</div>
+
+<div class="footer-mini">
+  <div>© 2024 Local Bazaar Hub · Apna Dukaan, Digital Duniya</div>
+  <div class="footer-links-row">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html">Shops</a>
+    <a href="privacy-policy.html">Privacy</a>
+    <a href="contact-us.html">Contact</a>
+  </div>
+</div>
+
+<div class="float-wa">
+  <div class="float-wa-btn" onclick="window.open('https://wa.me/919876543210?text=Hello! I have a question about Local Bazaar Hub.','_blank')">💬</div>
+</div>
+
+<script>
+const FAQ_DATA = [
+  { id:'general', icon:'🌐', bg:'var(--primary-light)', title:'General Questions',
+    items:[
+      { q:'What is Local Bazaar Hub?',
+        a:`<p>Local Bazaar Hub is India's hyperlocal digital marketplace that connects buyers with the best local shops in their city. We focus on <strong>WhatsApp-first shopping</strong> — browse products online, then contact sellers directly via WhatsApp to place orders.</p><div class="ans-note green">✅ Completely free for buyers. Sellers can list for free and upgrade for more visibility.</div>` },
+      { q:'Which cities does Local Bazaar Hub currently serve?',
+        a:`<p>We are currently active in <strong>Indore, Bhopal, Jabalpur, Ujjain, and Gwalior</strong> in Madhya Pradesh. We are expanding to more cities rapidly.</p><button class="btn-wa-ans" onclick="window.open('https://wa.me/919876543210?text=Please launch in my city!','_blank')">💬 Request Your City</button>` },
+      { q:'Is Local Bazaar Hub free to use?',
+        a:`<p>Yes — <strong>completely free for all buyers</strong>. For sellers, we offer a Free Plan (10 products), Growth Plan (₹499/month, 100 products), and Premium Plan (₹999/month, unlimited products).</p><div class="ans-note green">✅ No hidden fees, no commissions, no transaction charges.</div>` },
+      { q:'How is Local Bazaar Hub different from Amazon or Flipkart?',
+        a:`<p>Key differences:</p><ul><li>Local shops only — not national sellers</li><li>WhatsApp-first — all orders via WhatsApp, no cart or checkout</li><li>Direct contact with shop owner, not a call center</li><li>Same-day pickup or local delivery within hours</li><li>Supports local family-owned businesses</li></ul>` },
+      { q:'What categories are available?',
+        a:`<p>Current categories: 👔 Men Fashion, 👗 Women Fashion, 🧒 Kids Wear, 📱 Electronics, 💍 Jewellery, 👟 Footwear, 🏠 Home Decor. More categories being added regularly.</p>` },
+      { q:'Is my personal information safe?',
+        a:`<p>Yes. We comply with India's <strong>DPDPA 2023</strong>. Data is SSL-encrypted, passwords are hashed, and we never sell data to third parties. You can request data deletion anytime.</p><div class="ans-note default">ℹ️ Read our full <a href="privacy-policy.html" style="color:var(--primary);font-weight:600;">Privacy Policy</a> for details.</div>` },
+      { q:'How do I report a fake or fraudulent shop?',
+        a:`<p>Click "Report" on any shop profile, or WhatsApp us at <strong>+91 98765 43210</strong>, or email <strong>trust@localbazaarhub.in</strong>. Our team reviews all reports within 24 hours and suspends verified fraudulent shops permanently.</p>` },
+      { q:'Can I use Local Bazaar Hub on my mobile phone?',
+        a:`<p>Yes — fully optimised for all mobile browsers (Android & iPhone). A dedicated app for Android and iOS is coming in 2025!</p><div class="ans-note orange">📱 Tip: Add to your home screen for an app-like experience.</div>` },
+      { q:'What languages does Local Bazaar Hub support?',
+        a:`<p>Currently available in <strong>English</strong>. Hindi support is expected in Q1 2025, with more Indian languages planned.</p>` },
+      { q:'How can I suggest improvements?',
+        a:`<p>Share feedback via WhatsApp (+91 98765 43210), email (feedback@localbazaarhub.in), or our Contact page. We build features based on user feedback!</p><button class="btn-wa-ans" onclick="window.open('https://wa.me/919876543210?text=My suggestion: ','_blank')">💬 Share Feedback</button>` },
+    ]
+  },
+  { id:'buyers', icon:'🛒', bg:'var(--success-bg)', title:'For Buyers & Customers',
+    items:[
+      { q:'How do I order a product on Local Bazaar Hub?',
+        a:`<p>Simple 5-step process:</p><ul><li>Browse products on our website</li><li>Click <strong>"Chat on WhatsApp"</strong> on any product</li><li>A pre-filled WhatsApp message opens automatically</li><li>Send it to the seller and negotiate directly</li><li>Agree on price and pay the seller directly</li></ul><div class="ans-note green">✅ No account needed to browse or contact sellers!</div>` },
+      { q:'Do I need to create an account to shop?',
+        a:`<p>No — you can browse and contact sellers without an account. Create a free account to save wishlists, track inquiries, and receive price drop alerts.</p>` },
+      { q:'How do I find shops near me?',
+        a:`<p>Use the Search bar, browse Shop Directory with area filters, or browse Categories. All shops shown are verified local businesses in your selected city.</p>` },
+      { q:'Is there a delivery option?',
+        a:`<p>Depends on the shop. Options typically include: same-day pickup (free), local delivery within 10 km (₹50–₹100), and courier for other cities. Always confirm delivery charges with the seller on WhatsApp.</p>` },
+      { q:'What if I want to return or exchange a product?',
+        a:`<p>Return policies are set by each shop individually. Most offer 7-day exchange for size/colour issues and replacement for defects. Always ask before purchasing.</p><div class="ans-note orange">⚠️ Always photograph products when received to help resolve any disputes.</div>` },
+      { q:'How do I write a review for a shop?',
+        a:`<p>Go to the shop profile → Reviews tab → scroll to "Write a Review" → select star rating and submit. Reviews are moderated within 24 hours before publishing.</p>` },
+      { q:'Can I negotiate prices with sellers?',
+        a:`<p>Absolutely! Everything happens directly on WhatsApp. Many sellers offer discounts for bulk orders, regular customers, festive purchases, and cash payments.</p>` },
+      { q:'How do I save a product to my Wishlist?',
+        a:`<p>Click the 🤍 heart icon on any product card. If logged in, it saves automatically. View all saved items in <a href="user-dashboard.html" style="color:var(--primary);">My Account → Wishlist</a>.</p>` },
+      { q:'Are the product prices final?',
+        a:`<p>Prices are set by sellers and may change anytime. Always confirm the final price on WhatsApp before purchasing.</p><div class="ans-note default">ℹ️ Local Bazaar Hub does not control or guarantee product pricing.</div>` },
+      { q:'What payment methods are accepted?',
+        a:`<p>Payment methods vary by shop. Most accept: 💵 Cash, 📱 UPI (GPay, PhonePe, Paytm), 💳 Debit/Credit Cards, 🏦 Bank Transfer. Always confirm with the seller first.</p>` },
+      { q:'Can I track my order?',
+        a:`<p>Since orders are placed directly via WhatsApp, simply message the seller for updates. For courier shipments, sellers typically share a tracking number after dispatch.</p>` },
+      { q:'Is it safe to share my phone number with sellers?',
+        a:`<p>All sellers are verified local businesses. We recommend only contacting ✔ Verified shops, never sharing financial info over WhatsApp, and reporting any inappropriate behaviour.</p>` },
+    ]
+  },
+  { id:'sellers', icon:'🏪', bg:'var(--accent-light)', title:'For Sellers & Shop Owners',
+    items:[
+      { q:'How do I register my shop?',
+        a:`<p>Click <strong>"List Your Shop"</strong> in the navbar → fill in shop details → upload photos → submit for verification. Our team approves within <strong>24–48 hours</strong> via WhatsApp confirmation.</p><button class="btn-wa-ans" onclick="window.location='shopkeeper-registration.html'">🏪 Register Now</button>` },
+      { q:'What documents do I need to register?',
+        a:`<p>For basic registration: just shop name, address, WhatsApp number, and 1 product photo. For the ✔ Verified Badge: optionally provide shop front photo, GST number, or Aadhaar.</p>` },
+      { q:'How much does listing cost?',
+        a:`<p><strong>Free Plan:</strong> ₹0 — 10 products. <strong>Growth:</strong> ₹499/month — 100 products + analytics. <strong>Premium:</strong> ₹999/month — unlimited products + top ranking + homepage feature.</p><div class="ans-note green">✅ Start free, upgrade anytime.</div>` },
+      { q:'How long does shop verification take?',
+        a:`<p>24–48 hours on business days, up to 72 hours on weekends. You'll receive a WhatsApp notification when approved.</p>` },
+      { q:'How do buyers contact me?',
+        a:`<p>When a buyer clicks "Chat on WhatsApp," it opens directly to your registered WhatsApp number with a pre-filled message. You reply like a normal WhatsApp chat — no separate app needed.</p><div class="ans-note orange">💡 Set up WhatsApp Business for a more professional experience.</div>` },
+      { q:'How many products can I list?',
+        a:`<p>Free: 10 products. Growth: 100 products. Premium: Unlimited. Each product supports up to 5 photos and multiple size/colour variants.</p>` },
+      { q:'Can I edit or delete products after publishing?',
+        a:`<p>Yes — edit title, description, price, photos, and variants anytime from your <a href="seller-dashboard.html" style="color:var(--primary);">Seller Dashboard</a>. Changes go live immediately.</p>` },
+      { q:'What should I do to get more customer inquiries?',
+        a:`<p>Top tips: upload 3+ high-quality photos, write detailed descriptions, keep pricing accurate, respond within 1–2 hours, upgrade to Premium for top ranking, run seasonal offers, and ask satisfied customers to leave reviews.</p><div class="ans-note green">⭐ Shops rated 4.5+ get 3x more inquiries on average!</div>` },
+      { q:'Can I have multiple shops on one account?',
+        a:`<p>Currently one shop per seller account. Multi-shop management is coming in mid-2025. For multiple shops, register separate accounts with different phone numbers.</p>` },
+      { q:'How do I cancel or downgrade my plan?',
+        a:`<p>Go to Seller Dashboard → Membership Plan → click "Cancel Auto-renewal." Your current plan stays active until the billing cycle ends.</p><div class="ans-note orange">⚠️ No refunds for partially used periods.</div>` },
+      { q:'What if my shop receives a fake negative review?',
+        a:`<p>Email <strong>reviews@localbazaarhub.in</strong> with the review URL and evidence. Our team investigates within 5–7 days. Verified fake reviews are removed. You can also post a public reply from your Seller Dashboard.</p>` },
+      { q:'Can I offer discounts and run promotions?',
+        a:`<p>Yes! From Seller Dashboard → Offers, create percentage/flat discounts, Buy X Get Y, and seasonal offers. Premium sellers get their offers featured on the <a href="offers.html" style="color:var(--primary);">Offers & Deals page</a>.</p>` },
+      { q:'How do I update working hours?',
+        a:`<p>Go to Seller Dashboard → Shop Profile → Working Hours. Set different times for each day. Your live Open/Closed status shows on your profile in real time.</p>` },
+      { q:'Is there a mobile app for sellers?',
+        a:`<p>Currently a mobile-optimised browser dashboard. A dedicated Seller App (Android + iOS) is in development, expected Q2 2025.</p>` },
+    ]
+  },
+  { id:'whatsapp', icon:'💬', bg:'#dcfce7', title:'WhatsApp Shopping',
+    items:[
+      { q:'How does WhatsApp shopping work on Local Bazaar Hub?',
+        a:`<p>Browse products on our site → click "Chat on WhatsApp" → WhatsApp opens with a pre-filled message → chat directly with the seller to negotiate, order, and pay.</p><div class="ans-note green">✅ No app download. No account needed. No commission. 100% direct with the seller.</div>` },
+      { q:'What does the pre-filled WhatsApp message say?',
+        a:`<p>Something like: <span class="ans-note default" style="font-family:monospace;font-size:13px;display:block;margin-top:8px;">"Hello Sharma Cloth House! 🙏 I am interested in: Men's Cotton Kurta Set · Price ₹599 · Size L. Is it available?"</span></p><p>This gives the seller full context and saves you time.</p>` },
+      { q:'Does Local Bazaar Hub read my WhatsApp conversations?',
+        a:`<p><strong>Absolutely not.</strong> Once you click the WhatsApp button, you leave our website. We have zero access to your conversations. WhatsApp's end-to-end encryption keeps all conversations completely private.</p><div class="ans-note green">🔒 We only track that the button was clicked — not what was said.</div>` },
+      { q:'What if the seller does not respond on WhatsApp?',
+        a:`<p>Try calling the shop's phone number, check their listed Open/Closed status, or message again the next business day. Persistently unresponsive shops on paid plans may be delisted.</p>` },
+      { q:'Can I send photos to sellers on WhatsApp?',
+        a:`<p>Yes! Send reference photos for custom stitching, body measurement photos for tailoring, or ask "do you have something similar?" WhatsApp shopping is as personal as walking into the shop.</p>` },
+      { q:'Is there a WhatsApp Business feature for sellers?',
+        a:`<p>Yes — we recommend all sellers install <strong>WhatsApp Business</strong> (free) for a business profile, quick replies, product catalogue, away messages, and message statistics.</p>` },
+      { q:"Can sellers spam me with messages after I contact them?",
+        a:`<p>Our Seller Guidelines strictly prohibit spam. If a seller sends unwanted messages: block them on WhatsApp and report via the "Report Shop" button or email <strong>trust@localbazaarhub.in</strong>. Spamming sellers are immediately suspended.</p>` },
+      { q:"What if I don't use WhatsApp?",
+        a:`<p>You can still browse all shops and products for free, and call sellers directly using phone numbers on their profiles. However, WhatsApp is strongly recommended for the best experience.</p>` },
+    ]
+  },
+  { id:'payments', icon:'💳', bg:'var(--purple-bg)', title:'Payments & Membership Plans',
+    items:[
+      { q:'How do I pay for a seller membership plan?',
+        a:`<p>Payments are processed via <strong>Razorpay</strong> — India's leading payment gateway. Accepted methods: UPI (GPay, PhonePe, Paytm), Debit/Credit Cards, Net Banking, and EMI for annual plans. All transactions are SSL-secured.</p>` },
+      { q:'What is the difference between Growth and Premium?',
+        a:`<p><strong>Growth (₹499/mo):</strong> 100 products, featured search, basic analytics. <strong>Premium (₹999/mo):</strong> unlimited products, top ranking, full analytics, homepage feature, priority support.</p><div class="ans-note green">💡 Most small shops find Growth sufficient. Premium is ideal for shops with 100+ products wanting maximum visibility.</div>` },
+      { q:'Can I get a refund if I cancel my plan?',
+        a:`<p>No refunds for partially used periods once a plan is activated. We recommend starting with the Free Plan before committing to paid.</p><div class="ans-note orange">⚠️ Read our full <a href="privacy-policy.html" style="color:var(--primary);">Terms of Service</a> for complete refund details.</div>` },
+      { q:'Does Local Bazaar Hub charge a commission on sales?',
+        a:`<p><strong>No commission whatsoever.</strong> We charge only a flat monthly subscription for paid plans. Keep 100% of what you earn.</p><div class="ans-note green">✅ No percentage of sales, no transaction fees, no hidden charges.</div>` },
+      { q:'How do I upgrade to Growth or Premium?',
+        a:`<p>Seller Dashboard → Membership Plan → choose plan → click "Upgrade Now" → complete Razorpay payment. Your new plan activates immediately with an invoice via email and WhatsApp.</p>` },
+      { q:'Is there an annual plan with discount?',
+        a:`<p>Yes! Growth Annual: ₹4,799/year (save ₹1,189). Premium Annual: ₹9,599/year (save ₹2,389). Available from your Seller Dashboard Membership Plan section.</p>` },
+      { q:'Will I receive an invoice for my payment?',
+        a:`<p>Yes — automatic GST-compliant email invoice within minutes, plus WhatsApp confirmation. All past invoices are downloadable from Seller Dashboard → Payment History.</p>` },
+      { q:'What happens if my payment fails?',
+        a:`<p>No amount is deducted for failed transactions (Razorpay handles this safely). Try again with a different payment method. If money was deducted but plan not activated, email <strong>billing@localbazaarhub.in</strong> within 24 hours with your transaction ID.</p>` },
+      { q:'Can I switch from monthly to annual billing mid-cycle?',
+        a:`<p>Yes — your current monthly cycle completes, then the annual plan activates at next billing date. Contact us via WhatsApp or email to facilitate the switch.</p>` },
+      { q:'What payment methods do shops accept from buyers?',
+        a:`<p>Determined by each shop individually (not Local Bazaar Hub). Common: cash, UPI, cards, bank transfer. Always confirm with the seller before purchasing.</p><div class="ans-note default">ℹ️ Local Bazaar Hub does not process any buyer-to-seller payments.</div>` },
+    ]
+  },
+  { id:'technical', icon:'🔧', bg:'var(--warning-bg)', title:'Technical Help',
+    items:[
+      { q:'How do I reset my password?',
+        a:`<p>Login page → "Forgot Password?" → enter registered phone/email → receive 6-digit OTP on WhatsApp → enter OTP → set new password. If OTP doesn't arrive, click "Resend" after 2 minutes.</p>` },
+      { q:'The WhatsApp button is not opening. What should I do?',
+        a:`<p>Ensure WhatsApp is installed. On desktop, try WhatsApp Web or a different browser. Allow pop-ups for localbazaarhub.in in browser settings. Or copy the seller's number manually from their profile.</p>` },
+      { q:'How do I upload product photos? What size is recommended?',
+        a:`<p>Seller Dashboard → Add/Edit Product → click photo upload slots. <strong>Recommended:</strong> 800×800px square, JPG/PNG, max 2MB per photo, up to 5 photos per product.</p><div class="ans-note orange">💡 Good lighting + plain background = 2x more inquiries!</div>` },
+      { q:'My account was suspended. What should I do?',
+        a:`<p>You'll receive a WhatsApp notification with the reason. To appeal, email <strong>appeals@localbazaarhub.in</strong> with your Shop ID and explanation. Appeals reviewed within 5–7 business days.</p>` },
+      { q:'How do I delete my account?',
+        a:`<p>Buyers: My Account → Security → Delete Account. Sellers: Seller Dashboard → Settings → Close My Shop. Deletion is permanent — all data removed within 30 days.</p><div class="ans-note orange">⚠️ Paid plan sellers: no refund issued upon deletion.</div>` },
+      { q:'The website is loading slowly. How can I fix this?',
+        a:`<p>Try: clear browser cache/cookies, use Chrome or Firefox, check internet speed, disable browser extensions. If the issue persists across multiple devices, WhatsApp us to report a platform issue.</p>` },
+    ]
+  },
+];
+
+let currentCat = 'all';
+let qNum = 0;
+
+function buildFAQ(hl=''){
+  const container = document.getElementById('faqGroups');
+  qNum = 0;
+  let html = '';
+
+  FAQ_DATA.forEach(group => {
+    if(currentCat !== 'all' && group.id !== currentCat) return;
+    let items = '';
+    let cnt = 0;
+    group.items.forEach((item, idx) => {
+      const match = !hl || item.q.toLowerCase().includes(hl.toLowerCase()) || item.a.toLowerCase().includes(hl.toLowerCase());
+      if(!match) return;
+      qNum++; cnt++;
+      const id = `fi-${group.id}-${idx}`;
+      const qTxt = hl ? item.q.replace(new RegExp(`(${hl.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi'), '<mark style="background:#fef08a;border-radius:3px;padding:0 2px;">$1</mark>') : item.q;
+      items += `<div class="faq-item" id="${id}">
+        <div class="faq-question" onclick="toggle('${id}')">
+          <div class="fq-num">${qNum}</div>
+          <div class="fq-text">${qTxt}</div>
+          <div class="fq-icon">+</div>
+        </div>
+        <div class="faq-answer">
+          ${item.a}
+          <div class="faq-helpful">
+            Was this helpful?
+            <button class="helpful-btn" onclick="markHelp(this,'yes')">👍 Yes</button>
+            <button class="helpful-btn" onclick="markHelp(this,'no')">👎 No</button>
+            <span class="share-q" onclick="shareQ('${item.q.replace(/'/g,"\\'")}')">🔗 Share</span>
+          </div>
+        </div>
+      </div>`;
+    });
+    if(!items) return;
+    html += `<div class="faq-group" id="grp-${group.id}">
+      <div class="faq-group-header">
+        <div class="fg-icon" style="background:${group.bg};">${group.icon}</div>
+        <h2 class="fg-title">${group.title}</h2>
+        <span class="fg-count">${cnt} Q&amp;A</span>
+      </div>
+      ${items}
+    </div>`;
+  });
+
+  container.innerHTML = html;
+  const noRes = document.getElementById('noResults');
+  noRes.style.display = (!html && hl) ? 'block' : 'none';
+
+  const si = document.getElementById('searchInfo');
+  const sit = document.getElementById('searchInfoTxt');
+  if(hl){ si.classList.add('show'); sit.textContent = `Found ${qNum} result${qNum!==1?'s':''} for "${hl}"`; }
+  else { si.classList.remove('show'); }
+}
+
+function toggle(id){
+  const el = document.getElementById(id);
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.faq-item.open').forEach(i=>i.classList.remove('open'));
+  if(!wasOpen){
+    el.classList.add('open');
+    setTimeout(()=>{
+      const top = el.getBoundingClientRect().top + window.scrollY - 148;
+      window.scrollTo({top, behavior:'smooth'});
+    }, 80);
+  }
+}
+
+function filterCat(cat, btn){
+  currentCat = cat;
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  btn.classList.add('active');
+  const hl = document.getElementById('faqInput').value.trim();
+  buildFAQ(hl);
+  window.scrollTo({top: document.querySelector('.faq-layout').offsetTop - 90, behavior:'smooth'});
+}
+
+function liveSearch(val){ buildFAQ(val.trim()); }
+
+function clearSearch(){
+  document.getElementById('faqInput').value = '';
+  document.getElementById('searchInfo').classList.remove('show');
+  buildFAQ('');
+}
+
+function quickSearch(term){
+  document.getElementById('faqInput').value = term;
+  buildFAQ(term);
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+function markHelp(btn, type){
+  btn.closest('.faq-helpful').innerHTML = `<span style="font-size:13px;color:var(--success);font-weight:600;">${type==='yes'?'✅ Glad this helped!':'📝 Thanks — we will improve this.'}</span>`;
+}
+
+function shareQ(q){
+  navigator.clipboard?.writeText(window.location.href).then(()=>alert('Link copied!\n\nQuestion: "'+q+'"'));
+}
+
+// INIT
+buildFAQ();
+</script>
+</body>
+</html>

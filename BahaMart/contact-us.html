@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#111827;--text-mid:#374151;--text-light:#6b7280;
+  --border:#e5e7eb;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--danger:#dc2626;
+  --card-shadow:0 2px 12px rgba(26,86,219,0.08);
+  --card-shadow-hover:0 10px 36px rgba(26,86,219,0.16);
+  --radius:16px;--radius-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4,h5{font-family:'Baloo 2',cursive;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Noto Sans',sans-serif;}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-light);}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ══════════════════════════════
+   PAGE HERO
+══════════════════════════════ */
+.contact-hero{
+  background:linear-gradient(135deg,#0f3460 0%,#1a56db 55%,#1e88e5 100%);
+  padding:60px 24px 80px;position:relative;overflow:hidden;text-align:center;
+}
+.contact-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.deco{position:absolute;font-size:90px;opacity:.06;}
+.deco.d1{top:10%;left:4%;}
+.deco.d2{bottom:10%;right:4%;}
+.hero-inner{max-width:680px;margin:0 auto;position:relative;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.25);color:#fff;padding:7px 20px;border-radius:24px;font-size:13px;font-weight:700;margin-bottom:22px;}
+.contact-hero h1{font-size:clamp(28px,5vw,50px);font-weight:800;color:#fff;margin-bottom:14px;line-height:1.2;}
+.contact-hero h1 span{color:#fbbf24;}
+.contact-hero p{color:rgba(255,255,255,.8);font-size:15px;line-height:1.8;margin-bottom:36px;}
+/* response time pills */
+.resp-pills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;}
+.resp-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.14);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);color:#fff;padding:8px 16px;border-radius:24px;font-size:13px;font-weight:600;}
+.resp-pill .dot{width:8px;height:8px;border-radius:50%;background:#4ade80;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* WAVE */
+.wave-sep{display:block;line-height:0;}
+.wave-sep svg{display:block;}
+
+/* ══════════════════════════════
+   QUICK CONTACT CARDS ROW
+══════════════════════════════ */
+.quick-cards{
+  max-width:1100px;margin:-44px auto 0;
+  padding:0 24px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:16px;position:relative;z-index:10;
+}
+.qcard{
+  background:var(--white);border-radius:var(--radius);
+  padding:24px 20px;text-align:center;
+  border:1px solid var(--border);
+  box-shadow:0 8px 32px rgba(0,0,0,.1);
+  transition:all .25s;cursor:pointer;
+}
+.qcard:hover{transform:translateY(-4px);box-shadow:var(--card-shadow-hover);border-color:var(--primary);}
+.qcard-icon{margin-bottom:12px;line-height:0;}
+.qcard-title{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.qcard-sub{font-size:12px;color:var(--text-light);margin-bottom:12px;line-height:1.5;}
+.qcard-btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;padding:9px 12px;border-radius:8px;
+  font-size:13px;font-weight:700;border:none;
+  transition:all .2s;
+}
+.qcard-btn.wa{background:var(--whatsapp);color:#fff;}
+.qcard-btn.wa:hover{background:var(--whatsapp-dark);}
+.qcard-btn.call{background:var(--primary-light);color:var(--primary);}
+.qcard-btn.call:hover{background:var(--primary);color:#fff;}
+.qcard-btn.mail{background:#fef3c7;color:#92400e;}
+.qcard-btn.mail:hover{background:#fbbf24;color:#fff;}
+.qcard-btn.visit{background:#f0fdf4;color:var(--success);}
+.qcard-btn.visit:hover{background:var(--success);color:#fff;}
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+.section{padding:60px 24px;}
+.section-alt{background:var(--white);}
+.max-w{max-width:1100px;margin:0 auto;}
+
+.contact-layout{
+  display:grid;
+  grid-template-columns:1fr 420px;
+  gap:40px;
+  align-items:start;
+  margin-top:56px;
+}
+
+/* ══════════════════════════════
+   CONTACT FORM
+══════════════════════════════ */
+.form-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);
+  padding:40px;
+  box-shadow:var(--card-shadow);
+}
+.form-card-header{margin-bottom:32px;}
+.form-eyebrow{font-size:12px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.form-card-header h2{font-size:clamp(22px,3vw,30px);font-weight:800;color:var(--text-dark);margin-bottom:8px;}
+.form-card-header p{font-size:14px;color:var(--text-light);line-height:1.6;}
+
+/* Topic Selector */
+.topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:24px;}
+.topic-btn{
+  padding:10px 8px;border-radius:8px;
+  border:2px solid var(--border);background:var(--bg);
+  font-size:12px;font-weight:600;color:var(--text-mid);
+  text-align:center;cursor:pointer;transition:all .2s;
+  display:flex;flex-direction:column;align-items:center;gap:4px;
+}
+.topic-btn:hover{border-color:var(--primary);color:var(--primary);}
+.topic-btn.active{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+.topic-btn .t-icon{line-height:0;}
+
+/* Form fields */
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.form-group{margin-bottom:16px;}
+.form-group.full{grid-column:1/-1;}
+.flabel{display:block;font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:6px;}
+.flabel .req{color:var(--danger);}
+.finput{
+  width:100%;border:2px solid var(--border);
+  border-radius:var(--radius-sm);padding:11px 14px;
+  font-size:14px;color:var(--text-dark);outline:none;
+  transition:border-color .2s,box-shadow .2s;
+  font-family:'Noto Sans',sans-serif;background:var(--white);
+}
+.finput:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
+.finput::placeholder{color:#9ca3af;}
+.finput.error{border-color:var(--danger);}
+.ferror{font-size:12px;color:var(--danger);margin-top:4px;display:none;}
+.finput.error + .ferror{display:block;}
+textarea.finput{resize:vertical;min-height:120px;}
+select.finput{cursor:pointer;}
+.fhint{font-size:12px;color:var(--text-light);margin-top:4px;}
+
+/* Priority radio */
+.priority-row{display:flex;gap:10px;flex-wrap:wrap;}
+.prio-btn{
+  display:flex;align-items:center;gap:6px;
+  padding:7px 14px;border-radius:20px;
+  border:2px solid var(--border);background:var(--bg);
+  font-size:13px;font-weight:600;color:var(--text-mid);
+  cursor:pointer;transition:all .2s;
+}
+.prio-btn input{display:none;}
+.prio-btn:hover,.prio-btn.selected{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+.prio-btn.urgent.selected{border-color:var(--danger);background:#fee2e2;color:var(--danger);}
+.prio-btn.normal.selected{border-color:var(--success);background:#dcfce7;color:var(--success);}
+
+/* File upload */
+.file-upload-area{
+  border:2px dashed var(--border);border-radius:var(--radius-sm);
+  padding:24px;text-align:center;cursor:pointer;
+  transition:all .2s;background:var(--bg);
+}
+.file-upload-area:hover,.file-upload-area.drag{border-color:var(--primary);background:var(--primary-light);}
+.file-upload-area input{display:none;}
+.upload-icon{margin-bottom:8px;line-height:0;}
+.upload-text{font-size:13px;color:var(--text-light);}
+.upload-text strong{color:var(--primary);}
+
+/* Checkbox */
+.checkbox-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:20px;}
+.checkbox-row input{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;margin-top:2px;}
+.checkbox-row label{font-size:13px;color:var(--text-mid);cursor:pointer;line-height:1.5;}
+.checkbox-row a{color:var(--primary);}
+
+/* Submit button */
+.btn-submit{
+  width:100%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;border:none;padding:15px;border-radius:10px;
+  font-size:15px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  transition:all .2s;box-shadow:0 4px 16px rgba(26,86,219,.3);
+}
+.btn-submit:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,86,219,.35);}
+.btn-submit:active{transform:scale(.98);}
+.btn-submit.loading{opacity:.7;pointer-events:none;}
+
+/* Success state */
+.form-success{
+  display:none;text-align:center;padding:48px 24px;
+}
+.form-success .success-icon{margin-bottom:16px;line-height:0;}
+.form-success h3{font-size:24px;font-weight:800;color:var(--success);margin-bottom:10px;}
+.form-success p{font-size:14px;color:var(--text-mid);line-height:1.7;margin-bottom:24px;}
+.btn-back-form{background:var(--primary);color:#fff;border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:700;}
+
+/* ══════════════════════════════
+   SIDEBAR INFO
+══════════════════════════════ */
+.contact-sidebar{display:flex;flex-direction:column;gap:20px;}
+
+.info-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);padding:28px;
+  box-shadow:var(--card-shadow);
+}
+.info-card-title{font-family:'Baloo 2',cursive;font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+
+/* Contact items */
+.contact-item{
+  display:flex;align-items:flex-start;gap:14px;
+  padding:14px 0;border-bottom:1px solid var(--border);
+}
+.contact-item:last-child{border-bottom:none;padding-bottom:0;}
+.ci-icon{
+  width:44px;height:44px;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;line-height:0;
+}
+.ci-info .ci-label{font-size:12px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-bottom:3px;}
+.ci-info .ci-value{font-size:14px;color:var(--text-dark);font-weight:600;line-height:1.5;}
+.ci-info .ci-sub{font-size:12px;color:var(--text-light);margin-top:2px;}
+.ci-action{
+  margin-top:6px;display:inline-flex;align-items:center;gap:5px;
+  font-size:12px;font-weight:700;padding:4px 10px;border-radius:5px;cursor:pointer;border:none;transition:all .2s;
+}
+
+/* Office hours */
+.hours-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.hours-item{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;padding:8px 0;border-bottom:1px solid var(--bg);}
+.hours-item:last-child{border-bottom:none;}
+.hours-day{color:var(--text-mid);font-weight:500;}
+.hours-time{font-weight:700;color:var(--text-dark);}
+.hours-time.closed{color:var(--danger);}
+.hours-time.open-now{color:var(--success);}
+.open-badge{display:inline-flex;align-items:center;gap:4px;background:#dcfce7;color:var(--success);font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px;margin-left:6px;}
+.open-badge .dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:blink 1.5s infinite;}
+
+/* Social links */
+.social-links{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.soc-btn{
+  display:flex;align-items:center;gap:10px;
+  padding:12px 14px;border-radius:10px;
+  border:1.5px solid var(--border);
+  font-size:13px;font-weight:600;color:var(--text-dark);
+  cursor:pointer;transition:all .2s;
+}
+.soc-btn:hover{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+.soc-btn .soc-icon{line-height:0;}
+
+/* Map placeholder */
+.map-placeholder{
+  background:linear-gradient(135deg,var(--primary-light),#dbeafe);
+  border-radius:var(--radius-sm);
+  height:160px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;cursor:pointer;transition:all .2s;
+  border:1px solid var(--border);
+  margin-top:16px;
+}
+.map-placeholder:hover{box-shadow:var(--card-shadow-hover);}
+.map-placeholder .map-icon{line-height:0;}
+.map-placeholder .map-text{font-size:13px;color:var(--primary);font-weight:700;}
+.map-placeholder .map-addr{font-size:12px;color:var(--text-light);text-align:center;}
+
+/* ══════════════════════════════
+   FAQ SECTION
+══════════════════════════════ */
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.faq-item{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);overflow:hidden;
+  transition:box-shadow .2s;
+}
+.faq-item:hover{box-shadow:var(--card-shadow-hover);}
+.faq-q{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:18px 20px;cursor:pointer;
+  font-weight:600;font-size:14px;color:var(--text-dark);
+  transition:background .2s;
+}
+.faq-q:hover{background:var(--bg);}
+.faq-q.open{background:var(--primary-light);color:var(--primary);}
+.faq-icon{font-size:18px;transition:transform .25s;flex-shrink:0;}
+.faq-q.open .faq-icon{transform:rotate(45deg);}
+.faq-a{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s ease,padding .3s ease;
+  font-size:13.5px;color:var(--text-mid);line-height:1.7;
+  padding:0 20px;background:var(--white);
+}
+.faq-a.open{max-height:200px;padding:0 20px 18px;}
+
+/* ══════════════════════════════
+   WHATSAPP SUPPORT STRIP
+══════════════════════════════ */
+.wa-strip{
+  background:linear-gradient(135deg,#064e3b,#065f46);
+  border-radius:var(--radius);padding:36px 40px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:24px;flex-wrap:wrap;position:relative;overflow:hidden;
+}
+.wa-strip::before{content:'';width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,.06);position:absolute;right:-40px;top:50%;transform:translateY(-50%);}
+.wa-strip-left h3{font-size:clamp(18px,2.5vw,26px);font-weight:800;color:#fff;margin-bottom:8px;}
+.wa-strip-left p{font-size:14px;color:rgba(255,255,255,.75);line-height:1.6;}
+.wa-strip-right{display:flex;gap:12px;flex-wrap:wrap;position:relative;}
+.btn-wa-big{
+  display:flex;align-items:center;gap:8px;
+  background:var(--whatsapp);color:#fff;border:none;
+  padding:13px 24px;border-radius:10px;font-size:15px;font-weight:700;
+  transition:all .2s;
+}
+.btn-wa-big:hover{background:var(--whatsapp-dark);transform:translateY(-2px);}
+.btn-outline-white{
+  display:flex;align-items:center;gap:8px;
+  background:transparent;color:#fff;
+  border:1.5px solid rgba(255,255,255,.35);
+  padding:13px 20px;border-radius:10px;font-size:14px;font-weight:600;
+  transition:all .2s;
+}
+.btn-outline-white:hover{background:rgba(255,255,255,.12);}
+
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.quick-cards{grid-template-columns:repeat(2,1fr);}.contact-layout{grid-template-columns:1fr;}}
+@media(max-width:860px){
+  .faq-grid{grid-template-columns:1fr;}
+  .wa-strip{flex-direction:column;}
+  .topic-grid{grid-template-columns:repeat(2,1fr);}
+  .form-row{grid-template-columns:1fr;}
+  .social-links{grid-template-columns:1fr;}
+}
+@media(max-width:560px){
+  .contact-hero{padding:44px 16px 64px;}
+  .section{padding:40px 14px;}
+  .quick-cards{grid-template-columns:1fr 1fr;padding:0 12px;margin-top:-32px;}
+  .qcard{padding:18px 14px;}
+  .form-card{padding:24px 18px;}
+  .wa-strip{padding:24px 20px;}
+}
+@media(max-width:380px){.quick-cards{grid-template-columns:1fr;}.topic-grid{grid-template-columns:1fr;}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.qcard{animation:fadeUp .4s ease both;}
+.qcard:nth-child(1){animation-delay:.05s;}
+.qcard:nth-child(2){animation-delay:.10s;}
+.qcard:nth-child(3){animation-delay:.15s;}
+.qcard:nth-child(4){animation-delay:.20s;}
+</style>
+</head>
+<body>
+
+<!-- SHARED HEADER -->
+<div id="site-header"></div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">Home</a>
+  <span class="sep">›</span>
+  <span class="current">Contact Us</span>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="contact-hero">
+  <div class="hero-inner">
+    <div class="hero-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="margin-right:4px;vertical-align:-2px;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg>We're Here — Always!</div>
+    <h1>Get in <span>Touch With Us</span></h1>
+    <p>Have a question about a product, shop registration, or a complaint? We are available 24/7 to help you out.</p>
+    <div class="resp-pills">
+      <div class="resp-pill"><span class="dot"></span> WhatsApp: Instant Reply</div>
+      <div class="resp-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="margin-right:4px;vertical-align:-2px;"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>Email: 2–4 Hours</div>
+      <div class="resp-pill"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="margin-right:4px;vertical-align:-2px;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg>Call: Mon–Sat 10am–7pm</div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<svg class="wave-sep" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 40" preserveAspectRatio="none" style="background:#1e88e5;">
+  <path fill="#f8fafc" d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z"/>
+</svg>
+
+<!-- ══ QUICK CONTACT CARDS ══ -->
+<div class="quick-cards">
+  <div class="qcard">
+    <div class="qcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="1.8" width="38" height="38"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.963 9.963 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg></div>
+    <div class="qcard-title">WhatsApp</div>
+    <div class="qcard-sub">Fastest support — message us directly</div>
+    <button class="qcard-btn wa" onclick="openWA('general')"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.858L.057 23.571a.5.5 0 00.611.611l5.713-1.475A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.947 0-3.76-.527-5.31-1.438l-.38-.225-3.939 1.016 1.016-3.939-.225-.38A9.965 9.965 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> +91 98765 43210</button>
+  </div>
+  <div class="qcard">
+    <div class="qcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="1.8" width="38" height="38"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+    <div class="qcard-title">Phone Call</div>
+    <div class="qcard-sub">Mon–Sat: 10 AM – 7 PM</div>
+    <button class="qcard-btn call" onclick="window.location='tel:+919876543210'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg> Call Now</button>
+  </div>
+  <div class="qcard">
+    <div class="qcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.8" width="38" height="38"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+    <div class="qcard-title">Email</div>
+    <div class="qcard-sub">support@localbazaarhub.in</div>
+    <button class="qcard-btn mail" onclick="window.location='mailto:support@localbazaarhub.in'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Send Email</button>
+  </div>
+  <div class="qcard">
+    <div class="qcard-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.8" width="38" height="38"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="#16a34a" stroke="none"/></svg></div>
+    <div class="qcard-title">Office Visit</div>
+    <div class="qcard-sub">Gandhi Nagar, Indore – 452001</div>
+    <button class="qcard-btn visit" onclick="openMap()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg> Get Directions</button>
+  </div>
+</div>
+
+<!-- ══ MAIN CONTACT LAYOUT ══ -->
+<div class="section max-w">
+  <div class="contact-layout">
+
+    <!-- ═══ CONTACT FORM ═══ -->
+    <div class="form-card">
+
+      <!-- Default form view -->
+      <div id="formView">
+        <div class="form-card-header">
+          <div class="form-eyebrow"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>Send a Message</div>
+          <h2>Share Your <span style="color:var(--primary)">Message With Us</span></h2>
+          <p>Fill in the form below — we'll reply within 2–4 hours. You can also reach us on WhatsApp.</p>
+        </div>
+
+        <!-- Topic chooser -->
+        <div style="margin-bottom:20px;">
+          <div class="flabel">What would you like to ask about? <span class="req">*</span></div>
+          <div class="topic-grid" id="topicGrid">
+            <div class="topic-btn active" onclick="selectTopic(this,'general')"><span class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span>General Query</div>
+            <div class="topic-btn" onclick="selectTopic(this,'seller')"><span class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M3 9l3-6h12l3 6"/><path d="M9 9v2a3 3 0 006 0V9"/></svg></span>Seller Support</div>
+            <div class="topic-btn" onclick="selectTopic(this,'product')"><span class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span>Product Issue</div>
+            <div class="topic-btn" onclick="selectTopic(this,'payment')"><span class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></span>Plan/Payment</div>
+            <div class="topic-btn" onclick="selectTopic(this,'complaint')"><span class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17" stroke-linecap="round" stroke-width="3"/></svg></span>Complaint</div>
+            <div class="topic-btn" onclick="selectTopic(this,'partnership')"><span class="t-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg></span>Partnership</div>
+          </div>
+        </div>
+
+        <!-- Name + Phone -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="flabel">Your Name <span class="req">*</span></label>
+            <input type="text" class="finput" id="fname" placeholder="e.g. Ramesh Sharma">
+            <div class="ferror">Please enter your name</div>
+          </div>
+          <div class="form-group">
+            <label class="flabel">WhatsApp / Phone <span class="req">*</span></label>
+            <input type="text" class="finput" id="fphone" placeholder="+91 98765 43210">
+            <div class="ferror">Please enter a valid phone number</div>
+          </div>
+        </div>
+
+        <!-- Email + City -->
+        <div class="form-row">
+          <div class="form-group">
+            <label class="flabel">Email Address</label>
+            <input type="email" class="finput" id="femail" placeholder="you@example.com">
+            <div class="fhint">Optional — we may also reply via email</div>
+          </div>
+          <div class="form-group">
+            <label class="flabel">Your City</label>
+            <select class="finput" id="fcity">
+              <option value="">Select City</option>
+              <option>Indore</option>
+              <option>Bhopal</option>
+              <option>Jabalpur</option>
+              <option>Ujjain</option>
+              <option>Gwalior</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Subject -->
+        <div class="form-group">
+          <label class="flabel">Subject <span class="req">*</span></label>
+          <input type="text" class="finput" id="fsubject" placeholder="e.g. Having trouble registering a shop">
+          <div class="ferror">Please enter a subject</div>
+        </div>
+
+        <!-- Message -->
+        <div class="form-group">
+          <label class="flabel">Your Message <span class="req">*</span></label>
+          <textarea class="finput" id="fmessage" rows="5" placeholder="Describe your issue or question in detail... The more information you provide, the faster and better our response will be."></textarea>
+          <div class="ferror">Please enter your message</div>
+          <div class="fhint" id="charCount">0 / 500 characters</div>
+        </div>
+
+        <!-- Priority -->
+        <div class="form-group">
+          <label class="flabel">Priority Level</label>
+          <div class="priority-row">
+            <label class="prio-btn normal selected" onclick="selectPriority(this)">
+              <input type="radio" name="priority" value="normal"> <span style="width:10px;height:10px;border-radius:50%;background:#16a34a;display:inline-block;margin-right:2px;"></span> Normal
+            </label>
+            <label class="prio-btn" onclick="selectPriority(this)">
+              <input type="radio" name="priority" value="high"> <span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block;margin-right:2px;"></span> High
+            </label>
+            <label class="prio-btn urgent" onclick="selectPriority(this)">
+              <input type="radio" name="priority" value="urgent"> <span style="width:10px;height:10px;border-radius:50%;background:#dc2626;display:inline-block;margin-right:2px;"></span> Urgent
+            </label>
+          </div>
+        </div>
+
+        <!-- File Upload -->
+        <div class="form-group">
+          <label class="flabel">Screenshot / File (Optional)</label>
+          <div class="file-upload-area" id="dropZone" onclick="document.getElementById('fileInput').click()" ondragover="dragOver(event)" ondragleave="dragLeave(event)" ondrop="dropFile(event)">
+            <input type="file" id="fileInput" accept="image/*,.pdf" onchange="fileSelected(this)">
+            <div class="upload-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="32" height="32"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></div>
+            <div class="upload-text"><strong>Click or drag to upload</strong> — Screenshot or PDF (max 5MB)</div>
+          </div>
+          <div id="fileName" style="font-size:12px;color:var(--success);margin-top:6px;display:none;"></div>
+        </div>
+
+        <!-- Consent checkbox -->
+        <div class="checkbox-row">
+          <input type="checkbox" id="consent" checked>
+          <label for="consent">I agree that my contact details will be shared with the BahaBasket support team. I have read the <a href="#">Privacy Policy</a>.</label>
+        </div>
+
+        <!-- Submit -->
+        <button class="btn-submit" id="submitBtn" onclick="submitForm()">
+          <span id="btnText"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17" style="vertical-align:-3px;margin-right:6px;"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Send Message</span>
+        </button>
+      </div>
+
+      <!-- SUCCESS VIEW -->
+      <div class="form-success" id="successView">
+        <div class="success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="64" height="64"><circle cx="12" cy="12" r="10"/><polyline points="9 12 11 14 15 10"/></svg></div>
+        <h3>Message Sent Successfully!</h3>
+        <p>Thank you! We have received your message. We will reply to your WhatsApp or email within <strong>2–4 hours</strong>.<br><br>For urgent help, WhatsApp us directly: <strong>+91 98765 43210</strong></p>
+        <button class="btn-back-form" onclick="resetForm()">← Go Back</button>
+      </div>
+
+    </div><!-- /form-card -->
+
+    <!-- ═══ SIDEBAR ═══ -->
+    <aside class="contact-sidebar">
+
+      <!-- Contact Details -->
+      <div class="info-card">
+        <div class="info-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="vertical-align:-3px;margin-right:6px;"><path d="M16 4h2a2 2 0 012 2v14a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg>Contact Details</div>
+
+        <div class="contact-item">
+          <div class="ci-icon" style="background:#dcfce7;"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 2C6.477 2 2 6.477 2 12c0 1.89.525 3.66 1.438 5.168L2 22l4.832-1.438A9.963 9.963 0 0012 22c5.523 0 10-4.477 10-10S17.523 2 12 2z"/></svg></div>
+          <div class="ci-info">
+            <div class="ci-label">WhatsApp (Fastest)</div>
+            <div class="ci-value">+91 98765 43210</div>
+            <div class="ci-sub">Reply within 30 minutes</div>
+            <button class="ci-action" style="background:#dcfce7;color:var(--success);" onclick="openWA('general')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Open WhatsApp →</button>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="ci-icon" style="background:var(--primary-light);"><svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="22" height="22"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+          <div class="ci-info">
+            <div class="ci-label">Phone</div>
+            <div class="ci-value">+91 98765 43210</div>
+            <div class="ci-sub">Mon – Sat: 10 AM – 7 PM</div>
+            <button class="ci-action" style="background:var(--primary-light);color:var(--primary);" onclick="window.location='tel:+919876543210'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg> Call Now →</button>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="ci-icon" style="background:#fef3c7;"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" width="22" height="22"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+          <div class="ci-info">
+            <div class="ci-label">Email</div>
+            <div class="ci-value">support@localbazaarhub.in</div>
+            <div class="ci-sub">Reply within 2–4 hours</div>
+            <button class="ci-action" style="background:#fef3c7;color:#92400e;" onclick="window.location='mailto:support@localbazaarhub.in'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> Send Email →</button>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="ci-icon" style="background:#f0fdf4;"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="22" height="22"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="#16a34a" stroke="none"/></svg></div>
+          <div class="ci-info">
+            <div class="ci-label">Office Address</div>
+            <div class="ci-value">Shop No. 12, Gandhi Nagar<br>Indore, Madhya Pradesh – 452001</div>
+            <div class="ci-sub">Walk-in by appointment only</div>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-placeholder" onclick="openMap()">
+          <div class="map-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="1.5" width="36" height="36"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div>
+          <div class="map-text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:4px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>View on Map</div>
+          <div class="map-addr">Gandhi Nagar, Indore – 452001</div>
+        </div>
+      </div>
+
+      <!-- Office Hours -->
+      <div class="info-card">
+        <div class="info-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Office Hours</div>
+        <ul class="hours-list">
+          <li class="hours-item">
+            <span class="hours-day">Monday</span>
+            <span class="hours-time open-now">10:00 – 19:00 <span class="open-badge"><span class="dot"></span>Open</span></span>
+          </li>
+          <li class="hours-item">
+            <span class="hours-day">Tuesday</span>
+            <span class="hours-time">10:00 – 19:00</span>
+          </li>
+          <li class="hours-item">
+            <span class="hours-day">Wednesday</span>
+            <span class="hours-time">10:00 – 19:00</span>
+          </li>
+          <li class="hours-item">
+            <span class="hours-day">Thursday</span>
+            <span class="hours-time">10:00 – 19:00</span>
+          </li>
+          <li class="hours-item">
+            <span class="hours-day">Friday</span>
+            <span class="hours-time">10:00 – 19:00</span>
+          </li>
+          <li class="hours-item">
+            <span class="hours-day">Saturday</span>
+            <span class="hours-time">10:00 – 17:00</span>
+          </li>
+          <li class="hours-item">
+            <span class="hours-day">Sunday</span>
+            <span class="hours-time closed">Closed</span>
+          </li>
+        </ul>
+        <div style="margin-top:14px;padding:10px 14px;background:var(--primary-light);border-radius:8px;font-size:13px;color:var(--primary);font-weight:600;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>WhatsApp Support: 24 Hours, 7 Days
+        </div>
+      </div>
+
+      <!-- Social Media -->
+      <div class="info-card">
+        <div class="info-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="vertical-align:-3px;margin-right:6px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg>Social Media</div>
+        <div class="social-links">
+          <button class="soc-btn" onclick="alert('Facebook page link')"><span class="soc-icon"><svg viewBox="0 0 24 24" fill="#1877f2" width="20" height="20"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></span> Facebook</button>
+          <button class="soc-btn" onclick="alert('Instagram link')"><span class="soc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#e1306c" stroke-width="2" width="20" height="20"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke-linecap="round" stroke-width="3"/></svg></span> Instagram</button>
+          <button class="soc-btn" onclick="alert('YouTube link')"><span class="soc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#ff0000" stroke-width="2" width="20" height="20"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 001.46 6.42 29 29 0 001 12a29 29 0 00.46 5.58 2.78 2.78 0 001.95 1.95C5.12 20 12 20 12 20s6.88 0 8.59-.47a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#ff0000" stroke="none"/></svg></span> YouTube</button>
+          <button class="soc-btn" onclick="alert('Twitter link')"><span class="soc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="#1da1f2" stroke-width="2" width="20" height="20"><path d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"/></svg></span> Twitter</button>
+        </div>
+      </div>
+
+    </aside>
+  </div>
+</div>
+
+<!-- ══ FAQ SECTION ══ -->
+<section class="section section-alt">
+  <div class="max-w">
+    <div style="text-align:center;margin-bottom:36px;">
+      <h2 style="font-size:clamp(22px,3vw,30px);font-weight:800;margin-bottom:8px;">Frequently Asked <span style="color:var(--primary)">Questions</span></h2>
+      <p style="color:var(--text-light);font-size:14px;">Your answer might already be here!</p>
+    </div>
+    <div class="faq-grid">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is it free to register a shop?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          Yes! On the Basic plan, you can list up to 10 products completely free. No monthly fee, no commission. For more products, paid plans start from ₹499/month.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How does the WhatsApp button work?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          When a customer clicks the "Chat on WhatsApp" button, they are redirected directly to the seller's WhatsApp with a pre-filled message. The seller and customer communicate directly.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Is there an online payment option?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          Currently the platform does not have built-in online payments — this is intentional. Sellers and buyers deal directly on WhatsApp and pay via cash or UPI, which helps maintain local trust.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How long does shop verification take?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          After registration, our team completes verification within 24–48 hours. A confirmation is sent via WhatsApp. For urgent verification, please call us directly.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Can I list my shop in multiple cities?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          Yes! On the Premium plan you can list your shop across multiple locations. The Basic and Growth plans support one city/location each.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How do I upload product photos?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          Go to your Seller Dashboard and use the "Add Product" section to upload photos directly from your phone. Supported formats: JPG/PNG, max 5MB. Multiple photos are allowed.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          What is a Featured Listing?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          With a Featured Listing, your shop and products appear at the top of the homepage and search results. This increases visibility and drives more customer inquiries.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          How do I submit a complaint?
+          <span class="faq-icon">+</span>
+        </div>
+        <div class="faq-a">
+          Select the "Complaint" topic in the form above and describe your issue in detail. You can also WhatsApp us directly at +91 98765 43210. We resolve complaints within 24 hours.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ WHATSAPP STRIP ══ -->
+<div class="section max-w" style="padding-bottom:60px;">
+  <div class="wa-strip">
+    <div class="wa-strip-left">
+      <h3><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="22" height="22" style="vertical-align:-4px;margin-right:8px;"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>Need Instant Help? WhatsApp Us!</h3>
+      <p>For any question — product, shop, or technical issue — we are available on WhatsApp 24/7. Average reply time: 15 minutes.</p>
+    </div>
+    <div class="wa-strip-right">
+      <button class="btn-wa-big" onclick="openWA('general')"><svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.858L.057 23.571a.5.5 0 00.611.611l5.713-1.475A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.947 0-3.76-.527-5.31-1.438l-.38-.225-3.939 1.016 1.016-3.939-.225-.38A9.965 9.965 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> Start WhatsApp Chat</button>
+      <button class="btn-outline-white" onclick="window.location='tel:+919876543210'"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg> Call Us</button>
+    </div>
+  </div>
+</div>
+
+<!-- SHARED FOOTER -->
+<div id="site-footer"></div>
+
+<script>
+let selectedTopic = 'general';
+
+// ── Topic selector ──
+function selectTopic(el, topic){
+  document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  selectedTopic = topic;
+}
+
+// ── Priority selector ──
+function selectPriority(el){
+  document.querySelectorAll('.prio-btn').forEach(b=>b.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// ── Character counter ──
+document.getElementById('fmessage').addEventListener('input', function(){
+  const len = this.value.length;
+  document.getElementById('charCount').textContent = len + ' / 500 characters';
+  if(len > 500) this.value = this.value.substring(0,500);
+});
+
+// ── File upload ──
+function fileSelected(input){
+  if(input.files && input.files[0]){
+    const name = input.files[0].name;
+    const el = document.getElementById('fileName');
+    el.textContent = 'File selected: ' + name;
+    el.style.display = 'block';
+  }
+}
+function dragOver(e){
+  e.preventDefault();
+  document.getElementById('dropZone').classList.add('drag');
+}
+function dragLeave(e){
+  document.getElementById('dropZone').classList.remove('drag');
+}
+function dropFile(e){
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('drag');
+  const files = e.dataTransfer.files;
+  if(files[0]){
+    document.getElementById('fileName').textContent = 'File: '+files[0].name;
+    document.getElementById('fileName').style.display='block';
+  }
+}
+
+// ── Form Validation & Submit ──
+function submitForm(){
+  let valid = true;
+
+  const fname = document.getElementById('fname');
+  const fphone = document.getElementById('fphone');
+  const fsubject = document.getElementById('fsubject');
+  const fmessage = document.getElementById('fmessage');
+  const consent = document.getElementById('consent');
+
+  [fname, fphone, fsubject, fmessage].forEach(el=>{
+    el.classList.remove('error');
+    if(!el.value.trim()){ el.classList.add('error'); valid=false; }
+  });
+
+  if(fphone.value.trim().length < 8){ fphone.classList.add('error'); valid=false; }
+  if(!consent.checked){ alert('Please agree to the privacy policy.'); valid=false; }
+
+  if(!valid){
+    document.querySelector('.finput.error')?.scrollIntoView({behavior:'smooth',block:'center'});
+    return;
+  }
+
+  // Show loading
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  document.getElementById('btnText').textContent = 'Sending...';
+
+  // Simulate sending — WordPress mein WPForms/CF7 se real submission hogi
+  setTimeout(()=>{
+    btn.classList.remove('loading');
+    document.getElementById('formView').style.display = 'none';
+    document.getElementById('successView').style.display = 'block';
+
+    // Also open WhatsApp with the message
+    const name = fname.value;
+    const phone = fphone.value;
+    const subject = fsubject.value;
+    const msg = fmessage.value;
+    const waMsg = encodeURIComponent(`Hello BahaBasket! 🙏\n\n*Naam:* ${name}\n*Phone:* ${phone}\n*Topic:* ${selectedTopic}\n*Subject:* ${subject}\n\n*Message:*\n${msg}`);
+    setTimeout(()=>{ window.open('https://wa.me/919876543210?text='+waMsg,'_blank'); }, 800);
+  }, 1800);
+}
+
+function resetForm(){
+  document.getElementById('formView').style.display = 'block';
+  document.getElementById('successView').style.display = 'none';
+  document.getElementById('fname').value = '';
+  document.getElementById('fphone').value = '';
+  document.getElementById('femail').value = '';
+  document.getElementById('fsubject').value = '';
+  document.getElementById('fmessage').value = '';
+  document.getElementById('charCount').textContent = '0 / 500 characters';
+  document.getElementById('fileName').style.display = 'none';
+  document.getElementById('btnText').textContent = 'Send Message';
+}
+
+// ── FAQ accordion ──
+function toggleFaq(el){
+  const answer = el.nextElementSibling;
+  const isOpen = answer.classList.contains('open');
+  // close all
+  document.querySelectorAll('.faq-a').forEach(a=>a.classList.remove('open'));
+  document.querySelectorAll('.faq-q').forEach(q=>q.classList.remove('open'));
+  if(!isOpen){
+    answer.classList.add('open');
+    el.classList.add('open');
+  }
+}
+
+// ── WhatsApp ──
+function openWA(type){
+  const msgs = {
+    general: 'Hello! I had a question about BahaBasket.',
+    seller:  'Hello! I would like to register my shop on BahaBasket.',
+    support: 'Hello! I need some support.',
+  };
+  const msg = encodeURIComponent(msgs[type] || msgs.general);
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+
+// ── Map ──
+function openMap(){
+  window.open('https://maps.google.com/?q=Gandhi+Nagar+Indore+Madhya+Pradesh','_blank');
+}
+
+// ── Input focus effects ──
+document.querySelectorAll('.finput').forEach(el=>{
+  el.addEventListener('input',()=>el.classList.remove('error'));
+});
+</script>
+<script src="components.js"></script>
+</body>
+</html>

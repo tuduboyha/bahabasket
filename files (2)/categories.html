@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Categories – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #111827;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --card-shadow: 0 2px 12px rgba(26,86,219,0.08);
+  --card-shadow-hover: 0 10px 36px rgba(26,86,219,0.16);
+  --radius: 16px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans', sans-serif; background: var(--bg); color: var(--text-dark); overflow-x: hidden; }
+h1,h2,h3,h4,h5 { font-family: 'Baloo 2', cursive; }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* ── TOP BAR ── */
+.topbar {
+  background: var(--primary-dark); color: #fff;
+  font-size: 12px; padding: 6px 20px;
+  display: flex; justify-content: space-between; align-items: center; gap: 10px;
+}
+.topbar-left { display: flex; align-items: center; gap: 16px; }
+.topbar-right { display: flex; align-items: center; gap: 16px; }
+.topbar a { color: #c7d9ff; transition: color .2s; }
+.topbar a:hover { color: #fff; }
+.topbar .pill { background: var(--accent); color: #fff; padding: 2px 10px; border-radius: 20px; font-weight: 600; font-size: 11px; }
+
+/* ── NAVBAR ── */
+.navbar {
+  background: var(--white); border-bottom: 2px solid var(--border);
+  padding: 0 24px; display: flex; align-items: center; gap: 20px;
+  height: 68px; position: sticky; top: 0; z-index: 1000;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+}
+.logo { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.logo-icon {
+  width: 40px; height: 40px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.logo-text { font-family: 'Baloo 2', cursive; font-weight: 800; font-size: 20px; }
+.logo-text span { color: var(--primary); }
+.logo-text small { color: var(--accent); font-size: 11px; display: block; line-height: 1; margin-top: -4px; font-weight: 500; }
+.nav-search {
+  flex: 1; max-width: 520px; display: flex;
+  background: var(--bg); border: 2px solid var(--border);
+  border-radius: 10px; overflow: hidden; transition: border-color .2s, box-shadow .2s;
+}
+.nav-search:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,0.1); }
+.nav-search select { background: var(--primary-light); border: none; outline: none; padding: 0 12px; font-size: 13px; color: var(--primary-dark); font-weight: 600; cursor: pointer; min-width: 120px; }
+.nav-search input { flex: 1; border: none; outline: none; background: transparent; padding: 0 14px; font-size: 14px; color: var(--text-dark); }
+.nav-search input::placeholder { color: var(--text-light); }
+.nav-search-btn { background: var(--primary); border: none; color: #fff; padding: 0 18px; font-size: 16px; transition: background .2s; }
+.nav-search-btn:hover { background: var(--primary-dark); }
+.nav-links { display: flex; align-items: center; gap: 4px; margin-left: auto; }
+.nav-links a { padding: 8px 14px; border-radius: 8px; font-size: 13.5px; font-weight: 500; color: var(--text-mid); transition: background .2s, color .2s; white-space: nowrap; }
+.nav-links a:hover { background: var(--primary-light); color: var(--primary); }
+.nav-links a.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
+.nav-btn-register { background: var(--accent); color: #fff !important; padding: 8px 16px; border-radius: 8px; font-weight: 600; font-size: 13px; transition: background .2s !important; }
+.nav-btn-register:hover { background: #ea6c04 !important; }
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 10px 24px; display: flex; align-items: center; gap: 8px;
+  font-size: 13px; color: var(--text-light);
+}
+.breadcrumb a { color: var(--primary); }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: var(--border); }
+.breadcrumb .current { color: var(--text-dark); font-weight: 600; }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  background: linear-gradient(135deg, #0f3460 0%, #1a56db 55%, #1e88e5 100%);
+  padding: 52px 24px 64px; position: relative; overflow: hidden; text-align: center;
+}
+.page-hero::before {
+  content: ''; position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.page-hero-inner { max-width: 700px; margin: 0 auto; position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.15); backdrop-filter: blur(8px);
+  color: #fff; border: 1px solid rgba(255,255,255,.25);
+  padding: 6px 18px; border-radius: 20px; font-size: 13px; font-weight: 600;
+  margin-bottom: 20px;
+}
+.page-hero h1 { font-size: clamp(28px,4vw,44px); font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.2; }
+.page-hero h1 span { color: #fbbf24; }
+.page-hero p { color: rgba(255,255,255,.8); font-size: 15px; margin-bottom: 28px; line-height: 1.7; }
+.hero-search-bar {
+  max-width: 540px; margin: 0 auto;
+  display: flex; background: #fff; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0,0,0,.22);
+}
+.hero-search-bar input { flex: 1; border: none; outline: none; padding: 16px 20px; font-size: 15px; color: var(--text-dark); }
+.hero-search-bar input::placeholder { color: #9ca3af; }
+.hero-search-bar button { background: var(--accent); border: none; color: #fff; padding: 0 26px; font-size: 20px; transition: background .2s; }
+.hero-search-bar button:hover { background: #ea6c04; }
+
+/* ── WAVE DIVIDER ── */
+.wave-divider { display: block; margin-top: -2px; line-height: 0; }
+.wave-divider svg { display: block; }
+
+/* ── SECTION COMMONS ── */
+.section { padding: 52px 24px; }
+.section-alt { background: var(--white); }
+.max-w { max-width: 1280px; margin: 0 auto; }
+.section-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 32px; gap: 16px; flex-wrap: wrap; }
+.section-title { font-size: clamp(20px,3vw,28px); font-weight: 800; color: var(--text-dark); }
+.section-title span { color: var(--primary); }
+.section-sub { font-size: 14px; color: var(--text-light); margin-top: 4px; }
+.view-all {
+  display: flex; align-items: center; gap: 6px;
+  color: var(--primary); font-weight: 600; font-size: 14px;
+  padding: 8px 16px; border: 2px solid var(--primary); border-radius: 8px;
+  transition: background .2s, color .2s; white-space: nowrap;
+}
+.view-all:hover { background: var(--primary); color: #fff; }
+
+/* ── MAIN CATEGORY GRID (Big Cards) ── */
+.main-cat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.main-cat-card {
+  border-radius: var(--radius);
+  overflow: hidden;
+  cursor: pointer;
+  position: relative;
+  transition: all .28s cubic-bezier(.34,1.56,.64,1);
+  box-shadow: var(--card-shadow);
+  border: 2px solid transparent;
+}
+.main-cat-card:hover { transform: translateY(-6px) scale(1.01); box-shadow: var(--card-shadow-hover); border-color: rgba(255,255,255,.3); }
+.main-cat-card .card-bg {
+  padding: 36px 24px 28px;
+  position: relative;
+  min-height: 200px;
+  display: flex; flex-direction: column; justify-content: flex-end;
+}
+.main-cat-card .card-bg::before {
+  content: ''; position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 30%, rgba(0,0,0,.55) 100%);
+}
+.cat-emoji-big {
+  position: absolute; top: 20px; right: 20px;
+  font-size: 52px; opacity: .25;
+  transition: opacity .3s, transform .3s;
+}
+.main-cat-card:hover .cat-emoji-big { opacity: .4; transform: scale(1.1) rotate(-5deg); }
+.card-pattern {
+  position: absolute; inset: 0; opacity: .08;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(255,255,255,.6) 10px, rgba(255,255,255,.6) 11px);
+}
+.card-content { position: relative; z-index: 1; }
+.card-emoji { font-size: 40px; margin-bottom: 10px; filter: drop-shadow(0 2px 6px rgba(0,0,0,.3)); }
+.card-name { font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 800; color: #fff; margin-bottom: 4px; text-shadow: 0 1px 4px rgba(0,0,0,.3); }
+.card-count { font-size: 13px; color: rgba(255,255,255,.8); }
+.card-badge {
+  position: absolute; top: 14px; left: 14px;
+  background: rgba(255,255,255,.2); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  color: #fff; font-size: 11px; font-weight: 700;
+  padding: 3px 10px; border-radius: 20px;
+}
+.card-arrow {
+  position: absolute; bottom: 14px; right: 14px;
+  width: 32px; height: 32px;
+  background: rgba(255,255,255,.2); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.3);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: #fff; font-size: 14px;
+  opacity: 0; transform: translateX(-6px);
+  transition: opacity .25s, transform .25s;
+}
+.main-cat-card:hover .card-arrow { opacity: 1; transform: translateX(0); }
+
+/* ── SUBCATEGORY SECTION ── */
+.sub-section { margin-bottom: 48px; }
+.sub-section-header {
+  display: flex; align-items: center; gap: 14px;
+  margin-bottom: 20px; padding-bottom: 14px;
+  border-bottom: 2px solid var(--border);
+}
+.sub-section-icon {
+  width: 48px; height: 48px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px; flex-shrink: 0;
+}
+.sub-section-info h3 { font-family: 'Baloo 2', cursive; font-size: 20px; font-weight: 700; color: var(--text-dark); }
+.sub-section-info p { font-size: 13px; color: var(--text-light); }
+.sub-section-link { margin-left: auto; font-size: 13px; color: var(--primary); font-weight: 600; display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.sub-section-link:hover { text-decoration: underline; }
+
+.sub-cat-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px;
+}
+.sub-cat-card {
+  background: var(--white); border-radius: 12px;
+  border: 2px solid var(--border); padding: 18px 14px;
+  text-align: center; cursor: pointer;
+  transition: all .22s; position: relative; overflow: hidden;
+}
+.sub-cat-card:hover { border-color: var(--primary); box-shadow: var(--card-shadow-hover); transform: translateY(-3px); }
+.sub-cat-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0;
+  height: 3px; background: var(--primary); transform: scaleX(0); transition: transform .22s;
+}
+.sub-cat-card:hover::after { transform: scaleX(1); }
+.sub-emoji { font-size: 32px; margin-bottom: 8px; }
+.sub-name { font-weight: 600; font-size: 13px; color: var(--text-dark); margin-bottom: 3px; line-height: 1.3; }
+.sub-count { font-size: 11px; color: var(--text-light); }
+
+/* ── POPULAR TAGS CLOUD ── */
+.tags-cloud { display: flex; flex-wrap: wrap; gap: 10px; }
+.tag-item {
+  display: flex; align-items: center; gap: 6px;
+  background: var(--white); border: 2px solid var(--border);
+  color: var(--text-mid); padding: 7px 16px; border-radius: 24px;
+  font-size: 13px; font-weight: 500; cursor: pointer;
+  transition: all .2s;
+}
+.tag-item:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+.tag-item .tag-count { font-size: 11px; color: var(--text-light); background: var(--bg); padding: 1px 7px; border-radius: 10px; }
+.tag-item.hot { border-color: #fbbf24; background: #fffbeb; color: #92400e; }
+.tag-item.hot:hover { background: #fef3c7; }
+
+/* ── FEATURED CATEGORY BANNER ── */
+.cat-banner-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.cat-banner {
+  border-radius: var(--radius); padding: 32px 28px;
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+  display: flex; align-items: center; gap: 20px;
+}
+.cat-banner:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,.14); }
+.cat-banner-text { flex: 1; position: relative; z-index: 1; }
+.cat-banner-text .label { font-size: 11px; font-weight: 700; color: rgba(255,255,255,.7); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+.cat-banner-text h3 { font-family: 'Baloo 2', cursive; font-size: clamp(18px,2.5vw,26px); font-weight: 800; color: #fff; margin-bottom: 6px; line-height: 1.2; }
+.cat-banner-text p { font-size: 13px; color: rgba(255,255,255,.75); margin-bottom: 16px; }
+.cat-banner-btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.2); border: 1px solid rgba(255,255,255,.4);
+  color: #fff; padding: 8px 18px; border-radius: 8px;
+  font-size: 13px; font-weight: 600; cursor: pointer; transition: background .2s;
+}
+.cat-banner-btn:hover { background: rgba(255,255,255,.35); }
+.cat-banner-icon { font-size: 72px; opacity: .25; position: absolute; right: 20px; bottom: 0; }
+.cat-banner.blue { background: linear-gradient(135deg, #1a56db, #1e88e5); }
+.cat-banner.orange { background: linear-gradient(135deg, #f97316, #fb923c); }
+
+/* ── TRENDING SECTION ── */
+.trending-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px;
+}
+.trending-card {
+  background: var(--white); border-radius: var(--radius); border: 1px solid var(--border);
+  padding: 18px; display: flex; align-items: center; gap: 14px;
+  cursor: pointer; transition: all .22s;
+}
+.trending-card:hover { box-shadow: var(--card-shadow-hover); border-color: transparent; transform: translateY(-2px); }
+.trending-rank {
+  font-family: 'Baloo 2', cursive; font-size: 28px; font-weight: 800;
+  color: var(--border); min-width: 36px; text-align: center;
+}
+.trending-card:nth-child(1) .trending-rank { color: #fbbf24; }
+.trending-card:nth-child(2) .trending-rank { color: #9ca3af; }
+.trending-card:nth-child(3) .trending-rank { color: #d97706; }
+.trending-info { flex: 1; }
+.trending-name { font-weight: 700; font-size: 14px; color: var(--text-dark); margin-bottom: 2px; }
+.trending-meta { font-size: 12px; color: var(--text-light); }
+.trending-icon { font-size: 28px; }
+
+/* ── SHOP COUNT BANNER ── */
+.count-banner {
+  background: linear-gradient(135deg, var(--primary-light), #dbeafe);
+  border-radius: var(--radius); padding: 28px 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 20px; flex-wrap: wrap; border: 2px solid rgba(26,86,219,.1);
+  margin-bottom: 32px;
+}
+.count-items { display: flex; gap: 40px; flex-wrap: wrap; }
+.count-item { text-align: center; }
+.count-item .num { font-family: 'Baloo 2', cursive; font-size: 32px; font-weight: 800; color: var(--primary); line-height: 1; }
+.count-item .lbl { font-size: 12px; color: var(--text-light); margin-top: 4px; }
+.count-banner-btn {
+  background: var(--primary); color: #fff; border: none;
+  padding: 12px 24px; border-radius: 10px; font-size: 14px; font-weight: 700; transition: background .2s;
+}
+.count-banner-btn:hover { background: var(--primary-dark); }
+
+/* ── FLOATING WHATSAPP ── */
+.float-wa { position: fixed; bottom: 28px; right: 28px; z-index: 9999; }
+.float-wa-btn {
+  width: 56px; height: 56px; background: var(--whatsapp); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 26px;
+  box-shadow: 0 4px 20px rgba(37,211,102,.4); cursor: pointer;
+  animation: float-bounce 3s infinite;
+}
+@keyframes float-bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ── FOOTER MINI ── */
+.footer-mini {
+  background: #0f172a; color: rgba(255,255,255,.5);
+  text-align: center; padding: 20px 24px; font-size: 13px;
+}
+.footer-mini a { color: var(--primary); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1100px) { .main-cat-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 860px) {
+  .main-cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { display: none; }
+  .cat-banner-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 560px) {
+  .main-cat-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+  .sub-cat-grid { grid-template-columns: repeat(3, 1fr); }
+  .section { padding: 36px 14px; }
+  .page-hero { padding: 36px 16px 48px; }
+  .topbar-left span:not(:first-child) { display: none; }
+  .cat-banner { padding: 22px 18px; }
+  .count-items { gap: 24px; }
+}
+@media (max-width: 380px) {
+  .main-cat-grid { grid-template-columns: 1fr; }
+  .sub-cat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(22px); }
+  to { opacity:1; transform: translateY(0); }
+}
+.main-cat-card { animation: fadeUp .45s ease both; }
+.main-cat-card:nth-child(1) { animation-delay: .04s; }
+.main-cat-card:nth-child(2) { animation-delay: .09s; }
+.main-cat-card:nth-child(3) { animation-delay: .14s; }
+.main-cat-card:nth-child(4) { animation-delay: .19s; }
+.main-cat-card:nth-child(5) { animation-delay: .24s; }
+.main-cat-card:nth-child(6) { animation-delay: .29s; }
+.main-cat-card:nth-child(7) { animation-delay: .34s; }
+.main-cat-card:nth-child(8) { animation-delay: .39s; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>📍 Apne Shehar ka Online Bazaar</span>
+    <span class="pill">🔥 15 Categories Available</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#">📞 +91 98765 43210</a>
+    <a href="#">Seller Login</a>
+    <a href="#">हिंदी</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </div>
+  <div class="nav-search">
+    <select>
+      <option>All Categories</option>
+      <option>Men Fashion</option>
+      <option>Women Fashion</option>
+      <option>Kids Wear</option>
+      <option>Electronics</option>
+      <option>Mobile Accessories</option>
+    </select>
+    <input type="text" placeholder="Search categories, products, shops...">
+    <button class="nav-search-btn">🔍</button>
+  </div>
+  <div class="nav-links">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html">Shops</a>
+    <a href="#">Offers</a>
+    <a href="categories.html" class="active">Categories</a>
+    <a href="#" class="nav-btn-register">+ List Your Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a>
+  <span class="sep">›</span>
+  <span class="current">📂 All Categories</span>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="hero-badge">📂 15 Categories · 10,000+ Products</div>
+    <h1>Sahi Category, <span>Sahi Dukaan</span></h1>
+    <p>Men, Women, Kids Fashion se lekar Electronics tak — apni category chunein aur seedha local shop se connect karein WhatsApp pe.</p>
+    <div class="hero-search-bar">
+      <input type="text" placeholder="🔍  Kurta, Saree, Mobile, Earphones dhundein...">
+      <button>→</button>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<svg class="wave-divider" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 40" preserveAspectRatio="none" style="background:#1e88e5;">
+  <path fill="#f8fafc" d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z"/>
+</svg>
+
+<!-- ══ MAIN CATEGORIES BIG GRID ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🗂️ Sabhi <span>Categories</span></div>
+      <div class="section-sub">Apni pasand ki category select karein</div>
+    </div>
+  </div>
+
+  <div class="count-banner">
+    <div class="count-items">
+      <div class="count-item"><div class="num">15</div><div class="lbl">Categories</div></div>
+      <div class="count-item"><div class="num">10K+</div><div class="lbl">Products</div></div>
+      <div class="count-item"><div class="num">500+</div><div class="lbl">Shops</div></div>
+      <div class="count-item"><div class="num">25K+</div><div class="lbl">Customers</div></div>
+    </div>
+    <button class="count-banner-btn" onclick="window.location='shop-directory.html'">🏪 All Shops Dekhein →</button>
+  </div>
+
+  <div class="main-cat-grid">
+
+    <!-- Men Fashion -->
+    <div class="main-cat-card" onclick="window.location='#men-fashion'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #1a56db, #3b82f6);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">👔</div>
+        <span class="card-badge">⭐ Top Seller</span>
+        <div class="card-content">
+          <div class="card-emoji">👔</div>
+          <div class="card-name">Men Fashion</div>
+          <div class="card-count">1,240 Products · 120 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Women Fashion -->
+    <div class="main-cat-card" onclick="window.location='#women-fashion'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #be185d, #ec4899);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">👗</div>
+        <span class="card-badge">🔥 Most Popular</span>
+        <div class="card-content">
+          <div class="card-emoji">👗</div>
+          <div class="card-name">Women Fashion</div>
+          <div class="card-count">2,180 Products · 145 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Kids Wear -->
+    <div class="main-cat-card" onclick="window.location='#kids-wear'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #059669, #34d399);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">🧒</div>
+        <div class="card-content">
+          <div class="card-emoji">🧒</div>
+          <div class="card-name">Kids Wear</div>
+          <div class="card-count">890 Products · 68 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Electronics -->
+    <div class="main-cat-card" onclick="window.location='#electronics'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #d97706, #fbbf24);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">📱</div>
+        <span class="card-badge">⚡ Flash Deals</span>
+        <div class="card-content">
+          <div class="card-emoji">📱</div>
+          <div class="card-name">Electronics</div>
+          <div class="card-count">560 Products · 92 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Mobile Accessories -->
+    <div class="main-cat-card" onclick="window.location='#mobile-acc'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #dc2626, #f87171);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">🎧</div>
+        <div class="card-content">
+          <div class="card-emoji">🎧</div>
+          <div class="card-name">Mobile Accessories</div>
+          <div class="card-count">430 Products · 75 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Footwear -->
+    <div class="main-cat-card" onclick="window.location='#footwear'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">👟</div>
+        <div class="card-content">
+          <div class="card-emoji">👟</div>
+          <div class="card-name">Footwear</div>
+          <div class="card-count">720 Products · 54 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Jewellery -->
+    <div class="main-cat-card" onclick="window.location='#jewellery'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #0891b2, #22d3ee);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">💍</div>
+        <div class="card-content">
+          <div class="card-emoji">💍</div>
+          <div class="card-name">Jewellery</div>
+          <div class="card-count">380 Products · 46 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+    <!-- Home Decor -->
+    <div class="main-cat-card" onclick="window.location='#home-decor'">
+      <div class="card-bg" style="background: linear-gradient(135deg, #4f46e5, #818cf8);">
+        <div class="card-pattern"></div>
+        <div class="cat-emoji-big">🏠</div>
+        <div class="card-content">
+          <div class="card-emoji">🏠</div>
+          <div class="card-name">Home Decor</div>
+          <div class="card-count">290 Products · 38 Shops</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ MEN FASHION SUBCATEGORIES ══ -->
+<section class="section section-alt" id="men-fashion">
+  <div class="max-w">
+    <div class="sub-section">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #dbeafe;">👔</div>
+        <div class="sub-section-info">
+          <h3>Men Fashion</h3>
+          <p>1,240 products · 120 shops available</p>
+        </div>
+        <a href="#" class="sub-section-link">Sabhi Products Dekhein →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji">👕</div><div class="sub-name">Casual T-Shirts</div><div class="sub-count">186 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">👔</div><div class="sub-name">Formal Shirts</div><div class="sub-count">142 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🩳</div><div class="sub-name">Trousers & Pants</div><div class="sub-count">98 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🧥</div><div class="sub-name">Jackets & Blazers</div><div class="sub-count">74 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🎽</div><div class="sub-name">Kurta & Ethnic</div><div class="sub-count">210 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🩲</div><div class="sub-name">Innerwear</div><div class="sub-count">63 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🧣</div><div class="sub-name">Shawl & Stole</div><div class="sub-count">48 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🎩</div><div class="sub-name">Caps & Hats</div><div class="sub-count">55 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">👗</div><div class="sub-name">Wedding Sherwani</div><div class="sub-count">89 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🩴</div><div class="sub-name">Dhoti & Lungi</div><div class="sub-count">41 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ WOMEN FASHION SUBCATEGORIES ══ -->
+    <div class="sub-section" id="women-fashion">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #fce7f3;">👗</div>
+        <div class="sub-section-info">
+          <h3>Women Fashion</h3>
+          <p>2,180 products · 145 shops available</p>
+        </div>
+        <a href="#" class="sub-section-link">Sabhi Products Dekhein →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji">👗</div><div class="sub-name">Saree</div><div class="sub-count">420 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">👘</div><div class="sub-name">Salwar Suit</div><div class="sub-count">310 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🥻</div><div class="sub-name">Lehenga Choli</div><div class="sub-count">198 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">👚</div><div class="sub-name">Kurti & Top</div><div class="sub-count">275 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🩱</div><div class="sub-name">Western Wear</div><div class="sub-count">156 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🧥</div><div class="sub-name">Winter Wear</div><div class="sub-count">112 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🩰</div><div class="sub-name">Night Wear</div><div class="sub-count">89 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🧣</div><div class="sub-name">Dupatta & Stole</div><div class="sub-count">134 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">💃</div><div class="sub-name">Bridal Wear</div><div class="sub-count">176 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🌸</div><div class="sub-name">Maternity Wear</div><div class="sub-count">62 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ KIDS WEAR SUBCATEGORIES ══ -->
+    <div class="sub-section" id="kids-wear">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #d1fae5;">🧒</div>
+        <div class="sub-section-info">
+          <h3>Kids Wear</h3>
+          <p>890 products · 68 shops available</p>
+        </div>
+        <a href="#" class="sub-section-link">Sabhi Products Dekhein →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji">👶</div><div class="sub-name">Infant (0–2 yrs)</div><div class="sub-count">145 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🧒</div><div class="sub-name">Boys (3–10 yrs)</div><div class="sub-count">198 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">👧</div><div class="sub-name">Girls (3–10 yrs)</div><div class="sub-count">214 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🎒</div><div class="sub-name">School Uniform</div><div class="sub-count">86 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🎉</div><div class="sub-name">Party Wear</div><div class="sub-count">124 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🏃</div><div class="sub-name">Sports Wear</div><div class="sub-count">67 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">❄️</div><div class="sub-name">Winter Collection</div><div class="sub-count">56 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ ELECTRONICS SUBCATEGORIES ══ -->
+    <div class="sub-section" id="electronics">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #fef3c7;">📱</div>
+        <div class="sub-section-info">
+          <h3>Electronics</h3>
+          <p>560 products · 92 shops available</p>
+        </div>
+        <a href="#" class="sub-section-link">Sabhi Products Dekhein →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji">📱</div><div class="sub-name">Smartphones</div><div class="sub-count">128 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">💻</div><div class="sub-name">Laptops & PC</div><div class="sub-count">76 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">📺</div><div class="sub-name">Smart TV</div><div class="sub-count">45 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">⌚</div><div class="sub-name">Smart Watches</div><div class="sub-count">89 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">📸</div><div class="sub-name">Cameras</div><div class="sub-count">38 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🔋</div><div class="sub-name">Power Banks</div><div class="sub-count">62 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🎮</div><div class="sub-name">Gaming Gadgets</div><div class="sub-count">44 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🔌</div><div class="sub-name">Chargers & Cables</div><div class="sub-count">78 products</div></div>
+      </div>
+    </div>
+
+    <!-- ══ MOBILE ACCESSORIES SUBCATEGORIES ══ -->
+    <div class="sub-section" id="mobile-acc">
+      <div class="sub-section-header">
+        <div class="sub-section-icon" style="background: #fee2e2;">🎧</div>
+        <div class="sub-section-info">
+          <h3>Mobile Accessories</h3>
+          <p>430 products · 75 shops available</p>
+        </div>
+        <a href="#" class="sub-section-link">Sabhi Products Dekhein →</a>
+      </div>
+      <div class="sub-cat-grid">
+        <div class="sub-cat-card"><div class="sub-emoji">🎧</div><div class="sub-name">Earphones & Headphones</div><div class="sub-count">112 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">📱</div><div class="sub-name">Mobile Covers</div><div class="sub-count">98 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🛡️</div><div class="sub-name">Tempered Glass</div><div class="sub-count">64 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">⚡</div><div class="sub-name">Fast Chargers</div><div class="sub-count">55 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">📡</div><div class="sub-name">Data Cables</div><div class="sub-count">48 products</div></div>
+        <div class="sub-cat-card"><div class="sub-emoji">🔊</div><div class="sub-name">Bluetooth Speakers</div><div class="sub-count">53 products</div></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FEATURED CATEGORY BANNERS ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🔥 Special <span>Collections</span></div>
+      <div class="section-sub">Khaas occasions ke liye khaas categories</div>
+    </div>
+  </div>
+  <div class="cat-banner-grid">
+    <div class="cat-banner blue">
+      <div class="cat-banner-text">
+        <div class="label">🎊 Festival Season</div>
+        <h3>Wedding &amp; Bridal Collection</h3>
+        <p>Shaadi ke liye sabse sundar collection — saree, lehenga, sherwani sab ek jagah</p>
+        <button class="cat-banner-btn">Explore Collection →</button>
+      </div>
+      <div class="cat-banner-icon">💍</div>
+    </div>
+    <div class="cat-banner orange">
+      <div class="cat-banner-text">
+        <div class="label">⚡ Tech Zone</div>
+        <h3>Latest Gadgets &amp; Electronics</h3>
+        <p>Naye smartphones, earphones aur accessories — seedha local shop se</p>
+        <button class="cat-banner-btn">Shop Gadgets →</button>
+      </div>
+      <div class="cat-banner-icon">📱</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ TRENDING CATEGORIES ══ -->
+<section class="section section-alt">
+  <div class="max-w">
+    <div class="section-header">
+      <div>
+        <div class="section-title">📈 Trending <span>Right Now</span></div>
+        <div class="section-sub">Sabse zyada search ki gayi categories aaj</div>
+      </div>
+    </div>
+    <div class="trending-grid">
+      <div class="trending-card">
+        <div class="trending-rank">1</div>
+        <div class="trending-icon">👗</div>
+        <div class="trending-info">
+          <div class="trending-name">Banarasi Saree</div>
+          <div class="trending-meta">2,400+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">2</div>
+        <div class="trending-icon">🎧</div>
+        <div class="trending-info">
+          <div class="trending-name">Wireless Earphones</div>
+          <div class="trending-meta">1,890+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">3</div>
+        <div class="trending-icon">👔</div>
+        <div class="trending-info">
+          <div class="trending-name">Men Kurta Set</div>
+          <div class="trending-meta">1,650+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">4</div>
+        <div class="trending-icon">📱</div>
+        <div class="trending-info">
+          <div class="trending-name">Mobile Cover</div>
+          <div class="trending-meta">1,420+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">5</div>
+        <div class="trending-icon">🧒</div>
+        <div class="trending-info">
+          <div class="trending-name">Kids Party Dress</div>
+          <div class="trending-meta">1,180+ searches today</div>
+        </div>
+      </div>
+      <div class="trending-card">
+        <div class="trending-rank">6</div>
+        <div class="trending-icon">👟</div>
+        <div class="trending-info">
+          <div class="trending-name">Sports Shoes</div>
+          <div class="trending-meta">980+ searches today</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ POPULAR TAGS ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🏷️ Popular <span>Tags</span></div>
+      <div class="section-sub">Zyada search hone wale keywords</div>
+    </div>
+  </div>
+  <div class="tags-cloud">
+    <div class="tag-item hot">🔥 Silk Saree <span class="tag-count">420</span></div>
+    <div class="tag-item hot">🔥 Wedding Lehenga <span class="tag-count">310</span></div>
+    <div class="tag-item">Cotton Kurta <span class="tag-count">286</span></div>
+    <div class="tag-item">Bluetooth Earphones <span class="tag-count">254</span></div>
+    <div class="tag-item hot">🔥 Kids Dress <span class="tag-count">198</span></div>
+    <div class="tag-item">iPhone Cover <span class="tag-count">187</span></div>
+    <div class="tag-item">Sports Shoes Men <span class="tag-count">176</span></div>
+    <div class="tag-item">Salwar Suit <span class="tag-count">164</span></div>
+    <div class="tag-item">Formal Shirt <span class="tag-count">152</span></div>
+    <div class="tag-item">School Uniform <span class="tag-count">143</span></div>
+    <div class="tag-item">Tempered Glass <span class="tag-count">138</span></div>
+    <div class="tag-item hot">🔥 Bridal Jewellery <span class="tag-count">127</span></div>
+    <div class="tag-item">Smart Watch <span class="tag-count">118</span></div>
+    <div class="tag-item">Fast Charger <span class="tag-count">112</span></div>
+    <div class="tag-item">Sandals Women <span class="tag-count">108</span></div>
+    <div class="tag-item">Kurtis Set <span class="tag-count">104</span></div>
+    <div class="tag-item">Wall Decor <span class="tag-count">98</span></div>
+    <div class="tag-item">Power Bank <span class="tag-count">94</span></div>
+    <div class="tag-item">Boys T-Shirt <span class="tag-count">88</span></div>
+    <div class="tag-item">Designer Dupatta <span class="tag-count">82</span></div>
+  </div>
+</section>
+
+<!-- FOOTER MINI -->
+<div class="footer-mini">
+  © 2024 <a href="local-bazaar-hub.html">Local Bazaar Hub</a> · Apna Dukaan, Digital Duniya · All Rights Reserved
+</div>
+
+<!-- FLOATING WHATSAPP -->
+<div class="float-wa">
+  <div class="float-wa-btn" title="WhatsApp Support">💬</div>
+</div>
+
+<script>
+// Tag click
+document.querySelectorAll('.tag-item').forEach(tag => {
+  tag.addEventListener('click', function() {
+    const text = this.textContent.trim().replace(/\d+/g,'').trim();
+    alert('Searching for: ' + text + '\n(WordPress mein product listing page pe redirect hoga)');
+  });
+});
+
+// Sub-cat card click
+document.querySelectorAll('.sub-cat-card').forEach(card => {
+  card.addEventListener('click', function() {
+    this.style.borderColor = 'var(--primary)';
+    this.style.background = 'var(--primary-light)';
+    setTimeout(() => {
+      this.style.borderColor = '';
+      this.style.background = '';
+    }, 300);
+  });
+});
+
+// Main cat card
+document.querySelectorAll('.main-cat-card').forEach(card => {
+  card.addEventListener('mouseenter', function() {
+    this.querySelector('.cat-emoji-big').style.transform = 'scale(1.1) rotate(-5deg)';
+  });
+  card.addEventListener('mouseleave', function() {
+    this.querySelector('.cat-emoji-big').style.transform = '';
+  });
+});
+
+// Smooth scroll for anchor links
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+  });
+});
+</script>
+</body>
+</html>

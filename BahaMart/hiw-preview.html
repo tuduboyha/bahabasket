@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How Does It Work — Icon Preview</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.0.0/tabler-icons.min.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', sans-serif; background: #f8fafc; padding: 40px 24px; }
+
+  h2 { font-size: 28px; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
+  h2 span { color: #1a56db; }
+  .sub { color: #64748b; font-size: 15px; margin-bottom: 40px; }
+
+  .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; position: relative; }
+  .steps::before {
+    content: '';
+    position: absolute;
+    top: 44px; left: 12%; right: 12%;
+    height: 2px;
+    background: linear-gradient(90deg, #e2e8f0, #1a56db, #e2e8f0);
+    z-index: 0;
+  }
+
+  .step { text-align: center; position: relative; z-index: 1; }
+
+  .step-circle {
+    width: 88px; height: 88px;
+    border-radius: 50%;
+    border: 2.5px solid #1a56db;
+    background: #fff;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    transition: all .25s;
+    position: relative;
+    box-shadow: 0 4px 16px rgba(26,86,219,.1);
+  }
+  .step-circle i { font-size: 34px; color: #1a56db; transition: color .25s; }
+  .step-num {
+    position: absolute; top: -6px; right: -6px;
+    width: 24px; height: 24px;
+    background: #1a56db; color: #fff;
+    border-radius: 50%; font-size: 11px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid #fff;
+  }
+  .step:hover .step-circle {
+    background: #1a56db;
+    box-shadow: 0 12px 32px rgba(26,86,219,.35);
+    transform: scale(1.08);
+  }
+  .step:hover .step-circle i { color: #fff; }
+
+  .step-title { font-size: 14px; font-weight: 700; color: #1e293b; margin-bottom: 8px; }
+  .step-desc { font-size: 13px; color: #64748b; line-height: 1.6; }
+
+  .note { margin-top: 32px; font-size: 13px; color: #94a3b8; text-align: center; }
+</style>
+</head>
+<body>
+
+<h2>How Does It Work? <span>✦</span></h2>
+<p class="sub">3 simple steps to start shopping</p>
+
+<div class="steps">
+  <div class="step">
+    <div class="step-circle">
+      <div class="step-num">1</div>
+      <i class="ti ti-search"></i>
+    </div>
+    <div class="step-title">Search Products</div>
+    <div class="step-desc">Browse or search by category to find exactly what you're looking for</div>
+  </div>
+
+  <div class="step">
+    <div class="step-circle">
+      <div class="step-num">2</div>
+      <i class="ti ti-building-store"></i>
+    </div>
+    <div class="step-title">Select a Shop</div>
+    <div class="step-desc">View nearby verified shop profiles, read ratings and reviews</div>
+  </div>
+
+  <div class="step">
+    <div class="step-circle">
+      <div class="step-num">3</div>
+      <i class="ti ti-brand-whatsapp"></i>
+    </div>
+    <div class="step-title">Chat on WhatsApp</div>
+    <div class="step-desc">Connect directly with the seller on WhatsApp and negotiate the best price</div>
+  </div>
+
+  <div class="step">
+    <div class="step-circle">
+      <div class="step-num">4</div>
+      <i class="ti ti-package"></i>
+    </div>
+    <div class="step-title">Get Your Order</div>
+    <div class="step-desc">Pickup from the shop or arrange home delivery — your choice!</div>
+  </div>
+</div>
+
+<p class="note">Hover karo steps pe — icon fill ho jaata hai 🎨</p>
+
+</body>
+</html>

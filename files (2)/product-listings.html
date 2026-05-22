@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Listings – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #111827;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --card-shadow: 0 2px 12px rgba(26,86,219,0.07);
+  --card-shadow-hover: 0 10px 36px rgba(26,86,219,0.15);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --success: #16a34a;
+  --danger: #dc2626;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4,h5{font-family:'Baloo 2',cursive;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Noto Sans',sans-serif;}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--primary-dark);color:#fff;font-size:12px;padding:6px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-right{display:flex;align-items:center;gap:16px;}
+.topbar a{color:#c7d9ff;transition:color .2s;}
+.topbar a:hover{color:#fff;}
+.topbar .pill{background:var(--accent);color:#fff;padding:2px 10px;border-radius:20px;font-weight:600;font-size:11px;}
+
+/* ── NAVBAR ── */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:20px;height:68px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.logo-text{font-family:'Baloo 2',cursive;font-weight:800;font-size:20px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:11px;display:block;line-height:1;margin-top:-4px;font-weight:500;}
+.nav-search{flex:1;max-width:520px;display:flex;background:var(--bg);border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s,box-shadow .2s;}
+.nav-search:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,0.1);}
+.nav-search select{background:var(--primary-light);border:none;outline:none;padding:0 12px;font-size:13px;color:var(--primary-dark);font-weight:600;cursor:pointer;min-width:120px;}
+.nav-search input{flex:1;border:none;outline:none;background:transparent;padding:0 14px;font-size:14px;color:var(--text-dark);}
+.nav-search input::placeholder{color:var(--text-light);}
+.nav-search-btn{background:var(--primary);border:none;color:#fff;padding:0 18px;font-size:16px;transition:background .2s;}
+.nav-search-btn:hover{background:var(--primary-dark);}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto;}
+.nav-links a{padding:8px 14px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--text-mid);transition:background .2s,color .2s;white-space:nowrap;}
+.nav-links a:hover{background:var(--primary-light);color:var(--primary);}
+.nav-links a.active{background:var(--primary-light);color:var(--primary);font-weight:700;}
+.nav-btn-register{background:var(--accent);color:#fff !important;padding:8px 16px;border-radius:8px;font-weight:600;font-size:13px;transition:background .2s !important;}
+.nav-btn-register:hover{background:#ea6c04 !important;}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-light);}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ── PAGE HERO (compact) ── */
+.page-hero{background:linear-gradient(135deg,#0f3460 0%,#1a56db 55%,#1e88e5 100%);padding:36px 24px 44px;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.page-hero-inner{max-width:1280px;margin:0 auto;position:relative;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.page-hero-left h1{font-size:clamp(22px,3.5vw,36px);font-weight:800;color:#fff;margin-bottom:8px;}
+.page-hero-left h1 span{color:#fbbf24;}
+.page-hero-left p{color:rgba(255,255,255,.75);font-size:14px;}
+.hero-quick-cats{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px;}
+.hqc{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);color:#fff;padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;}
+.hqc:hover,.hqc.active{background:rgba(255,255,255,.3);}
+.hero-right-stats{display:flex;gap:16px;}
+.h-stat{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 18px;text-align:center;}
+.h-stat .num{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#fff;}
+.h-stat .lbl{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;}
+
+/* ── LAYOUT ── */
+.listing-layout{max-width:1280px;margin:0 auto;padding:28px 24px;display:grid;grid-template-columns:268px 1fr;gap:26px;align-items:start;}
+
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:18px;position:sticky;top:88px;}
+.filter-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;}
+.filter-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.filter-title{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--text-dark);}
+.filter-clear{font-size:12px;color:var(--primary);font-weight:600;cursor:pointer;}
+.filter-clear:hover{text-decoration:underline;}
+.filter-body{padding:16px 18px;}
+.filter-section{margin-bottom:18px;}
+.filter-section:last-child{margin-bottom:0;}
+.fs-title{font-size:12px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.check-item{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 7px;border-radius:6px;transition:background .15s;}
+.check-item:hover{background:var(--bg);}
+.check-item input[type="checkbox"]{width:15px;height:15px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;}
+.check-item label{font-size:13px;color:var(--text-mid);cursor:pointer;flex:1;display:flex;justify-content:space-between;align-items:center;}
+.cc{background:var(--bg);color:var(--text-light);font-size:11px;padding:1px 6px;border-radius:8px;font-weight:600;}
+
+/* Price Range */
+.price-range-wrap{padding:8px 0;}
+.price-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.price-input{width:100%;border:2px solid var(--border);border-radius:7px;padding:7px 10px;font-size:13px;outline:none;transition:border-color .2s;font-family:'Noto Sans',sans-serif;}
+.price-input:focus{border-color:var(--primary);}
+.range-slider{width:100%;accent-color:var(--primary);cursor:pointer;}
+.price-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-top:4px;}
+
+/* Rating filter */
+.rating-filter{display:flex;flex-direction:column;gap:6px;}
+.rating-row{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 7px;border-radius:6px;transition:background .15s;}
+.rating-row:hover{background:var(--bg);}
+.rating-row input{accent-color:var(--primary);cursor:pointer;}
+.stars-sm{color:#fbbf24;font-size:12px;letter-spacing:1px;}
+
+/* Area tags */
+.area-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.area-tag{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:4px 10px;border-radius:16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;}
+.area-tag:hover,.area-tag.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary);font-weight:600;}
+
+.btn-apply{width:100%;background:var(--primary);color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:700;transition:background .2s;margin-top:4px;}
+.btn-apply:hover{background:var(--primary-dark);}
+
+/* ── MAIN CONTENT ── */
+.main-content{min-width:0;}
+
+/* Toolbar */
+.toolbar{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:13px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.result-count{font-size:13.5px;color:var(--text-mid);}
+.result-count strong{color:var(--text-dark);font-weight:700;}
+.active-filters{display:flex;gap:6px;flex-wrap:wrap;}
+.af-tag{display:flex;align-items:center;gap:4px;background:var(--primary-light);color:var(--primary);border:1px solid var(--primary);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.af-tag .rm{cursor:pointer;font-size:13px;}
+.toolbar-right{display:flex;align-items:center;gap:10px;}
+.sort-select{border:2px solid var(--border);border-radius:8px;padding:7px 10px;font-size:13px;outline:none;color:var(--text-dark);cursor:pointer;font-family:'Noto Sans',sans-serif;}
+.view-toggle{display:flex;gap:3px;}
+.vbtn{width:32px;height:32px;border:2px solid var(--border);border-radius:6px;background:transparent;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s;color:var(--text-light);}
+.vbtn.active,.vbtn:hover{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+
+/* Category pill bar */
+.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.cat-pill{display:flex;align-items:center;gap:5px;padding:7px 15px;border-radius:22px;font-size:13px;font-weight:500;border:2px solid var(--border);background:var(--white);color:var(--text-mid);cursor:pointer;transition:all .2s;}
+.cat-pill:hover{border-color:var(--primary);color:var(--primary);}
+.cat-pill.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600;}
+.cat-pill .cnt{font-size:11px;opacity:.75;}
+
+/* ── PRODUCT GRID ── */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(218px,1fr));gap:18px;}
+.products-grid.list-view{grid-template-columns:1fr;}
+
+/* ── PRODUCT CARD (Grid) ── */
+.product-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:all .26s;cursor:pointer;position:relative;}
+.product-card:hover{box-shadow:var(--card-shadow-hover);transform:translateY(-4px);border-color:transparent;}
+
+.prod-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:var(--bg);}
+.prod-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.product-card:hover .prod-img-wrap img{transform:scale(1.06);}
+.prod-badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;color:#fff;}
+.badge-new{background:var(--primary);}
+.badge-sale{background:var(--danger);}
+.badge-hot{background:var(--accent);}
+.badge-sold{background:#6b7280;}
+.prod-wishlist{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(255,255,255,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;opacity:0;transition:opacity .2s;box-shadow:0 2px 8px rgba(0,0,0,.12);border:none;}
+.product-card:hover .prod-wishlist{opacity:1;}
+.prod-gallery-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.6);}
+.dot.active{background:#fff;width:14px;border-radius:3px;}
+.prod-availability{position:absolute;bottom:0;left:0;right:0;background:rgba(220,38,38,.9);color:#fff;font-size:11px;font-weight:700;text-align:center;padding:4px;letter-spacing:.5px;}
+
+.prod-body{padding:12px 14px 14px;}
+.prod-shop-row{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-light);margin-bottom:5px;}
+.shop-dot{width:6px;height:6px;border-radius:50%;background:var(--whatsapp);flex-shrink:0;}
+.shop-dot.closed{background:var(--danger);}
+.prod-title{font-weight:600;font-size:13.5px;color:var(--text-dark);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.prod-price-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.prod-price{font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:var(--primary);}
+.prod-mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;}
+.prod-disc{font-size:12px;color:var(--success);font-weight:700;}
+.prod-rating{display:flex;align-items:center;gap:4px;margin-bottom:10px;}
+.stars-xs{color:#fbbf24;font-size:11px;}
+.rating-val{font-size:12px;font-weight:600;color:var(--text-dark);}
+.rating-cnt-sm{font-size:11px;color:var(--text-light);}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:var(--whatsapp);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;transition:background .2s,transform .1s;}
+.btn-wa:hover{background:var(--whatsapp-dark);}
+.btn-wa:active{transform:scale(.97);}
+.btn-wa svg{width:15px;height:15px;flex-shrink:0;}
+
+/* ── PRODUCT CARD (List View) ── */
+.products-grid.list-view .product-card{display:grid;grid-template-columns:180px 1fr;}
+.products-grid.list-view .prod-img-wrap{aspect-ratio:unset;height:100%;min-height:170px;border-radius:0;}
+.products-grid.list-view .prod-body{padding:16px 20px;display:flex;flex-direction:column;justify-content:space-between;}
+.products-grid.list-view .prod-title{-webkit-line-clamp:3;font-size:15px;}
+.products-grid.list-view .prod-price{font-size:22px;}
+.products-grid.list-view .btn-wa{width:auto;padding:10px 22px;align-self:flex-start;}
+
+/* ── QUICK VIEW MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.modal-box{background:#fff;border-radius:20px;width:100%;max-width:820px;max-height:90vh;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 24px 80px rgba(0,0,0,.25);animation:slideUp .25s ease;}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:none;opacity:1;}}
+.modal-img-col{background:var(--bg);display:flex;flex-direction:column;}
+.modal-main-img{aspect-ratio:1;overflow:hidden;position:relative;}
+.modal-main-img img{width:100%;height:100%;object-fit:cover;}
+.modal-thumbs{display:flex;gap:8px;padding:12px;}
+.thumb{width:56px;height:56px;border-radius:8px;overflow:hidden;border:2px solid var(--border);cursor:pointer;flex-shrink:0;transition:border-color .2s;}
+.thumb.active,.thumb:hover{border-color:var(--primary);}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+.modal-body-col{padding:28px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;}
+.modal-close{position:absolute;top:16px;right:16px;width:34px;height:34px;background:#fff;border:none;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);cursor:pointer;z-index:10;}
+.modal-box{position:relative;}
+.modal-category{font-size:12px;color:var(--primary);font-weight:700;background:var(--primary-light);padding:3px 10px;border-radius:4px;display:inline-block;}
+.modal-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--text-dark);line-height:1.3;}
+.modal-shop-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--border);}
+.modal-shop-icon{font-size:24px;}
+.modal-shop-info{flex:1;}
+.modal-shop-name{font-weight:700;font-size:14px;color:var(--text-dark);}
+.modal-shop-sub{font-size:12px;color:var(--text-light);}
+.modal-price-row{display:flex;align-items:center;gap:10px;}
+.modal-price{font-family:'Baloo 2',cursive;font-size:32px;font-weight:800;color:var(--primary);}
+.modal-mrp{font-size:14px;color:var(--text-light);text-decoration:line-through;}
+.modal-disc{font-size:14px;color:var(--success);font-weight:700;}
+.modal-rating-row{display:flex;align-items:center;gap:8px;}
+.stars-md{color:#fbbf24;font-size:16px;}
+.modal-desc{font-size:14px;color:var(--text-mid);line-height:1.7;}
+.modal-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.detail-item{background:var(--bg);border-radius:8px;padding:8px 12px;}
+.detail-label{font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+.detail-value{font-size:13px;color:var(--text-dark);font-weight:600;margin-top:2px;}
+.modal-wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--whatsapp);color:#fff;border:none;padding:14px;border-radius:10px;font-size:16px;font-weight:700;transition:background .2s,transform .1s;}
+.modal-wa-btn:hover{background:var(--whatsapp-dark);}
+.modal-wa-btn:active{transform:scale(.98);}
+.modal-wa-btn svg{width:20px;height:20px;}
+.modal-actions-row{display:flex;gap:8px;}
+.modal-call-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--primary-light);color:var(--primary);border:none;padding:11px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;}
+.modal-call-btn:hover{background:var(--primary);color:#fff;}
+.modal-share-btn{width:42px;height:42px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;}
+.modal-share-btn:hover{border-color:var(--primary);background:var(--primary-light);}
+.avail-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;}
+.avail-tag.in{background:#dcfce7;color:#15803d;}
+.avail-tag.out{background:#fee2e2;color:var(--danger);}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:32px;flex-wrap:wrap;}
+.page-btn{width:38px;height:38px;border:2px solid var(--border);border-radius:8px;background:var(--white);font-size:13.5px;font-weight:600;color:var(--text-mid);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+.page-btn:hover{border-color:var(--primary);color:var(--primary);}
+.page-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+.page-btn.pn{width:auto;padding:0 14px;font-size:13px;}
+
+/* ── FLOATING WA ── */
+.float-wa{position:fixed;bottom:28px;right:28px;z-index:9999;}
+.float-wa-btn{width:56px;height:56px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 20px rgba(37,211,102,.4);cursor:pointer;animation:float-bounce 3s infinite;}
+@keyframes float-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* ── FOOTER MINI ── */
+.footer-mini{background:#0f172a;color:rgba(255,255,255,.5);text-align:center;padding:18px 24px;font-size:13px;}
+.footer-mini a{color:var(--primary);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.listing-layout{grid-template-columns:240px 1fr;}}
+@media(max-width:860px){
+  .listing-layout{grid-template-columns:1fr;}
+  .sidebar{position:static;}
+  .nav-links{display:none;}
+  .products-grid.list-view .product-card{grid-template-columns:140px 1fr;}
+  .modal-box{grid-template-columns:1fr;max-height:95vh;overflow-y:auto;}
+  .modal-img-col .modal-main-img{aspect-ratio:16/9;}
+}
+@media(max-width:560px){
+  .listing-layout{padding:16px 12px;}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .products-grid.list-view{grid-template-columns:1fr;}
+  .products-grid.list-view .product-card{grid-template-columns:120px 1fr;}
+  .hero-right-stats{display:none;}
+  .page-hero{padding:28px 16px 36px;}
+  .topbar-left span:not(:first-child){display:none;}
+}
+@media(max-width:380px){
+  .products-grid{grid-template-columns:1fr;}
+}
+
+/* ── ANIMATION ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.product-card{animation:fadeUp .4s ease both;}
+.product-card:nth-child(1){animation-delay:.04s;}
+.product-card:nth-child(2){animation-delay:.08s;}
+.product-card:nth-child(3){animation-delay:.12s;}
+.product-card:nth-child(4){animation-delay:.16s;}
+.product-card:nth-child(5){animation-delay:.20s;}
+.product-card:nth-child(6){animation-delay:.24s;}
+.product-card:nth-child(7){animation-delay:.28s;}
+.product-card:nth-child(8){animation-delay:.32s;}
+.product-card:nth-child(9){animation-delay:.36s;}
+.product-card:nth-child(10){animation-delay:.40s;}
+.product-card:nth-child(11){animation-delay:.44s;}
+.product-card:nth-child(12){animation-delay:.48s;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>📍 Apne Shehar ka Online Bazaar</span>
+    <span class="pill">🔥 10,000+ Products Listed</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#">📞 +91 98765 43210</a>
+    <a href="#">Seller Login</a>
+    <a href="#">हिंदी</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </div>
+  <div class="nav-search">
+    <select id="navCat">
+      <option>All Categories</option>
+      <option>Men Fashion</option>
+      <option>Women Fashion</option>
+      <option>Kids Wear</option>
+      <option>Electronics</option>
+      <option>Mobile Accessories</option>
+    </select>
+    <input type="text" id="navSearch" placeholder="Search products, shops, brands...">
+    <button class="nav-search-btn">🔍</button>
+  </div>
+  <div class="nav-links">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html">Shops</a>
+    <a href="#">Offers</a>
+    <a href="categories.html">Categories</a>
+    <a href="product-listings.html" class="active">Products</a>
+    <a href="#" class="nav-btn-register">+ List Your Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a>
+  <span class="sep">›</span>
+  <a href="categories.html">📂 Categories</a>
+  <span class="sep">›</span>
+  <span class="current">🛍️ All Products</span>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-left">
+      <h1>🛍️ Sabhi <span>Products</span></h1>
+      <p>Local shops ke best products — WhatsApp pe seedha seller se kharido</p>
+      <div class="hero-quick-cats">
+        <span class="hqc active" onclick="quickFilter(this,'all')">All</span>
+        <span class="hqc" onclick="quickFilter(this,'men')">👔 Men</span>
+        <span class="hqc" onclick="quickFilter(this,'women')">👗 Women</span>
+        <span class="hqc" onclick="quickFilter(this,'kids')">🧒 Kids</span>
+        <span class="hqc" onclick="quickFilter(this,'electronics')">📱 Electronics</span>
+        <span class="hqc" onclick="quickFilter(this,'mobile')">🎧 Accessories</span>
+      </div>
+    </div>
+    <div class="hero-right-stats">
+      <div class="h-stat"><div class="num">10K+</div><div class="lbl">Products</div></div>
+      <div class="h-stat"><div class="num">500+</div><div class="lbl">Shops</div></div>
+      <div class="h-stat"><div class="num">0%</div><div class="lbl">Commission</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- LISTING LAYOUT -->
+<div class="listing-layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <div class="filter-card">
+      <div class="filter-header">
+        <span class="filter-title">🔍 Filter Products</span>
+        <span class="filter-clear" onclick="clearAllFilters()">Clear All</span>
+      </div>
+      <div class="filter-body">
+
+        <!-- Category -->
+        <div class="filter-section">
+          <div class="fs-title">Category</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="fc1" checked><label for="fc1">All Categories <span class="cc">10,000</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc2"><label for="fc2">👔 Men Fashion <span class="cc">1,240</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc3"><label for="fc3">👗 Women Fashion <span class="cc">2,180</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc4"><label for="fc4">🧒 Kids Wear <span class="cc">890</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc5"><label for="fc5">📱 Electronics <span class="cc">560</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc6"><label for="fc6">🎧 Mobile Accessories <span class="cc">430</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc7"><label for="fc7">👟 Footwear <span class="cc">720</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc8"><label for="fc8">💍 Jewellery <span class="cc">380</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Price Range -->
+        <div class="filter-section">
+          <div class="fs-title">Price Range (₹)</div>
+          <div class="price-range-wrap">
+            <div class="price-inputs">
+              <input type="number" class="price-input" placeholder="Min ₹" value="0" id="priceMin">
+              <input type="number" class="price-input" placeholder="Max ₹" value="5000" id="priceMax">
+            </div>
+            <input type="range" class="range-slider" min="0" max="10000" value="5000" id="priceSlider" oninput="document.getElementById('priceMax').value=this.value">
+            <div class="price-label"><span>₹0</span><span>₹10,000</span></div>
+          </div>
+        </div>
+
+        <!-- Rating -->
+        <div class="filter-section">
+          <div class="fs-title">Minimum Rating</div>
+          <div class="rating-filter">
+            <div class="rating-row"><input type="radio" name="rat" id="r0" checked><label for="r0">Any Rating</label></div>
+            <div class="rating-row"><input type="radio" name="rat" id="r4"><label for="r4"><span class="stars-sm">★★★★★</span> 4.5 & above</label></div>
+            <div class="rating-row"><input type="radio" name="rat" id="r3"><label for="r3"><span class="stars-sm">★★★★☆</span> 4.0 & above</label></div>
+            <div class="rating-row"><input type="radio" name="rat" id="r2"><label for="r2"><span class="stars-sm">★★★☆☆</span> 3.0 & above</label></div>
+          </div>
+        </div>
+
+        <!-- Availability -->
+        <div class="filter-section">
+          <div class="fs-title">Availability</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="av1" checked><label for="av1">✅ In Stock <span class="cc">8,420</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av2"><label for="av2">🔥 On Sale <span class="cc">1,240</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av3"><label for="av3">🆕 New Arrivals <span class="cc">320</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av4"><label for="av4">⭐ Featured <span class="cc">480</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Area -->
+        <div class="filter-section">
+          <div class="fs-title">Shop Area</div>
+          <div class="area-tags">
+            <span class="area-tag active" onclick="toggleArea(this)">All</span>
+            <span class="area-tag" onclick="toggleArea(this)">Gandhi Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Station Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">Sarafa Bazar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Civil Lines</span>
+            <span class="area-tag" onclick="toggleArea(this)">MG Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">New Market</span>
+          </div>
+        </div>
+
+        <button class="btn-apply">✅ Apply Filters</button>
+      </div>
+    </div>
+
+    <!-- Featured Shop Box -->
+    <div class="filter-card">
+      <div style="background:linear-gradient(135deg,#1a56db,#1e88e5);padding:20px;border-radius:var(--radius);text-align:center;">
+        <div style="font-size:32px;margin-bottom:8px;">🏪</div>
+        <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;color:#fff;margin-bottom:6px;">Apni Shop List Karein</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:14px;">Free mein 10 products list karein</div>
+        <button style="width:100%;background:#fff;color:var(--primary);border:none;padding:9px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Register Now Free →</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <main class="main-content">
+
+    <!-- Category Pills -->
+    <div class="cat-pills">
+      <div class="cat-pill active" onclick="setCatPill(this)">🏪 All <span class="cnt">(10K)</span></div>
+      <div class="cat-pill" onclick="setCatPill(this)">👔 Men Fashion</div>
+      <div class="cat-pill" onclick="setCatPill(this)">👗 Women Fashion</div>
+      <div class="cat-pill" onclick="setCatPill(this)">🧒 Kids Wear</div>
+      <div class="cat-pill" onclick="setCatPill(this)">📱 Electronics</div>
+      <div class="cat-pill" onclick="setCatPill(this)">🎧 Accessories</div>
+      <div class="cat-pill" onclick="setCatPill(this)">👟 Footwear</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <span class="result-count">Showing <strong>10,000+</strong> products</span>
+        <div class="active-filters" id="activeFilters">
+          <span class="af-tag">✅ In Stock <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>
+          <span class="af-tag">📍 All Areas <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <select class="sort-select">
+          <option>Sort: Featured First</option>
+          <option>Sort: Price Low → High</option>
+          <option>Sort: Price High → Low</option>
+          <option>Sort: Rating High → Low</option>
+          <option>Sort: Newest First</option>
+          <option>Sort: Most Popular</option>
+        </select>
+        <div class="view-toggle">
+          <button class="vbtn active" id="gridBtn" onclick="setView('grid')" title="Grid View">⊞</button>
+          <button class="vbtn" id="listBtn" onclick="setView('list')" title="List View">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PRODUCTS GRID ══ -->
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Product 1 -->
+      <div class="product-card" onclick="openModal(1)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/e8f0fe/1a56db?text=👔+Kurta+Set" alt="Men Kurta">
+          <span class="prod-badge badge-hot">🔥 Hot</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Sharma Cloth House</div>
+          <div class="prod-title">Men's Premium Cotton Kurta Set – Festive Collection 2024</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹599</span>
+            <span class="prod-mrp">₹999</span>
+            <span class="prod-disc">40% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.8</span><span class="rating-cnt-sm">(124)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Men Cotton Kurta Set','599','Sharma Cloth House')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card" onclick="openModal(2)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/fce7f3/be185d?text=👗+Saree" alt="Saree">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Meera Saree Center</div>
+          <div class="prod-title">Banarasi Silk Saree – Heavy Zari Work, Wedding Special</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹2,199</span>
+            <span class="prod-mrp">₹3,500</span>
+            <span class="prod-disc">37% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.9</span><span class="rating-cnt-sm">(210)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Banarasi Silk Saree','2199','Meera Saree Center')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" onclick="openModal(3)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/fff7ed/f97316?text=🎧+Earphones" alt="Earphones">
+          <span class="prod-badge badge-sale">30% Off</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Digital Zone Electronics</div>
+          <div class="prod-title">Wireless Bluetooth Earphones – Noise Cancellation, 30Hr Battery</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹849</span>
+            <span class="prod-mrp">₹1,299</span>
+            <span class="prod-disc">35% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.5</span><span class="rating-cnt-sm">(89)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Bluetooth Earphones','849','Digital Zone')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card" onclick="openModal(4)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/d1fae5/059669?text=🧒+Kids+Dress" alt="Kids Dress">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Little Star Kids Wear</div>
+          <div class="prod-title">Girls Party Wear Frock – Embroidery Work, Age 4–10 Years</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹449</span>
+            <span class="prod-mrp">₹750</span>
+            <span class="prod-disc">40% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.3</span><span class="rating-cnt-sm">(56)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Girls Party Wear Frock','449','Little Star Kids Wear')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card" onclick="openModal(5)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/fef3c7/d97706?text=📱+Cover" alt="Phone Cover">
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Mobile Master</div>
+          <div class="prod-title">iPhone 15 Shockproof Back Cover – Transparent Premium Quality</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹249</span>
+            <span class="prod-mrp">₹499</span>
+            <span class="prod-disc">50% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.7</span><span class="rating-cnt-sm">(98)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('iPhone 15 Cover','249','Mobile Master')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card" onclick="openModal(6)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/ede9fe/7c3aed?text=👟+Shoes" alt="Sports Shoes">
+          <span class="prod-badge badge-hot">⭐ Top Pick</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Step In Footwear</div>
+          <div class="prod-title">Men's Running Sports Shoes – Lightweight EVA Sole, Size 6–11</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹899</span>
+            <span class="prod-mrp">₹1,499</span>
+            <span class="prod-disc">40% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.2</span><span class="rating-cnt-sm">(73)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Men Sports Shoes','899','Step In Footwear')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card" onclick="openModal(7)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/cffafe/0891b2?text=💍+Necklace" alt="Necklace">
+          <span class="prod-badge badge-sale">SALE</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Rani Jewellery House</div>
+          <div class="prod-title">Bridal Gold Plated Necklace Set – Kundan Stone Work, Antique Finish</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹1,299</span>
+            <span class="prod-mrp">₹2,200</span>
+            <span class="prod-disc">41% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.9</span><span class="rating-cnt-sm">(187)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Bridal Necklace Set','1299','Rani Jewellery House')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card" onclick="openModal(8)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/e0e7ff/4f46e5?text=⌚+Watch" alt="Smart Watch">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Digital Zone Electronics</div>
+          <div class="prod-title">Smart Watch – Heart Rate, SpO2, 7 Days Battery, IP68 Waterproof</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹1,499</span>
+            <span class="prod-mrp">₹2,999</span>
+            <span class="prod-disc">50% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.4</span><span class="rating-cnt-sm">(64)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Smart Watch','1499','Digital Zone Electronics')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card" onclick="openModal(9)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/fef9c3/ca8a04?text=👔+Shirt" alt="Formal Shirt">
+          <div class="prod-availability">Out of Stock</div>
+          <span class="prod-badge badge-sold">Sold Out</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot closed"></span>Sharma Cloth House</div>
+          <div class="prod-title">Men's Cotton Formal Shirt – Slim Fit, Office Wear, White/Blue</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹399</span>
+            <span class="prod-mrp">₹699</span>
+            <span class="prod-disc">43% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.6</span><span class="rating-cnt-sm">(142)</span></div>
+          <button class="btn-wa" style="background:#9ca3af;" onclick="event.stopPropagation();openWA('Formal Shirt','399','Sharma Cloth House')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Notify When Available
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card" onclick="openModal(10)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/fce7f3/9d174d?text=👗+Lehenga" alt="Lehenga">
+          <span class="prod-badge badge-hot">💎 Premium</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Meera Saree Center</div>
+          <div class="prod-title">Bridal Lehenga Choli – Heavy Embroidery, Wedding Collection 2024</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹4,999</span>
+            <span class="prod-mrp">₹8,500</span>
+            <span class="prod-disc">41% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.9</span><span class="rating-cnt-sm">(96)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Bridal Lehenga Choli','4999','Meera Saree Center')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 11 -->
+      <div class="product-card" onclick="openModal(11)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/dcfce7/15803d?text=🔋+Power+Bank" alt="Power Bank">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Digital Zone Electronics</div>
+          <div class="prod-title">20000mAh Fast Charging Power Bank – Dual USB + Type-C</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹699</span>
+            <span class="prod-mrp">₹1,299</span>
+            <span class="prod-disc">46% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.3</span><span class="rating-cnt-sm">(51)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('20000mAh Power Bank','699','Digital Zone Electronics')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 12 -->
+      <div class="product-card" onclick="openModal(12)">
+        <div class="prod-img-wrap">
+          <img src="https://via.placeholder.com/300x300/fef3c7/b45309?text=👗+Kurti" alt="Kurti">
+          <span class="prod-badge badge-hot">🔥 Trending</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Meera Saree Center</div>
+          <div class="prod-title">Women's Printed Cotton Kurti – Casual Daily Wear, Size S–3XL</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹349</span>
+            <span class="prod-mrp">₹599</span>
+            <span class="prod-disc">42% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.7</span><span class="rating-cnt-sm">(275)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Printed Cotton Kurti','349','Meera Saree Center')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Chat on WhatsApp
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /products-grid -->
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="page-btn pn">← Prev</button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">4</button>
+      <button class="page-btn">5</button>
+      <span style="color:var(--text-light);padding:0 4px">...</span>
+      <button class="page-btn">50</button>
+      <button class="page-btn pn">Next →</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ QUICK VIEW MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <!-- Image Column -->
+    <div class="modal-img-col">
+      <div class="modal-main-img">
+        <img id="modalImg" src="https://via.placeholder.com/400x400/e8f0fe/1a56db?text=Product+Image" alt="Product">
+      </div>
+      <div class="modal-thumbs">
+        <div class="thumb active"><img src="https://via.placeholder.com/60x60/e8f0fe/1a56db?text=1"></div>
+        <div class="thumb"><img src="https://via.placeholder.com/60x60/dbeafe/1a56db?text=2"></div>
+        <div class="thumb"><img src="https://via.placeholder.com/60x60/eff6ff/1a56db?text=3"></div>
+        <div class="thumb"><img src="https://via.placeholder.com/60x60/bfdbfe/1a56db?text=4"></div>
+      </div>
+    </div>
+    <!-- Body Column -->
+    <div class="modal-body-col">
+      <div>
+        <span class="modal-category" id="modalCat">👔 Men Fashion</span>
+      </div>
+      <h2 class="modal-title" id="modalTitle">Men's Premium Cotton Kurta Set</h2>
+      <div class="modal-shop-row">
+        <span class="modal-shop-icon">🏪</span>
+        <div class="modal-shop-info">
+          <div class="modal-shop-name" id="modalShop">Sharma Cloth House</div>
+          <div class="modal-shop-sub">📍 Gandhi Nagar · ✅ Open Now</div>
+        </div>
+      </div>
+      <div class="modal-price-row">
+        <span class="modal-price" id="modalPrice">₹599</span>
+        <span class="modal-mrp" id="modalMrp">₹999</span>
+        <span id="modalDisc" style="font-size:15px;color:#16a34a;font-weight:700;">40% Off</span>
+      </div>
+      <div class="modal-rating-row">
+        <span class="stars-md">★★★★★</span>
+        <span style="font-weight:700;font-size:14px;">4.8</span>
+        <span style="font-size:13px;color:var(--text-light)">(124 reviews)</span>
+        <span class="avail-tag in">✅ In Stock</span>
+      </div>
+      <p class="modal-desc" id="modalDesc">Premium quality cotton kurta set, perfect for festive occasions and casual wear. Soft breathable fabric, easy to wash. Available in multiple colors and sizes (S to XXL).</p>
+      <div class="modal-details">
+        <div class="detail-item"><div class="detail-label">Category</div><div class="detail-value">Men Fashion</div></div>
+        <div class="detail-item"><div class="detail-label">Material</div><div class="detail-value">100% Cotton</div></div>
+        <div class="detail-item"><div class="detail-label">Sizes</div><div class="detail-value">S, M, L, XL, XXL</div></div>
+        <div class="detail-item"><div class="detail-label">Colors</div><div class="detail-value">5 Colors Available</div></div>
+      </div>
+      <button class="modal-wa-btn" id="modalWaBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        Chat on WhatsApp – Seedha Order Karein
+      </button>
+      <div class="modal-actions-row">
+        <button class="modal-call-btn">📞 Call Shop</button>
+        <button class="modal-share-btn">🔗</button>
+        <button class="modal-share-btn" onclick="toggleModalWish(this)">🤍</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER MINI -->
+<div class="footer-mini">
+  © 2024 <a href="local-bazaar-hub.html">Local Bazaar Hub</a> · Apna Dukaan, Digital Duniya · All Rights Reserved
+</div>
+
+<!-- FLOATING WA -->
+<div class="float-wa">
+  <div class="float-wa-btn" title="WhatsApp Support">💬</div>
+</div>
+
+<script>
+// ── Product data ──
+const products = {
+  1:{title:"Men's Premium Cotton Kurta Set",shop:"Sharma Cloth House",price:"₹599",mrp:"₹999",disc:"40% Off",cat:"👔 Men Fashion",desc:"Premium quality cotton kurta set, perfect for festive occasions and casual wear. Soft breathable fabric. Available in multiple colors and sizes S to XXL.",img:"https://via.placeholder.com/400x400/e8f0fe/1a56db?text=👔+Kurta"},
+  2:{title:"Banarasi Silk Saree",shop:"Meera Saree Center",price:"₹2,199",mrp:"₹3,500",disc:"37% Off",cat:"👗 Women Fashion",desc:"Pure Banarasi silk saree with heavy zari work. Perfect for weddings and special occasions. Comes with matching blouse piece. Dry clean recommended.",img:"https://via.placeholder.com/400x400/fce7f3/be185d?text=👗+Saree"},
+  3:{title:"Wireless Bluetooth Earphones",shop:"Digital Zone Electronics",price:"₹849",mrp:"₹1,299",disc:"35% Off",cat:"🎧 Mobile Accessories",desc:"Advanced noise cancellation, 30-hour battery life, premium sound quality. Comfortable over-ear design. Compatible with all devices. 1 year warranty.",img:"https://via.placeholder.com/400x400/fff7ed/f97316?text=🎧+Earphones"},
+  4:{title:"Girls Party Wear Frock",shop:"Little Star Kids Wear",price:"₹449",mrp:"₹750",disc:"40% Off",cat:"🧒 Kids Wear",desc:"Beautiful embroidery work party frock for girls aged 4–10 years. Soft comfortable fabric, easy to wear. Available in pink, blue, and yellow colors.",img:"https://via.placeholder.com/400x400/d1fae5/059669?text=🧒+Kids+Dress"},
+  5:{title:"iPhone 15 Shockproof Back Cover",shop:"Mobile Master",price:"₹249",mrp:"₹499",disc:"50% Off",cat:"🎧 Mobile Accessories",desc:"Military grade shockproof transparent cover for iPhone 15. Precise cutouts, anti-yellowing technology. Protects against drops and scratches.",img:"https://via.placeholder.com/400x400/fef3c7/d97706?text=📱+Cover"},
+  6:{title:"Men's Running Sports Shoes",shop:"Step In Footwear",price:"₹899",mrp:"₹1,499",disc:"40% Off",cat:"👟 Footwear",desc:"Lightweight EVA sole sports shoes for running and gym. Breathable mesh upper, anti-slip outsole. Available in sizes 6 to 11.",img:"https://via.placeholder.com/400x400/ede9fe/7c3aed?text=👟+Shoes"},
+  7:{title:"Bridal Gold Plated Necklace Set",shop:"Rani Jewellery House",price:"₹1,299",mrp:"₹2,200",disc:"41% Off",cat:"💍 Jewellery",desc:"Stunning kundan stone work necklace set with antique finish. Includes necklace, earrings and maang tikka. Perfect for wedding and festive occasions.",img:"https://via.placeholder.com/400x400/cffafe/0891b2?text=💍+Necklace"},
+  8:{title:"Smart Watch",shop:"Digital Zone Electronics",price:"₹1,499",mrp:"₹2,999",disc:"50% Off",cat:"📱 Electronics",desc:"Feature-packed smart watch with heart rate monitor, SpO2 sensor, 7-day battery life. IP68 waterproof, 1.69 inch display. Multiple sport modes.",img:"https://via.placeholder.com/400x400/e0e7ff/4f46e5?text=⌚+Watch"},
+  9:{title:"Men's Cotton Formal Shirt",shop:"Sharma Cloth House",price:"₹399",mrp:"₹699",disc:"43% Off",cat:"👔 Men Fashion",desc:"Slim fit cotton formal shirt, ideal for office and formal occasions. Available in white and blue. Easy to iron, wrinkle resistant fabric.",img:"https://via.placeholder.com/400x400/fef9c3/ca8a04?text=👔+Shirt"},
+  10:{title:"Bridal Lehenga Choli",shop:"Meera Saree Center",price:"₹4,999",mrp:"₹8,500",disc:"41% Off",cat:"👗 Women Fashion",desc:"Heavy embroidery bridal lehenga choli from the 2024 wedding collection. Comes with matching dupatta. Custom stitching available on request.",img:"https://via.placeholder.com/400x400/fce7f3/9d174d?text=👗+Lehenga"},
+  11:{title:"20000mAh Fast Charging Power Bank",shop:"Digital Zone Electronics",price:"₹699",mrp:"₹1,299",disc:"46% Off",cat:"📱 Electronics",desc:"20000mAh high capacity power bank with dual USB and Type-C ports. Supports 22.5W fast charging. Compact design, LED battery indicator.",img:"https://via.placeholder.com/400x400/dcfce7/15803d?text=🔋+Power+Bank"},
+  12:{title:"Women's Printed Cotton Kurti",shop:"Meera Saree Center",price:"₹349",mrp:"₹599",disc:"42% Off",cat:"👗 Women Fashion",desc:"Trendy printed cotton kurti for daily casual wear. Breathable fabric, machine washable. Available in sizes S to 3XL. Multiple print options available.",img:"https://via.placeholder.com/400x400/fef3c7/b45309?text=👗+Kurti"},
+};
+
+// Open modal
+function openModal(id){
+  const p = products[id];
+  if(!p) return;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalShop').textContent = p.shop;
+  document.getElementById('modalPrice').textContent = p.price;
+  document.getElementById('modalMrp').textContent = p.mrp;
+  document.getElementById('modalDisc').textContent = p.disc;
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalWaBtn').onclick = () => {
+    const numPrice = p.price.replace('₹','').replace(',','');
+    openWA(p.title, numPrice, p.shop);
+  };
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e){
+  if(e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
+
+// WhatsApp open
+function openWA(product, price, shop){
+  const msg = encodeURIComponent(`Hello! 🙏\n\nMaine *Local Bazaar Hub* pe aapka product dekha:\n\n*Product:* ${product}\n*Price:* ₹${price}\n*Shop:* ${shop}\n\nKya yeh product available hai? Price aur delivery ke baare mein bataiye.`);
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+}
+
+// Wishlist toggle
+function toggleWish(btn){
+  btn.textContent = btn.textContent==='🤍' ? '❤️' : '🤍';
+}
+function toggleModalWish(btn){
+  btn.textContent = btn.textContent==='🤍' ? '❤️' : '🤍';
+}
+
+// View toggle
+function setView(mode){
+  const grid = document.getElementById('productsGrid');
+  const gb = document.getElementById('gridBtn');
+  const lb = document.getElementById('listBtn');
+  if(mode==='list'){
+    grid.classList.add('list-view');
+    lb.classList.add('active'); gb.classList.remove('active');
+  } else {
+    grid.classList.remove('list-view');
+    gb.classList.add('active'); lb.classList.remove('active');
+  }
+}
+
+// Category pill
+function setCatPill(el){
+  document.querySelectorAll('.cat-pill').forEach(p=>p.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Quick filter (hero)
+function quickFilter(el, cat){
+  document.querySelectorAll('.hqc').forEach(h=>h.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Area tag
+function toggleArea(el){
+  document.querySelectorAll('.area-tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Clear filters
+function clearAllFilters(){
+  document.querySelectorAll('.filter-body input[type="checkbox"]').forEach(c=>c.checked=false);
+  document.getElementById('fc1').checked=true;
+  document.getElementById('av1').checked=true;
+  document.querySelectorAll('input[name="rat"]').forEach(r=>r.checked=false);
+  document.getElementById('r0').checked=true;
+  document.querySelectorAll('.area-tag').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.area-tag').classList.add('active');
+  document.getElementById('priceMin').value=0;
+  document.getElementById('priceMax').value=5000;
+  document.getElementById('priceSlider').value=5000;
+  document.getElementById('activeFilters').innerHTML='';
+}
+
+// Pagination
+document.querySelectorAll('.page-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    if(this.classList.contains('pn')) return;
+    document.querySelectorAll('.page-btn:not(.pn)').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// Thumb click in modal
+document.querySelectorAll('.thumb').forEach(t=>{
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.thumb').forEach(th=>th.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

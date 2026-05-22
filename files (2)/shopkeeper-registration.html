@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shopkeeper Registration – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#111827;--text-mid:#374151;--text-light:#6b7280;
+  --border:#e5e7eb;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--danger:#dc2626;
+  --card-shadow:0 2px 12px rgba(26,86,219,0.08);
+  --card-shadow-hover:0 10px 36px rgba(26,86,219,0.16);
+  --radius:16px;--radius-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:'Baloo 2',cursive;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Noto Sans',sans-serif;}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--primary-dark);color:#fff;font-size:12px;padding:6px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-right{display:flex;align-items:center;gap:16px;}
+.topbar a{color:#c7d9ff;transition:color .2s;}
+.topbar a:hover{color:#fff;}
+.topbar .pill{background:var(--accent);color:#fff;padding:2px 10px;border-radius:20px;font-weight:600;font-size:11px;}
+
+/* ── NAVBAR ── */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:20px;height:68px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.logo-text{font-family:'Baloo 2',cursive;font-weight:800;font-size:20px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:11px;display:block;line-height:1;margin-top:-4px;font-weight:500;}
+.nav-search{flex:1;max-width:480px;display:flex;background:var(--bg);border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s;}
+.nav-search:focus-within{border-color:var(--primary);}
+.nav-search select{background:var(--primary-light);border:none;outline:none;padding:0 12px;font-size:13px;color:var(--primary-dark);font-weight:600;cursor:pointer;min-width:110px;}
+.nav-search input{flex:1;border:none;outline:none;background:transparent;padding:0 14px;font-size:14px;}
+.nav-search input::placeholder{color:var(--text-light);}
+.nav-search-btn{background:var(--primary);border:none;color:#fff;padding:0 16px;font-size:16px;transition:background .2s;}
+.nav-search-btn:hover{background:var(--primary-dark);}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto;}
+.nav-links a{padding:8px 12px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-mid);transition:background .2s,color .2s;white-space:nowrap;}
+.nav-links a:hover{background:var(--primary-light);color:var(--primary);}
+.nav-links a.active{background:var(--accent);color:#fff;font-weight:700;}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-light);}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ══════════════════════════════
+   HERO
+══════════════════════════════ */
+.reg-hero{
+  background:linear-gradient(135deg,#1042b0 0%,#1a56db 50%,#f97316 100%);
+  padding:56px 24px 72px;position:relative;overflow:hidden;
+}
+.reg-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.hero-deco{position:absolute;font-size:100px;opacity:.06;}
+.hero-deco.d1{top:5%;right:5%;}
+.hero-deco.d2{bottom:5%;left:4%;}
+.reg-hero-inner{max-width:1100px;margin:0 auto;position:relative;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;}
+.hero-left{}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.16);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.26);color:#fff;padding:6px 18px;border-radius:24px;font-size:13px;font-weight:700;margin-bottom:20px;}
+.reg-hero h1{font-size:clamp(26px,4vw,46px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:14px;}
+.reg-hero h1 span{color:#fbbf24;}
+.reg-hero p{color:rgba(255,255,255,.82);font-size:15px;line-height:1.8;margin-bottom:28px;}
+.hero-benefits{display:flex;flex-direction:column;gap:10px;}
+.hb-item{display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.9);font-size:14px;font-weight:500;}
+.hb-icon{width:30px;height:30px;border-radius:8px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+
+/* Mini plan comparison */
+.hero-plan-compare{
+  background:rgba(255,255,255,.1);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:var(--radius);padding:24px;
+}
+.hpc-title{font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;color:#fff;margin-bottom:16px;text-align:center;}
+.hpc-row{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.1);font-size:13px;}
+.hpc-row:last-child{border-bottom:none;}
+.hpc-feature{color:rgba(255,255,255,.8);}
+.hpc-vals{display:flex;gap:24px;}
+.hpc-val{text-align:center;min-width:52px;}
+.hpc-val .v{font-weight:700;font-size:14px;}
+.hpc-val .v.yes{color:#4ade80;}
+.hpc-val .v.no{color:rgba(255,255,255,.35);}
+.hpc-val .v.num{color:#fbbf24;}
+.hpc-val .lbl{font-size:10px;color:rgba(255,255,255,.5);margin-top:1px;}
+
+/* WAVE */
+.wave-sep{display:block;line-height:0;}
+.wave-sep svg{display:block;}
+
+/* ══════════════════════════════
+   PROGRESS STEPS
+══════════════════════════════ */
+.progress-wrap{background:var(--white);border-bottom:1px solid var(--border);padding:20px 24px;position:sticky;top:68px;z-index:99;}
+.progress-inner{max-width:800px;margin:0 auto;display:flex;align-items:center;gap:0;}
+.prog-step{display:flex;align-items:center;gap:10px;flex:1;position:relative;}
+.prog-step:not(:last-child)::after{content:'';position:absolute;left:calc(50% + 20px);right:calc(-50% + 20px);top:18px;height:2px;background:var(--border);z-index:0;}
+.prog-step.done:not(:last-child)::after{background:var(--primary);}
+.prog-step-inner{display:flex;flex-direction:column;align-items:center;gap:6px;flex:1;}
+.prog-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;border:2px solid var(--border);background:var(--bg);color:var(--text-light);transition:all .3s;z-index:1;position:relative;}
+.prog-step.active .prog-circle{border-color:var(--primary);background:var(--primary);color:#fff;box-shadow:0 0 0 4px rgba(26,86,219,.15);}
+.prog-step.done .prog-circle{border-color:var(--success);background:var(--success);color:#fff;}
+.prog-label{font-size:12px;font-weight:600;color:var(--text-light);text-align:center;white-space:nowrap;}
+.prog-step.active .prog-label,.prog-step.done .prog-label{color:var(--primary);}
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+.reg-layout{max-width:1100px;margin:0 auto;padding:40px 24px;display:grid;grid-template-columns:1fr 320px;gap:32px;align-items:start;}
+
+/* ══════════════════════════════
+   FORM CARD
+══════════════════════════════ */
+.form-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--card-shadow);}
+.form-step{display:none;padding:36px 40px;}
+.form-step.active{display:block;}
+
+/* Step header */
+.step-header{margin-bottom:28px;padding-bottom:20px;border-bottom:2px solid var(--bg);}
+.step-eyebrow{font-size:12px;font-weight:700;color:var(--primary);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;}
+.step-header h2{font-size:clamp(20px,2.5vw,26px);font-weight:800;color:var(--text-dark);margin-bottom:6px;}
+.step-header p{font-size:14px;color:var(--text-light);line-height:1.6;}
+
+/* Form fields */
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:0;}
+.fg{margin-bottom:18px;}
+.fg.full{grid-column:1/-1;}
+.flabel{display:block;font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:6px;}
+.flabel .req{color:var(--danger);}
+.finput{width:100%;border:2px solid var(--border);border-radius:var(--radius-sm);padding:11px 14px;font-size:14px;color:var(--text-dark);outline:none;transition:border-color .2s,box-shadow .2s;font-family:'Noto Sans',sans-serif;background:var(--white);}
+.finput:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
+.finput::placeholder{color:#9ca3af;}
+.finput.err{border-color:var(--danger);}
+textarea.finput{resize:vertical;min-height:100px;}
+select.finput{cursor:pointer;}
+.fhint{font-size:12px;color:var(--text-light);margin-top:4px;}
+.ferr-msg{font-size:12px;color:var(--danger);margin-top:4px;display:none;}
+.finput.err ~ .ferr-msg{display:block;}
+
+/* Category chips */
+.cat-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.cat-chip{
+  display:flex;align-items:center;gap:6px;
+  padding:8px 14px;border-radius:24px;
+  border:2px solid var(--border);background:var(--bg);
+  font-size:13px;font-weight:500;color:var(--text-mid);
+  cursor:pointer;transition:all .2s;
+}
+.cat-chip:hover{border-color:var(--primary);color:var(--primary);}
+.cat-chip.selected{border-color:var(--primary);background:var(--primary-light);color:var(--primary);font-weight:700;}
+
+/* Plan cards */
+.plan-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:8px;}
+.plan-card{
+  border:2px solid var(--border);border-radius:var(--radius);
+  padding:20px 16px;text-align:center;cursor:pointer;
+  transition:all .22s;position:relative;
+}
+.plan-card:hover{border-color:var(--primary);}
+.plan-card.selected{border-color:var(--primary);background:var(--primary-light);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
+.plan-card.popular{border-color:var(--accent);}
+.plan-card.popular.selected{border-color:var(--primary);background:var(--primary-light);}
+.pc-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:3px 10px;border-radius:20px;white-space:nowrap;}
+.pc-icon{font-size:28px;margin-bottom:8px;}
+.pc-name{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;margin-bottom:4px;}
+.pc-price{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--primary);margin-bottom:10px;}
+.pc-price sub{font-size:12px;font-weight:400;color:var(--text-light);}
+.pc-features{list-style:none;text-align:left;display:flex;flex-direction:column;gap:5px;}
+.pc-features li{font-size:12px;color:var(--text-mid);display:flex;align-items:center;gap:5px;}
+.pc-features li .ck{color:var(--success);}
+.pc-features li .xk{color:var(--border);}
+
+/* Photo upload grid */
+.photo-upload-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+.photo-slot{
+  aspect-ratio:1;border:2px dashed var(--border);
+  border-radius:var(--radius-sm);background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .2s;gap:6px;font-size:12px;color:var(--text-light);
+  position:relative;overflow:hidden;
+}
+.photo-slot:hover,.photo-slot.filled{border-color:var(--primary);background:var(--primary-light);}
+.photo-slot .slot-icon{font-size:28px;}
+.photo-slot input{display:none;}
+.photo-slot .slot-remove{
+  position:absolute;top:4px;right:4px;
+  width:20px;height:20px;background:var(--danger);
+  border-radius:50%;color:#fff;font-size:12px;
+  display:none;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+.photo-slot.filled .slot-remove{display:flex;}
+
+/* Working hours grid */
+.hours-grid{display:flex;flex-direction:column;gap:10px;}
+.hours-row{display:grid;grid-template-columns:120px 1fr 1fr 80px;gap:10px;align-items:center;}
+.hours-day-label{font-size:13px;font-weight:600;color:var(--text-mid);}
+.hours-closed-toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--text-light);cursor:pointer;}
+.hours-closed-toggle input{accent-color:var(--danger);cursor:pointer;}
+
+/* OTP section */
+.otp-wrap{text-align:center;padding:32px 24px;}
+.otp-icon{font-size:56px;margin-bottom:16px;}
+.otp-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;margin-bottom:8px;}
+.otp-sub{font-size:14px;color:var(--text-light);margin-bottom:24px;line-height:1.6;}
+.otp-inputs{display:flex;gap:10px;justify-content:center;margin-bottom:20px;}
+.otp-box{
+  width:52px;height:60px;border:2px solid var(--border);
+  border-radius:10px;text-align:center;font-size:24px;
+  font-weight:800;font-family:'Baloo 2',cursive;color:var(--primary);
+  outline:none;transition:border-color .2s,box-shadow .2s;
+}
+.otp-box:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.1);}
+.otp-resend{font-size:13px;color:var(--text-light);margin-bottom:24px;}
+.otp-resend a{color:var(--primary);font-weight:700;cursor:pointer;}
+.btn-verify-otp{
+  width:100%;max-width:280px;background:var(--primary);
+  color:#fff;border:none;padding:14px;border-radius:10px;
+  font-size:15px;font-weight:800;transition:all .2s;
+}
+.btn-verify-otp:hover{background:var(--primary-dark);}
+
+/* Review summary */
+.review-section{margin-bottom:24px;}
+.review-section-title{font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:12px;padding-bottom:8px;border-bottom:2px solid var(--bg);display:flex;justify-content:space-between;align-items:center;}
+.review-edit{font-size:12px;color:var(--primary);cursor:pointer;font-family:'Noto Sans',sans-serif;font-weight:600;}
+.review-edit:hover{text-decoration:underline;}
+.review-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.review-item{background:var(--bg);border-radius:var(--radius-sm);padding:10px 14px;}
+.review-label{font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px;}
+.review-value{font-size:13.5px;color:var(--text-dark);font-weight:600;}
+.review-value.highlight{color:var(--primary);}
+
+/* Checkboxes */
+.consent-list{display:flex;flex-direction:column;gap:12px;margin-bottom:24px;}
+.consent-item{display:flex;align-items:flex-start;gap:10px;}
+.consent-item input{width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;margin-top:2px;}
+.consent-item label{font-size:13px;color:var(--text-mid);line-height:1.6;cursor:pointer;}
+.consent-item a{color:var(--primary);}
+
+/* Nav buttons */
+.form-nav{display:flex;justify-content:space-between;align-items:center;padding:24px 40px;border-top:1px solid var(--border);gap:12px;}
+.btn-prev{
+  display:flex;align-items:center;gap:8px;
+  background:var(--bg);border:2px solid var(--border);
+  color:var(--text-mid);padding:12px 22px;border-radius:10px;
+  font-size:14px;font-weight:700;transition:all .2s;
+}
+.btn-prev:hover{border-color:var(--primary);color:var(--primary);}
+.btn-next{
+  display:flex;align-items:center;gap:8px;
+  background:linear-gradient(135deg,var(--primary),var(--primary-dark));
+  color:#fff;border:none;padding:12px 28px;border-radius:10px;
+  font-size:14px;font-weight:800;transition:all .2s;
+  box-shadow:0 4px 14px rgba(26,86,219,.3);
+  margin-left:auto;
+}
+.btn-next:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(26,86,219,.35);}
+.btn-next.loading{opacity:.7;pointer-events:none;}
+.step-indicator{font-size:13px;color:var(--text-light);}
+.step-indicator strong{color:var(--primary);}
+
+/* ══════════════════════════════
+   SIDEBAR
+══════════════════════════════ */
+.reg-sidebar{display:flex;flex-direction:column;gap:20px;position:sticky;top:160px;}
+
+.side-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);padding:24px;box-shadow:var(--card-shadow);}
+.side-card-title{font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+
+/* Benefits list */
+.benefits-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.benefit-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text-mid);padding:10px 0;border-bottom:1px solid var(--bg);}
+.benefit-item:last-child{border-bottom:none;}
+.bi-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0;}
+
+/* Seller testimonial */
+.seller-testi{background:var(--primary-light);border-radius:var(--radius-sm);padding:16px;}
+.st-header{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.st-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#3b82f6);display:flex;align-items:center;justify-content:center;font-family:'Baloo 2',cursive;font-weight:800;font-size:18px;color:#fff;flex-shrink:0;}
+.st-name{font-weight:700;font-size:14px;color:var(--text-dark);}
+.st-role{font-size:11px;color:var(--text-light);}
+.st-stars{color:#fbbf24;font-size:13px;margin-bottom:6px;}
+.st-text{font-size:13px;color:var(--text-mid);line-height:1.6;font-style:italic;}
+
+/* Help box */
+.help-box{background:linear-gradient(135deg,#064e3b,#065f46);border-radius:var(--radius);padding:20px;}
+.help-box h4{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:#fff;margin-bottom:6px;}
+.help-box p{font-size:12.5px;color:rgba(255,255,255,.75);margin-bottom:14px;line-height:1.5;}
+.btn-help-wa{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;background:var(--whatsapp);color:#fff;border:none;padding:10px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;}
+.btn-help-wa:hover{background:var(--whatsapp-dark);}
+
+/* ══════════════════════════════
+   SUCCESS PAGE
+══════════════════════════════ */
+.success-page{display:none;padding:60px 40px;text-align:center;max-width:600px;margin:0 auto;}
+.success-anim{font-size:80px;margin-bottom:20px;animation:pop .5s cubic-bezier(.34,1.56,.64,1);}
+@keyframes pop{from{transform:scale(0);opacity:0;}to{transform:scale(1);opacity:1;}}
+.success-page h2{font-size:clamp(24px,3vw,32px);font-weight:800;color:var(--success);margin-bottom:12px;}
+.success-page p{font-size:15px;color:var(--text-mid);line-height:1.8;margin-bottom:28px;}
+.success-steps{display:flex;flex-direction:column;gap:12px;margin-bottom:32px;text-align:left;}
+.ss-item{display:flex;align-items:center;gap:12px;background:var(--bg);border-radius:10px;padding:14px 18px;border:1px solid var(--border);}
+.ss-icon{font-size:24px;flex-shrink:0;}
+.ss-text{font-size:14px;color:var(--text-mid);}
+.ss-text strong{color:var(--text-dark);}
+.success-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;}
+.btn-success-wa{display:flex;align-items:center;gap:8px;background:var(--whatsapp);color:#fff;border:none;padding:13px 24px;border-radius:10px;font-size:15px;font-weight:700;transition:all .2s;}
+.btn-success-wa:hover{background:var(--whatsapp-dark);}
+.btn-success-home{display:flex;align-items:center;gap:8px;background:var(--primary-light);color:var(--primary);border:none;padding:13px 24px;border-radius:10px;font-size:15px;font-weight:700;transition:all .2s;}
+.btn-success-home:hover{background:var(--primary);color:#fff;}
+.reg-id-box{background:var(--primary-light);border:2px dashed var(--primary);border-radius:10px;padding:16px;margin-bottom:24px;}
+.reg-id-box .rid-label{font-size:12px;color:var(--text-light);margin-bottom:4px;}
+.reg-id-box .rid-value{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--primary);}
+
+/* FLOATING WA */
+.float-wa{position:fixed;bottom:28px;right:28px;z-index:9999;}
+.float-wa-btn{width:56px;height:56px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 20px rgba(37,211,102,.4);cursor:pointer;animation:float-bounce 3s infinite;}
+@keyframes float-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+
+/* FOOTER */
+.footer-mini{background:#0f172a;color:rgba(255,255,255,.5);text-align:center;padding:18px 24px;font-size:13px;margin-top:48px;}
+.footer-mini a{color:var(--primary);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.reg-layout{grid-template-columns:1fr;}.reg-sidebar{position:static;display:grid;grid-template-columns:1fr 1fr;gap:20px;}.reg-hero-inner{grid-template-columns:1fr;}.hero-plan-compare{display:none;}}
+@media(max-width:860px){.nav-links{display:none;}.plan-cards{grid-template-columns:1fr;}.photo-upload-grid{grid-template-columns:repeat(3,1fr);}.frow{grid-template-columns:1fr;}.hours-row{grid-template-columns:100px 1fr 1fr;}.hours-closed-toggle{grid-column:1/-1;}.reg-sidebar{grid-template-columns:1fr;}}
+@media(max-width:600px){.reg-hero{padding:40px 16px 56px;}.reg-layout{padding:20px 12px;}.form-step{padding:24px 18px;}.form-nav{padding:16px 18px;}.progress-wrap{padding:14px 12px;}.prog-label{font-size:10px;}.photo-upload-grid{grid-template-columns:repeat(2,1fr);}.review-grid{grid-template-columns:1fr;}.topbar-left span:not(:first-child){display:none;}}
+@media(max-width:380px){.plan-cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>📍 Your City's Online Marketplace</span>
+    <span class="pill">🔥 Free Registration — Limited Time!</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#">📞 +91 98765 43210</a>
+    <a href="#">Login</a>
+    <a href="#">हिंदी</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Your Shop, Now Digital</small>
+    </div>
+  </div>
+  <div class="nav-search">
+    <select><option>All Categories</option><option>Men Fashion</option><option>Women Fashion</option><option>Electronics</option></select>
+    <input type="text" placeholder="Search products, shops...">
+    <button class="nav-search-btn">🔍</button>
+  </div>
+  <div class="nav-links">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html">Shops</a>
+    <a href="offers.html">Offers 🔥</a>
+    <a href="about-us.html">About</a>
+    <a href="contact-us.html">Contact</a>
+    <a href="shopkeeper-registration.html" class="active">+ Register Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a>
+  <span class="sep">›</span>
+  <span class="current">🏪 Shopkeeper Registration</span>
+</div>
+
+<!-- ══ HERO ══ -->
+<section class="reg-hero">
+  <div class="hero-deco d1">🏪</div>
+  <div class="hero-deco d2">💬</div>
+  <div class="reg-hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge">🆓 100% Free Registration</div>
+      <h1>Apni Dukaan Ko <span>Digital Banao</span> — Starting Today!</h1>
+      <p>Register your shop on Local Bazaar Hub and reach thousands of local customers. Direct WhatsApp orders — no middleman.</p>
+      <div class="hero-benefits">
+        <div class="hb-item"><div class="hb-icon">🆓</div> Completely FREE on Basic plan — no credit card required</div>
+        <div class="hb-item"><div class="hb-icon">⚡</div> Complete registration in just 5 minutes</div>
+        <div class="hb-item"><div class="hb-icon">💬</div> Connect directly with customers on WhatsApp</div>
+        <div class="hb-item"><div class="hb-icon">📱</div> Manage your shop easily from your mobile</div>
+        <div class="hb-item"><div class="hb-icon">✅</div> Verification & shop goes live within 24–48 hours</div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="hero-plan-compare">
+        <div class="hpc-title">📊 Plan Comparison</div>
+        <div class="hpc-row">
+          <span class="hpc-feature">Feature</span>
+          <div class="hpc-vals">
+            <div class="hpc-val"><div class="v num" style="color:#fff;">Free</div><div class="lbl">Basic</div></div>
+            <div class="hpc-val"><div class="v num">₹499</div><div class="lbl">Growth</div></div>
+            <div class="hpc-val"><div class="v num">₹999</div><div class="lbl">Premium</div></div>
+          </div>
+        </div>
+        <div class="hpc-row"><span class="hpc-feature">Products</span><div class="hpc-vals"><div class="hpc-val"><div class="v num">100</div></div><div class="hpc-val"><div class="v num">500</div></div><div class="hpc-val"><div class="v num">∞</div></div></div></div>
+        <div class="hpc-row"><span class="hpc-feature">WhatsApp Btn</span><div class="hpc-vals"><div class="hpc-val"><div class="v yes">✓</div></div><div class="hpc-val"><div class="v yes">✓</div></div><div class="hpc-val"><div class="v yes">✓</div></div></div></div>
+        <div class="hpc-row"><span class="hpc-feature">Featured Listing</span><div class="hpc-vals"><div class="hpc-val"><div class="v no">✗</div></div><div class="hpc-val"><div class="v yes">✓</div></div><div class="hpc-val"><div class="v yes">✓</div></div></div></div>
+        <div class="hpc-row"><span class="hpc-feature">Analytics</span><div class="hpc-vals"><div class="hpc-val"><div class="v no">✗</div></div><div class="hpc-val"><div class="v yes">✓</div></div><div class="hpc-val"><div class="v yes">✓</div></div></div></div>
+        <div class="hpc-row"><span class="hpc-feature">Banner Ads</span><div class="hpc-vals"><div class="hpc-val"><div class="v no">✗</div></div><div class="hpc-val"><div class="v no">✗</div></div><div class="hpc-val"><div class="v yes">✓</div></div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<svg class="wave-sep" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 40" preserveAspectRatio="none" style="background:#f97316;">
+  <path fill="#f8fafc" d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z"/>
+</svg>
+
+<!-- ══ PROGRESS BAR ══ -->
+<div class="progress-wrap">
+  <div class="progress-inner">
+    <div class="prog-step active" id="ps1">
+      <div class="prog-step-inner">
+        <div class="prog-circle" id="pc1">1</div>
+        <div class="prog-label">Basic Info</div>
+      </div>
+    </div>
+    <div class="prog-step" id="ps2">
+      <div class="prog-step-inner">
+        <div class="prog-circle" id="pc2">2</div>
+        <div class="prog-label">Shop Details</div>
+      </div>
+    </div>
+    <div class="prog-step" id="ps3">
+      <div class="prog-step-inner">
+        <div class="prog-circle" id="pc3">3</div>
+        <div class="prog-label">Photos & Timing</div>
+      </div>
+    </div>
+    <div class="prog-step" id="ps4">
+      <div class="prog-step-inner">
+        <div class="prog-circle" id="pc4">4</div>
+        <div class="prog-label">Plan Choose</div>
+      </div>
+    </div>
+    <div class="prog-step" id="ps5">
+      <div class="prog-step-inner">
+        <div class="prog-circle" id="pc5">5</div>
+        <div class="prog-label">Verify & Submit</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MAIN LAYOUT ══ -->
+<div class="reg-layout">
+
+  <!-- ═══ FORM CARD ═══ -->
+  <div class="form-card" id="formCard">
+
+    <!-- ══ STEP 1: Basic Info ══ -->
+    <div class="form-step active" id="step1">
+      <div class="step-header">
+        <div class="step-eyebrow">Step 1 of 5</div>
+        <h2>👤 Owner's Basic Information</h2>
+        <p>Fill in your personal and contact details — these will only be used for verification.</p>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Owner Name <span class="req">*</span></label>
+          <input type="text" class="finput" id="ownerName" placeholder="e.g. Ramesh Kumar Sharma">
+          <div class="ferr-msg">Full name is required</div>
+        </div>
+        <div class="fg">
+          <label class="flabel">WhatsApp Number <span class="req">*</span></label>
+          <input type="text" class="finput" id="ownerWa" placeholder="+91 98765 43210">
+          <div class="ferr-msg">Enter a valid WhatsApp number</div>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Email Address</label>
+          <input type="email" class="finput" id="ownerEmail" placeholder="ramesh@email.com">
+          <div class="fhint">Optional — for order notifications</div>
+        </div>
+        <div class="fg">
+          <label class="flabel">Your City <span class="req">*</span></label>
+          <select class="finput" id="ownerCity">
+            <option value="">Select Your City</option>
+            <option>Indore</option><option>Bhopal</option><option>Jabalpur</option>
+            <option>Ujjain</option><option>Gwalior</option><option>Raipur</option>
+            <option>Nagpur</option><option>Ranchi</option><option>Patna</option>
+            <option>Lucknow</option><option>Kanpur</option><option>Agra</option>
+            <option>Other</option>
+          </select>
+          <div class="ferr-msg">Select city</div>
+        </div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Password <span class="req">*</span></label>
+          <input type="password" class="finput" id="ownerPass" placeholder="Minimum 8 characters">
+          <div class="ferr-msg">Minimum 8 characters required</div>
+        </div>
+        <div class="fg">
+          <label class="flabel">Password Confirm <span class="req">*</span></label>
+          <input type="password" class="finput" id="ownerPass2" placeholder="Re-enter your password">
+          <div class="ferr-msg">Passwords do not match</div>
+        </div>
+      </div>
+      <div class="fg">
+        <label class="flabel">How Did You Hear About Us?</label>
+        <select class="finput" id="ownerRef">
+          <option value="">Select Source</option>
+          <option>Heard from a friend or acquaintance</option>
+          <option>Saw on Facebook</option>
+          <option>Saw on Instagram</option>
+          <option>Found via Google search</option>
+          <option>Found in a WhatsApp Group</option>
+          <option>Other</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- ══ STEP 2: Shop Details ══ -->
+    <div class="form-step" id="step2">
+      <div class="step-header">
+        <div class="step-eyebrow">Step 2 of 5</div>
+        <h2>🏪 Shop Details</h2>
+        <p>Fill in complete details about your shop — this is what customers will see.</p>
+      </div>
+      <div class="fg">
+        <label class="flabel">Shop Name <span class="req">*</span></label>
+        <input type="text" class="finput" id="shopName" placeholder="e.g. Sharma Cloth House">
+        <div class="ferr-msg">Shop name is required</div>
+        <div class="fhint">This name will be displayed to customers on the website</div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Shop WhatsApp Number <span class="req">*</span></label>
+          <input type="text" class="finput" id="shopWa" placeholder="+91 98765 43210">
+          <div class="ferr-msg">Enter shop WhatsApp number</div>
+          <div class="fhint">Customers will contact you on this number</div>
+        </div>
+        <div class="fg">
+          <label class="flabel">Shop Phone Number</label>
+          <input type="text" class="finput" id="shopPhone" placeholder="+91 0731-123456">
+        </div>
+      </div>
+      <div class="fg full">
+        <label class="flabel">Shop Category <span class="req">*</span></label>
+        <div class="cat-chips" id="catChips">
+          <div class="cat-chip" onclick="toggleCat(this)">👔 Men Fashion</div>
+          <div class="cat-chip" onclick="toggleCat(this)">👗 Women Fashion</div>
+          <div class="cat-chip" onclick="toggleCat(this)">🧒 Kids Wear</div>
+          <div class="cat-chip" onclick="toggleCat(this)">📱 Electronics</div>
+          <div class="cat-chip" onclick="toggleCat(this)">🎧 Mobile Accessories</div>
+          <div class="cat-chip" onclick="toggleCat(this)">👟 Footwear</div>
+          <div class="cat-chip" onclick="toggleCat(this)">💍 Jewellery</div>
+          <div class="cat-chip" onclick="toggleCat(this)">🏠 Home Decor</div>
+          <div class="cat-chip" onclick="toggleCat(this)">🧴 Beauty & Care</div>
+          <div class="cat-chip" onclick="toggleCat(this)">📚 Books & Stationery</div>
+          <div class="cat-chip" onclick="toggleCat(this)">🍎 Food & Grocery</div>
+          <div class="cat-chip" onclick="toggleCat(this)">🔧 Hardware & Tools</div>
+        </div>
+        <div class="fhint">Select one or more categories</div>
+      </div>
+      <div class="fg">
+        <label class="flabel">Shop Address <span class="req">*</span></label>
+        <textarea class="finput" id="shopAddr" rows="3" placeholder="e.g. Shop No. 12, Gandhi Nagar Market, Near SBI Bank, Indore – 452001"></textarea>
+        <div class="ferr-msg">Address is required</div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Area / Locality <span class="req">*</span></label>
+          <input type="text" class="finput" id="shopArea" placeholder="e.g. Gandhi Nagar">
+          <div class="ferr-msg">Area is required</div>
+        </div>
+        <div class="fg">
+          <label class="flabel">PIN Code</label>
+          <input type="text" class="finput" id="shopPin" placeholder="e.g. 452001" maxlength="6">
+        </div>
+      </div>
+      <div class="fg">
+        <label class="flabel">Google Maps Link (Optional)</label>
+        <input type="text" class="finput" id="shopMap" placeholder="https://maps.google.com/...">
+        <div class="fhint">Customers will find your exact location</div>
+      </div>
+      <div class="fg">
+        <label class="flabel">Shop Description <span class="req">*</span></label>
+        <textarea class="finput" id="shopDesc" rows="4" placeholder="Describe your shop — what you sell, what makes you special, how long you've been in business..."></textarea>
+        <div class="ferr-msg">Description is required</div>
+        <div class="fhint">Describe your shop in 100–300 words</div>
+      </div>
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Website (Optional)</label>
+          <input type="text" class="finput" id="shopWeb" placeholder="https://yourshop.com">
+        </div>
+        <div class="fg">
+          <label class="flabel">Instagram Page (Optional)</label>
+          <input type="text" class="finput" id="shopInsta" placeholder="@yourshop">
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 3: Photos & Timing ══ -->
+    <div class="form-step" id="step3">
+      <div class="step-header">
+        <div class="step-eyebrow">Step 3 of 5</div>
+        <h2>📸 Photos & Timing</h2>
+        <p>Upload shop photos and set your opening hours.</p>
+      </div>
+
+      <!-- Logo Upload -->
+      <div class="fg">
+        <label class="flabel">Shop Logo / Profile Photo <span class="req">*</span></label>
+        <div style="display:flex;align-items:center;gap:16px;">
+          <div class="photo-slot" style="width:100px;height:100px;flex-shrink:0;" onclick="document.getElementById('logoInput').click()">
+            <input type="file" id="logoInput" accept="image/*" onchange="previewLogo(this)">
+            <div class="slot-icon">📷</div>
+            <div style="font-size:11px;color:var(--text-light);">Logo Upload</div>
+          </div>
+          <div>
+            <div style="font-size:13.5px;font-weight:600;color:var(--text-dark);margin-bottom:4px;">Shop Logo ya Profile Photo</div>
+            <div style="font-size:13px;color:var(--text-light);line-height:1.6;">JPG / PNG format, minimum 200×200px. This will be displayed as your circular logo.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop Photos -->
+      <div class="fg">
+        <label class="flabel">Shop Photos (4 tak) <span class="req">*</span></label>
+        <div class="photo-upload-grid" id="photoGrid">
+          <div class="photo-slot" onclick="triggerPhoto(0)">
+            <input type="file" accept="image/*" onchange="previewPhoto(this,0)">
+            <div class="slot-icon">🏪</div>
+            <div>Outside View</div>
+            <span class="slot-remove" onclick="removePhoto(event,0)">×</span>
+          </div>
+          <div class="photo-slot" onclick="triggerPhoto(1)">
+            <input type="file" accept="image/*" onchange="previewPhoto(this,1)">
+            <div class="slot-icon">🛍️</div>
+            <div>Inside View</div>
+            <span class="slot-remove" onclick="removePhoto(event,1)">×</span>
+          </div>
+          <div class="photo-slot" onclick="triggerPhoto(2)">
+            <input type="file" accept="image/*" onchange="previewPhoto(this,2)">
+            <div class="slot-icon">📦</div>
+            <div>Products photo</div>
+            <span class="slot-remove" onclick="removePhoto(event,2)">×</span>
+          </div>
+          <div class="photo-slot" onclick="triggerPhoto(3)">
+            <input type="file" accept="image/*" onchange="previewPhoto(this,3)">
+            <div class="slot-icon">➕</div>
+            <div>Extra photo</div>
+            <span class="slot-remove" onclick="removePhoto(event,3)">×</span>
+          </div>
+        </div>
+        <div class="fhint">Upload at least 1 photo. More photos = more customers!</div>
+      </div>
+
+      <!-- Working Hours -->
+      <div class="fg">
+        <label class="flabel">Opening Hours</label>
+        <div class="hours-grid" id="hoursGrid">
+          <!-- Days filled by JS -->
+        </div>
+      </div>
+
+      <div class="frow">
+        <div class="fg">
+          <label class="flabel">Delivery Available?</label>
+          <select class="finput" id="shopDelivery">
+            <option value="no">No — In-Store Only</option>
+            <option value="local">Haan — Local Area (2–5 km)</option>
+            <option value="city">Yes — Entire City</option>
+            <option value="all">Haan — Anywhere</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label class="flabel">Payment Methods</label>
+          <select class="finput" id="shopPayment">
+            <option>Cash Only</option>
+            <option>Cash + UPI (GPay/PhonePe)</option>
+            <option>Cash + UPI + Card</option>
+            <option>All Methods</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="fg">
+        <label class="flabel">Establishment Year</label>
+        <select class="finput" id="shopYear">
+          <option value="">Select Year</option>
+        </select>
+        <div class="fhint">Customers will know how long your shop has been established</div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 4: Plan ══ -->
+    <div class="form-step" id="step4">
+      <div class="step-header">
+        <div class="step-eyebrow">Step 4 of 5</div>
+        <h2>💎 Choose Your Membership Plan</h2>
+        <p>Choose a plan that fits your needs. You can always upgrade later.</p>
+      </div>
+      <div class="plan-cards" id="planCards">
+        <div class="plan-card selected" onclick="selectPlan(this,'free')" data-plan="free">
+          <div class="pc-icon">🆓</div>
+          <div class="pc-name">Basic Plan</div>
+          <div class="pc-price">₹0 <sub>/month</sub></div>
+          <ul class="pc-features">
+            <li><span class="ck">✓</span> 500 Products</li>
+            <li><span class="ck">✓</span> WhatsApp Button</li>
+            <li><span class="ck">✓</span> Shop Profile Page</li>
+            <li><span class="xk">✗</span> Featured Listing</li>
+            <li><span class="xk">✗</span> Analytics</li>
+            <li><span class="xk">✗</span> Priority Support</li>
+          </ul>
+        </div>
+        <div class="plan-card popular" onclick="selectPlan(this,'growth')" data-plan="growth">
+          <div class="pc-badge">⭐ Most Popular</div>
+          <div class="pc-icon">🚀</div>
+          <div class="pc-name">Growth Plan</div>
+          <div class="pc-price">₹499 <sub>/month</sub></div>
+          <ul class="pc-features">
+            <li><span class="ck">✓</span> 500 Products</li>
+            <li><span class="ck">✓</span> WhatsApp Button</li>
+            <li><span class="ck">✓</span> Featured Listing</li>
+            <li><span class="ck">✓</span> Analytics Dashboard</li>
+            <li><span class="ck">✓</span> Priority Support</li>
+            <li><span class="xk">✗</span> Banner Ads</li>
+          </ul>
+        </div>
+        <div class="plan-card" onclick="selectPlan(this,'premium')" data-plan="premium">
+          <div class="pc-icon">👑</div>
+          <div class="pc-name">Premium Plan</div>
+          <div class="pc-price">₹999 <sub>/month</sub></div>
+          <ul class="pc-features">
+            <li><span class="ck">✓</span> Unlimited Products</li>
+            <li><span class="ck">✓</span> WhatsApp + Call Button</li>
+            <li><span class="ck">✓</span> Top Featured Listing</li>
+            <li><span class="ck">✓</span> Full Analytics</li>
+            <li><span class="ck">✓</span> Priority Support</li>
+            <li><span class="ck">✓</span> Banner Advertisements</li>
+          </ul>
+        </div>
+      </div>
+      <div id="planNote" style="margin-top:12px;padding:12px 16px;background:var(--primary-light);border-radius:8px;font-size:13px;color:var(--primary);font-weight:600;">
+        ✅ Free plan selected — You can upgrade anytime!
+      </div>
+    </div>
+
+    <!-- ══ STEP 5: Verify & Submit ══ -->
+    <div class="form-step" id="step5">
+      <div class="step-header">
+        <div class="step-eyebrow">Step 5 of 5 — Last Step!</div>
+        <h2>✅ Verify & Submit</h2>
+        <p>Confirm your details, accept the terms and submit your registration.</p>
+      </div>
+
+      <!-- OTP Section -->
+      <div class="otp-wrap" style="border:2px solid var(--border);border-radius:var(--radius);margin-bottom:28px;">
+        <div class="otp-icon">📱</div>
+        <div class="otp-title">Verify via WhatsApp OTP</div>
+        <div class="otp-sub" id="otpSubText">A 6-digit OTP will be sent to your WhatsApp number. Enter it below.</div>
+        <div id="otpSendSection">
+          <button style="background:var(--whatsapp);color:#fff;border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:700;margin-bottom:16px;" onclick="sendOTP()">💬 Send WhatsApp OTP</button>
+        </div>
+        <div class="otp-inputs" id="otpInputs" style="display:none;">
+          <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,1)">
+          <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,2)">
+          <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,3)">
+          <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,4)">
+          <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,5)">
+          <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,6)">
+        </div>
+        <div class="otp-resend" id="otpResend" style="display:none;">Didn't receive OTP? <a onclick="sendOTP()">Resend</a> | <span id="otpTimer">30s</span> remaining</div>
+        <button class="btn-verify-otp" id="verifyOtpBtn" style="display:none;" onclick="verifyOTP()">🔐 Verify OTP</button>
+        <div id="otpSuccess" style="display:none;color:var(--success);font-weight:700;font-size:15px;padding:12px;">✅ WhatsApp Verified!</div>
+      </div>
+
+      <!-- Review Summary -->
+      <div class="review-section">
+        <div class="review-section-title">👤 Owner Details <span class="review-edit" onclick="goStep(1)">✏️ Edit</span></div>
+        <div class="review-grid">
+          <div class="review-item"><div class="review-label">Owner Name</div><div class="review-value" id="rv-name">—</div></div>
+          <div class="review-item"><div class="review-label">WhatsApp</div><div class="review-value highlight" id="rv-wa">—</div></div>
+          <div class="review-item"><div class="review-label">Email</div><div class="review-value" id="rv-email">—</div></div>
+          <div class="review-item"><div class="review-label">City</div><div class="review-value" id="rv-city">—</div></div>
+        </div>
+      </div>
+      <div class="review-section">
+        <div class="review-section-title">🏪 Shop Details <span class="review-edit" onclick="goStep(2)">✏️ Edit</span></div>
+        <div class="review-grid">
+          <div class="review-item"><div class="review-label">Shop Name</div><div class="review-value highlight" id="rv-shop">—</div></div>
+          <div class="review-item"><div class="review-label">Shop WhatsApp</div><div class="review-value" id="rv-shopwa">—</div></div>
+          <div class="review-item"><div class="review-label">Category</div><div class="review-value" id="rv-cat">—</div></div>
+          <div class="review-item"><div class="review-label">Address</div><div class="review-value" id="rv-addr">—</div></div>
+        </div>
+      </div>
+      <div class="review-section">
+        <div class="review-section-title">💎 Selected Plan <span class="review-edit" onclick="goStep(4)">✏️ Edit</span></div>
+        <div class="review-grid">
+          <div class="review-item"><div class="review-label">Plan</div><div class="review-value highlight" id="rv-plan">Basic (Free)</div></div>
+          <div class="review-item"><div class="review-label">Monthly Cost</div><div class="review-value" id="rv-cost">₹0 / month</div></div>
+        </div>
+      </div>
+
+      <!-- Consent -->
+      <div class="consent-list">
+        <div class="consent-item">
+          <input type="checkbox" id="c1" checked>
+          <label for="c1">I confirm that my shop and products are genuine and I will not list any illegal items. <a href="#">Terms of Service</a> </label>
+        </div>
+        <div class="consent-item">
+          <input type="checkbox" id="c2" checked>
+          <label for="c2"><a href="#">Privacy Policy</a> — I agree that my data will be stored securely.</label>
+        </div>
+        <div class="consent-item">
+          <input type="checkbox" id="c3">
+          <label for="c3">Yes, I want to receive notifications about new features, deals and updates on WhatsApp.</label>
+        </div>
+      </div>
+
+      <!-- Final submit -->
+      <button class="btn-next" style="width:100%;padding:16px;font-size:16px;justify-content:center;" id="finalSubmitBtn" onclick="finalSubmit()">
+        🚀 Register My Shop — Free!
+      </button>
+    </div>
+
+    <!-- ══ FORM NAVIGATION ══ -->
+    <div class="form-nav" id="formNav">
+      <button class="btn-prev" id="btnPrev" onclick="prevStep()" style="display:none;">← Back</button>
+      <div class="step-indicator"><strong id="stepText">Step 1</strong> of 5</div>
+      <button class="btn-next" id="btnNext" onclick="nextStep()">Next →</button>
+    </div>
+
+  </div><!-- /form-card -->
+
+  <!-- ═══ SIDEBAR ═══ -->
+  <aside class="reg-sidebar">
+
+    <!-- Benefits -->
+    <div class="side-card">
+      <div class="side-card-title">🎯 Why Register With Us?</div>
+      <ul class="benefits-list">
+        <li class="benefit-item">
+          <div class="bi-icon" style="background:#dcfce7;">🆓</div>
+          <div><strong>Completely Free to Start</strong> — No charges on the Basic plan. Try first, upgrade anytime.</div>
+        </li>
+        <li class="benefit-item">
+          <div class="bi-icon" style="background:var(--primary-light);">👥</div>
+          <div><strong>25,000+ Active Customers</strong> — Already browsing and looking for local shops on the platform.</div>
+        </li>
+        <li class="benefit-item">
+          <div class="bi-icon" style="background:#dcfce7;">💬</div>
+          <div><strong>Direct WhatsApp Orders</strong> — No commission charged, deal directly with your customers.</div>
+        </li>
+        <li class="benefit-item">
+          <div class="bi-icon" style="background:#fef3c7;">🔍</div>
+          <div><strong>Show Up on Google Too</strong> — SEO optimized pages help your shop appear in Google search results.</div>
+        </li>
+        <li class="benefit-item">
+          <div class="bi-icon" style="background:#ede9fe;">📱</div>
+          <div><strong>Mobile Dashboard</strong> — Add products, view inquiries and track stats from your phone.</div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Seller Testimonial -->
+    <div class="side-card">
+      <div class="side-card-title">💬 What Sellers Say</div>
+      <div class="seller-testi">
+        <div class="st-header">
+          <div class="st-av">R</div>
+          <div>
+            <div class="st-name">Ramesh Sharma</div>
+            <div class="st-role">Sharma Cloth House, Gandhi Nagar</div>
+          </div>
+        </div>
+        <div class="st-stars">★★★★★</div>
+        <div class="st-text">"In the very first month, 60+ new customers found me through WhatsApp. My shop is now visible online — all completely free!"</div>
+      </div>
+    </div>
+
+    <!-- Help -->
+    <div class="help-box">
+      <h4>📞 Need Help with Registration?</h4>
+      <p>If you face any issue at any step, WhatsApp us directly — we'll guide you through.</p>
+      <button class="btn-help-wa" onclick="openWA()">💬 WhatsApp Help</button>
+    </div>
+
+  </aside>
+</div>
+
+<!-- ══ SUCCESS PAGE ══ -->
+<div id="successPage" style="display:none;max-width:1100px;margin:0 auto;padding:40px 24px;">
+  <div class="form-card">
+    <div class="success-page" id="successContent">
+      <div class="success-anim">🎉</div>
+      <h2>Congratulations! Shop Registered Successfully!</h2>
+      <div class="reg-id-box">
+        <div class="rid-label">Your Registration ID</div>
+        <div class="rid-value" id="regId">LBH-2024-XXXX</div>
+      </div>
+      <p>Your shop registration has been submitted successfully! Our team will verify within <strong>24–48 hours</strong>. You will receive a WhatsApp confirmation after verification. Your shop will go live shortly after!</p>
+      <div class="success-steps">
+        <div class="ss-item"><div class="ss-icon">✅</div><div class="ss-text"><strong>Step 1 Complete:</strong> Registration form submitted successfully</div></div>
+        <div class="ss-item"><div class="ss-icon">⏳</div><div class="ss-text"><strong>Step 2 Pending:</strong> Our team will verify within 24–48 hrs</div></div>
+        <div class="ss-item"><div class="ss-icon">🔔</div><div class="ss-text"><strong>Step 3 Coming:</strong> WhatsApp confirmation will be sent to you</div></div>
+        <div class="ss-item"><div class="ss-icon">🚀</div><div class="ss-text"><strong>Step 4 Final:</strong> Your shop will go live!</div></div>
+      </div>
+      <div class="success-btns">
+        <button class="btn-success-wa" onclick="openWA()">💬 Follow Up on WhatsApp</button>
+        <a href="local-bazaar-hub.html" class="btn-success-home">🏠 Home Page</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER MINI -->
+<div class="footer-mini">
+  © 2024 <a href="local-bazaar-hub.html">Local Bazaar Hub</a> · Your Shop, Now Digital · All Rights Reserved
+</div>
+
+<!-- FLOATING WA -->
+<div class="float-wa">
+  <div class="float-wa-btn" onclick="openWA()" title="WhatsApp Help">💬</div>
+</div>
+
+<script>
+let currentStep = 1;
+let selectedPlan = 'free';
+let otpVerified = false;
+let otpSent = false;
+let otpTimerInterval = null;
+
+// ── Build working hours ──
+const days = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+const hoursGrid = document.getElementById('hoursGrid');
+days.forEach((day, i) => {
+  const row = document.createElement('div');
+  row.className = 'hours-row';
+  row.innerHTML = `
+    <div class="hours-day-label">${day}</div>
+    <input type="time" class="finput" value="${i < 6 ? '10:00' : ''}" id="open_${i}" ${i===6?'disabled':''} style="font-size:13px;padding:8px 10px;">
+    <input type="time" class="finput" value="${i < 5 ? '19:00' : i===5?'17:00':''}" id="close_${i}" ${i===6?'disabled':''} style="font-size:13px;padding:8px 10px;">
+    <label class="hours-closed-toggle"><input type="checkbox" ${i===6?'checked':''} onchange="toggleDay(this,${i})"> Closed</label>
+  `;
+  hoursGrid.appendChild(row);
+});
+
+// Build year dropdown
+const yearSel = document.getElementById('shopYear');
+for(let y = new Date().getFullYear(); y >= 1950; y--){
+  const opt = document.createElement('option');
+  opt.value = y; opt.textContent = y;
+  yearSel.appendChild(opt);
+}
+
+function toggleDay(cb, idx){
+  document.getElementById('open_'+idx).disabled = cb.checked;
+  document.getElementById('close_'+idx).disabled = cb.checked;
+}
+
+// ── Category chips ──
+function toggleCat(el){ el.classList.toggle('selected'); }
+
+// ── Plan select ──
+function selectPlan(el, plan){
+  document.querySelectorAll('.plan-card').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedPlan = plan;
+  const notes = {
+    free:'✅ Free plan selected — You can upgrade anytime!',
+    growth:'🚀 Growth plan selected — ₹499/month. Get maximum reach and more customers!',
+    premium:'👑 Premium plan selected — ₹999/month. All features with top search placement!'
+  };
+  const costs = {free:'₹0 / month', growth:'₹499 / month', premium:'₹999 / month'};
+  const planNames = {free:'Basic (Free)', growth:'Growth – ₹499/mo', premium:'Premium – ₹999/mo'};
+  document.getElementById('planNote').textContent = notes[plan];
+  document.getElementById('rv-plan').textContent = planNames[plan];
+
+  // Update submit button text based on plan
+  const submitBtn = document.getElementById('finalSubmitBtn');
+  if(submitBtn){
+    if(plan === 'free'){
+      submitBtn.innerHTML = '🚀 Register My Shop — Free!';
+    } else if(plan === 'growth'){
+      submitBtn.innerHTML = '🚀 Register My Shop — ₹499/month';
+    } else if(plan === 'premium'){
+      submitBtn.innerHTML = '👑 Register My Shop — ₹999/month';
+    }
+  }
+  document.getElementById('rv-cost').textContent = costs[plan];
+}
+
+// ── Progress update ──
+function updateProgress(step){
+  for(let i = 1; i <= 5; i++){
+    const ps = document.getElementById('ps'+i);
+    const pc = document.getElementById('pc'+i);
+    ps.classList.remove('active','done');
+    if(i < step){ ps.classList.add('done'); pc.innerHTML = '✓'; pc.style.fontSize='18px'; }
+    else if(i === step){ ps.classList.add('active'); pc.textContent = i; }
+    else { pc.textContent = i; }
+  }
+}
+
+// ── Step navigation ──
+function showStep(n){
+  document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+  document.getElementById('step'+n).classList.add('active');
+  document.getElementById('stepText').textContent = 'Step '+n;
+  document.getElementById('btnPrev').style.display = n > 1 ? 'flex' : 'none';
+  const nav = document.getElementById('formNav');
+  nav.style.display = n === 5 ? 'none' : 'flex';
+  document.getElementById('btnNext').textContent = n === 4 ? 'Review & Submit →' : 'Next →';
+  updateProgress(n);
+  window.scrollTo({top: document.querySelector('.progress-wrap').offsetTop - 80, behavior:'smooth'});
+  if(n === 5) fillReview();
+}
+
+function goStep(n){ currentStep = n; showStep(n); }
+
+function nextStep(){
+  if(!validateStep(currentStep)) return;
+  if(currentStep < 5){ currentStep++; showStep(currentStep); }
+}
+
+function prevStep(){
+  if(currentStep > 1){ currentStep--; showStep(currentStep); }
+}
+
+// ── Validation ──
+function validateStep(step){
+  let ok = true;
+  const required = {
+    1: ['ownerName','ownerWa','ownerCity'],
+    2: ['shopName','shopWa','shopAddr','shopArea','shopDesc'],
+    3: [],
+    4: [],
+    5: []
+  };
+  (required[step]||[]).forEach(id => {
+    const el = document.getElementById(id);
+    if(!el || !el.value.trim()){ el && el.classList.add('err'); ok = false; }
+    else el.classList.remove('err');
+  });
+  if(step === 1){
+    const p1 = document.getElementById('ownerPass');
+    const p2 = document.getElementById('ownerPass2');
+    if(p1.value.length < 8){ p1.classList.add('err'); ok = false; } else p1.classList.remove('err');
+    if(p1.value !== p2.value){ p2.classList.add('err'); ok = false; } else p2.classList.remove('err');
+  }
+  if(!ok) document.querySelector('.finput.err')?.scrollIntoView({behavior:'smooth',block:'center'});
+  return ok;
+}
+
+// ── Fill review ──
+function fillReview(){
+  document.getElementById('rv-name').textContent = document.getElementById('ownerName').value || '—';
+  document.getElementById('rv-wa').textContent = document.getElementById('ownerWa').value || '—';
+  document.getElementById('rv-email').textContent = document.getElementById('ownerEmail').value || 'Not provided';
+  document.getElementById('rv-city').textContent = document.getElementById('ownerCity').value || '—';
+  document.getElementById('rv-shop').textContent = document.getElementById('shopName').value || '—';
+  document.getElementById('rv-shopwa').textContent = document.getElementById('shopWa').value || '—';
+  const cats = [...document.querySelectorAll('.cat-chip.selected')].map(c => c.textContent.trim()).join(', ');
+  document.getElementById('rv-cat').textContent = cats || 'Not selected';
+  document.getElementById('rv-addr').textContent = (document.getElementById('shopAddr').value || '—').substring(0,40)+'...';
+}
+
+// ── OTP Flow ──
+function sendOTP(){
+  const wa = document.getElementById('ownerWa').value.trim();
+  if(!wa){ alert('Please enter your WhatsApp number in Step 1 first.'); goStep(1); return; }
+  document.getElementById('otpSendSection').style.display = 'none';
+  document.getElementById('otpInputs').style.display = 'flex';
+  document.getElementById('otpResend').style.display = 'block';
+  document.getElementById('verifyOtpBtn').style.display = 'inline-flex';
+  document.getElementById('otpSubText').textContent = `OTP has been sent to ${wa}. Please enter it below.`;
+  startOtpTimer();
+  // In real WordPress, this triggers actual WhatsApp OTP via API
+}
+
+function startOtpTimer(){
+  let t = 30;
+  clearInterval(otpTimerInterval);
+  otpTimerInterval = setInterval(()=>{
+    t--;
+    document.getElementById('otpTimer').textContent = t+'s';
+    if(t <= 0){ clearInterval(otpTimerInterval); document.getElementById('otpTimer').textContent = 'ab available'; }
+  }, 1000);
+}
+
+function otpMove(input, idx){
+  input.value = input.value.replace(/[^0-9]/g,'');
+  if(input.value && idx < 6){
+    const next = document.querySelectorAll('.otp-box')[idx];
+    if(next) next.focus();
+  }
+}
+
+function verifyOTP(){
+  const boxes = document.querySelectorAll('.otp-box');
+  const otp = [...boxes].map(b => b.value).join('');
+  if(otp.length < 6){ alert('Please enter the complete 6-digit OTP.'); return; }
+  // Demo: accept any 6-digit OTP
+  document.getElementById('otpInputs').style.display = 'none';
+  document.getElementById('verifyOtpBtn').style.display = 'none';
+  document.getElementById('otpResend').style.display = 'none';
+  document.getElementById('otpSendSection').style.display = 'none';
+  document.getElementById('otpSuccess').style.display = 'block';
+  otpVerified = true;
+}
+
+// ── Final Submit ──
+function finalSubmit(){
+  if(!document.getElementById('c1').checked || !document.getElementById('c2').checked){
+    alert('Please agree to our Terms and Privacy Policy!'); return;
+  }
+  const btn = document.getElementById('finalSubmitBtn');
+  btn.textContent = '⏳ Submitting...';
+  btn.classList.add('loading');
+
+  setTimeout(()=>{
+    const regId = 'LBH-2024-' + Math.floor(1000 + Math.random()*9000);
+    document.getElementById('regId').textContent = regId;
+
+    document.getElementById('formCard').style.display = 'none';
+    document.querySelector('.reg-sidebar').style.display = 'none';
+    document.getElementById('successPage').style.display = 'block';
+
+    // WhatsApp confirmation
+    const name = document.getElementById('ownerName').value;
+    const shop = document.getElementById('shopName').value;
+    const wa = document.getElementById('ownerWa').value;
+    const msg = encodeURIComponent(
+      `Hello Local Bazaar Hub! 🙏\n\nMy shop registration has been submitted successfully!\n\n*Registration ID:* ${regId}\n*Owner:* ${name}\n*Shop:* ${shop}\n*WhatsApp:* ${wa}\n*Plan:* ${selectedPlan}\n\nI am waiting for verification.`
+    );
+    setTimeout(()=>{ window.open('https://wa.me/919876543210?text='+msg,'_blank'); }, 800);
+    window.scrollTo({top:0,behavior:'smooth'});
+  }, 2000);
+}
+
+// ── Photo upload ──
+function triggerPhoto(idx){
+  document.querySelectorAll('#photoGrid .photo-slot input')[idx].click();
+}
+function previewPhoto(input, idx){
+  if(input.files && input.files[0]){
+    const slot = document.querySelectorAll('#photoGrid .photo-slot')[idx];
+    slot.classList.add('filled');
+    slot.style.backgroundImage = `url(${URL.createObjectURL(input.files[0])})`;
+    slot.style.backgroundSize = 'cover';
+    slot.style.backgroundPosition = 'center';
+    slot.querySelector('.slot-icon').style.display = 'none';
+    slot.querySelector('div:not(.slot-icon):not(.slot-remove)').style.display = 'none';
+  }
+}
+function removePhoto(e, idx){
+  e.stopPropagation();
+  const slot = document.querySelectorAll('#photoGrid .photo-slot')[idx];
+  slot.classList.remove('filled');
+  slot.style.backgroundImage = '';
+  slot.querySelector('.slot-icon').style.display = '';
+  slot.querySelector('div:not(.slot-icon):not(.slot-remove)').style.display = '';
+}
+function previewLogo(input){
+  if(input.files && input.files[0]){
+    const slot = input.closest('.photo-slot');
+    slot.style.backgroundImage = `url(${URL.createObjectURL(input.files[0])})`;
+    slot.style.backgroundSize = 'cover';
+    slot.style.backgroundPosition = 'center';
+    slot.classList.add('filled');
+  }
+}
+
+// ── WhatsApp ──
+function openWA(){
+  const msg = encodeURIComponent('Hello! I need help with my shop registration.');
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+
+// ── Remove err on input ──
+document.querySelectorAll('.finput').forEach(el=>{
+  el.addEventListener('input',()=>el.classList.remove('err'));
+});
+
+// ══════════════════════════════════════
+//   AUTO-FILL FROM login-register.html
+// ══════════════════════════════════════
+(function autoFillFromLogin(){
+  let data = null;
+  try {
+    // Check seller quick form data
+    const raw = localStorage.getItem('lbh_seller_reg');
+    if(raw) data = JSON.parse(raw);
+  } catch(e){}
+
+  // Also check phone-verified flow
+  const verifiedPhone = localStorage.getItem('lbh_seller_phone');
+  const verifiedName  = localStorage.getItem('lbh_seller_name');
+
+  if(!data && !verifiedPhone) return; // No pre-fill data
+
+  // Build fill data
+  const fill = data || {};
+  if(verifiedPhone && !fill.phone) fill.phone  = verifiedPhone;
+  if(verifiedName  && !fill.owner) fill.owner  = verifiedName;
+
+  // Show pre-fill banner
+  const banner = document.createElement('div');
+  banner.id = 'prefillBanner';
+  banner.style.cssText = `
+    background:linear-gradient(135deg,#fff7ed,#ffedd5);
+    border:1.5px solid #fed7aa;border-radius:14px;
+    padding:14px 18px;margin-bottom:20px;
+    display:flex;align-items:flex-start;gap:12px;
+    animation:fadeUp .3s ease;
+  `;
+  banner.innerHTML = `
+    <span style="font-size:24px;flex-shrink:0;">✅</span>
+    <div style="flex:1;">
+      <div style="font-family:'Sora',sans-serif;font-size:14px;font-weight:800;color:#92400e;margin-bottom:3px;">
+        Pre-filled from your quick registration!
+      </div>
+      <div style="font-size:13px;color:#b45309;line-height:1.5;">
+        We've filled in your basic details below. Please verify and complete the remaining steps.
+      </div>
+    </div>
+    <button onclick="document.getElementById('prefillBanner').remove()"
+      style="background:none;border:none;font-size:18px;cursor:pointer;color:#b45309;flex-shrink:0;padding:0;">✕</button>
+  `;
+
+  // Insert banner before first step form
+  const firstStep = document.querySelector('.step-body');
+  if(firstStep) firstStep.insertBefore(banner, firstStep.firstChild);
+
+  // Auto-fill fields with delay (after DOM ready)
+  setTimeout(()=>{
+    // Owner Name
+    if(fill.owner){
+      const ownerEl = document.getElementById('ownerName');
+      if(ownerEl && !ownerEl.value){ ownerEl.value = fill.owner; ownerEl.style.borderColor='var(--success)'; }
+    }
+    // WhatsApp number (owner)
+    if(fill.phone){
+      const waEl = document.getElementById('ownerWa');
+      if(waEl && !waEl.value){ waEl.value = '+91 '+fill.phone; waEl.style.borderColor='var(--success)'; }
+    }
+    // City
+    if(fill.area){
+      const cityEl = document.getElementById('ownerCity');
+      if(cityEl){
+        // Try to match area to city option
+        const indoreAreas = ['gandhi nagar','vijay nagar','mg road','sarafa','south tukoganj','palasia','rajwada','bhawarkuan','khajrana'];
+        const areaLower = fill.area.toLowerCase();
+        if(indoreAreas.some(a => areaLower.includes(a.split(' ')[0]))){
+          cityEl.value = 'Indore';
+          cityEl.style.borderColor = 'var(--success)';
+        }
+      }
+    }
+    // Shop Name (Step 2)
+    if(fill.shop){
+      const shopEl = document.getElementById('shopName');
+      if(shopEl && !shopEl.value){ shopEl.value = fill.shop; shopEl.style.borderColor='var(--success)'; }
+      // Shop WA
+      const shopWaEl = document.getElementById('shopWa');
+      if(shopWaEl && !shopWaEl.value && fill.phone){ shopWaEl.value = '+91 '+fill.phone; shopWaEl.style.borderColor='var(--success)'; }
+      // Shop Area
+      const areaEl = document.getElementById('shopArea');
+      if(areaEl && !areaEl.value && fill.area){ areaEl.value = fill.area; areaEl.style.borderColor='var(--success)'; }
+    }
+    // Category chips — auto-select matching chip
+    if(fill.cat){
+      const catText = fill.cat.toLowerCase().replace(/[👔👗🧒📱🎧👟💍🏠🧴💄📚🛍️⚽👜]/gu,'').trim();
+      document.querySelectorAll('.cat-chip').forEach(chip=>{
+        const chipText = chip.textContent.toLowerCase().replace(/[👔👗🧒📱🎧👟💍🏠🧴💄📚🛍️⚽👜]/gu,'').trim();
+        if(chipText.includes(catText.slice(0,4)) || catText.includes(chipText.slice(0,4))){
+          chip.classList.add('active');
+        }
+      });
+    }
+
+    console.log('✅ Pre-filled from login registration data');
+  }, 300);
+})();
+
+// init
+updateProgress(1);
+</script>
+</body>
+</html>

@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sitemap – BahaBasket | All Pages</title>
+<meta name="description" content="Complete sitemap of BahaBasket — find all pages including shops, products, categories, seller tools, blog, and more.">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#0f172a;--text-mid:#334155;--text-light:#64748b;
+  --border:#e2e8f0;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--success-bg:#dcfce7;
+  --purple:#7c3aed;--purple-bg:#f3e8ff;
+  --radius:14px;--radius-sm:8px;
+  --font-display:'Sora',sans-serif;--font-body:'Noto Sans',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-hover:0 8px 32px rgba(26,86,219,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* TOPBAR */
+.topbar{background:var(--primary-dark);color:rgba(255,255,255,.75);font-size:12px;padding:5px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.topbar a{color:#c7d9ff;}
+.topbar a:hover{color:#fff;}
+
+/* NAVBAR */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 22px;display:flex;align-items:center;gap:14px;height:66px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:18px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:10px;display:block;line-height:1;margin-top:-3px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.nav-link{padding:7px 12px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text-mid);transition:background .18s,color .18s;white-space:nowrap;}
+.nav-link:hover{background:var(--primary-light);color:var(--primary);}
+.nav-btn{background:var(--accent);color:#fff!important;font-weight:700!important;padding:8px 16px;border-radius:8px;}
+.nav-btn:hover{background:#ea6c04!important;}
+
+/* BREADCRUMB */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:9px 22px;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-light);flex-wrap:wrap;}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ═══════════════════════════
+   HERO
+═══════════════════════════ */
+.sitemap-hero{background:linear-gradient(135deg,#0f3460,#1a56db 55%,#2563eb);padding:44px 22px 40px;position:relative;overflow:hidden;text-align:center;}
+.sitemap-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;}
+.sh-deco{position:absolute;border-radius:50%;opacity:.07;}
+.shd1{width:280px;height:280px;background:#fff;top:-80px;left:-60px;}
+.shd2{width:200px;height:200px;background:var(--accent);bottom:-50px;right:-40px;}
+.sh-inner{position:relative;z-index:1;}
+.sh-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:14px;}
+.sh-title{font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;margin-bottom:10px;}
+.sh-title span{color:#fbbf24;}
+.sh-sub{font-size:15px;color:rgba(255,255,255,.75);max-width:520px;margin:0 auto 22px;line-height:1.7;}
+
+/* Sitemap search */
+.sm-search{display:flex;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 6px 24px rgba(0,0,0,.18);max-width:460px;margin:0 auto;}
+.sm-search input{flex:1;border:none;outline:none;padding:12px 16px;font-size:14px;color:var(--text-dark);font-family:var(--font-body);}
+.sm-search input::placeholder{color:var(--text-light);}
+.sm-search button{background:var(--primary);border:none;color:#fff;padding:0 20px;font-size:14px;font-weight:700;font-family:var(--font-display);transition:background .2s;}
+.sm-search button:hover{background:var(--primary-dark);}
+
+/* Stats strip */
+.sm-stats{display:flex;align-items:center;justify-content:center;gap:22px;margin-top:18px;flex-wrap:wrap;}
+.sm-stat{font-size:13px;color:rgba(255,255,255,.7);}
+.sm-stat strong{color:#fff;}
+
+/* ═══════════════════════════
+   MAIN
+═══════════════════════════ */
+.sitemap-main{max-width:1140px;margin:0 auto;padding:36px 22px 64px;}
+
+/* Search result info */
+.search-info{display:none;background:var(--primary-light);border:1px solid rgba(26,86,219,.18);border-radius:9px;padding:11px 16px;margin-bottom:20px;font-size:13.5px;color:var(--primary);font-weight:600;align-items:center;justify-content:space-between;gap:10px;}
+.search-info.show{display:flex;}
+.search-info button{background:none;border:none;color:var(--primary);font-size:13px;font-weight:700;cursor:pointer;text-decoration:underline;}
+
+/* No results */
+.no-results{display:none;text-align:center;padding:48px 20px;}
+.no-results.show{display:block;}
+
+/* ── SECTION ── */
+.sm-section{margin-bottom:36px;animation:fadeUp .35s ease both;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.sm-section:nth-child(1){animation-delay:.04s;}
+.sm-section:nth-child(2){animation-delay:.08s;}
+.sm-section:nth-child(3){animation-delay:.12s;}
+.sm-section:nth-child(4){animation-delay:.16s;}
+.sm-section:nth-child(5){animation-delay:.20s;}
+.sm-section:nth-child(6){animation-delay:.24s;}
+.sm-section:nth-child(7){animation-delay:.28s;}
+.sm-section:nth-child(8){animation-delay:.32s;}
+
+.sm-section-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;padding-bottom:12px;border-bottom:2px solid var(--border);}
+.ssh-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:21px;flex-shrink:0;}
+.ssh-info .ssh-title{font-family:var(--font-display);font-size:19px;font-weight:800;color:var(--text-dark);}
+.ssh-info .ssh-count{font-size:12.5px;color:var(--text-light);margin-top:1px;}
+
+/* ── PAGE GRID ── */
+.pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;}
+
+/* ── PAGE CARD ── */
+.page-card{background:var(--white);border:1.5px solid var(--border);border-radius:var(--radius);padding:16px 18px;cursor:pointer;transition:all .22s;display:flex;align-items:flex-start;gap:13px;position:relative;overflow:hidden;}
+.page-card:hover{box-shadow:var(--shadow-hover);border-color:transparent;transform:translateY(-2px);}
+.page-card.highlight{border-color:var(--primary);background:var(--primary-light);}
+.pc-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0;}
+.pc-body{flex:1;min-width:0;}
+.pc-title{font-family:var(--font-display);font-size:14px;font-weight:700;color:var(--text-dark);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.page-card:hover .pc-title{color:var(--primary);}
+.pc-url{font-size:11.5px;color:var(--text-light);font-family:'Courier New',monospace;margin-bottom:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.pc-desc{font-size:12.5px;color:var(--text-light);line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pc-badges{display:flex;gap:5px;margin-top:7px;flex-wrap:wrap;}
+.pc-badge{font-size:10px;font-weight:700;padding:2px 7px;border-radius:5px;}
+.pc-badge.new{background:var(--success-bg);color:var(--success);}
+.pc-badge.auth{background:var(--primary-light);color:var(--primary);}
+.pc-badge.admin{background:#fee2e2;color:#dc2626;}
+.pc-badge.seo{background:var(--accent-light);color:var(--accent);}
+.pc-badge.noindex{background:var(--bg);border:1px solid var(--border);color:var(--text-light);}
+.pc-arrow{position:absolute;top:14px;right:14px;font-size:13px;color:var(--border);transition:all .2s;}
+.page-card:hover .pc-arrow{color:var(--primary);transform:translateX(2px);}
+
+/* ── CATEGORY NAV (jump links) ── */
+.category-nav{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;margin-bottom:28px;box-shadow:var(--shadow);}
+.cn-title{font-size:12px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;}
+.cn-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.cn-chip{display:flex;align-items:center;gap:6px;background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:6px 14px;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;transition:all .18s;}
+.cn-chip:hover{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+
+/* ── XML SITEMAP LINK ── */
+.xml-banner{background:linear-gradient(135deg,#0f3460,#1a56db);border-radius:var(--radius);padding:20px 24px;display:flex;align-items:center;gap:16px;margin-bottom:36px;box-shadow:var(--shadow);}
+.xb-icon{font-size:32px;flex-shrink:0;}
+.xb-info{flex:1;}
+.xb-title{font-family:var(--font-display);font-size:16px;font-weight:700;color:#fff;margin-bottom:3px;}
+.xb-sub{font-size:13px;color:rgba(255,255,255,.7);}
+.xb-btn{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:#fff;padding:9px 18px;border-radius:9px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;flex-shrink:0;}
+.xb-btn:hover{background:rgba(255,255,255,.25);}
+
+/* ── PAGE COUNT SUMMARY ── */
+.summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin-bottom:36px;}
+.summary-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px 16px;text-align:center;box-shadow:var(--shadow);cursor:pointer;transition:all .18s;}
+.summary-item:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.si-num{font-family:var(--font-display);font-size:26px;font-weight:900;margin-bottom:4px;}
+.si-label{font-size:12px;color:var(--text-light);}
+
+/* Footer */
+.footer-mini{background:#0f172a;color:rgba(255,255,255,.4);text-align:center;padding:18px 22px;font-size:13px;}
+.footer-mini a{color:rgba(255,255,255,.55);}
+.footer-mini a:hover{color:#60a5fa;}
+.footer-links-row{display:flex;justify-content:center;gap:16px;margin-top:6px;flex-wrap:wrap;}
+
+/* Float WA */
+.float-wa{position:fixed;bottom:26px;right:26px;z-index:999;}
+.float-wa-btn{width:52px;height:52px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.4);animation:fwaBounce 3s ease-in-out infinite;}
+@keyframes fwaBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+/* RESPONSIVE */
+@media(max-width:768px){.pages-grid{grid-template-columns:1fr 1fr;}.nav-right .nav-link{display:none;}.sitemap-main{padding:24px 14px 48px;}.xml-banner{flex-direction:column;text-align:center;}.summary-grid{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:480px){.pages-grid{grid-template-columns:1fr;}.summary-grid{grid-template-columns:repeat(2,1fr);}.sm-stats{gap:12px;}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div>📍 BahaBasket — Indore's Hyperlocal Marketplace</div>
+  <div style="display:flex;gap:14px;"><a href="faq.html">FAQ</a><a href="contact-us.html">Contact</a></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text"><div>Local <span>Bazaar</span> Hub</div><small>Apna Dukaan, Digital Duniya</small></div>
+  </a>
+  <div class="nav-right">
+    <a href="local-bazaar-hub.html" class="nav-link">🏠 Home</a>
+    <a href="shop-directory.html" class="nav-link">🏪 Shops</a>
+    <a href="faq.html" class="nav-link">❓ FAQ</a>
+    <a href="shopkeeper-registration.html" class="nav-link nav-btn">+ List Your Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a><span class="sep">›</span>
+  <span class="current">🗺️ Sitemap</span>
+</div>
+
+<!-- HERO -->
+<div class="sitemap-hero">
+  <div class="sh-deco shd1"></div>
+  <div class="sh-deco shd2"></div>
+  <div class="sh-inner">
+    <div class="sh-badge">🗺️ Site Navigation</div>
+    <h1 class="sh-title">Complete <span>Sitemap</span></h1>
+    <p class="sh-sub">All pages on BahaBasket — organised by category. Find what you're looking for quickly, or search below.</p>
+    <div class="sm-search">
+      <input type="text" id="smSearchInput" placeholder="Search pages... (e.g. seller dashboard, blog, pricing)" onkeyup="searchSitemap(this.value)">
+      <button onclick="searchSitemap(document.getElementById('smSearchInput').value)">🔍</button>
+    </div>
+    <div class="sm-stats">
+      <div class="sm-stat">📄 <strong>26</strong> Total Pages</div>
+      <div class="sm-stat">📂 <strong>8</strong> Categories</div>
+      <div class="sm-stat">🔗 <strong>200+</strong> Internal Links</div>
+      <div class="sm-stat">🕐 Updated <strong>Dec 2024</strong></div>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="sitemap-main">
+
+  <!-- Search result info -->
+  <div class="search-info" id="searchInfo">
+    <span id="searchInfoText"></span>
+    <button onclick="clearSearch()">✕ Clear</button>
+  </div>
+
+  <!-- No results -->
+  <div class="no-results" id="noResults">
+    <div style="font-size:52px;margin-bottom:12px;">🔍</div>
+    <div style="font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:8px;">No pages found</div>
+    <div style="font-size:14px;color:var(--text-light);">Try a different keyword.</div>
+    <button onclick="clearSearch()" style="margin-top:14px;background:var(--primary);color:#fff;border:none;padding:10px 22px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;">Show All Pages</button>
+  </div>
+
+  <!-- Category Jump Nav -->
+  <div class="category-nav" id="catNav">
+    <div class="cn-title">⚡ Jump to Section</div>
+    <div class="cn-chips">
+      <div class="cn-chip" onclick="scrollTo('core')">🏠 Core Pages</div>
+      <div class="cn-chip" onclick="scrollTo('marketplace')">🛍️ Marketplace</div>
+      <div class="cn-chip" onclick="scrollTo('sellers')">🏪 For Sellers</div>
+      <div class="cn-chip" onclick="scrollTo('buyers')">👤 For Buyers</div>
+      <div class="cn-chip" onclick="scrollTo('content')">📰 Content</div>
+      <div class="cn-chip" onclick="scrollTo('info')">ℹ️ Info & Legal</div>
+      <div class="cn-chip" onclick="scrollTo('utility')">🔧 Utility</div>
+      <div class="cn-chip" onclick="scrollTo('cities')">📍 Cities</div>
+    </div>
+  </div>
+
+  <!-- Summary grid -->
+  <div class="summary-grid" id="summaryGrid">
+    <div class="summary-item" onclick="scrollTo('core')" style="border-top:3px solid var(--primary);">
+      <div class="si-num" style="color:var(--primary);">4</div>
+      <div class="si-label">Core Pages</div>
+    </div>
+    <div class="summary-item" onclick="scrollTo('marketplace')" style="border-top:3px solid var(--success);">
+      <div class="si-num" style="color:var(--success);">5</div>
+      <div class="si-label">Marketplace</div>
+    </div>
+    <div class="summary-item" onclick="scrollTo('sellers')" style="border-top:3px solid var(--accent);">
+      <div class="si-num" style="color:var(--accent);">3</div>
+      <div class="si-label">For Sellers</div>
+    </div>
+    <div class="summary-item" onclick="scrollTo('buyers')" style="border-top:3px solid var(--purple);">
+      <div class="si-num" style="color:var(--purple);">2</div>
+      <div class="si-label">For Buyers</div>
+    </div>
+    <div class="summary-item" onclick="scrollTo('content')" style="border-top:3px solid #ec4899;">
+      <div class="si-num" style="color:#ec4899;">3</div>
+      <div class="si-label">Content</div>
+    </div>
+    <div class="summary-item" onclick="scrollTo('info')" style="border-top:3px solid var(--text-light);">
+      <div class="si-num" style="color:var(--text-light);">4</div>
+      <div class="si-label">Info & Legal</div>
+    </div>
+    <div class="summary-item" onclick="scrollTo('utility')" style="border-top:3px solid #f59e0b;">
+      <div class="si-num" style="color:#f59e0b;">4</div>
+      <div class="si-label">Utility</div>
+    </div>
+    <div class="summary-item" onclick="scrollTo('cities')" style="border-top:3px solid var(--success);">
+      <div class="si-num" style="color:var(--success);">1</div>
+      <div class="si-label">City Pages</div>
+    </div>
+  </div>
+
+  <!-- XML Sitemap banner -->
+  <div class="xml-banner">
+    <div class="xb-icon">🤖</div>
+    <div class="xb-info">
+      <div class="xb-title">XML Sitemap for Search Engines</div>
+      <div class="xb-sub">For Google, Bing, and other search engines — submit this to Google Search Console for better SEO indexing.</div>
+    </div>
+    <button class="xb-btn" onclick="downloadXML()">⬇️ Download XML</button>
+  </div>
+
+  <!-- SITEMAP SECTIONS container -->
+  <div id="sitemapSections"></div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer-mini">
+  <div>© 2024 BahaBasket · Apna Dukaan, Digital Duniya · All Rights Reserved</div>
+  <div class="footer-links-row">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html">Shops</a>
+    <a href="faq.html">FAQ</a>
+    <a href="contact-us.html">Contact</a>
+    <a href="privacy-policy.html">Privacy</a>
+  </div>
+</div>
+
+<!-- FLOAT WA -->
+<div class="float-wa">
+  <div class="float-wa-btn" onclick="window.open('https://wa.me/919876543210?text=Hello! I need help finding a page on BahaBasket.','_blank')">💬</div>
+</div>
+
+<script>
+// ════════════════════════════
+//   SITEMAP DATA
+// ════════════════════════════
+const SITEMAP = [
+  {
+    id:'core', icon:'🏠', iconBg:'var(--primary-light)',
+    title:'Core Pages', borderColor:'var(--primary)',
+    pages:[
+      { icon:'🏠', iconBg:'#e8f0fe', title:'Homepage', url:'local-bazaar-hub.html', desc:'Main landing page — featured shops, categories, offers, how it works, and seller CTA.', badges:['seo'], priority:'High' },
+      { icon:'🗺️', iconBg:'#dcfce7', title:'Sitemap', url:'sitemap.html', desc:'This page — complete directory of all pages on BahaBasket.', badges:[], priority:'Low' },
+      { icon:'🔍', iconBg:'#e8f0fe', title:'Search Results', url:'search-results.html', desc:'Live search with 7 filter groups, grid/list view, sort, sponsored banner, and product + shop tabs.', badges:['new'], priority:'High' },
+      { icon:'❓', iconBg:'#f3e8ff', title:'How It Works', url:'how-it-works.html', desc:'Step-by-step guide for buyers and sellers. Dual-mode toggle, detailed steps, comparison table.', badges:[], priority:'Medium' },
+    ]
+  },
+  {
+    id:'marketplace', icon:'🛍️', iconBg:'var(--success-bg)',
+    title:'Marketplace', borderColor:'var(--success)',
+    pages:[
+      { icon:'🏪', iconBg:'#dcfce7', title:'Shop Directory', url:'shop-directory.html', desc:'All verified local shops — filter by category, area, rating. Grid and list views.', badges:['seo'], priority:'High' },
+      { icon:'🗂️', iconBg:'#e8f0fe', title:'All Categories', url:'categories.html', desc:'Browse all product categories — Men Fashion, Women Fashion, Electronics, Jewellery, Kids Wear, Footwear, Home Decor.', badges:[], priority:'High' },
+      { icon:'📦', iconBg:'#fff7ed', title:'Product Listings', url:'product-listings.html', desc:'Product grid with live filters, sort, grid/list view, wishlist, and WhatsApp order buttons.', badges:[], priority:'High' },
+      { icon:'🔍', iconBg:'#f0fdf4', title:'Product Detail', url:'product-detail.html', desc:'Individual product page — 5-image gallery, variants, WhatsApp CTA, 5 tabs, related products.', badges:[], priority:'High' },
+      { icon:'🏬', iconBg:'#f3e8ff', title:'Shop Profile', url:'shop-profile.html', desc:'Individual shop page — cover, 5 tabs (Products, About, Reviews, Gallery, Offers), sidebar contact.', badges:[], priority:'High' },
+    ]
+  },
+  {
+    id:'sellers', icon:'🏪', iconBg:'var(--accent-light)',
+    title:'For Sellers', borderColor:'var(--accent)',
+    pages:[
+      { icon:'📝', iconBg:'#fff7ed', title:'Shop Registration', url:'shopkeeper-registration.html', desc:'5-step registration form for new sellers. Free plan, documents optional, WhatsApp verified.', badges:['new'], priority:'High' },
+      { icon:'📊', iconBg:'#e8f0fe', title:'Seller Dashboard', url:'seller-dashboard.html', desc:'14-section seller control panel — products, analytics, offers, gallery, reviews, plans, payments.', badges:['auth'], priority:'High' },
+      { icon:'💎', iconBg:'#f3e8ff', title:'Pricing & Plans', url:'pricing.html', desc:'Free, Growth (₹499/mo), Premium (₹999/mo) plans. ROI calculator, feature comparison, testimonials.', badges:['seo'], priority:'High' },
+    ]
+  },
+  {
+    id:'buyers', icon:'👤', iconBg:'var(--purple-bg)',
+    title:'For Buyers', borderColor:'var(--purple)',
+    pages:[
+      { icon:'👤', iconBg:'#f3e8ff', title:'User Dashboard', url:'user-dashboard.html', desc:'Buyer account — wishlist, WA inquiries, saved shops, reviews, activity, refer & earn, settings.', badges:['auth'], priority:'Medium' },
+      { icon:'🔥', iconBg:'#fff7ed', title:'Offers & Deals', url:'offers.html', desc:'All current offers and seasonal deals from verified shops. Filter by category and city.', badges:['seo'], priority:'High' },
+    ]
+  },
+  {
+    id:'content', icon:'📰', iconBg:'#fce7f3',
+    title:'Content & Blog', borderColor:'#ec4899',
+    pages:[
+      { icon:'📰', iconBg:'#fce7f3', title:'Blog Listing', url:'blog.html', desc:'18 articles across 6 categories — Seller Tips, Buyer Guide, Success Stories, Market News, Platform Updates.', badges:['seo','new'], priority:'Medium' },
+      { icon:'📖', iconBg:'#f3e8ff', title:'Blog Single Post', url:'blog-single.html', desc:'Individual article — reading progress bar, TOC, long-form content, comments, related posts, share.', badges:[], priority:'Medium' },
+      { icon:'📍', iconBg:'#dcfce7', title:'City Landing — Indore', url:'city-landing.html', desc:'SEO-optimised city page — top shops, trending products, areas grid, local market guide.', badges:['seo','new'], priority:'High' },
+    ]
+  },
+  {
+    id:'info', icon:'ℹ️', iconBg:'#f1f5f9',
+    title:'Info & Legal', borderColor:'var(--text-light)',
+    pages:[
+      { icon:'ℹ️', iconBg:'#f1f5f9', title:'About Us', url:'about-us.html', desc:'Mission, team, story, values, and statistics. Who we are and why we built BahaBasket.', badges:[], priority:'Medium' },
+      { icon:'📞', iconBg:'#e8f0fe', title:'Contact Us', url:'contact-us.html', desc:'Contact form, WhatsApp, email, phone, support hours, and office address.', badges:[], priority:'High' },
+      { icon:'📋', iconBg:'#f8fafc', title:'Privacy Policy & Terms', url:'privacy-policy.html', desc:'4-tab document — Privacy Policy, Terms of Service, Refund Policy, Cookie Policy.', badges:[], priority:'Medium' },
+      { icon:'❓', iconBg:'#e8f0fe', title:'FAQ', url:'faq.html', desc:'60+ questions across 6 categories — General, Buyers, Sellers, WhatsApp, Payments, Technical. Live search.', badges:[], priority:'High' },
+    ]
+  },
+  {
+    id:'utility', icon:'🔧', iconBg:'var(--warning-bg)',
+    title:'Auth & Utility', borderColor:'#f59e0b',
+    pages:[
+      { icon:'🔑', iconBg:'#fef3c7', title:'Login / Register', url:'login-register.html', desc:'OTP-based phone login and new account registration for both buyers and sellers.', badges:['auth'], priority:'High' },
+      { icon:'⚙️', iconBg:'#fee2e2', title:'Admin Panel', url:'admin-panel.html', desc:'18-section dark admin dashboard — shops, users, products, analytics, payments, settings.', badges:['auth','admin'], priority:'Low' },
+      { icon:'✅', iconBg:'#dcfce7', title:'Thank You', url:'thankyou.html', desc:'5-in-1 confirmation page — registration, account created, contact sent, inquiry tracked, payment done.', badges:['noindex'], priority:'Low' },
+      { icon:'🚀', iconBg:'#e8f0fe', title:'Coming Soon', url:'coming-soon.html', desc:'3-mode page — Coming Soon (feature launch), Maintenance, New City launch. Live countdown timer.', badges:['noindex'], priority:'Low' },
+    ]
+  },
+  {
+    id:'cities', icon:'🗺️', iconBg:'#dcfce7',
+    title:'City Pages', borderColor:'var(--success)',
+    pages:[
+      { icon:'📍', iconBg:'#dcfce7', title:'Indore City Page', url:'city-landing.html', desc:'Local shops, trending products, areas, markets guide, SEO text. Template for all other cities.', badges:['seo'], priority:'High' },
+      { icon:'📍', iconBg:'#dbeafe', title:'Bhopal', url:'coming-soon.html?mode=city&city=Bhopal', desc:'280+ shops — coming soon! Be the first to register your Bhopal shop.', badges:['new'], priority:'Medium' },
+      { icon:'📍', iconBg:'#d1fae5', title:'Jabalpur', url:'coming-soon.html?mode=city&city=Jabalpur', desc:'180+ shops — coming soon! Early access available for Jabalpur sellers.', badges:['new'], priority:'Medium' },
+      { icon:'📍', iconBg:'#fef3c7', title:'Ujjain', url:'coming-soon.html?mode=city&city=Ujjain', desc:'120+ shops — coming soon! WhatsApp us to list your Ujjain shop first.', badges:['new'], priority:'Medium' },
+      { icon:'📍', iconBg:'#fce7f3', title:'Gwalior', url:'coming-soon.html?mode=city&city=Gwalior', desc:'95+ shops — coming soon! Be among the first to join the Gwalior marketplace.', badges:['new'], priority:'Medium' },
+    ]
+  },
+];
+
+// ════════════════════════════
+//   BUILD SITEMAP
+// ════════════════════════════
+let allPages = [];
+SITEMAP.forEach(sec => sec.pages.forEach(p => allPages.push({...p, sectionId:sec.id, sectionTitle:sec.title})));
+
+function buildSitemap(filterFn = null){
+  const container = document.getElementById('sitemapSections');
+  const noResults = document.getElementById('noResults');
+  const catNav = document.getElementById('catNav');
+  const summaryGrid = document.getElementById('summaryGrid');
+  let totalShown = 0;
+  let html = '';
+
+  SITEMAP.forEach(sec => {
+    const pages = filterFn ? sec.pages.filter(filterFn) : sec.pages;
+    if(!pages.length) return;
+    totalShown += pages.length;
+
+    html += `<div class="sm-section" id="section-${sec.id}">
+      <div class="sm-section-header">
+        <div class="ssh-icon" style="background:${sec.iconBg};border:1.5px solid ${sec.borderColor}22;">${sec.icon}</div>
+        <div class="ssh-info">
+          <div class="ssh-title">${sec.title}</div>
+          <div class="ssh-count">${pages.length} page${pages.length!==1?'s':''}</div>
+        </div>
+        <div style="margin-left:auto;height:4px;width:48px;background:${sec.borderColor};border-radius:2px;"></div>
+      </div>
+      <div class="pages-grid">
+        ${pages.map(p => buildPageCard(p)).join('')}
+      </div>
+    </div>`;
+  });
+
+  container.innerHTML = html;
+  const hasResults = totalShown > 0;
+  noResults.classList.toggle('show', !hasResults);
+  catNav.style.display = filterFn ? 'none' : '';
+  summaryGrid.style.display = filterFn ? 'none' : '';
+  return totalShown;
+}
+
+function buildPageCard(p){
+  const badgeHtml = (p.badges||[]).map(b => {
+    const labels = {new:'🆕 New',auth:'🔑 Login Required',admin:'👑 Admin Only',seo:'🔍 SEO Page',noindex:'🤖 No-Index'};
+    return `<span class="pc-badge ${b}">${labels[b]||b}</span>`;
+  }).join('');
+
+  return `
+  <div class="page-card" onclick="window.location='${p.url}'" title="${p.title} — ${p.url}">
+    <div class="pc-icon" style="background:${p.iconBg};">${p.icon}</div>
+    <div class="pc-body">
+      <div class="pc-title">${p.title}</div>
+      <div class="pc-url">/${p.url}</div>
+      <div class="pc-desc">${p.desc}</div>
+      ${badgeHtml ? `<div class="pc-badges">${badgeHtml}</div>` : ''}
+    </div>
+    <div class="pc-arrow">→</div>
+  </div>`;
+}
+
+// ════════════════════════════
+//   SEARCH
+// ════════════════════════════
+function searchSitemap(val){
+  const q = val.trim().toLowerCase();
+  const infoEl = document.getElementById('searchInfo');
+  const infoText = document.getElementById('searchInfoText');
+
+  if(!q){
+    infoEl.classList.remove('show');
+    buildSitemap(null);
+    return;
+  }
+
+  const count = buildSitemap(p =>
+    p.title.toLowerCase().includes(q) ||
+    p.desc.toLowerCase().includes(q) ||
+    p.url.toLowerCase().includes(q) ||
+    (p.sectionTitle||'').toLowerCase().includes(q) ||
+    (p.badges||[]).some(b => b.includes(q))
+  );
+
+  infoEl.classList.add('show');
+  infoText.textContent = `Found ${count} page${count!==1?'s':''} for "${val.trim()}"`;
+}
+
+function clearSearch(){
+  document.getElementById('smSearchInput').value = '';
+  document.getElementById('searchInfo').classList.remove('show');
+  buildSitemap(null);
+}
+
+// ════════════════════════════
+//   SCROLL TO SECTION
+// ════════════════════════════
+function scrollTo(sectionId){
+  const el = document.getElementById('section-'+sectionId);
+  if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+}
+
+// ════════════════════════════
+//   XML SITEMAP DOWNLOAD
+// ════════════════════════════
+function downloadXML(){
+  const baseUrl = 'https://localbazaarhub.in/';
+  const today = new Date().toISOString().split('T')[0];
+  const priorities = {'local-bazaar-hub.html':'1.0','shop-directory.html':'0.9','categories.html':'0.9','product-listings.html':'0.9','offers.html':'0.8','city-landing.html':'0.8','faq.html':'0.7','pricing.html':'0.7'};
+
+  let xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
+  allPages.filter(p => !p.url.includes('?') && !['thankyou.html','coming-soon.html','admin-panel.html'].includes(p.url)).forEach(p => {
+    const prio = priorities[p.url] || '0.6';
+    xml += `  <url>\n    <loc>${baseUrl}${p.url}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${prio==='1.0'?'daily':prio>='0.8'?'weekly':'monthly'}</changefreq>\n    <priority>${prio}</priority>\n  </url>\n`;
+  });
+  xml += `</urlset>`;
+
+  const blob = new Blob([xml], {type:'application/xml'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'sitemap.xml';
+  a.click();
+}
+
+// ════════════════════════════
+//   INIT
+// ════════════════════════════
+buildSitemap(null);
+</script>
+</body>
+</html>

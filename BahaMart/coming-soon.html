@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coming Soon – BahaBasket</title>
+<meta name="robots" content="noindex, nofollow">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=Noto+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#0f172a;--text-mid:#334155;--text-light:#64748b;
+  --border:#e2e8f0;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--success-bg:#dcfce7;
+  --purple:#7c3aed;
+  --radius:16px;--radius-sm:9px;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Noto Sans',sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;}
+body{font-family:var(--font-body);overflow:hidden;color:#fff;position:relative;}
+
+/* ════════════════════════════
+   ANIMATED BACKGROUND
+════════════════════════════ */
+.bg-canvas{position:fixed;inset:0;background:linear-gradient(135deg,#0a0f2e 0%,#0f1f5c 35%,#1a3a8f 65%,#1a56db 100%);z-index:0;}
+
+/* Animated gradient orbs */
+.orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat ease-in-out infinite;}
+.orb1{width:500px;height:500px;background:radial-gradient(circle,rgba(26,86,219,.5),transparent 70%);top:-100px;left:-100px;animation-duration:12s;animation-delay:0s;}
+.orb2{width:400px;height:400px;background:radial-gradient(circle,rgba(249,115,22,.3),transparent 70%);bottom:-80px;right:-80px;animation-duration:10s;animation-delay:3s;}
+.orb3{width:300px;height:300px;background:radial-gradient(circle,rgba(124,58,237,.4),transparent 70%);top:40%;left:60%;animation-duration:14s;animation-delay:6s;}
+.orb4{width:250px;height:250px;background:radial-gradient(circle,rgba(37,211,102,.25),transparent 70%);top:20%;right:10%;animation-duration:9s;animation-delay:2s;}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1);}33%{transform:translate(30px,-30px) scale(1.08);}66%{transform:translate(-20px,20px) scale(0.94);}};
+
+/* Dot grid overlay */
+.dot-grid{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.06) 1px,transparent 1px);background-size:32px 32px;}
+
+/* Particle stars */
+.stars-canvas{position:absolute;inset:0;}
+.star{position:absolute;background:#fff;border-radius:50%;animation:twinkle ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.2;transform:scale(1);}50%{opacity:1;transform:scale(1.4);}}
+
+/* ════════════════════════════
+   MODE SWITCHER
+   (coming-soon vs maintenance)
+════════════════════════════ */
+
+/* ════════════════════════════
+   NAVBAR
+════════════════════════════ */
+.navbar{position:relative;z-index:10;padding:18px 28px;display:flex;align-items:center;justify-content:space-between;}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:38px;height:38px;background:rgba(255,255,255,.15);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:17px;color:#fff;}
+.logo-text small{color:rgba(255,255,255,.55);font-size:10px;display:block;line-height:1;margin-top:-3px;}
+.nav-back-btn{display:flex;align-items:center;gap:6px;background:rgba(255,255,255,.1);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.2);color:#fff;padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;}
+.nav-back-btn:hover{background:rgba(255,255,255,.2);}
+
+/* ════════════════════════════
+   MAIN CONTENT
+════════════════════════════ */
+.page-wrap{position:relative;z-index:5;min-height:calc(100vh - 76px);display:flex;align-items:center;justify-content:center;padding:20px 20px 40px;}
+.content-panel{max-width:720px;width:100%;text-align:center;}
+
+/* Mode badge */
+.mode-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);color:#fff;font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;margin-bottom:22px;}
+.mb-dot{width:8px;height:8px;border-radius:50%;animation:blink 1.5s infinite;}
+.mb-dot.orange{background:var(--accent);}
+.mb-dot.green{background:var(--success);}
+.mb-dot.red{background:#f87171;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+/* Hero emoji */
+.hero-emoji{font-size:clamp(72px,12vw,100px);margin-bottom:18px;display:block;animation:heroFloat 4s ease-in-out infinite;}
+@keyframes heroFloat{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}
+
+/* Title */
+.hero-title{font-size:clamp(28px,5vw,54px);font-weight:900;color:#fff;line-height:1.15;margin-bottom:14px;}
+.hero-title .ht-accent{color:#fbbf24;}
+.hero-title .ht-line2{display:block;font-size:clamp(20px,3.5vw,36px);font-weight:700;color:rgba(255,255,255,.75);margin-top:4px;}
+
+/* Subtitle */
+.hero-sub{font-size:clamp(14px,2vw,16px);color:rgba(255,255,255,.72);line-height:1.8;max-width:520px;margin:0 auto 28px;}
+
+/* ── COUNTDOWN TIMER ── */
+.countdown-wrap{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:32px;flex-wrap:wrap;}
+.cd-item{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.cd-box{min-width:72px;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:14px 10px;position:relative;overflow:hidden;}
+.cd-box::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(255,255,255,.08),transparent);pointer-events:none;}
+.cd-num{font-family:var(--font-mono);font-size:clamp(28px,5vw,42px);font-weight:700;color:#fff;line-height:1;display:block;}
+.cd-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.55);text-transform:uppercase;letter-spacing:.7px;}
+.cd-sep{font-size:36px;font-weight:900;color:rgba(255,255,255,.4);margin-bottom:22px;line-height:1;animation:sepBlink 1s infinite;}
+@keyframes sepBlink{0%,100%{opacity:1;}50%{opacity:.2;}}
+
+/* ── PROGRESS BAR ── */
+.progress-section{margin-bottom:28px;}
+.prog-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+.prog-label{font-size:13px;color:rgba(255,255,255,.65);}
+.prog-pct{font-family:var(--font-mono);font-size:14px;font-weight:700;color:#fbbf24;}
+.prog-track{height:8px;background:rgba(255,255,255,.12);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,var(--accent),#fbbf24);transition:width .8s ease;position:relative;}
+.prog-fill::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.3),transparent);animation:shimmer 2s infinite;}
+@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%)%;}}
+
+/* ── NOTIFY FORM ── */
+.notify-section{margin-bottom:28px;}
+.notify-label{font-size:13px;color:rgba(255,255,255,.65);margin-bottom:10px;display:block;}
+.notify-form{display:flex;gap:8px;max-width:420px;margin:0 auto;}
+.notify-input{flex:1;background:rgba(255,255,255,.1);backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.22);border-radius:10px;padding:12px 16px;font-size:14px;color:#fff;outline:none;font-family:var(--font-body);transition:border-color .2s;}
+.notify-input:focus{border-color:rgba(255,255,255,.5);}
+.notify-input::placeholder{color:rgba(255,255,255,.4);}
+.notify-btn{background:var(--whatsapp);border:none;color:#fff;padding:12px 20px;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;white-space:nowrap;display:flex;align-items:center;gap:6px;}
+.notify-btn:hover{background:var(--whatsapp-dark);transform:translateY(-1px);}
+.notify-success{display:none;background:rgba(37,211,102,.15);border:1px solid rgba(37,211,102,.3);border-radius:10px;padding:11px 16px;font-size:13.5px;color:rgba(255,255,255,.85);max-width:420px;margin:0 auto;animation:fadeIn .3s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+.notify-count{font-size:12px;color:rgba(255,255,255,.5);margin-top:8px;}
+
+/* ── FEATURE TEASERS ── */
+.features-strip{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:28px;}
+.feature-pill{display:flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.8);font-size:12.5px;font-weight:600;padding:8px 14px;border-radius:20px;transition:all .2s;}
+.feature-pill:hover{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.28);}
+.fp-icon{font-size:15px;}
+
+/* ── SOCIAL LINKS ── */
+.social-row{display:flex;align-items:center;justify-content:center;gap:10px;}
+.social-btn{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;cursor:pointer;transition:all .2s;border:1.5px solid rgba(255,255,255,.2);background:rgba(255,255,255,.08);}
+.social-btn:hover{background:rgba(255,255,255,.2);transform:scale(1.1);}
+
+/* ── MAINTENANCE SPECIFIC ── */
+.maintenance-status{display:flex;flex-direction:column;gap:8px;max-width:420px;margin:0 auto 24px;}
+.status-item{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:10px 14px;}
+.si-icon{font-size:16px;flex-shrink:0;}
+.si-label{font-size:13.5px;color:rgba(255,255,255,.8);flex:1;}
+.si-status{font-size:11.5px;font-weight:700;padding:2px 9px;border-radius:10px;}
+.si-status.ok{background:rgba(37,211,102,.2);color:#86efac;}
+.si-status.working{background:rgba(249,115,22,.2);color:#fdba74;animation:pulse .8s infinite;}
+.si-status.soon{background:rgba(255,255,255,.1);color:rgba(255,255,255,.6);}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.5;}}
+
+/* ── MODE SWITCHER PILL ── */
+.mode-switcher{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);display:flex;background:rgba(0,0,0,.5);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:4px;gap:4px;z-index:20;}
+.ms-btn{padding:8px 18px;border-radius:9px;font-size:13px;font-weight:600;color:rgba(255,255,255,.6);border:none;background:transparent;cursor:pointer;transition:all .2s;}
+.ms-btn:hover{color:#fff;}
+.ms-btn.active{background:rgba(255,255,255,.15);color:#fff;}
+
+/* RESPONSIVE */
+@media(max-width:600px){
+  .countdown-wrap{gap:8px;}
+  .cd-box{min-width:60px;padding:11px 8px;}
+  .cd-sep{font-size:26px;}
+  .page-wrap{padding:16px 16px 80px;}
+  .notify-form{flex-direction:column;}
+  .features-strip{gap:7px;}
+  .feature-pill{font-size:11.5px;padding:6px 11px;}
+}
+@media(max-width:380px){
+  .cd-num{font-size:24px;}
+  .cd-box{min-width:52px;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-canvas">
+  <div class="dot-grid"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div class="orb orb4"></div>
+  <div class="stars-canvas" id="starsCanvas"></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      BahaBasket
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </a>
+  <button class="nav-back-btn" onclick="window.location='local-bazaar-hub.html'">
+    ← Back to Homepage
+  </button>
+</nav>
+
+<!-- MAIN CONTENT -->
+<div class="page-wrap">
+
+  <!-- ══ COMING SOON PANEL ══ -->
+  <div class="content-panel" id="panel-coming-soon">
+
+    <div class="mode-badge">
+      <span class="mb-dot orange"></span>
+      🚀 Coming Soon
+    </div>
+
+    <span class="hero-emoji" id="heroEmoji">🚀</span>
+
+    <h1 class="hero-title">
+      <span id="mainTitle">Something <span class="ht-accent">Amazing</span></span>
+      <span class="ht-line2" id="subTitle">is on its way to BahaBasket!</span>
+    </h1>
+
+    <p class="hero-sub" id="heroDesc">
+      We are working hard to bring you an exciting new feature. Our team in Indore is building something that will make local shopping even easier and more powerful. Stay tuned!
+    </p>
+
+    <!-- Countdown -->
+    <div class="countdown-wrap">
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="cd-days">00</span></div>
+        <span class="cd-label">Days</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="cd-hours">00</span></div>
+        <span class="cd-label">Hours</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="cd-mins">00</span></div>
+        <span class="cd-label">Minutes</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="cd-secs">00</span></div>
+        <span class="cd-label">Seconds</span>
+      </div>
+    </div>
+
+    <!-- Progress bar -->
+    <div class="progress-section">
+      <div class="prog-header">
+        <span class="prog-label">Development Progress</span>
+        <span class="prog-pct" id="progPct">72%</span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="progFill" style="width:0%;"></div>
+      </div>
+    </div>
+
+    <!-- Feature teasers -->
+    <div class="features-strip" id="featureStrip">
+      <div class="feature-pill"><span class="fp-icon">📱</span> Mobile App</div>
+      <div class="feature-pill"><span class="fp-icon">🗺️</span> Live Map View</div>
+      <div class="feature-pill"><span class="fp-icon">🔔</span> Push Notifications</div>
+      <div class="feature-pill"><span class="fp-icon">💬</span> In-App Chat</div>
+      <div class="feature-pill"><span class="fp-icon">📊</span> Advanced Analytics</div>
+    </div>
+
+    <!-- Notify form -->
+    <div class="notify-section">
+      <span class="notify-label">Get notified on WhatsApp when we launch:</span>
+      <div class="notify-form" id="notifyFormWrap">
+        <input type="tel" class="notify-input" id="notifyPhone" placeholder="Enter your WhatsApp number" maxlength="10">
+        <button class="notify-btn" onclick="subscribeNotify()">
+          💬 Notify Me
+        </button>
+      </div>
+      <div class="notify-success" id="notifySuccess">
+        ✅ You're on the list! We'll WhatsApp you the moment we launch.
+      </div>
+      <div class="notify-count" id="notifyCount">
+        🔔 <span id="subCount">1,248</span> people already subscribed
+      </div>
+    </div>
+
+    <!-- Social -->
+    <div class="social-row">
+      <div class="social-btn" onclick="shareWA()" title="Share on WhatsApp">💬</div>
+      <div class="social-btn" onclick="shareFB()" title="Share on Facebook">📘</div>
+      <div class="social-btn" onclick="copyPageLink()" title="Copy Link">🔗</div>
+      <div class="social-btn" onclick="window.location='contact-us.html'" title="Contact Us">📞</div>
+    </div>
+
+  </div>
+
+  <!-- ══ MAINTENANCE PANEL ══ -->
+  <div class="content-panel" id="panel-maintenance" style="display:none;">
+
+    <div class="mode-badge">
+      <span class="mb-dot red"></span>
+      🔧 Scheduled Maintenance
+    </div>
+
+    <span class="hero-emoji">🔧</span>
+
+    <h1 class="hero-title">
+      We'll Be Back <span class="ht-accent">Soon!</span>
+      <span class="ht-line2">Scheduled maintenance in progress</span>
+    </h1>
+
+    <p class="hero-sub">
+      BahaBasket is currently undergoing scheduled maintenance to improve your experience. We apologize for the inconvenience. Estimated downtime: <strong style="color:#fbbf24;">2–3 hours</strong>.
+    </p>
+
+    <!-- ETA Countdown -->
+    <div class="countdown-wrap">
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="mt-hours">02</span></div>
+        <span class="cd-label">Hours</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="mt-mins">30</span></div>
+        <span class="cd-label">Minutes</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="mt-secs">00</span></div>
+        <span class="cd-label">Seconds</span>
+      </div>
+    </div>
+
+    <!-- System status -->
+    <div class="maintenance-status">
+      <div class="status-item">
+        <span class="si-icon">🌐</span>
+        <span class="si-label">Website (Frontend)</span>
+        <span class="si-status working">⚡ In Maintenance</span>
+      </div>
+      <div class="status-item">
+        <span class="si-icon">💾</span>
+        <span class="si-label">Database & Shop Data</span>
+        <span class="si-status ok">✅ Operational</span>
+      </div>
+      <div class="status-item">
+        <span class="si-icon">💬</span>
+        <span class="si-label">WhatsApp Inquiries</span>
+        <span class="si-status ok">✅ Working Normally</span>
+      </div>
+      <div class="status-item">
+        <span class="si-icon">📊</span>
+        <span class="si-label">Seller Dashboard</span>
+        <span class="si-status working">⚡ Limited Access</span>
+      </div>
+      <div class="status-item">
+        <span class="si-icon">💳</span>
+        <span class="si-label">Payment Processing</span>
+        <span class="si-status soon">⏸ Paused During Maintenance</span>
+      </div>
+    </div>
+
+    <!-- WhatsApp fallback -->
+    <div style="margin-bottom:24px;">
+      <p style="font-size:13.5px;color:rgba(255,255,255,.65);margin-bottom:12px;">
+        While the site is down, you can still reach sellers directly:
+      </p>
+      <button class="notify-btn" style="margin:0 auto;display:flex;font-size:15px;padding:13px 28px;border-radius:12px;" onclick="window.open('https://wa.me/919876543210?text=Hello! The website is under maintenance. Can you still help me?','_blank')">
+        💬 Contact Us on WhatsApp
+      </button>
+    </div>
+
+    <div class="social-row">
+      <div class="social-btn" onclick="shareWA()" title="Share">💬</div>
+      <div class="social-btn" onclick="copyPageLink()" title="Copy">🔗</div>
+      <div class="social-btn" onclick="window.location='https://twitter.com'" title="Twitter">🐦</div>
+    </div>
+
+  </div>
+
+  <!-- ══ NEW CITY PANEL ══ -->
+  <div class="content-panel" id="panel-city" style="display:none;">
+
+    <div class="mode-badge">
+      <span class="mb-dot green"></span>
+      📍 New City Coming
+    </div>
+
+    <span class="hero-emoji">🗺️</span>
+
+    <h1 class="hero-title">
+      BahaBasket is<br>Coming to <span class="ht-accent" id="cityName">Your City!</span>
+    </h1>
+
+    <p class="hero-sub">
+      We are onboarding local shops in your city right now. Be among the first to browse local shops and get exclusive early-access deals when we launch in your area!
+    </p>
+
+    <!-- Countdown -->
+    <div class="countdown-wrap">
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="cy-days">14</span></div>
+        <span class="cd-label">Days</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="cy-hours">00</span></div>
+        <span class="cd-label">Hours</span>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-item">
+        <div class="cd-box"><span class="cd-num" id="cy-mins">00</span></div>
+        <span class="cd-label">Minutes</span>
+      </div>
+    </div>
+
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="prog-header">
+        <span class="prog-label">Shops Onboarded</span>
+        <span class="prog-pct" id="cityProgPct">48 / 100</span>
+      </div>
+      <div class="prog-track">
+        <div class="prog-fill" id="cityProgFill" style="width:0%;"></div>
+      </div>
+    </div>
+
+    <!-- Feature pills -->
+    <div class="features-strip">
+      <div class="feature-pill"><span class="fp-icon">👔</span> Fashion Shops</div>
+      <div class="feature-pill"><span class="fp-icon">📱</span> Electronics</div>
+      <div class="feature-pill"><span class="fp-icon">💍</span> Jewellery</div>
+      <div class="feature-pill"><span class="fp-icon">🧒</span> Kids Wear</div>
+      <div class="feature-pill"><span class="fp-icon">👟</span> Footwear</div>
+    </div>
+
+    <!-- Notify -->
+    <div class="notify-section">
+      <span class="notify-label">Be the first to know when we launch in your city:</span>
+      <div class="notify-form" id="cityNotifyWrap">
+        <input type="tel" class="notify-input" id="cityPhone" placeholder="Your WhatsApp number">
+        <button class="notify-btn" onclick="subscribeCityNotify()">💬 Notify Me</button>
+      </div>
+      <div class="notify-success" id="cityNotifySuccess">✅ You're on the early access list!</div>
+      <div class="notify-count">🔔 <span id="citySubCount">284</span> people waiting for launch</div>
+    </div>
+
+    <!-- Also available -->
+    <p style="font-size:13px;color:rgba(255,255,255,.55);margin-bottom:10px;">Already live in:</p>
+    <div style="display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;">
+      <a href="city-landing.html" style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:6px 14px;border-radius:16px;font-size:12.5px;font-weight:600;cursor:pointer;transition:all .2s;" onmouseover="this.style.background='rgba(255,255,255,.22)'" onmouseout="this.style.background='rgba(255,255,255,.12)'">📍 Indore</a>
+      <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:6px 14px;border-radius:16px;font-size:12.5px;font-weight:600;">📍 Bhopal</span>
+      <span style="background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.85);padding:6px 14px;border-radius:16px;font-size:12.5px;font-weight:600;">📍 Jabalpur</span>
+    </div>
+
+    <div class="social-row">
+      <div class="social-btn" onclick="shareWA()">💬</div>
+      <div class="social-btn" onclick="copyPageLink()">🔗</div>
+    </div>
+
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- MODE SWITCHER (demo only) -->
+<div class="mode-switcher" id="modeSwitcher">
+  <button class="ms-btn active" onclick="switchMode('coming-soon',this)">🚀 Coming Soon</button>
+  <button class="ms-btn" onclick="switchMode('maintenance',this)">🔧 Maintenance</button>
+  <button class="ms-btn" onclick="switchMode('city',this)">🗺️ New City</button>
+</div>
+
+<script>
+// ════════════════════════════
+//  STARS BACKGROUND
+// ════════════════════════════
+const canvas = document.getElementById('starsCanvas');
+for(let i = 0; i < 80; i++){
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = 1 + Math.random() * 2.5;
+  star.style.cssText = `
+    width:${size}px; height:${size}px;
+    top:${Math.random()*100}%;
+    left:${Math.random()*100}%;
+    animation-duration:${2+Math.random()*4}s;
+    animation-delay:${Math.random()*5}s;
+  `;
+  canvas.appendChild(star);
+}
+
+// ════════════════════════════
+//  URL PARAMS
+// ════════════════════════════
+const params = new URLSearchParams(window.location.search);
+const mode = params.get('mode') || 'coming-soon';
+const city = params.get('city') || 'Nagpur';
+const feature = params.get('feature') || '';
+const launchDate = params.get('date') || ''; // e.g. 2025-01-31
+
+// Set city name
+const cityEl = document.getElementById('cityName');
+if(cityEl) cityEl.textContent = city + '!';
+
+// Custom feature if provided
+if(feature){
+  const titleEl = document.getElementById('mainTitle');
+  const subEl = document.getElementById('subTitle');
+  const descEl = document.getElementById('heroDesc');
+  if(titleEl) titleEl.innerHTML = feature + ' is <span class="ht-accent">Coming Soon</span>';
+  if(subEl) subEl.textContent = 'to BahaBasket';
+}
+
+// Show correct panel
+function switchMode(m, btn){
+  ['coming-soon','maintenance','city'].forEach(id=>{
+    document.getElementById('panel-'+id).style.display = id===m ? 'block' : 'none';
+  });
+  document.querySelectorAll('.ms-btn').forEach(b=>b.classList.remove('active'));
+  if(btn) btn.classList.add('active');
+  // restart timers
+  if(m === 'maintenance') startMaintenanceTimer();
+  if(m === 'city') startCityCountdown();
+}
+switchMode(mode, null);
+
+// Highlight the right switcher btn
+document.querySelectorAll('.ms-btn').forEach(btn=>{
+  if(btn.textContent.toLowerCase().includes(mode.replace('-',' '))){
+    btn.classList.add('active');
+  }
+});
+
+// ════════════════════════════
+//  COUNTDOWN TIMER (Coming Soon)
+// ════════════════════════════
+function getTargetDate(){
+  if(launchDate) return new Date(launchDate);
+  const d = new Date();
+  d.setDate(d.getDate() + 21); // default: 21 days from now
+  return d;
+}
+
+const target = getTargetDate();
+function updateCountdown(){
+  const now = new Date();
+  const diff = target - now;
+  if(diff <= 0){
+    document.getElementById('cd-days').textContent = '00';
+    document.getElementById('cd-hours').textContent = '00';
+    document.getElementById('cd-mins').textContent = '00';
+    document.getElementById('cd-secs').textContent = '00';
+    return;
+  }
+  const days  = Math.floor(diff / (1000*60*60*24));
+  const hours = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+  const mins  = Math.floor((diff % (1000*60*60)) / (1000*60));
+  const secs  = Math.floor((diff % (1000*60)) / 1000);
+  document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
+  document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+  document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+  document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+}
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+// ════════════════════════════
+//  MAINTENANCE TIMER (2.5 hrs from now)
+// ════════════════════════════
+function startMaintenanceTimer(){
+  const mtEnd = new Date(Date.now() + 2.5*60*60*1000);
+  function tick(){
+    const diff = mtEnd - new Date();
+    if(diff <= 0){
+      document.getElementById('mt-hours').textContent = '00';
+      document.getElementById('mt-mins').textContent = '00';
+      document.getElementById('mt-secs').textContent = '00';
+      return;
+    }
+    const h = Math.floor(diff/(1000*60*60));
+    const m = Math.floor((diff%(1000*60*60))/(1000*60));
+    const s = Math.floor((diff%(1000*60))/1000);
+    document.getElementById('mt-hours').textContent = String(h).padStart(2,'0');
+    document.getElementById('mt-mins').textContent  = String(m).padStart(2,'0');
+    document.getElementById('mt-secs').textContent  = String(s).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+}
+startMaintenanceTimer();
+
+// ════════════════════════════
+//  CITY COUNTDOWN (14 days)
+// ════════════════════════════
+function startCityCountdown(){
+  const cityTarget = new Date(Date.now() + 14*24*60*60*1000);
+  function tick(){
+    const diff = cityTarget - new Date();
+    if(diff <= 0) return;
+    const d = Math.floor(diff/(1000*60*60*24));
+    const h = Math.floor((diff%(1000*60*60*24))/(1000*60*60));
+    const m = Math.floor((diff%(1000*60*60))/(1000*60));
+    const dEl = document.getElementById('cy-days');
+    const hEl = document.getElementById('cy-hours');
+    const mEl = document.getElementById('cy-mins');
+    if(dEl) dEl.textContent = String(d).padStart(2,'0');
+    if(hEl) hEl.textContent = String(h).padStart(2,'0');
+    if(mEl) mEl.textContent = String(m).padStart(2,'0');
+  }
+  tick(); setInterval(tick, 1000);
+}
+startCityCountdown();
+
+// ════════════════════════════
+//  PROGRESS BARS (animate in)
+// ════════════════════════════
+setTimeout(()=>{
+  const pf = document.getElementById('progFill');
+  if(pf) pf.style.width = '72%';
+  document.getElementById('progPct').textContent = '72%';
+  const cpf = document.getElementById('cityProgFill');
+  if(cpf) cpf.style.width = '48%';
+}, 600);
+
+// ════════════════════════════
+//  NOTIFY SUBSCRIBE
+// ════════════════════════════
+let subCount = 1248;
+function subscribeNotify(){
+  const phone = document.getElementById('notifyPhone')?.value.trim();
+  if(!phone || phone.length < 10){
+    document.getElementById('notifyPhone').style.borderColor='rgba(248,113,113,.6)';
+    setTimeout(()=>{document.getElementById('notifyPhone').style.borderColor='';},2000);
+    return;
+  }
+  document.getElementById('notifyFormWrap').style.display = 'none';
+  document.getElementById('notifySuccess').style.display = 'block';
+  subCount++;
+  document.getElementById('subCount').textContent = subCount.toLocaleString('en-IN');
+  // Open WhatsApp to confirm
+  const msg = encodeURIComponent(`Hello! Please add me to the BahaBasket launch notification list. My number is +91 ${phone}.`);
+  setTimeout(()=>{ window.open('https://wa.me/919876543210?text='+msg,'_blank'); }, 800);
+}
+
+function subscribeCityNotify(){
+  const phone = document.getElementById('cityPhone')?.value.trim();
+  if(!phone || phone.length < 10) return;
+  document.getElementById('cityNotifyWrap').style.display = 'none';
+  document.getElementById('cityNotifySuccess').style.display = 'block';
+  let cnt = parseInt(document.getElementById('citySubCount').textContent);
+  document.getElementById('citySubCount').textContent = (cnt+1).toLocaleString('en-IN');
+  const msg = encodeURIComponent(`Hello! Please add me to the ${city} launch waitlist. My number is +91 ${phone}.`);
+  setTimeout(()=>{ window.open('https://wa.me/919876543210?text='+msg,'_blank'); }, 800);
+}
+
+// ════════════════════════════
+//  SHARE FUNCTIONS
+// ════════════════════════════
+function shareWA(){
+  const msgs = {
+    'coming-soon': `BahaBasket is launching something amazing soon! Be the first to know: ${window.location.origin}`,
+    'maintenance': `BahaBasket is under maintenance. Back soon! In the meantime, you can still WhatsApp sellers directly.`,
+    'city': `BahaBasket is coming to ${city}! Get early access: ${window.location.href}`,
+  };
+  const msg = encodeURIComponent(msgs[mode] || msgs['coming-soon']);
+  window.open('https://wa.me/?text='+msg,'_blank');
+}
+function shareFB(){
+  window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.origin),'_blank');
+}
+function copyPageLink(){
+  navigator.clipboard?.writeText(window.location.href).then(()=>alert('Link copied!'));
+}
+
+// ════════════════════════════
+//  KEYBOARD SHORTCUT
+// ════════════════════════════
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape') window.location='local-bazaar-hub.html';
+});
+</script>
+</body>
+</html>

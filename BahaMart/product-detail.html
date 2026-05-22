@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Men's Premium Cotton Kurta Set – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#0f172a;--text-mid:#334155;--text-light:#64748b;
+  --border:#e2e8f0;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--danger:#dc2626;
+  --card-shadow:0 1px 3px rgba(0,0,0,0.06),0 4px 16px rgba(0,0,0,0.04);
+  --card-shadow-hover:0 8px 32px rgba(26,86,219,0.14);
+  --radius:14px;--radius-sm:8px;
+  --font-display:'Sora',sans-serif;
+  --font-body:'Noto Sans',sans-serif;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ── TOP BAR ── */
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-light);flex-wrap:wrap;}
+.breadcrumb a{color:var(--primary);transition:color .2s;}
+.breadcrumb a:hover{color:var(--primary-dark);text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ══════════════════════════════
+   PRODUCT MAIN SECTION
+══════════════════════════════ */
+.product-section{max-width:1240px;margin:0 auto;padding:32px 24px;}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;}
+
+/* ── IMAGE COLUMN ── */
+.img-column{position:sticky;top:88px;}
+
+/* Main image */
+.main-img-wrap{
+  position:relative;border-radius:var(--radius);overflow:hidden;
+  background:var(--white);border:1px solid var(--border);
+  aspect-ratio:1;margin-bottom:12px;
+  box-shadow:var(--card-shadow);
+}
+.main-img-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  cursor:grab;will-change:transform,opacity;
+}
+.main-img-wrap img:active{cursor:grabbing;}
+
+/* Dot indicators */
+.img-dots{
+  position:absolute;bottom:14px;left:50%;transform:translateX(-50%);
+  display:flex;gap:7px;z-index:4;pointer-events:none;
+}
+.img-dot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(255,255,255,0.5);
+  border:1.5px solid rgba(255,255,255,0.85);
+  cursor:pointer;pointer-events:all;padding:0;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);
+  box-shadow:0 1px 3px rgba(0,0,0,.2);
+}
+.img-dot.active{
+  background:#fff;width:22px;border-radius:4px;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+
+/* Image badges */
+.img-badges{position:absolute;top:14px;left:14px;display:flex;flex-direction:column;gap:6px;z-index:2;}
+.img-badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:4px 10px;border-radius:6px;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.15);}
+.badge-sale{background:var(--danger);}
+.badge-hot{background:var(--accent);}
+.badge-new{background:var(--primary);}
+
+/* Wishlist btn */
+.wishlist-btn{
+  position:absolute;top:14px;right:14px;z-index:2;
+  width:40px;height:40px;border-radius:50%;
+  background:rgba(255,255,255,.95);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:18px;cursor:pointer;
+  box-shadow:0 2px 12px rgba(0,0,0,.1);
+  transition:all .2s;
+}
+.wishlist-btn:hover{transform:scale(1.1);box-shadow:0 4px 16px rgba(0,0,0,.15);}
+.wishlist-btn.active{background:#fee2e2;border-color:#fca5a5;}
+
+/* Share btn */
+.share-btn{
+  position:absolute;bottom:14px;right:14px;z-index:2;
+  width:36px;height:36px;border-radius:50%;
+  background:rgba(255,255,255,.95);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:15px;cursor:pointer;
+  box-shadow:0 2px 8px rgba(0,0,0,.08);
+  transition:all .2s;
+}
+.share-btn:hover{transform:scale(1.08);}
+
+/* Zoom wrapper — receives both scale (zoom) and translate (slide) transforms */
+.zoom-wrapper{position:absolute;inset:0;transform-origin:0 0;will-change:transform;}
+
+/* Zoom controls */
+.zoom-controls{
+  position:absolute;bottom:58px;right:14px;
+  display:flex;flex-direction:column;gap:8px;z-index:5;
+  opacity:0;transform:translateX(6px);
+  transition:opacity .22s ease,transform .22s ease;
+  pointer-events:none;
+}
+.main-img-wrap:hover .zoom-controls{opacity:1;transform:translateX(0);pointer-events:all;}
+.zoom-btn{
+  width:36px;height:36px;border-radius:10px;
+  background:rgba(255,255,255,0.88);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,0.9);
+  box-shadow:0 3px 14px rgba(0,0,0,0.16),0 1px 3px rgba(0,0,0,0.08);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:var(--text-dark);
+  transition:all .2s cubic-bezier(.34,1.56,.64,1);
+  font-size:0;
+}
+.zoom-btn:hover{background:#fff;color:var(--primary);transform:scale(1.12);}
+.zoom-btn:active{transform:scale(0.94);}
+.zoom-btn:disabled{opacity:.35;cursor:default;transform:none;}
+
+/* Zoom level badge */
+.zoom-badge{
+  position:absolute;bottom:48px;left:14px;z-index:5;
+  background:rgba(15,23,42,0.72);color:#fff;
+  font-size:11px;font-weight:700;letter-spacing:.3px;
+  padding:4px 9px;border-radius:20px;
+  backdrop-filter:blur(6px);
+  opacity:0;transform:scale(0.85);
+  transition:opacity .25s ease,transform .25s ease;
+  pointer-events:none;
+}
+.zoom-badge.visible{opacity:1;transform:scale(1);}
+
+/* Cursor state when zoomed */
+.main-img-wrap.zoomed-in{cursor:move;}
+.main-img-wrap.zoomed-in .img-nav{pointer-events:none;opacity:0 !important;}
+
+/* Thumbnail strip */
+.thumb-strip{display:flex;gap:10px;overflow-x:auto;scrollbar-width:none;padding-bottom:4px;}
+.thumb-strip::-webkit-scrollbar{display:none;}
+.thumb{
+  width:70px;height:70px;flex-shrink:0;
+  border-radius:10px;overflow:hidden;
+  border:2px solid var(--border);cursor:pointer;
+  transition:all .2s;background:var(--white);
+}
+.thumb:hover{border-color:var(--primary);transform:scale(1.04);}
+.thumb.active{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.12);}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+
+/* Image nav arrows */
+.img-nav{
+  position:absolute;top:50%;transform:translateY(-50%) scale(0.92);
+  width:44px;height:44px;border-radius:50%;
+  background:rgba(255,255,255,0.82);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,0.9);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;z-index:3;
+  box-shadow:0 4px 20px rgba(0,0,0,0.18),0 1px 4px rgba(0,0,0,0.10);
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+  opacity:0;color:var(--text-dark);
+}
+.main-img-wrap:hover .img-nav{opacity:1;transform:translateY(-50%) scale(1);}
+.img-nav:hover{
+  background:#fff;
+  box-shadow:0 8px 28px rgba(0,0,0,0.22),0 2px 6px rgba(0,0,0,0.10);
+  transform:translateY(-50%) scale(1.12);
+  color:var(--primary);
+}
+.img-nav:active{transform:translateY(-50%) scale(0.96);}
+.img-nav.prev{left:14px;}
+.img-nav.next{right:14px;}
+
+/* ── PRODUCT INFO COLUMN ── */
+.info-column{}
+
+/* Category tag */
+.prod-category-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--primary-light);color:var(--primary);
+  font-size:12px;font-weight:700;padding:4px 12px;border-radius:20px;
+  margin-bottom:14px;border:1px solid rgba(26,86,219,.15);
+}
+
+/* Title */
+.prod-title{
+  font-family:var(--font-display);
+  font-size:clamp(20px,2.5vw,28px);font-weight:800;
+  color:var(--text-dark);line-height:1.25;
+  margin-bottom:14px;
+}
+
+/* Rating row */
+.rating-row{display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;}
+.stars-row{display:flex;align-items:center;gap:4px;}
+.star{font-size:16px;color:#fbbf24;}
+.star.half{position:relative;color:#e5e7eb;}
+.star.half::before{content:'★';position:absolute;left:0;top:0;color:#fbbf24;width:50%;overflow:hidden;}
+.rating-num{font-family:var(--font-display);font-size:17px;font-weight:800;color:var(--text-dark);}
+.rating-count{font-size:13px;color:var(--text-light);}
+.rating-count a{color:var(--primary);}
+.divider-dot{width:4px;height:4px;background:var(--border);border-radius:50%;}
+.inq-count{font-size:13px;color:var(--text-light);}
+.inq-count strong{color:var(--success);}
+
+/* Price section */
+.price-section{
+  background:linear-gradient(135deg,#f0f9ff,var(--primary-light));
+  border-radius:var(--radius);padding:18px 20px;
+  margin-bottom:20px;border:1px solid rgba(26,86,219,.1);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.price-left{}
+.price-main{font-family:var(--font-display);font-size:36px;font-weight:800;color:var(--primary);line-height:1;}
+.price-meta{display:flex;align-items:center;gap:10px;margin-top:6px;}
+.price-mrp{font-size:14px;color:var(--text-light);text-decoration:line-through;}
+.price-disc{
+  background:var(--danger);color:#fff;
+  font-size:12px;font-weight:800;
+  padding:2px 8px;border-radius:4px;
+}
+.price-saving{font-size:13px;color:var(--success);font-weight:700;}
+.price-right{text-align:right;}
+.avail-tag{
+  display:inline-flex;align-items:center;gap:5px;
+  font-size:13px;font-weight:700;padding:5px 12px;border-radius:8px;
+}
+.avail-tag.in{background:#dcfce7;color:#15803d;}
+.avail-tag.out{background:#fee2e2;color:var(--danger);}
+.avail-dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:blink 1.5s infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.price-per-unit{font-size:11px;color:var(--text-light);margin-top:4px;}
+
+/* Options */
+.option-section{margin-bottom:18px;}
+.option-label{font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+.option-label .sel-val{color:var(--primary);font-weight:800;}
+
+/* Size chips */
+.size-chips{display:flex;gap:8px;flex-wrap:wrap;}
+.size-chip{
+  width:48px;height:48px;border-radius:10px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;
+  border:2px solid var(--border);background:var(--white);
+  color:var(--text-mid);cursor:pointer;transition:all .2s;
+}
+.size-chip:hover{border-color:var(--primary);color:var(--primary);}
+.size-chip.selected{border-color:var(--primary);background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(26,86,219,.3);}
+.size-chip.out-stock{background:var(--bg);color:var(--border);cursor:not-allowed;position:relative;overflow:hidden;}
+.size-chip.out-stock::after{content:'';position:absolute;top:50%;left:0;right:0;height:1.5px;background:var(--border);transform:rotate(-35deg);}
+
+/* Color chips */
+.color-chips{display:flex;gap:10px;flex-wrap:wrap;}
+.color-chip{
+  width:34px;height:34px;border-radius:50%;cursor:pointer;
+  border:3px solid transparent;transition:all .2s;
+  box-shadow:0 2px 6px rgba(0,0,0,.15);
+}
+.color-chip:hover,.color-chip.selected{border-color:var(--primary);transform:scale(1.12);box-shadow:0 3px 12px rgba(26,86,219,.25);}
+
+/* Quantity */
+.qty-wrap{display:flex;align-items:center;gap:12px;}
+.qty-ctrl{
+  display:flex;align-items:center;
+  border:2px solid var(--border);border-radius:10px;
+  overflow:hidden;background:var(--white);
+}
+.qty-btn{
+  width:40px;height:40px;border:none;background:var(--bg);
+  font-size:18px;font-weight:700;color:var(--text-mid);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .15s;cursor:pointer;
+}
+.qty-btn:hover{background:var(--primary-light);color:var(--primary);}
+.qty-num{
+  width:44px;text-align:center;
+  font-family:var(--font-display);font-size:15px;font-weight:800;
+  color:var(--text-dark);border:none;outline:none;background:transparent;
+}
+.qty-max{font-size:12px;color:var(--text-light);}
+
+/* CTA Buttons */
+.cta-section{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.btn-whatsapp-main{
+  display:flex;align-items:center;justify-content:center;gap:10px;
+  background:linear-gradient(135deg,#25D366,#20ba58);
+  color:#fff;border:none;padding:16px 28px;border-radius:12px;
+  font-size:16px;font-weight:800;
+  transition:all .2s;
+  box-shadow:0 4px 20px rgba(37,211,102,.3);
+  letter-spacing:.2px;
+}
+.btn-whatsapp-main:hover{background:linear-gradient(135deg,#22c55e,#16a34a);transform:translateY(-2px);box-shadow:0 6px 28px rgba(37,211,102,.4);}
+.btn-whatsapp-main:active{transform:scale(.98);}
+.btn-whatsapp-main svg{width:22px;height:22px;flex-shrink:0;}
+
+.btn-call{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--primary-light);color:var(--primary);
+  border:2px solid var(--primary);padding:13px 28px;border-radius:12px;
+  font-size:15px;font-weight:700;transition:all .2s;
+}
+.btn-call:hover{background:var(--primary);color:#fff;}
+
+.btns-row{display:flex;gap:10px;}
+.btn-save{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--bg);border:2px solid var(--border);
+  color:var(--text-mid);padding:12px;border-radius:12px;
+  font-size:14px;font-weight:600;transition:all .2s;
+}
+.btn-save:hover{border-color:var(--danger);color:var(--danger);background:#fff5f5;}
+.btn-save.saved{border-color:var(--danger);color:var(--danger);background:#fff5f5;}
+.btn-share{
+  width:48px;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);border:2px solid var(--border);
+  border-radius:12px;font-size:18px;transition:all .2s;
+}
+.btn-share:hover{border-color:var(--primary);background:var(--primary-light);}
+
+/* Trust badges */
+.trust-badges{
+  display:grid;grid-template-columns:repeat(3,1fr);gap:10px;
+  margin-bottom:20px;
+}
+.trust-badge{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:10px;padding:12px 10px;text-align:center;
+}
+.trust-badge .tb-icon{font-size:22px;margin-bottom:5px;}
+.trust-badge .tb-text{font-size:11px;color:var(--text-light);font-weight:600;line-height:1.4;}
+
+/* Shop info card */
+.shop-card{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:18px 20px;
+  margin-bottom:20px;
+}
+.shop-card-header{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.shop-logo-sm{
+  width:48px;height:48px;border-radius:12px;
+  background:linear-gradient(135deg,var(--primary),#388bfd);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;border:2px solid var(--border);
+}
+.shop-info-wrap{flex:1;}
+.shop-name-link{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-dark);display:flex;align-items:center;gap:6px;}
+.shop-name-link:hover{color:var(--primary);}
+.verified-badge{background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;}
+.shop-meta-sm{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--text-light);margin-top:3px;}
+.shop-meta-sm span{display:flex;align-items:center;gap:3px;}
+.shop-rating-row{display:flex;align-items:center;gap:6px;margin-bottom:14px;}
+.shop-stars{color:#fbbf24;font-size:14px;}
+.shop-rating-num{font-weight:700;font-size:14px;color:var(--text-dark);}
+.shop-review-cnt{font-size:12px;color:var(--text-light);}
+.shop-actions{display:flex;gap:8px;}
+.btn-wa-shop{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:6px;
+  background:var(--whatsapp);color:#fff;border:none;
+  padding:9px 14px;border-radius:8px;font-size:13px;font-weight:700;
+  transition:background .2s;
+}
+.btn-wa-shop:hover{background:var(--whatsapp-dark);}
+.btn-view-shop{
+  padding:9px 14px;background:var(--bg);border:1.5px solid var(--border);
+  border-radius:8px;font-size:13px;font-weight:600;color:var(--text-mid);
+  transition:all .2s;
+}
+.btn-view-shop:hover{border-color:var(--primary);color:var(--primary);}
+
+/* Highlights */
+.highlights{display:flex;flex-direction:column;gap:8px;margin-bottom:20px;}
+.highlight-item{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text-mid);}
+.hi-icon{width:22px;height:22px;border-radius:5px;background:var(--primary-light);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;margin-top:1px;}
+
+/* ══════════════════════════════
+   TABS SECTION
+══════════════════════════════ */
+.tabs-section{max-width:1240px;margin:0 auto;padding:0 24px 48px;}
+.tabs-bar{
+  display:flex;gap:2px;border-bottom:2px solid var(--border);
+  margin-bottom:28px;overflow-x:auto;scrollbar-width:none;
+}
+.tabs-bar::-webkit-scrollbar{display:none;}
+.tab-btn{
+  padding:12px 22px;font-size:14px;font-weight:600;color:var(--text-light);
+  border:none;background:transparent;cursor:pointer;white-space:nowrap;
+  border-bottom:3px solid transparent;margin-bottom:-2px;
+  transition:color .2s,border-color .2s;
+}
+.tab-btn:hover{color:var(--primary);}
+.tab-btn.active{color:var(--primary);border-bottom-color:var(--primary);font-weight:700;}
+
+.tab-panel{display:none;}
+.tab-panel.active{display:block;animation:fadeUp .3s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+
+/* Description tab */
+.desc-grid{display:grid;grid-template-columns:2fr 1fr;gap:32px;}
+.desc-text p{font-size:15px;color:var(--text-mid);line-height:1.85;margin-bottom:16px;}
+.desc-text h4{font-family:var(--font-display);font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:10px;margin-top:20px;}
+.desc-text ul{list-style:none;display:flex;flex-direction:column;gap:8px;}
+.desc-text ul li{display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text-mid);}
+.desc-text ul li::before{content:'✓';color:var(--success);font-weight:800;flex-shrink:0;margin-top:1px;}
+
+/* Specs table */
+.specs-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;}
+.specs-card table{width:100%;border-collapse:collapse;}
+.specs-card th{display:none;}
+.specs-card td{padding:11px 16px;font-size:13px;border-bottom:1px solid var(--border);}
+.specs-card tr:last-child td{border-bottom:none;}
+.specs-card td:first-child{font-weight:600;color:var(--text-mid);background:var(--bg);width:40%;}
+.specs-card td:last-child{color:var(--text-dark);}
+
+/* Reviews tab */
+.reviews-summary{
+  background:var(--white);border:1px solid var(--border);
+  border-radius:var(--radius);padding:24px;
+  margin-bottom:24px;
+  display:grid;grid-template-columns:auto 1fr;gap:28px;align-items:center;
+}
+.rev-big-num{text-align:center;}
+.rev-big-num .num{font-family:var(--font-display);font-size:56px;font-weight:800;color:var(--text-dark);line-height:1;}
+.rev-big-num .stars{color:#fbbf24;font-size:20px;margin:4px 0;}
+.rev-big-num .cnt{font-size:13px;color:var(--text-light);}
+.rev-bars{display:flex;flex-direction:column;gap:8px;}
+.rev-bar-row{display:flex;align-items:center;gap:10px;font-size:13px;}
+.rev-bar-row .lbl{width:30px;color:var(--text-light);text-align:right;flex-shrink:0;}
+.rev-bar-bg{flex:1;height:8px;background:var(--bg);border-radius:4px;overflow:hidden;}
+.rev-bar-fill{height:100%;border-radius:4px;background:linear-gradient(90deg,#fbbf24,#f59e0b);}
+.rev-bar-row .pct{width:32px;font-weight:600;color:var(--text-mid);font-size:12px;}
+
+.reviews-list{display:flex;flex-direction:column;gap:16px;}
+.review-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px;}
+.rev-header{display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;}
+.rev-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-weight:800;font-size:17px;color:#fff;flex-shrink:0;}
+.rev-meta .rev-name{font-weight:700;font-size:14px;color:var(--text-dark);}
+.rev-meta .rev-date{font-size:12px;color:var(--text-light);margin-top:1px;}
+.rev-stars{color:#fbbf24;font-size:13px;margin-bottom:8px;}
+.rev-title{font-weight:700;font-size:14px;color:var(--text-dark);margin-bottom:6px;}
+.rev-text{font-size:14px;color:var(--text-mid);line-height:1.7;}
+.rev-imgs{display:flex;gap:8px;margin-top:10px;}
+.rev-img{width:64px;height:64px;border-radius:8px;overflow:hidden;border:1px solid var(--border);cursor:pointer;}
+.rev-img img{width:100%;height:100%;object-fit:cover;}
+.rev-helpful{display:flex;align-items:center;gap:8px;margin-top:12px;font-size:12px;color:var(--text-light);}
+.helpful-btn{background:var(--bg);border:1px solid var(--border);color:var(--text-light);padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;transition:all .2s;}
+.helpful-btn:hover{border-color:var(--primary);color:var(--primary);}
+.rev-verified{background:#dcfce7;color:#15803d;font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;margin-left:auto;}
+
+/* Write review */
+.write-review-section{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-top:20px;}
+.wr-title{font-family:var(--font-display);font-size:17px;font-weight:700;margin-bottom:16px;}
+.star-select{display:flex;gap:6px;margin-bottom:16px;}
+.star-sel{font-size:28px;color:var(--border);cursor:pointer;transition:color .15s;}
+.star-sel:hover,.star-sel.selected{color:#fbbf24;}
+.review-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.rev-input{width:100%;background:var(--bg);border:2px solid var(--border);border-radius:8px;padding:10px 14px;font-size:14px;color:var(--text-dark);outline:none;transition:border-color .2s;font-family:var(--font-body);}
+.rev-input:focus{border-color:var(--primary);}
+textarea.rev-input{resize:vertical;min-height:90px;}
+.btn-submit-rev{background:var(--primary);color:#fff;border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:700;transition:background .2s;}
+.btn-submit-rev:hover{background:var(--primary-dark);}
+
+/* ══════════════════════════════
+   RELATED PRODUCTS
+══════════════════════════════ */
+.related-section{max-width:1240px;margin:0 auto;padding:0 24px 56px;}
+.section-header-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.section-heading{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text-dark);}
+.section-heading span{color:var(--primary);}
+.view-all-btn{
+  display:flex;align-items:center;gap:6px;
+  color:var(--primary);font-weight:600;font-size:14px;
+  padding:8px 16px;border:2px solid var(--primary);
+  border-radius:8px;text-decoration:none;white-space:nowrap;
+  transition:background .25s,color .25s,border-color .25s;
+}
+.view-all-btn:hover{background:var(--primary);color:#fff;}
+
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:16px;}
+.related-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);overflow:hidden;
+  cursor:pointer;transition:all .25s;
+}
+.related-card:hover{box-shadow:var(--card-shadow-hover);transform:translateY(-3px);border-color:transparent;}
+.rc-img{aspect-ratio:1;overflow:hidden;background:var(--bg);position:relative;}
+.rc-img img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.related-card:hover .rc-img img{transform:scale(1.05);}
+.rc-badge{position:absolute;top:8px;left:8px;background:var(--danger);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;}
+.rc-body{padding:12px;}
+.rc-name{font-weight:600;font-size:13px;color:var(--text-dark);margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.rc-price{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--primary);}
+.rc-mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;margin-left:4px;}
+.rc-rating{display:flex;align-items:center;gap:4px;margin:5px 0 8px;font-size:12px;color:var(--text-light);}
+.rc-rating .rc-stars{color:#fbbf24;font-size:11px;letter-spacing:1px;}
+.rc-rating .rc-rating-num{font-weight:700;color:var(--text-dark);font-size:12px;}
+.rc-rating .rc-reviews{color:var(--text-light);}
+.btn-wa-rel{
+  width:100%;display:flex;align-items:center;justify-content:center;gap:5px;
+  background:var(--whatsapp);color:#fff;border:none;
+  padding:8px;border-radius:7px;font-size:12px;font-weight:700;transition:background .2s;
+}
+.btn-wa-rel:hover{background:var(--whatsapp-dark);}
+
+/* ══════════════════════════════
+   STICKY MOBILE BAR
+══════════════════════════════ */
+.sticky-mobile-bar{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--white);border-top:1px solid var(--border);
+  padding:12px 16px;z-index:500;
+  box-shadow:0 -4px 24px rgba(0,0,0,.1);
+  gap:10px;align-items:center;
+}
+.sticky-price{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--primary);}
+.sticky-price small{font-size:12px;color:var(--text-light);text-decoration:line-through;font-weight:400;}
+.sticky-wa-btn{
+  flex:1;display:flex;align-items:center;justify-content:center;gap:7px;
+  background:var(--whatsapp);color:#fff;border:none;
+  padding:13px;border-radius:10px;font-size:14px;font-weight:800;
+  transition:background .2s;
+}
+.sticky-wa-btn:hover{background:var(--whatsapp-dark);}
+
+
+/* ── LIGHTBOX ── */
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;align-items:center;justify-content:center;padding:20px;}
+.lightbox.open{display:flex;}
+.lightbox img{max-width:90vw;max-height:90vh;border-radius:10px;object-fit:contain;}
+.lightbox-close{position:absolute;top:20px;right:24px;color:#fff;font-size:28px;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);border-radius:50%;transition:background .2s;}
+.lightbox-close:hover{background:rgba(255,255,255,.2);}
+.lightbox-prev,.lightbox-next{
+  position:absolute;top:50%;transform:translateY(-50%) scale(0.92);
+  width:48px;height:48px;border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1.5px solid rgba(255,255,255,0.3);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;color:#fff;
+  box-shadow:0 4px 20px rgba(0,0,0,0.3);
+  transition:all .25s cubic-bezier(.34,1.56,.64,1);
+}
+.lightbox-prev:hover,.lightbox-next:hover{
+  background:rgba(255,255,255,0.28);
+  border-color:rgba(255,255,255,0.6);
+  transform:translateY(-50%) scale(1.1);
+}
+.lightbox-prev:active,.lightbox-next:active{transform:translateY(-50%) scale(0.96);}
+.lightbox-prev{left:20px;}
+.lightbox-next{right:20px;}
+
+/* ── RESPONSIVE ── */
+@media(max-width:960px){.product-grid{grid-template-columns:1fr;}.img-column{position:static;}.desc-grid{grid-template-columns:1fr;}.reviews-summary{grid-template-columns:1fr;}}
+@media(max-width:768px){.nav-links{display:none;}.sticky-mobile-bar{display:flex;}.float-wa{bottom:90px;}.related-grid{grid-template-columns:repeat(2,1fr);}.trust-badges{grid-template-columns:repeat(3,1fr);}}
+@media(max-width:560px){.product-section{padding:20px 14px;}.tabs-section{padding:0 14px 40px;}.related-section{padding:0 14px 48px;}.review-form-grid{grid-template-columns:1fr;}.topbar-left span:not(:first-child){display:none;}}
+@media(max-width:380px){.related-grid{grid-template-columns:1fr;}.size-chips{gap:6px;}.size-chip{width:42px;height:42px;}}
+
+/* ANIMATIONS */
+@keyframes slideRight{from{opacity:0;transform:translateX(-20px);}to{opacity:1;transform:none;}}
+.info-column > *{animation:fadeUp .4s ease both;}
+.info-column > *:nth-child(1){animation-delay:.05s;}
+.info-column > *:nth-child(2){animation-delay:.10s;}
+.info-column > *:nth-child(3){animation-delay:.15s;}
+.info-column > *:nth-child(4){animation-delay:.20s;}
+.info-column > *:nth-child(5){animation-delay:.25s;}
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:3px;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <span class="sep">›</span>
+  <a href="categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:3px;"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>Categories</a>
+  <span class="sep">›</span>
+  <a href="product-listings.html?cat=men-fashion"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:3px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion</a>
+  <span class="sep">›</span>
+  <span class="current">Men's Premium Cotton Kurta Set</span>
+</div>
+
+<!-- ══ PRODUCT MAIN ══ -->
+<section class="product-section">
+  <div class="product-grid">
+
+    <!-- IMAGE COLUMN -->
+    <div class="img-column">
+      <div class="main-img-wrap" id="mainImgWrap">
+        <div class="zoom-wrapper" id="zoomWrapper">
+          <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&h=600&fit=crop&auto=format" alt="Men Premium Cotton Kurta Set" id="mainImg" style="width:100%;height:100%;object-fit:cover;display:block;">
+        </div>
+        <div class="img-badges">
+          <span class="img-badge badge-sale"><svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10" style="vertical-align:-1px;margin-right:3px;"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0010 0C17 7.5 12 2 12 2z"/></svg>40% OFF</span>
+          <span class="img-badge badge-hot"><svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10" style="vertical-align:-1px;margin-right:3px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>BESTSELLER</span>
+        </div>
+        <button class="wishlist-btn" id="wishlistBtn" onclick="toggleWishlist()" title="Save to Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        <button class="share-btn" onclick="shareProduct()" title="Share"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        <!-- Zoom controls -->
+        <div class="zoom-badge" id="zoomBadge">1×</div>
+        <div class="zoom-controls">
+          <button class="zoom-btn" id="zoomInBtn" onclick="zoomIn()" title="Zoom In">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </button>
+          <button class="zoom-btn" id="zoomOutBtn" onclick="zoomOut()" title="Zoom Out" disabled>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" width="16" height="16"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+          </button>
+        </div>
+        <div class="img-dots" id="imgDots"></div>
+        <button class="img-nav prev" onclick="changeImg(-1)" aria-label="Previous image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="img-nav next" onclick="changeImg(1)" aria-label="Next image">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+
+      <div class="thumb-strip" id="thumbStrip">
+        <div class="thumb active" onclick="setImg(0,this)">
+          <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=80&h=80&fit=crop&auto=format" alt="Front View">
+        </div>
+        <div class="thumb" onclick="setImg(1,this)">
+          <img src="https://images.unsplash.com/photo-1611510338559-2f463335092c?w=80&h=80&fit=crop&auto=format" alt="Side View">
+        </div>
+        <div class="thumb" onclick="setImg(2,this)">
+          <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=80&h=80&fit=crop&auto=format" alt="Back View">
+        </div>
+        <div class="thumb" onclick="setImg(3,this)">
+          <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=80&h=80&fit=crop&auto=format" alt="Detail View">
+        </div>
+        <div class="thumb" onclick="setImg(4,this)">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=80&h=80&fit=crop&auto=format" alt="Fabric Close-Up">
+        </div>
+      </div>
+    </div>
+
+    <!-- INFO COLUMN -->
+    <div class="info-column">
+
+      <!-- Category -->
+      <div class="prod-category-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion › Kurta & Ethnic Wear</div>
+
+      <!-- Title -->
+      <h1 class="prod-title">Men's Premium Cotton Kurta Set – Festive & Wedding Collection 2024</h1>
+
+      <!-- Rating -->
+      <div class="rating-row">
+        <div class="stars-row">
+          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
+        </div>
+        <span class="rating-num">4.8</span>
+        <span class="rating-count"><a href="#reviews">124 reviews</a></span>
+        <span class="divider-dot"></span>
+        <span class="inq-count"><strong>286</strong> WhatsApp inquiries</span>
+        <span class="divider-dot"></span>
+        <span style="font-size:13px;color:var(--success);font-weight:600;display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span>
+      </div>
+
+      <!-- Price -->
+      <div class="price-section">
+        <div class="price-left">
+          <div class="price-main">₹599</div>
+          <div class="price-meta">
+            <span class="price-mrp">₹999</span>
+            <span class="price-disc">40% OFF</span>
+            <span class="price-saving">₹400 savings!</span>
+          </div>
+        </div>
+        <div class="price-right">
+          <div class="avail-tag in"><span class="avail-dot"></span> In Stock</div>
+          <div class="price-per-unit" style="margin-top:6px;">Inclusive of all taxes</div>
+        </div>
+      </div>
+
+      <!-- Size Selection -->
+      <div class="option-section">
+        <div class="option-label">Size: <span class="sel-val" id="selSizeLabel">M (Select Size)</span></div>
+        <div class="size-chips">
+          <div class="size-chip" onclick="selectSize(this,'S')">S</div>
+          <div class="size-chip" onclick="selectSize(this,'M')">M</div>
+          <div class="size-chip" onclick="selectSize(this,'L')">L</div>
+          <div class="size-chip" onclick="selectSize(this,'XL')">XL</div>
+          <div class="size-chip" onclick="selectSize(this,'XXL')">XXL</div>
+          <div class="size-chip out-stock" title="Out of Stock">3XL</div>
+        </div>
+        <div style="margin-top:8px;font-size:12px;color:var(--primary);cursor:pointer;display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 3H3a2 2 0 00-2 2v14a2 2 0 002 2h18a2 2 0 002-2V5a2 2 0 00-2-2z"/><path d="M7 7v4M11 7v2M15 7v4M19 7v2"/></svg>View Size Guide →</div>
+      </div>
+
+      <!-- Color Selection -->
+      <div class="option-section">
+        <div class="option-label">Color: <span class="sel-val" id="selColorLabel">Royal Blue (Select Color)</span></div>
+        <div class="color-chips">
+          <div class="color-chip selected" style="background:#1d4ed8;" title="Royal Blue" onclick="selectColor(this,'Royal Blue','#1d4ed8')"></div>
+          <div class="color-chip" style="background:#166534;" title="Forest Green" onclick="selectColor(this,'Forest Green','#166534')"></div>
+          <div class="color-chip" style="background:#7c2d12;" title="Rust Brown" onclick="selectColor(this,'Rust Brown','#7c2d12')"></div>
+          <div class="color-chip" style="background:#1e1b4b;" title="Deep Indigo" onclick="selectColor(this,'Deep Indigo','#1e1b4b')"></div>
+          <div class="color-chip" style="background:#831843;" title="Maroon" onclick="selectColor(this,'Maroon','#831843')"></div>
+          <div class="color-chip" style="background:#78350f;" title="Dark Mustard" onclick="selectColor(this,'Dark Mustard','#78350f')"></div>
+        </div>
+      </div>
+
+      <!-- Quantity -->
+      <div class="option-section">
+        <div class="option-label">Quantity:</div>
+        <div class="qty-wrap">
+          <div class="qty-ctrl">
+            <button class="qty-btn" onclick="changeQty(-1)">−</button>
+            <input type="number" class="qty-num" value="1" id="qtyInput" min="1" max="10">
+            <button class="qty-btn" onclick="changeQty(1)">+</button>
+          </div>
+          <span class="qty-max">Max 10 per order</span>
+        </div>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="cta-section">
+        <button class="btn-whatsapp-main" onclick="openWA('order')">
+          <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          Order on WhatsApp
+        </button>
+        <button class="btn-call" onclick="window.location='tel:+919876543210'" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.1 12.72 19.79 19.79 0 012.03 4.1 2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Call the Shop
+        </button>
+        <div class="btns-row">
+          <button class="btn-save" id="saveBtn" onclick="toggleSave()" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>Save to Wishlist</button>
+          <button class="btn-share" onclick="shareProduct()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Trust Badges -->
+      <div class="trust-badges">
+        <div class="trust-badge">
+          <div class="tb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><path d="M9 22V12h6v10"/></svg></div>
+          <div class="tb-text">Verified Local Shop</div>
+        </div>
+        <div class="trust-badge">
+          <div class="tb-icon"><svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg></div>
+          <div class="tb-text">Direct WhatsApp Contact</div>
+        </div>
+        <div class="trust-badge">
+          <div class="tb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+          <div class="tb-text">Safe & Trusted Seller</div>
+        </div>
+        <div class="trust-badge">
+          <div class="tb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div class="tb-text">Same Day Pickup</div>
+        </div>
+        <div class="trust-badge">
+          <div class="tb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><path d="M6 3h12"/><path d="M6 8h12"/><path d="m6 13 8.5 8"/><path d="M6 13h3"/><path d="M9 13c6.667 0 6.667-10 0-10"/></svg></div>
+          <div class="tb-text">Best Local Price</div>
+        </div>
+        <div class="trust-badge">
+          <div class="tb-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="22" height="22"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div class="tb-text">Quality Guaranteed</div>
+        </div>
+      </div>
+
+      <!-- Shop Card -->
+      <div class="shop-card">
+        <div class="shop-card-header">
+          <div class="shop-logo-sm"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="24" height="24"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg></div>
+          <div class="shop-info-wrap">
+            <a href="shop-directory.html" class="shop-name-link">
+              Sharma Cloth House
+              <span class="verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+            </a>
+            <div class="shop-meta-sm">
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>Gandhi Nagar, Indore</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>240 products</span>
+              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Open Now</span>
+            </div>
+          </div>
+        </div>
+        <div class="shop-rating-row">
+          <span class="shop-stars">★★★★★</span>
+          <span class="shop-rating-num">4.8</span>
+          <span class="shop-review-cnt">(124 reviews) · 500+ customers served</span>
+        </div>
+        <div class="shop-actions">
+          <button class="btn-wa-shop" onclick="openWA('shop')" style="display:flex;align-items:center;justify-content:center;gap:6px;"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp Shop</button>
+          <button class="btn-view-shop" onclick="window.location='shop-directory.html'">Shop Profile →</button>
+        </div>
+      </div>
+
+      <!-- Key Highlights -->
+      <div class="highlights">
+        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>100% pure cotton — breathable and comfortable fabric</div>
+        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>6 exclusive colors available — for every occasion</div>
+        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 3H3a2 2 0 00-2 2v14a2 2 0 002 2h18a2 2 0 002-2V5a2 2 0 00-2-2z"/><path d="M7 7v4M11 7v2M15 7v4M19 7v2"/></svg></div>Size S to XXL — inclusive sizing for all body types</div>
+        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></div>Custom stitching available on request — extra ₹200</div>
+        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>Home delivery available within 10 km — free above ₹800</div>
+      </div>
+
+    </div><!-- /info-column -->
+  </div><!-- /product-grid -->
+</section>
+
+<!-- ══ TABS SECTION ══ -->
+<div class="tabs-section">
+  <div class="tabs-bar">
+    <button class="tab-btn active" onclick="showTab('description',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Description</button>
+    <button class="tab-btn" onclick="showTab('specifications',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Specifications</button>
+    <button class="tab-btn" onclick="showTab('reviews',this)" id="reviewsTabBtn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="14" height="14" style="vertical-align:-2px;margin-right:5px;color:#fbbf24;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Reviews (124)</button>
+    <button class="tab-btn" onclick="showTab('shipping',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Delivery & Returns</button>
+    <button class="tab-btn" onclick="showTab('qa',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Q&A (18)</button>
+  </div>
+
+  <!-- DESCRIPTION TAB -->
+  <div class="tab-panel active" id="tab-description">
+    <div class="desc-grid">
+      <div class="desc-text">
+        <p>This <strong>Premium Cotton Kurta Set</strong> from Sharma Cloth House is crafted to give you the perfect look for every festive occasion. Made from carefully selected 100% pure cotton fabric, it is not only comfortable to wear but also effortlessly stylish.</p>
+        <p>This kurta set is equally suitable for casual gatherings and formal wedding events. Intricate thread work and tasteful embroidery give it a distinct ethnic charm that is sure to turn heads.</p>
+        <h4><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="16" height="16" style="vertical-align:-3px;margin-right:6px;color:#fbbf24;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Product Highlights</h4>
+        <ul>
+          <li>100% breathable cotton fabric — comfortable in both warm and cool weather</li>
+          <li>Hand-embroidered chest pocket with traditional motifs</li>
+          <li>Full button-down front with premium quality buttons</li>
+          <li>Matching pajama included with comfortable elastic waistband</li>
+          <li>Machine washable — easy care and maintenance</li>
+          <li>Pre-shrunk fabric — size stays consistent even after multiple washes</li>
+          <li>Available in 6 exclusive festive colors</li>
+          <li>Custom stitching available for perfect fit</li>
+        </ul>
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;color:var(--primary);"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Perfect For</h4>
+        <ul>
+          <li>Wedding & sangeet ceremonies</li>
+          <li>Eid, Diwali, Holi and all festivals</li>
+          <li>Family functions and social gatherings</li>
+          <li>Casual ethnic day wear</li>
+          <li>Pooja aur religious occasions</li>
+        </ul>
+        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;color:#059669;"><path d="M3 3l18 18M9.5 9.5C9.18 10.28 9 11.12 9 12c0 1.66.67 3.16 1.76 4.24M14.5 9.5C14.82 10.28 15 11.12 15 12c0 .88-.18 1.72-.5 2.5M6.72 6.72C5.64 7.95 5 9.4 5 12c0 3.87 3.13 7 7 7 2.6 0 4.87-1.4 6.12-3.5M12 5c3.87 0 7 3.13 7 7 0 .52-.06 1.03-.17 1.52"/></svg>Care Instructions</h4>
+        <ul>
+          <li>Machine wash cold (30°C) with similar colors</li>
+          <li>Do not bleach — may damage the fabric colour</li>
+          <li>Tumble dry on low heat or dry in the sun</li>
+          <li>Warm iron recommended for best results</li>
+        </ul>
+      </div>
+      <div class="specs-card">
+        <table>
+          <tbody>
+            <tr><td>Brand</td><td>Sharma Cloth House</td></tr>
+            <tr><td>Material</td><td>100% Pure Cotton</td></tr>
+            <tr><td>Type</td><td>Kurta Pajama Set</td></tr>
+            <tr><td>Pattern</td><td>Embroidered, Solid</td></tr>
+            <tr><td>Sizes</td><td>S, M, L, XL, XXL</td></tr>
+            <tr><td>Colors</td><td>6 Colors Available</td></tr>
+            <tr><td>Occasion</td><td>Festive, Wedding, Casual</td></tr>
+            <tr><td>Fit Type</td><td>Regular Fit</td></tr>
+            <tr><td>Length</td><td>Knee Length (40 inch)</td></tr>
+            <tr><td>Neck</td><td>Mandarin Collar</td></tr>
+            <tr><td>Sleeve</td><td>Full Sleeve</td></tr>
+            <tr><td>Wash Type</td><td>Machine Wash</td></tr>
+            <tr><td>GSM</td><td>180 GSM (Medium Weight)</td></tr>
+            <tr><td>SKU</td><td>SCH-KPJ-001-BLU</td></tr>
+            <tr><td>Country of Origin</td><td>India 🇮🇳</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPECIFICATIONS TAB -->
+  <div class="tab-panel" id="tab-specifications">
+    <div style="max-width:600px;">
+      <div class="specs-card">
+        <table>
+          <tbody>
+            <tr><td>Brand</td><td>Sharma Cloth House</td></tr>
+            <tr><td>Material Composition</td><td>100% Pure Cotton (180 GSM)</td></tr>
+            <tr><td>Product Type</td><td>Kurta Pajama Set (2 Piece)</td></tr>
+            <tr><td>Available Sizes</td><td>S (36), M (38), L (40), XL (42), XXL (44)</td></tr>
+            <tr><td>Kurta Length</td><td>40 inches (Knee Length)</td></tr>
+            <tr><td>Collar Style</td><td>Mandarin / Band Collar</td></tr>
+            <tr><td>Sleeve Style</td><td>Full Sleeve with Embroidered Cuffs</td></tr>
+            <tr><td>Closure</td><td>Front Button-Down (5 Buttons)</td></tr>
+            <tr><td>Pockets</td><td>1 Chest Pocket + 2 Side Pockets</td></tr>
+            <tr><td>Embroidery</td><td>Thread Work on Chest & Collar</td></tr>
+            <tr><td>Pajama Type</td><td>Straight Leg with Elastic Waistband</td></tr>
+            <tr><td>Wash Care</td><td>Machine Wash Cold, Do Not Bleach</td></tr>
+            <tr><td>Weight</td><td>Approx 350g (Size M)</td></tr>
+            <tr><td>Package Contents</td><td>1 Kurta + 1 Pajama + Care Card</td></tr>
+            <tr><td>Manufacturer</td><td>Sharma Cloth House, Gandhi Nagar, Indore</td></tr>
+            <tr><td>SKU Code</td><td>SCH-KPJ-001-BLU</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- REVIEWS TAB -->
+  <div class="tab-panel" id="tab-reviews" id-anchor="reviews">
+    <div class="reviews-summary">
+      <div class="rev-big-num">
+        <div class="num">4.8</div>
+        <div class="stars">★★★★★</div>
+        <div class="cnt">124 reviews</div>
+      </div>
+      <div class="rev-bars">
+        <div class="rev-bar-row"><span class="lbl">5★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:82%;"></div></div><span class="pct">82%</span></div>
+        <div class="rev-bar-row"><span class="lbl">4★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:12%;"></div></div><span class="pct">12%</span></div>
+        <div class="rev-bar-row"><span class="lbl">3★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:4%;background:#f59e0b;"></div></div><span class="pct">4%</span></div>
+        <div class="rev-bar-row"><span class="lbl">2★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:1%;background:#f97316;"></div></div><span class="pct">1%</span></div>
+        <div class="rev-bar-row"><span class="lbl">1★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:1%;background:#dc2626;"></div></div><span class="pct">1%</span></div>
+      </div>
+    </div>
+
+    <div class="reviews-list">
+      <div class="review-card">
+        <div class="rev-header">
+          <div class="rev-av" style="background:linear-gradient(135deg,#1a56db,#3b82f6);">R</div>
+          <div class="rev-meta">
+            <div class="rev-name">Rahul Mishra</div>
+            <div class="rev-date">15 December 2024 · Indore</div>
+          </div>
+          <span class="rev-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified Purchase</span>
+        </div>
+        <div class="rev-stars">★★★★★</div>
+        <div class="rev-title">Excellent quality! Better than expected!</div>
+        <div class="rev-text">I wore this kurta set to a wedding and received many compliments. The fabric is very soft and genuinely feels like cotton. The colour matches the photos exactly. The stitching is solid and well-done. Will definitely shop from Sharma Cloth House again!</div>
+        <div class="rev-imgs">
+          <div class="rev-img"><img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=64&h=64&fit=crop&auto=format" alt="Review photo"></div>
+          <div class="rev-img"><img src="https://images.unsplash.com/photo-1611510338559-2f463335092c?w=64&h=64&fit=crop&auto=format" alt="Review photo"></div>
+        </div>
+        <div class="rev-helpful">
+          Was this helpful?
+          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>Yes (24)</button>
+          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>No (2)</button>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="rev-header">
+          <div class="rev-av" style="background:linear-gradient(135deg,#059669,#34d399);">P</div>
+          <div class="rev-meta">
+            <div class="rev-name">Pradeep Sharma</div>
+            <div class="rev-date">10 December 2024 · Bhopal</div>
+          </div>
+          <span class="rev-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified Purchase</span>
+        </div>
+        <div class="rev-stars">★★★★☆</div>
+        <div class="rev-title">Good product, size runs a bit large</div>
+        <div class="rev-text">Product quality is very good. Fabric is genuine cotton. One suggestion — the size runs slightly large, so going one size down is advisable. Excellent value for the price. The seller's response on WhatsApp was very prompt!</div>
+        <div class="rev-helpful">
+          Was this helpful?
+          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>Yes (18)</button>
+          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>No (1)</button>
+        </div>
+      </div>
+
+      <div class="review-card">
+        <div class="rev-header">
+          <div class="rev-av" style="background:linear-gradient(135deg,#f97316,#fb923c);">A</div>
+          <div class="rev-meta">
+            <div class="rev-name">Amit Kumar Verma</div>
+            <div class="rev-date">5 December 2024 · Ujjain</div>
+          </div>
+          <span class="rev-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified Purchase</span>
+        </div>
+        <div class="rev-stars">★★★★★</div>
+        <div class="rev-title">First shopping experience on BahaBasket — excellent!</div>
+        <div class="rev-text">First time ordering from this platform. Messaged on WhatsApp, got a reply within 10 minutes. Picked it up from the shop the next day. Was absolutely delighted when I saw the kurta set. It was a perfect choice for Eid. Will definitely recommend to all my friends!</div>
+        <div class="rev-helpful">
+          Was this helpful?
+          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>Yes (31)</button>
+          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>No (0)</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Write Review -->
+    <div class="write-review-section">
+      <div class="wr-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>Write Your Review</div>
+      <div>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:8px;">Rate this product:</div>
+        <div class="star-select" id="starSelect">
+          <span class="star-sel" onclick="selectStar(1)">★</span>
+          <span class="star-sel" onclick="selectStar(2)">★</span>
+          <span class="star-sel" onclick="selectStar(3)">★</span>
+          <span class="star-sel" onclick="selectStar(4)">★</span>
+          <span class="star-sel" onclick="selectStar(5)">★</span>
+        </div>
+      </div>
+      <div class="review-form-grid">
+        <input type="text" class="rev-input" placeholder="Your name">
+        <input type="text" class="rev-input" placeholder="WhatsApp number (optional)">
+      </div>
+      <input type="text" class="rev-input" style="width:100%;margin-bottom:12px;" placeholder="Review title (e.g. 'Great product!')">
+      <textarea class="rev-input" style="width:100%;margin-bottom:12px;" placeholder="Share your experience — size, quality, delivery..."></textarea>
+      <button class="btn-submit-rev" onclick="submitReview()" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Submit Review</button>
+    </div>
+  </div>
+
+  <!-- SHIPPING TAB -->
+  <div class="tab-panel" id="tab-shipping">
+    <div style="max-width:700px;display:flex;flex-direction:column;gap:16px;">
+      <div class="specs-card" style="padding:0;">
+        <div style="padding:16px 20px;border-bottom:1px solid var(--border);">
+          <div style="font-weight:700;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Delivery Options</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--bg);border-radius:8px;">
+              <span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:var(--primary-light);border-radius:8px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" width="20" height="20"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+              <div style="flex:1;"><div style="font-weight:600;font-size:14px;">Same Day Pickup</div><div style="font-size:12px;color:var(--text-light);">Pick up directly from the shop — available today</div></div>
+              <span style="color:var(--success);font-weight:700;font-size:13px;">FREE</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--bg);border-radius:8px;">
+              <span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:#dcfce7;border-radius:8px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="20" height="20"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+              <div style="flex:1;"><div style="font-weight:600;font-size:14px;">Local Delivery (within 10 km)</div><div style="font-size:12px;color:var(--text-light);">Delivered in 2–4 hours — FREE for orders above ₹800</div></div>
+              <span style="color:var(--primary);font-weight:700;font-size:13px;">₹50</span>
+            </div>
+            <div style="display:flex;align-items:center;gap:12px;padding:10px;background:var(--bg);border-radius:8px;">
+              <span style="display:flex;align-items:center;justify-content:center;width:36px;height:36px;background:#fff7ed;border-radius:8px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" width="20" height="20"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+              <div style="flex:1;"><div style="font-weight:600;font-size:14px;">Courier Delivery (Other Cities)</div><div style="font-size:12px;color:var(--text-light);">3–5 working days — contact via WhatsApp for details</div></div>
+              <span style="color:var(--accent);font-weight:700;font-size:13px;">₹80-₹150</span>
+            </div>
+          </div>
+        </div>
+        <div style="padding:16px 20px;">
+          <div style="font-weight:700;font-size:15px;margin-bottom:10px;display:flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg>Return & Exchange Policy</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text-mid);"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" width="15" height="15" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg><span>Exchange accepted within 7 days (for size issues)</span></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text-mid);"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" width="15" height="15" style="flex-shrink:0;margin-top:1px;"><polyline points="20 6 9 17 4 12"/></svg><span>Full replacement provided for manufacturing defects</span></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text-mid);"><svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" width="15" height="15" style="flex-shrink:0;margin-top:1px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg><span>Used or washed items will not be accepted for return</span></div>
+            <div style="display:flex;align-items:flex-start;gap:8px;font-size:14px;color:var(--text-mid);"><svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15" style="flex-shrink:0;margin-top:1px;color:#25d366;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg><span>To initiate a return, send photos via WhatsApp</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Q&A TAB -->
+  <div class="tab-panel" id="tab-qa">
+    <div style="max-width:700px;">
+      <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;" id="qaList">
+        <!-- Q&A items filled by JS -->
+      </div>
+      <div class="write-review-section">
+        <div class="wr-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Ask a Question</div>
+        <input type="text" class="rev-input" style="width:100%;margin-bottom:10px;" placeholder="Type your question here (e.g. Is this dry wash only?)">
+        <button class="btn-submit-rev" onclick="alert('Your question has been sent to the seller! A reply will be shared within 24 hours.')" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Submit Question</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══ RELATED PRODUCTS ══ -->
+<div class="related-section">
+  <div class="section-header-row">
+    <div class="section-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="vertical-align:-3px;margin-right:6px;"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Related <span>Products</span></div>
+    <a href="product-listings.html?cat=men-fashion" class="view-all-btn">All Men Fashion →</a>
+  </div>
+  <div class="related-grid" id="relatedGrid"></div>
+</div>
+
+<!-- ══ RECENTLY VIEWED ══ -->
+<div class="related-section" style="padding-top:0;">
+  <div class="section-header-row">
+    <div class="section-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Recently <span>Viewed</span></div>
+  </div>
+  <div class="related-grid" id="recentGrid"></div>
+</div>
+
+<div id="site-footer"></div>
+
+<!-- STICKY MOBILE BAR -->
+<div class="sticky-mobile-bar" id="stickyBar">
+  <div>
+    <div class="sticky-price">₹599 <small>₹999</small></div>
+    <div style="font-size:11px;color:var(--success);font-weight:600;">40% Off — In Stock</div>
+  </div>
+  <button class="sticky-wa-btn" onclick="openWA('order')" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp Order</button>
+</div>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox(event)">
+  <div class="lightbox-close" onclick="closeLightbox()">✕</div>
+  <button class="lightbox-prev" onclick="event.stopPropagation();changeImg(-1);syncLightbox()" aria-label="Previous image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="15 18 9 12 15 6"/></svg>
+  </button>
+  <img id="lightboxImg" src="" alt="Product">
+  <button class="lightbox-next" onclick="event.stopPropagation();changeImg(1);syncLightbox()" aria-label="Next image">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="22" height="22"><polyline points="9 18 15 12 9 6"/></svg>
+  </button>
+</div>
+
+
+<script>
+// ── IMAGE DATA ──
+const images = [
+  'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&h=600&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1611510338559-2f463335092c?w=600&h=600&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&h=600&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=600&fit=crop&auto=format',
+  'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&h=600&fit=crop&auto=format',
+];
+let currentImg = 0;
+let isSliding = false;
+
+// Preload all images for smooth transitions
+images.forEach(src => { const img = new Image(); img.src = src; });
+
+// ── DOT INDICATORS ──
+function renderDots(){
+  document.getElementById('imgDots').innerHTML = images.map((_,i) =>
+    `<button class="img-dot${i===0?' active':''}" onclick="setImg(${i},document.querySelectorAll('.thumb')[${i}])" aria-label="Image ${i+1}"></button>`
+  ).join('');
+}
+function updateDots(idx){
+  document.querySelectorAll('.img-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+}
+renderDots();
+
+// ── SLIDE ANIMATION ──
+function slideImg(newIdx, dir){
+  if(isSliding || newIdx === currentImg) return;
+  isSliding = true;
+  const img = document.getElementById('mainImg');
+  const zw  = document.getElementById('zoomWrapper');
+  // Reset zoom instantly before sliding
+  zoomLevel = 1; zoomPanX = 0; zoomPanY = 0;
+  zw.style.transition = 'none';
+  zw.style.transform  = '';
+  document.getElementById('mainImgWrap').classList.remove('zoomed-in');
+  document.getElementById('zoomInBtn').disabled  = false;
+  document.getElementById('zoomOutBtn').disabled = true;
+  document.getElementById('zoomBadge').classList.remove('visible');
+
+  const exitTo    = dir >= 0 ? '-100%' : '100%';
+  const enterFrom = dir >= 0 ? '100%'  : '-100%';
+
+  // Slide current wrapper out
+  requestAnimationFrame(() => {
+    zw.style.transition = 'transform 0.25s ease, opacity 0.2s ease';
+    zw.style.transform  = `translateX(${exitTo})`;
+    zw.style.opacity    = '0';
+  });
+
+  setTimeout(() => {
+    // Snap to enter side, swap image
+    zw.style.transition = 'none';
+    zw.style.transform  = `translateX(${enterFrom})`;
+    zw.style.opacity    = '1';
+    img.src = images[newIdx];
+    currentImg = newIdx;
+    document.querySelectorAll('.thumb').forEach((t,i) => t.classList.toggle('active', i===newIdx));
+    updateDots(newIdx);
+
+    // Slide in to centre
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      zw.style.transition = 'transform 0.3s cubic-bezier(.25,.46,.45,.94)';
+      zw.style.transform  = '';
+      setTimeout(() => { isSliding = false; }, 320);
+    }));
+  }, 260);
+}
+
+function setImg(idx, thumbEl){
+  const dir = idx > currentImg ? 1 : -1;
+  slideImg(idx, dir);
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  if(thumbEl) thumbEl.classList.add('active');
+}
+
+function changeImg(dir){
+  const newIdx = (currentImg + dir + images.length) % images.length;
+  slideImg(newIdx, dir);
+}
+
+// ── ZOOM ──
+let zoomLevel = 1, zoomPanX = 0, zoomPanY = 0;
+const ZOOM_MIN = 1, ZOOM_MAX = 3, ZOOM_STEP = 0.75;
+let isDragging = false; // hoisted for zoom pan access
+
+function applyZoom(animate){
+  const zw = document.getElementById('zoomWrapper');
+  const wrap = document.getElementById('mainImgWrap');
+  const badge = document.getElementById('zoomBadge');
+  zw.style.transition = animate ? 'transform 0.3s cubic-bezier(.25,.46,.45,.94)' : 'none';
+  if(zoomLevel <= 1){
+    zw.style.transform = '';
+    wrap.classList.remove('zoomed-in');
+  } else {
+    zw.style.transform = `scale(${zoomLevel}) translate(${zoomPanX}px,${zoomPanY}px)`;
+    wrap.classList.add('zoomed-in');
+  }
+  // Update buttons
+  document.getElementById('zoomInBtn').disabled  = zoomLevel >= ZOOM_MAX;
+  document.getElementById('zoomOutBtn').disabled = zoomLevel <= ZOOM_MIN;
+  // Badge
+  badge.textContent = zoomLevel.toFixed(2).replace(/\.?0+$/,'') + '×';
+  badge.classList.toggle('visible', zoomLevel > 1);
+  clearTimeout(badge._t);
+  if(zoomLevel > 1) badge._t = setTimeout(() => badge.classList.remove('visible'), 1800);
+}
+
+function resetZoom(animate){
+  zoomLevel = 1; zoomPanX = 0; zoomPanY = 0;
+  applyZoom(animate !== false);
+}
+
+function zoomIn(){
+  if(zoomLevel >= ZOOM_MAX) return;
+  // On first zoom, centre the pan
+  if(zoomLevel === 1){ zoomPanX = 0; zoomPanY = 0; }
+  zoomLevel = Math.min(+(zoomLevel + ZOOM_STEP).toFixed(2), ZOOM_MAX);
+  applyZoom(true);
+}
+
+function zoomOut(){
+  if(zoomLevel <= ZOOM_MIN) return;
+  zoomLevel = Math.max(+(zoomLevel - ZOOM_STEP).toFixed(2), ZOOM_MIN);
+  if(zoomLevel <= 1){ zoomPanX = 0; zoomPanY = 0; }
+  applyZoom(true);
+}
+
+// Mouse pan when zoomed
+document.getElementById('mainImgWrap').addEventListener('mousemove', e => {
+  if(zoomLevel <= 1 || isDragging) return;
+  const wrap = document.getElementById('mainImgWrap');
+  const rect = wrap.getBoundingClientRect();
+  const px = (e.clientX - rect.left) / rect.width;  // 0–1
+  const py = (e.clientY - rect.top)  / rect.height;
+  // Max translate: how much extra image is beyond the frame at this zoom
+  const maxX = rect.width  * (zoomLevel - 1) / zoomLevel;
+  const maxY = rect.height * (zoomLevel - 1) / zoomLevel;
+  zoomPanX = -(px * maxX);
+  zoomPanY = -(py * maxY);
+  const zw = document.getElementById('zoomWrapper');
+  zw.style.transition = 'none';
+  zw.style.transform = `scale(${zoomLevel}) translate(${zoomPanX}px,${zoomPanY}px)`;
+});
+
+// Double-click to toggle zoom
+document.getElementById('mainImgWrap').addEventListener('dblclick', e => {
+  if(e.target.closest('.wishlist-btn,.share-btn,.img-nav,.img-badges,.zoom-controls,.img-dots,.img-dot')) return;
+  if(zoomLevel > 1){ resetZoom(true); }
+  else { zoomLevel = 2; zoomPanX = 0; zoomPanY = 0; applyZoom(true); }
+});
+
+// Mouse wheel zoom
+document.getElementById('mainImgWrap').addEventListener('wheel', e => {
+  e.preventDefault();
+  if(e.deltaY < 0) zoomIn(); else zoomOut();
+}, {passive: false});
+
+// ── TOUCH SWIPE + PINCH ZOOM + MOUSE DRAG ──
+(function(){
+  const wrap = document.getElementById('mainImgWrap');
+  let startX = 0, startY = 0, dragDx = 0, dragDy = 0;
+  let pinchStartDist = 0, pinchStartZoom = 1;
+  let isPinching = false;
+  const SWIPE_THRESHOLD = 40;
+  const CLICK_THRESHOLD = 6;
+  const IGNORED = '.wishlist-btn,.share-btn,.img-nav,.img-badges,.zoom-controls,.zoom-btn,.img-dots,.img-dot';
+
+  function getTouchDist(touches){
+    const dx = touches[0].clientX - touches[1].clientX;
+    const dy = touches[0].clientY - touches[1].clientY;
+    return Math.sqrt(dx*dx + dy*dy);
+  }
+
+  wrap.addEventListener('touchstart', e => {
+    if(e.touches.length === 2){
+      isPinching = true;
+      pinchStartDist = getTouchDist(e.touches);
+      pinchStartZoom = zoomLevel;
+    } else {
+      isPinching = false;
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }
+  }, {passive: true});
+
+  wrap.addEventListener('touchmove', e => {
+    if(isPinching && e.touches.length === 2){
+      e.preventDefault();
+      const dist = getTouchDist(e.touches);
+      const ratio = dist / pinchStartDist;
+      zoomLevel = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, +(pinchStartZoom * ratio).toFixed(2)));
+      if(zoomLevel <= 1){ zoomPanX = 0; zoomPanY = 0; }
+      applyZoom(false);
+      return;
+    }
+    if(zoomLevel > 1) return; // let zoom pan handle it via mousemove equivalent
+    const dx = Math.abs(e.touches[0].clientX - startX);
+    const dy = Math.abs(e.touches[0].clientY - startY);
+    if(dx > dy && dx > 10) e.preventDefault();
+  }, {passive: false});
+
+  wrap.addEventListener('touchend', e => {
+    if(isPinching){ isPinching = false; return; }
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if(zoomLevel <= 1 && Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > SWIPE_THRESHOLD)
+      changeImg(dx < 0 ? 1 : -1);
+  });
+
+  // Mouse drag (slide when not zoomed)
+  wrap.addEventListener('mousedown', e => {
+    if(e.target.closest(IGNORED) || zoomLevel > 1) return;
+    startX = e.clientX; dragDx = 0; isDragging = true;
+    wrap.style.userSelect = 'none';
+    e.preventDefault();
+  });
+  wrap.addEventListener('mousemove', e => {
+    if(!isDragging) return;
+    dragDx = e.clientX - startX;
+    dragDy = e.clientY - startY;
+  });
+  wrap.addEventListener('mouseup', e => {
+    if(!isDragging) return;
+    isDragging = false;
+    wrap.style.userSelect = '';
+    if(Math.abs(dragDx) > SWIPE_THRESHOLD && Math.abs(dragDx) > Math.abs(dragDy)){
+      changeImg(dragDx < 0 ? 1 : -1);
+    } else if(Math.abs(dragDx) < CLICK_THRESHOLD && !e.target.closest(IGNORED)){
+      document.getElementById('lightboxImg').src = images[currentImg];
+      document.getElementById('lightbox').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  });
+  wrap.addEventListener('mouseleave', () => { isDragging = false; wrap.style.userSelect = ''; });
+})();
+
+// Lightbox
+function closeLightbox(e){
+  if(e && e.target!==document.getElementById('lightbox') && !e.target.closest('.lightbox-close')) return;
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow='';
+}
+function syncLightbox(){
+  document.getElementById('lightboxImg').src=images[currentImg];
+}
+document.addEventListener('keydown',e=>{
+  if(document.getElementById('lightbox').classList.contains('open')){
+    if(e.key==='ArrowRight'){changeImg(1);syncLightbox();}
+    if(e.key==='ArrowLeft'){changeImg(-1);syncLightbox();}
+    if(e.key==='Escape'){document.getElementById('lightbox').classList.remove('open');document.body.style.overflow='';}
+  }
+});
+
+// ── SIZE SELECTION ──
+function selectSize(el, size){
+  document.querySelectorAll('.size-chip:not(.out-stock)').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('selSizeLabel').textContent = size;
+}
+
+// ── COLOR SELECTION ──
+function selectColor(el, name, hex){
+  document.querySelectorAll('.color-chip').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('selColorLabel').textContent = name;
+  // Update main image tint (simulated)
+}
+
+// ── QUANTITY ──
+function changeQty(dir){
+  const input = document.getElementById('qtyInput');
+  let val = parseInt(input.value) + dir;
+  if(val < 1) val = 1;
+  if(val > 10) val = 10;
+  input.value = val;
+}
+
+// ── WISHLIST ──
+let wishlisted = false;
+function toggleWishlist(){
+  wishlisted = !wishlisted;
+  const btn = document.getElementById('wishlistBtn');
+  btn.innerHTML = wishlisted ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+  btn.classList.toggle('active', wishlisted);
+}
+let saved = false;
+function toggleSave(){
+  saved = !saved;
+  const btn = document.getElementById('saveBtn');
+  btn.innerHTML = saved ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> Saved to Wishlist!' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> Save to Wishlist';
+  btn.classList.toggle('saved', saved);
+  // sync wishlist btn
+  document.getElementById('wishlistBtn').innerHTML = saved ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+  document.getElementById('wishlistBtn').classList.toggle('active', saved);
+}
+
+// ── SHARE ──
+function shareProduct(){
+  if(navigator.share){
+    navigator.share({title:"Men's Premium Cotton Kurta Set",text:"Check out this amazing kurta set at ₹599!",url:window.location.href});
+  } else {
+    navigator.clipboard?.writeText(window.location.href).then(()=>alert('Link copied! Share it with anyone.'));
+  }
+}
+
+// ── TABS ──
+function showTab(id, btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(btn) btn.classList.add('active');
+}
+
+// ── STAR REVIEW SELECTOR ──
+let selectedStars = 0;
+function selectStar(n){
+  selectedStars = n;
+  document.querySelectorAll('.star-sel').forEach((s,i)=>{
+    s.classList.toggle('selected',i<n);
+    s.style.color = i<n ? '#fbbf24' : 'var(--border)';
+  });
+}
+
+// ── WHATSAPP ──
+function openWA(type){
+  const size = document.getElementById('selSizeLabel').textContent;
+  const color = document.getElementById('selColorLabel').textContent;
+  const qty = document.getElementById('qtyInput').value;
+  const msgs = {
+    order: `Hello Sharma Cloth House!\n\nI would like to place an order for:\n\n*Product:* Men's Premium Cotton Kurta Set\n*Price:* ₹599\n*Size:* ${size}\n*Color:* ${color}\n*Quantity:* ${qty}\n\nIs this available? Please share details about delivery and pickup.`,
+    shop: `Hello Sharma Cloth House! I would like to enquire about your shop.`,
+  };
+  const msg = encodeURIComponent(msgs[type]||msgs.order);
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+
+// ── RELATED PRODUCTS ──
+const relatedProds = [
+  {name:"Men's Linen Kurta – Summer Collection",price:"₹499",mrp:"₹799",disc:"38% Off",rating:4.6,reviews:89,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=220&h=220&fit=crop&auto=format",shop:"Sharma Cloth House"},
+  {name:"Men's Pathani Suit – Eid Special",price:"₹899",mrp:"₹1,499",disc:"40% Off",rating:4.4,reviews:52,img:"https://images.unsplash.com/photo-1611510338559-2f463335092c?w=220&h=220&fit=crop&auto=format",shop:"Sharma Cloth House"},
+  {name:"Men's Sherwani Set – Wedding",price:"₹2,499",mrp:"₹4,000",disc:"38% Off",rating:4.8,reviews:137,img:"https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=220&h=220&fit=crop&auto=format",shop:"Sharma Cloth House"},
+  {name:"Men's Kurta Dhoti Set – Traditional",price:"₹699",mrp:"₹1,100",disc:"36% Off",rating:4.3,reviews:64,img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=220&h=220&fit=crop&auto=format",shop:"Royal Ethnic Wear"},
+];
+function rcStars(r){
+  return [1,2,3,4,5].map(i=>
+    `<span style="color:${i<=Math.round(r)?'#fbbf24':'#e2e8f0'}">★</span>`
+  ).join('');
+}
+document.getElementById('relatedGrid').innerHTML = relatedProds.map(p=>`
+  <div class="related-card">
+    <div class="rc-img">
+      <img src="${p.img}" alt="${p.name}">
+      <div class="rc-badge">${p.disc}</div>
+    </div>
+    <div class="rc-body">
+      <div class="rc-name">${p.name}</div>
+      <div class="rc-rating">
+        <span class="rc-stars">${rcStars(p.rating)}</span>
+        <span class="rc-rating-num">${p.rating}</span>
+        <span class="rc-reviews">(${p.reviews})</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:6px;">
+        <span class="rc-price">${p.price}</span>
+        <span class="rc-mrp">${p.mrp}</span>
+      </div>
+      <button class="btn-wa-rel" onclick="openWA('order')" style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+    </div>
+  </div>`).join('');
+
+document.getElementById('recentGrid').innerHTML = [
+  {name:"Banarasi Silk Saree",price:"₹2,199",rating:4.7,reviews:203,img:"https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=220&h=220&fit=crop&auto=format",shop:"Meera Saree"},
+  {name:"Bluetooth Earphones",price:"₹849",rating:4.5,reviews:118,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=220&h=220&fit=crop&auto=format",shop:"Digital Zone"},
+  {name:"Kids Party Frock",price:"₹449",rating:4.2,reviews:76,img:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=220&h=220&fit=crop&auto=format",shop:"Little Star"},
+  {name:"iPhone 15 Cover",price:"₹249",rating:4.6,reviews:341,img:"https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=220&h=220&fit=crop&auto=format",shop:"Mobile Master"},
+].map(p=>`
+  <div class="related-card">
+    <div class="rc-img">
+      <img src="${p.img}" alt="${p.name}">
+    </div>
+    <div class="rc-body">
+      <div class="rc-name">${p.name}</div>
+      <div class="rc-rating">
+        <span class="rc-stars">${rcStars(p.rating)}</span>
+        <span class="rc-rating-num">${p.rating}</span>
+        <span class="rc-reviews">(${p.reviews})</span>
+      </div>
+      <div class="rc-price">${p.price}</div>
+      <button class="btn-wa-rel" onclick="openWA('order')" style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+    </div>
+  </div>`).join('');
+
+// ── Q&A ──
+document.getElementById('qaList').innerHTML = [
+  {q:"Is dry wash required for this kurta?",a:"No! Machine wash on cold setting works fine. However, hand washing is recommended for the first wash to let it set properly.",date:"10 Dec 2024"},
+  {q:"Where can I find the size guide?",a:"Message us on WhatsApp — we will send you a detailed size chart. We generally recommend sizing up by one.",date:"8 Dec 2024"},
+  {q:"Is customization available?",a:"Absolutely! Embroidery customization is available for an extra charge of ₹150–₹300. Discuss on WhatsApp.",date:"5 Dec 2024"},
+  {q:"How many days will delivery take?",a:"Same day pickup is available. Local delivery (within 10 km) in 2–4 hours. Courier delivery to other cities in 3–5 days.",date:"1 Dec 2024"},
+].map(qa=>`
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
+    <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;">
+      <span style="background:var(--primary-light);color:var(--primary);font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;">Q</span>
+      <div style="font-size:14px;font-weight:600;color:var(--text-dark);">${qa.q}</div>
+    </div>
+    <div style="display:flex;align-items:flex-start;gap:8px;">
+      <span style="background:#dcfce7;color:var(--success);font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;">A</span>
+      <div style="font-size:14px;color:var(--text-mid);line-height:1.6;">${qa.a} <span style="font-size:11px;color:var(--text-light);margin-left:6px;">${qa.date}</span></div>
+    </div>
+  </div>`).join('');
+
+// ── STICKY BAR on scroll ──
+window.addEventListener('scroll',()=>{
+  const bar = document.getElementById('stickyBar');
+  const tooltip = document.getElementById('floatTooltip');
+  if(window.scrollY > 400){ bar.style.display='flex'; }
+  else { bar.style.display='none'; }
+  if(window.scrollY > 200) tooltip.style.display='none';
+});
+
+// ── REVIEW SUBMIT ──
+function submitReview(){
+  if(selectedStars===0){ alert('Please select a rating (1–5 stars)!'); return; }
+  alert('✅ Your review has been submitted! It will appear on the review page within 24 hours.');
+}
+
+// ── FLOAT WA hide tooltip ──
+setTimeout(()=>{
+  document.getElementById('floatTooltip').style.opacity='0';
+  document.getElementById('floatTooltip').style.transition='opacity .5s';
+},4000);
+
+// ── REVIEW BARS ANIMATE ──
+window.addEventListener('load',()=>{
+  document.querySelectorAll('.rev-bar-fill,.prog-bar-fill').forEach(b=>{
+    const w=b.style.width; b.style.width='0';
+    setTimeout(()=>{ b.style.width=w; }, 500);
+  });
+});
+</script>
+<script src="components.js"></script>
+</body>
+</html>

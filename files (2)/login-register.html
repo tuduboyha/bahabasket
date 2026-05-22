@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login / Register – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #0f172a;
+  --text-mid: #334155;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Noto Sans', sans-serif;
+  --shadow-card: 0 4px 24px rgba(26,86,219,0.10), 0 1px 4px rgba(0,0,0,0.04);
+  --shadow-strong: 0 16px 56px rgba(26,86,219,0.16);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; height: 100%; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text-dark); min-height: 100vh; overflow-x: hidden; }
+h1,h2,h3,h4 { font-family: var(--font-display); }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: var(--font-body); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* ── TOP BAR ── */
+.topbar { background: var(--primary-dark); color: #fff; font-size: 12px; padding: 6px 20px; display: flex; justify-content: space-between; align-items: center; }
+.topbar a { color: #c7d9ff; }
+.topbar a:hover { color: #fff; }
+
+/* ── NAVBAR ── */
+.navbar { background: var(--white); border-bottom: 2px solid var(--border); padding: 0 24px; display: flex; align-items: center; gap: 20px; height: 64px; }
+.logo { display: flex; align-items: center; gap: 10px; }
+.logo-icon { width: 38px; height: 38px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+.logo-text { font-family: var(--font-display); font-weight: 800; font-size: 18px; }
+.logo-text span { color: var(--primary); }
+.logo-text small { color: var(--accent); font-size: 10px; display: block; line-height: 1; margin-top: -3px; }
+.nav-right { margin-left: auto; display: flex; align-items: center; gap: 10px; }
+.nav-right a { font-size: 13px; color: var(--text-mid); font-weight: 500; padding: 7px 14px; border-radius: 7px; transition: background .2s; }
+.nav-right a:hover { background: var(--primary-light); color: var(--primary); }
+
+/* ══════════════════════════════════════
+   MAIN PAGE LAYOUT
+══════════════════════════════════════ */
+.page-wrap {
+  min-height: calc(100vh - 120px);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+/* ── LEFT PANEL (Branding) ── */
+.left-panel {
+  background: linear-gradient(145deg, #0f3460 0%, #1a56db 45%, #2563eb 75%, #1d4ed8 100%);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 48px 40px;
+  position: relative; overflow: hidden;
+}
+.left-panel::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.lp-deco-1 { position: absolute; top: -60px; right: -60px; width: 240px; height: 240px; background: rgba(255,255,255,.05); border-radius: 50%; }
+.lp-deco-2 { position: absolute; bottom: -80px; left: -40px; width: 300px; height: 300px; background: rgba(255,255,255,.04); border-radius: 50%; }
+.lp-deco-3 { position: absolute; top: 40%; left: -60px; width: 180px; height: 180px; background: rgba(249,115,22,.08); border-radius: 50%; }
+.lp-content { position: relative; z-index: 1; text-align: center; max-width: 380px; }
+.lp-logo { width: 70px; height: 70px; background: rgba(255,255,255,.15); backdrop-filter: blur(8px); border: 2px solid rgba(255,255,255,.25); border-radius: 18px; display: flex; align-items: center; justify-content: center; font-size: 36px; margin: 0 auto 24px; }
+.lp-title { font-size: clamp(26px,3vw,38px); font-weight: 800; color: #fff; line-height: 1.2; margin-bottom: 14px; }
+.lp-title span { color: #fbbf24; }
+.lp-sub { font-size: 15px; color: rgba(255,255,255,.78); line-height: 1.75; margin-bottom: 36px; }
+.lp-features { display: flex; flex-direction: column; gap: 14px; text-align: left; }
+.lp-feature { display: flex; align-items: center; gap: 14px; }
+.lp-feature-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(255,255,255,.12); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.lp-feature-text strong { display: block; font-size: 14px; font-weight: 700; color: #fff; margin-bottom: 1px; }
+.lp-feature-text span { font-size: 12px; color: rgba(255,255,255,.65); }
+.lp-stats { display: flex; gap: 20px; justify-content: center; margin-top: 36px; }
+.lp-stat { background: rgba(255,255,255,.1); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 14px 18px; text-align: center; }
+.lp-stat .num { font-family: var(--font-display); font-size: 22px; font-weight: 800; color: #fff; }
+.lp-stat .lbl { font-size: 11px; color: rgba(255,255,255,.65); margin-top: 2px; }
+/* Testimonial strip */
+.lp-testi { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 12px; padding: 16px; margin-top: 28px; text-align: left; }
+.lp-testi-text { font-size: 13px; color: rgba(255,255,255,.82); line-height: 1.6; font-style: italic; margin-bottom: 10px; }
+.lp-testi-author { display: flex; align-items: center; gap: 9px; }
+.testi-av { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg,#fbbf24,#f59e0b); display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 800; color: #fff; flex-shrink: 0; }
+.testi-name { font-size: 13px; font-weight: 700; color: #fff; }
+.testi-role { font-size: 11px; color: rgba(255,255,255,.6); }
+
+/* ── RIGHT PANEL (Form) ── */
+.right-panel {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 40px 32px;
+  overflow-y: auto;
+}
+.form-wrap { width: 100%; max-width: 440px; }
+
+/* Mode Toggle (Login / Register) */
+.mode-toggle {
+  display: flex; background: var(--bg); border-radius: 12px; padding: 4px; margin-bottom: 28px;
+  border: 1px solid var(--border);
+}
+.mode-btn {
+  flex: 1; padding: 10px 16px; border-radius: 9px; border: none; background: transparent;
+  font-size: 14px; font-weight: 600; color: var(--text-light);
+  transition: all .22s; cursor: pointer;
+}
+.mode-btn.active { background: var(--white); color: var(--primary); box-shadow: 0 2px 8px rgba(0,0,0,.08); }
+
+/* Form header */
+.form-header { margin-bottom: 24px; }
+.form-title { font-family: var(--font-display); font-size: clamp(22px,3vw,28px); font-weight: 800; color: var(--text-dark); margin-bottom: 6px; }
+.form-sub { font-size: 14px; color: var(--text-light); line-height: 1.6; }
+.form-sub a { color: var(--primary); font-weight: 600; }
+
+/* Social login */
+.social-btns { display: flex; gap: 10px; margin-bottom: 22px; }
+.social-btn {
+  flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 11px 14px; border-radius: 10px; border: 1.5px solid var(--border);
+  background: var(--white); font-size: 13.5px; font-weight: 600; color: var(--text-mid);
+  cursor: pointer; transition: all .2s;
+}
+.social-btn:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+.social-icon { display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+
+/* Divider */
+.divider { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+.divider-line { flex: 1; height: 1px; background: var(--border); }
+.divider-text { font-size: 12px; color: var(--text-light); font-weight: 500; white-space: nowrap; }
+
+/* Form fields */
+.form-panel { display: none; }
+.form-panel.active { display: block; animation: fadeSlide .3s ease; }
+@keyframes fadeSlide { from{opacity:0;transform:translateX(12px);}to{opacity:1;transform:none;} }
+
+.field-group { margin-bottom: 16px; }
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.field-label { display: block; font-size: 13px; font-weight: 600; color: var(--text-mid); margin-bottom: 6px; }
+.field-label .req { color: var(--danger); }
+.field-wrap { position: relative; }
+.field-input {
+  width: 100%; border: 2px solid var(--border); border-radius: var(--radius-sm);
+  padding: 11px 14px; font-size: 14px; color: var(--text-dark);
+  outline: none; transition: border-color .2s, box-shadow .2s;
+  font-family: var(--font-body); background: var(--white);
+}
+.field-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,.09); }
+.field-input.has-icon { padding-left: 42px; }
+.field-input.has-icon-right { padding-right: 42px; }
+.field-input.err { border-color: var(--danger); }
+.field-input.success { border-color: var(--success); }
+.field-icon-left { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); font-size: 16px; pointer-events: none; }
+.field-icon-right { position: absolute; right: 13px; top: 50%; transform: translateY(-50%); font-size: 15px; cursor: pointer; color: var(--text-light); transition: color .2s; }
+.field-icon-right:hover { color: var(--primary); }
+.field-hint { font-size: 11.5px; color: var(--text-light); margin-top: 4px; }
+.field-err { font-size: 11.5px; color: var(--danger); margin-top: 4px; display: none; }
+.field-input.err ~ .field-err { display: block; }
+
+/* Phone input with flag */
+.phone-wrap { display: flex; gap: 8px; }
+.country-code { display: flex; align-items: center; gap: 6px; background: var(--primary-light); border: 2px solid var(--border); border-radius: var(--radius-sm); padding: 0 12px; font-size: 13px; font-weight: 600; color: var(--primary-dark); cursor: pointer; white-space: nowrap; transition: border-color .2s; flex-shrink: 0; }
+.country-code:focus { border-color: var(--primary); outline: none; }
+
+/* Password strength */
+.strength-bar { height: 4px; border-radius: 2px; margin-top: 6px; background: var(--border); overflow: hidden; }
+.strength-fill { height: 100%; border-radius: 2px; transition: width .3s, background .3s; width: 0; }
+.strength-text { font-size: 11px; margin-top: 3px; font-weight: 600; }
+
+/* Account type selector */
+.account-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.account-type-card {
+  border: 2px solid var(--border); border-radius: var(--radius); padding: 16px 14px;
+  cursor: pointer; transition: all .2s; text-align: center; background: var(--white);
+}
+.account-type-card:hover { border-color: var(--primary); }
+.account-type-card.selected { border-color: var(--primary); background: var(--primary-light); }
+.at-icon { font-size: 28px; margin-bottom: 7px; }
+.at-name { font-weight: 700; font-size: 14px; color: var(--text-dark); margin-bottom: 2px; }
+.at-desc { font-size: 11px; color: var(--text-light); line-height: 1.4; }
+.account-type-card.selected .at-name { color: var(--primary); }
+
+/* OTP section */
+.otp-section { text-align: center; padding: 8px 0 16px; }
+.otp-sent-msg { font-size: 13px; color: var(--text-mid); line-height: 1.6; margin-bottom: 20px; }
+.otp-sent-msg strong { color: var(--primary); }
+.otp-inputs { display: flex; gap: 10px; justify-content: center; margin-bottom: 16px; }
+.otp-box {
+  width: 52px; height: 58px; border: 2px solid var(--border); border-radius: 10px;
+  text-align: center; font-size: 22px; font-weight: 800;
+  font-family: var(--font-display); color: var(--primary); outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.otp-box:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(26,86,219,.1); }
+.otp-box.filled { border-color: var(--success); background: #f0fdf4; }
+.otp-resend { font-size: 13px; color: var(--text-light); }
+.otp-resend a { color: var(--primary); font-weight: 600; cursor: pointer; }
+.otp-timer { color: var(--danger); font-weight: 700; }
+
+/* Checkbox */
+.check-row { display: flex; align-items: flex-start; gap: 9px; margin-bottom: 14px; }
+.check-row input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--primary); cursor: pointer; flex-shrink: 0; margin-top: 2px; }
+.check-row label { font-size: 13px; color: var(--text-mid); cursor: pointer; line-height: 1.5; }
+.check-row a { color: var(--primary); font-weight: 600; }
+
+/* Submit button */
+.btn-submit {
+  width: 100%; background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff; border: none; padding: 14px; border-radius: 10px;
+  font-size: 15px; font-weight: 800; letter-spacing: .2px;
+  transition: all .22s; box-shadow: 0 4px 16px rgba(26,86,219,.3);
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+  margin-bottom: 14px;
+}
+.btn-submit:hover { transform: translateY(-2px); box-shadow: 0 7px 24px rgba(26,86,219,.35); }
+.btn-submit:active { transform: scale(.98); }
+.btn-submit.loading { opacity: .72; pointer-events: none; }
+
+/* Forgot password link */
+.forgot-link { text-align: right; margin-top: -8px; margin-bottom: 14px; }
+.forgot-link a { font-size: 12.5px; color: var(--primary); font-weight: 600; }
+.forgot-link a:hover { text-decoration: underline; }
+
+/* Register steps */
+.reg-steps { display: flex; align-items: center; gap: 0; margin-bottom: 24px; }
+.reg-step { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+.reg-step-circle {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: var(--text-light);
+  transition: all .25s; position: relative; z-index: 1;
+}
+.reg-step.active .reg-step-circle { border-color: var(--primary); background: var(--primary); color: #fff; box-shadow: 0 0 0 4px rgba(26,86,219,.12); }
+.reg-step.done .reg-step-circle { border-color: var(--success); background: var(--success); color: #fff; }
+.reg-step-label { font-size: 10px; color: var(--text-light); font-weight: 600; text-align: center; white-space: nowrap; }
+.reg-step.active .reg-step-label { color: var(--primary); }
+.reg-step.done .reg-step-label { color: var(--success); }
+.reg-step-line { flex: 1; height: 2px; background: var(--border); margin-bottom: 18px; transition: background .25s; }
+.reg-step-line.done { background: var(--success); }
+
+/* Progress sub-form */
+.sub-form { display: none; }
+.sub-form.active { display: block; animation: fadeSlide .28s ease; }
+
+/* Success screen */
+.success-screen { display: none; text-align: center; padding: 20px 0; }
+.success-screen.active { display: block; animation: popIn .4s cubic-bezier(.34,1.56,.64,1); }
+@keyframes popIn { from{opacity:0;transform:scale(.85);}to{opacity:1;transform:scale(1);} }
+.success-emoji { font-size: 72px; margin-bottom: 16px; }
+.success-title { font-family: var(--font-display); font-size: 24px; font-weight: 800; color: var(--success); margin-bottom: 10px; }
+.success-msg { font-size: 14px; color: var(--text-mid); line-height: 1.7; margin-bottom: 24px; }
+.success-actions { display: flex; flex-direction: column; gap: 10px; }
+.btn-go-home { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; background: var(--primary); color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 700; transition: background .2s; }
+.btn-go-home:hover { background: var(--primary-dark); }
+.btn-go-shop { display: flex; align-items: center; justify-content: center; gap: 7px; width: 100%; background: var(--whatsapp); color: #fff; border: none; padding: 13px; border-radius: 10px; font-size: 14px; font-weight: 700; transition: background .2s; }
+.btn-go-shop:hover { background: var(--whatsapp-dark); }
+
+/* Forgot password modal */
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.45); z-index: 2000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(3px); }
+.modal-overlay.open { display: flex; animation: fadeIn .2s ease; }
+@keyframes fadeIn { from{opacity:0;}to{opacity:1;} }
+.modal-box { background: var(--white); border-radius: var(--radius); padding: 32px; width: 100%; max-width: 400px; box-shadow: var(--shadow-strong); animation: slideUp .25s ease; }
+@keyframes slideUp { from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:none;} }
+.modal-title { font-family: var(--font-display); font-size: 20px; font-weight: 800; margin-bottom: 8px; }
+.modal-sub { font-size: 13.5px; color: var(--text-light); line-height: 1.6; margin-bottom: 22px; }
+.modal-close-btn { position: absolute; top: 16px; right: 16px; width: 32px; height: 32px; border: none; background: var(--bg); border-radius: 50%; font-size: 16px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+.modal-box { position: relative; }
+
+/* Trust bar at bottom */
+.trust-bar { display: flex; align-items: center; justify-content: center; gap: 20px; padding: 10px 0 0; flex-wrap: wrap; }
+.trust-item { display: flex; align-items: center; gap: 5px; font-size: 11.5px; color: var(--text-light); }
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px) {
+  .page-wrap { grid-template-columns: 1fr; }
+  .left-panel { display: none; }
+  .right-panel { padding: 32px 20px; min-height: calc(100vh - 120px); }
+  .form-wrap { max-width: 100%; }
+}
+@media(max-width:480px) {
+  .field-row { grid-template-columns: 1fr; }
+  .account-type-grid { grid-template-columns: 1fr 1fr; }
+  .social-btns { flex-direction: column; }
+  .otp-inputs { gap: 7px; }
+  .otp-box { width: 44px; height: 52px; font-size: 20px; }
+}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>📍 Local Bazaar Hub — India's Hyperlocal Marketplace</div>
+  <div><a href="#">Need Help? +91 98765 43210</a></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </a>
+  <div class="nav-right">
+    <a href="local-bazaar-hub.html">← Back to Home</a>
+  </div>
+</nav>
+
+<!-- ══ MAIN PAGE ══ -->
+<div class="page-wrap">
+
+  <!-- LEFT PANEL -->
+  <div class="left-panel">
+    <div class="lp-deco-1"></div>
+    <div class="lp-deco-2"></div>
+    <div class="lp-deco-3"></div>
+    <div class="lp-content">
+      <div class="lp-logo">🛍️</div>
+      <h2 class="lp-title">Welcome to<br><span>Local Bazaar Hub</span></h2>
+      <p class="lp-sub">Join thousands of buyers and sellers on India's fastest-growing hyperlocal marketplace. Shop locally, connect directly on WhatsApp.</p>
+      <div class="lp-features">
+        <div class="lp-feature">
+          <div class="lp-feature-icon">💬</div>
+          <div class="lp-feature-text">
+            <strong>Direct WhatsApp Shopping</strong>
+            <span>Connect with sellers instantly — no middleman</span>
+          </div>
+        </div>
+        <div class="lp-feature">
+          <div class="lp-feature-icon">🏪</div>
+          <div class="lp-feature-text">
+            <strong>500+ Verified Local Shops</strong>
+            <span>Fashion, Electronics, Jewellery & more</span>
+          </div>
+        </div>
+        <div class="lp-feature">
+          <div class="lp-feature-icon">🔒</div>
+          <div class="lp-feature-text">
+            <strong>Safe & Secure Platform</strong>
+            <span>All shops manually verified by our team</span>
+          </div>
+        </div>
+        <div class="lp-feature">
+          <div class="lp-feature-icon">🆓</div>
+          <div class="lp-feature-text">
+            <strong>Free for Buyers, Free Basic for Sellers</strong>
+            <span>No hidden charges, no commissions</span>
+          </div>
+        </div>
+      </div>
+      <div class="lp-stats">
+        <div class="lp-stat"><div class="num">500+</div><div class="lbl">Shops</div></div>
+        <div class="lp-stat"><div class="num">25K+</div><div class="lbl">Users</div></div>
+        <div class="lp-stat"><div class="num">4.8★</div><div class="lbl">Rating</div></div>
+      </div>
+      <div class="lp-testi">
+        <div class="lp-testi-text">"Local Bazaar Hub ne meri dukaan ka business 3x badha diya! WhatsApp integration ekdum amazing hai."</div>
+        <div class="lp-testi-author">
+          <div class="testi-av">R</div>
+          <div>
+            <div class="testi-name">Ramesh Sharma</div>
+            <div class="testi-role">Shop Owner · Gandhi Nagar, Indore</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RIGHT PANEL -->
+  <div class="right-panel">
+    <div class="form-wrap">
+
+      <!-- Mode toggle: Login / Buyer / Seller -->
+      <div class="mode-toggle" id="modeToggle" style="gap:4px;">
+        <button class="mode-btn active" id="loginModeBtn" onclick="setMode('login')">🔑 Login</button>
+        <button class="mode-btn" id="regModeBtn" onclick="setMode('register')">🛒 Buyer</button>
+        <button class="mode-btn" id="sellerModeBtn" onclick="setMode('seller')" style="color:#f97316;">🏪 Seller</button>
+      </div>
+
+      <!-- ════════════════════
+           LOGIN PANEL
+      ════════════════════ -->
+      <div class="form-panel active" id="loginPanel">
+
+        <!-- Login type toggle -->
+        <div style="display:flex;background:#f8fafc;border:1.5px solid var(--border);border-radius:10px;padding:4px;margin-bottom:20px;gap:4px;">
+          <button id="loginBuyerBtn" onclick="setLoginType('buyer')"
+            style="flex:1;padding:9px;border-radius:8px;border:none;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;background:var(--primary);color:#fff;box-shadow:0 2px 8px rgba(26,86,219,.2);">
+            🛒 Buyer Login
+          </button>
+          <button id="loginSellerBtn" onclick="setLoginType('seller')"
+            style="flex:1;padding:9px;border-radius:8px;border:none;font-size:13.5px;font-weight:700;cursor:pointer;transition:all .2s;background:transparent;color:var(--text-light);">
+            🏪 Seller Login
+          </button>
+        </div>
+
+        <div class="form-header">
+          <h2 class="form-title" id="loginTitle">Welcome Back! 👋</h2>
+          <p class="form-sub" id="loginSubtitle">Login to access your account, saved shops, and order history.</p>
+        </div>
+
+        <!-- Social login -->
+        <div class="social-btns">
+          <button class="social-btn" onclick="socialLogin('Google')">
+            <span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+</svg></span> Continue with Google
+          </button>
+          <button class="social-btn" onclick="socialLogin('Facebook')">
+            <span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+</svg></span> Continue with Facebook
+          </button>
+        </div>
+        <div class="divider">
+          <div class="divider-line"></div>
+          <div class="divider-text">or login with phone / email</div>
+          <div class="divider-line"></div>
+        </div>
+
+        <!-- Login sub-mode: Phone OTP vs Password -->
+        <div style="display:flex;gap:8px;margin-bottom:18px;">
+          <button class="filter-chip active" id="loginOtpBtn" onclick="setLoginMode('otp',this)" style="padding:7px 16px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;">📱 Phone OTP</button>
+          <button class="filter-chip" id="loginPassBtn" onclick="setLoginMode('pass',this)" style="padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);font-size:12.5px;font-weight:600;cursor:pointer;">🔑 Password</button>
+        </div>
+
+        <!-- Phone OTP login -->
+        <div id="loginOtpForm">
+          <div class="field-group">
+            <label class="field-label">WhatsApp / Phone Number <span class="req">*</span></label>
+            <div class="phone-wrap">
+              <button class="country-code">🇮🇳 +91</button>
+              <div class="field-wrap" style="flex:1;">
+                <span class="field-icon-left">📱</span>
+                <input type="tel" class="field-input has-icon" id="loginPhone" placeholder="98765 43210" maxlength="10">
+              </div>
+            </div>
+          </div>
+          <button class="btn-submit" id="sendOtpBtn" onclick="sendLoginOTP()">
+            💬 Send OTP on WhatsApp
+          </button>
+
+          <!-- OTP input (hidden initially) -->
+          <div id="otpInputSection" style="display:none;">
+            <div class="otp-section">
+              <div class="otp-sent-msg">OTP sent to <strong id="otpSentTo">+91 XXXXX XXXXX</strong> via WhatsApp. Please enter the 6-digit code below.</div>
+              <div class="otp-inputs">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,1)" id="otp1">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,2)" id="otp2">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,3)" id="otp3">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,4)" id="otp4">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,5)" id="otp5">
+                <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,6)" id="otp6">
+              </div>
+              <div class="otp-resend">Didn't receive OTP? <a onclick="resendOTP()">Resend</a> in <span class="otp-timer" id="otpCountdown">30s</span></div>
+            </div>
+            <button class="btn-submit" onclick="verifyLoginOTP()">🔐 Verify OTP & Login</button>
+          </div>
+        </div>
+
+        <!-- Password login -->
+        <div id="loginPassForm" style="display:none;">
+          <div class="field-group">
+            <label class="field-label">Email or Phone <span class="req">*</span></label>
+            <div class="field-wrap">
+              <span class="field-icon-left">👤</span>
+              <input type="text" class="field-input has-icon" id="loginEmail" placeholder="email@example.com or phone">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Password <span class="req">*</span></label>
+            <div class="field-wrap">
+              <span class="field-icon-left">🔒</span>
+              <input type="password" class="field-input has-icon has-icon-right" id="loginPassword" placeholder="Enter your password">
+              <span class="field-icon-right" onclick="togglePass('loginPassword',this)">👁️</span>
+            </div>
+          </div>
+          <div class="forgot-link"><a onclick="openForgotModal()">Forgot password?</a></div>
+          <div class="check-row">
+            <input type="checkbox" id="rememberMe" checked>
+            <label for="rememberMe">Keep me logged in on this device</label>
+          </div>
+          <button class="btn-submit" onclick="passwordLogin()">🔑 Login to My Account</button>
+        </div>
+
+        <div style="text-align:center;font-size:13px;color:var(--text-light);">
+          Don't have an account? <a id="createAccLink" onclick="setMode('register')" style="color:var(--primary);font-weight:700;cursor:pointer;">Create one free →</a>
+        </div>
+
+        <div class="trust-bar" style="margin-top:20px;">
+          <div class="trust-item">🔒 Secure Login</div>
+          <div class="trust-item">✅ Verified Platform</div>
+          <div class="trust-item">🛡️ Privacy Protected</div>
+        </div>
+      </div>
+
+      <!-- ════════════════════
+           REGISTER PANEL
+      ════════════════════ -->
+      <div class="form-panel" id="registerPanel">
+
+        <!-- Step indicators -->
+        <div class="reg-steps" id="regSteps">
+          <div class="reg-step active" id="rs1">
+            <div class="reg-step-circle" id="rc1">1</div>
+            <div class="reg-step-label">Account Type</div>
+          </div>
+          <div class="reg-step-line" id="rl1"></div>
+          <div class="reg-step" id="rs2">
+            <div class="reg-step-circle" id="rc2">2</div>
+            <div class="reg-step-label">Your Details</div>
+          </div>
+          <div class="reg-step-line" id="rl2"></div>
+          <div class="reg-step" id="rs3">
+            <div class="reg-step-circle" id="rc3">3</div>
+            <div class="reg-step-label">Verify Phone</div>
+          </div>
+          <div class="reg-step-line" id="rl3"></div>
+          <div class="reg-step" id="rs4">
+            <div class="reg-step-circle" id="rc4">4</div>
+            <div class="reg-step-label">Done!</div>
+          </div>
+        </div>
+
+        <!-- STEP 1: Account type -->
+        <div class="sub-form active" id="regStep1">
+          <div class="form-header">
+            <h2 class="form-title">Create Buyer Account ✨</h2>
+            <p class="form-sub">Join Local Bazaar Hub and start exploring 500+ local shops in your city.</p>
+          </div>
+
+          <!-- Benefits for buyer -->
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px;">
+            <div style="background:#e8f0fe;border:1px solid #bfdbfe;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;">🏪</span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#1e40af;">Browse Shops</div>
+                <div style="font-size:11px;color:#1a56db;">500+ local shops</div>
+              </div>
+            </div>
+            <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;">💬</span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#14532d;">WhatsApp</div>
+                <div style="font-size:11px;color:#16a34a;">Direct contact</div>
+              </div>
+            </div>
+            <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;">❤️</span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#92400e;">Wishlist</div>
+                <div style="font-size:11px;color:#b45309;">Save products</div>
+              </div>
+            </div>
+            <div style="background:#f3e8ff;border:1px solid #e9d5ff;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+              <span style="font-size:18px;">📍</span>
+              <div>
+                <div style="font-size:12px;font-weight:700;color:#4c1d95;">Nearby</div>
+                <div style="font-size:11px;color:#7c3aed;">Local first</div>
+              </div>
+            </div>
+          </div>
+          <!-- Social register shortcut -->
+          <div class="social-btns" style="margin-bottom:16px;">
+            <button class="social-btn" onclick="socialLogin('Google')"><span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/>
+  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+</svg></span> Sign up with Google</button>
+            <button class="social-btn" onclick="socialLogin('Facebook')"><span class="social-icon"><svg viewBox="0 0 24 24" width="18" height="18" style="flex-shrink:0;">
+  <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" fill="#1877F2"/>
+</svg></span> Sign up with Facebook</button>
+          </div>
+          <div class="divider">
+            <div class="divider-line"></div>
+            <div class="divider-text">or register with phone</div>
+            <div class="divider-line"></div>
+          </div>
+          <button class="btn-submit" onclick="goRegStep(2)">Continue → </button>
+          <div style="text-align:center;font-size:13px;color:var(--text-light);margin-top:10px;">Already have an account? <a onclick="setMode('login');setLoginType('buyer');" style="color:var(--primary);font-weight:700;cursor:pointer;">Login here →</a></div>
+          <div style="margin-top:12px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:11px 14px;text-align:center;font-size:13px;color:#92400e;">
+            🏪 Are you a Shop Owner? <a onclick="setMode('seller')" style="color:#f97316;font-weight:700;cursor:pointer;">Register your Shop here →</a>
+          </div>
+        </div>
+
+        <!-- STEP 2: Personal details -->
+        <div class="sub-form" id="regStep2">
+          <div class="form-header">
+            <h2 class="form-title" id="regStep2Title">Your Personal Details</h2>
+            <p class="form-sub">Fill in your basic information to create your account.</p>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field-group">
+              <label class="field-label">First Name <span class="req">*</span></label>
+              <div class="field-wrap">
+                <input type="text" class="field-input" id="regFirstName" placeholder="First name">
+              </div>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Last Name <span class="req">*</span></label>
+              <div class="field-wrap">
+                <input type="text" class="field-input" id="regLastName" placeholder="Last name">
+              </div>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">WhatsApp Number <span class="req">*</span></label>
+            <div class="phone-wrap">
+              <button class="country-code">🇮🇳 +91</button>
+              <div class="field-wrap" style="flex:1;">
+                <span class="field-icon-left">📱</span>
+                <input type="tel" class="field-input has-icon" id="regPhone" placeholder="98765 43210" maxlength="10">
+              </div>
+            </div>
+            <div class="field-hint">OTP will be sent to this number for verification.</div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Email Address</label>
+            <div class="field-wrap">
+              <span class="field-icon-left">📧</span>
+              <input type="email" class="field-input has-icon" id="regEmail" placeholder="you@example.com (optional)">
+            </div>
+            <div class="field-hint">Optional — for order confirmations and updates.</div>
+          </div>
+
+          <div class="field-row" style="margin-bottom:0;">
+            <div class="field-group">
+              <label class="field-label">City <span class="req">*</span></label>
+              <select class="field-input" id="regCity">
+                <option value="">Select City</option>
+                <option>Indore</option><option>Bhopal</option><option>Jabalpur</option>
+                <option>Ujjain</option><option>Gwalior</option><option>Raipur</option>
+                <option>Nagpur</option><option>Ranchi</option><option>Patna</option>
+                <option>Lucknow</option><option>Kanpur</option><option>Agra</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Gender</label>
+              <select class="field-input" id="regGender">
+                <option value="">Prefer not to say</option>
+                <option>Male</option><option>Female</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label class="field-label">Create Password <span class="req">*</span></label>
+            <div class="field-wrap">
+              <span class="field-icon-left">🔒</span>
+              <input type="password" class="field-input has-icon has-icon-right" id="regPassword" placeholder="Minimum 8 characters" oninput="checkStrength(this.value)">
+              <span class="field-icon-right" onclick="togglePass('regPassword',this)">👁️</span>
+            </div>
+            <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+            <div class="strength-text" id="strengthText" style="color:var(--text-light);">Enter password to check strength</div>
+          </div>
+
+          <!-- Buyer only — no seller fields here -->
+
+          <div class="check-row">
+            <input type="checkbox" id="agreeTerms" checked>
+            <label for="agreeTerms">I agree to the <a href="privacy-policy.html" target="_blank">Terms of Service</a> and <a href="privacy-policy.html" target="_blank">Privacy Policy</a>.</label>
+          </div>
+
+          <div style="display:flex;gap:10px;">
+            <button style="flex:0 0 auto;padding:14px 20px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="goRegStep(1)">← Back</button>
+            <button class="btn-submit" style="margin-bottom:0;flex:1;" onclick="goRegStep(3)">Send OTP to Verify →</button>
+          </div>
+        </div>
+
+        <!-- STEP 3: Verify Phone OTP -->
+        <div class="sub-form" id="regStep3">
+          <div class="form-header">
+            <h2 class="form-title">Verify Your Phone 📱</h2>
+            <p class="form-sub">We've sent a 6-digit OTP to your WhatsApp number. Please enter it below to verify your account.</p>
+          </div>
+          <div class="otp-section">
+            <div class="otp-sent-msg">OTP sent to <strong id="regOtpSentTo">+91 XXXXX XXXXX</strong></div>
+            <div class="otp-inputs">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,1)" id="rotp1">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,2)" id="rotp2">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,3)" id="rotp3">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,4)" id="rotp4">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,5)" id="rotp5">
+              <input type="text" class="otp-box" maxlength="1" oninput="regOtpMove(this,6)" id="rotp6">
+            </div>
+            <div class="otp-resend">Didn't receive OTP? <a onclick="resendRegOTP()">Resend</a> in <span class="otp-timer" id="regOtpCountdown">30s</span></div>
+          </div>
+          <div style="display:flex;gap:10px;">
+            <button style="flex:0 0 auto;padding:14px 20px;border-radius:10px;border:2px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="goRegStep(2)">← Back</button>
+            <button class="btn-submit" style="margin-bottom:0;flex:1;" onclick="verifyRegOTP()">✅ Verify & Create Account</button>
+          </div>
+        </div>
+
+        <!-- STEP 4: Success -->
+        <div class="sub-form" id="regStep4">
+          <div class="success-screen active">
+            <div class="success-emoji">🎉</div>
+            <div class="success-title" id="regSuccessTitle">Account Created!</div>
+            <div class="success-msg" id="regSuccessMsg">
+              Welcome to Local Bazaar Hub! Your account has been successfully created. Start exploring local shops and connect with sellers on WhatsApp.
+            </div>
+            <div class="success-actions" id="regSuccessActions">
+              <button class="btn-go-home" onclick="window.location='user-dashboard.html'">👤 My Account</button>
+              <button class="btn-go-shop" onclick="window.location='shop-directory.html'">🏪 Explore Shops</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <!-- /register panel -->
+
+      <!-- ════════════════════
+           SELLER PANEL
+      ════════════════════ -->
+      <div class="form-panel" id="sellerPanel">
+
+        <div class="form-header">
+          <h2 class="form-title">Register Your Shop 🏪</h2>
+          <p class="form-sub">List your local shop on Local Bazaar Hub and start getting WhatsApp inquiries from thousands of local customers — <strong>100% Free!</strong></p>
+        </div>
+
+        <!-- Benefits strip -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:22px;">
+          <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="font-size:20px;">🆓</span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#92400e;">Free Listing</div>
+              <div style="font-size:11.5px;color:#b45309;">100 products free</div>
+            </div>
+          </div>
+          <div style="background:#dcfce7;border:1px solid #bbf7d0;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="font-size:20px;">💬</span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#14532d;">WhatsApp Orders</div>
+              <div style="font-size:11.5px;color:#16a34a;">Direct from buyers</div>
+            </div>
+          </div>
+          <div style="background:#e8f0fe;border:1px solid #bfdbfe;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="font-size:20px;">📦</span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#1e40af;">Easy Setup</div>
+              <div style="font-size:11.5px;color:#1a56db;">5 min registration</div>
+            </div>
+          </div>
+          <div style="background:#f3e8ff;border:1px solid #e9d5ff;border-radius:10px;padding:12px;display:flex;align-items:flex-start;gap:8px;">
+            <span style="font-size:20px;">📊</span>
+            <div>
+              <div style="font-size:12.5px;font-weight:700;color:#4c1d95;">Dashboard</div>
+              <div style="font-size:11.5px;color:#7c3aed;">Analytics & reports</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick seller form -->
+        <div style="display:flex;flex-direction:column;gap:14px;margin-bottom:20px;">
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;">🏪</span>
+            <input type="text" id="sellerShopName" placeholder="Shop Name *"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;">👤</span>
+            <input type="text" id="sellerOwnerName" placeholder="Owner Name *"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;">📱</span>
+            <input type="tel" id="sellerPhone" placeholder="WhatsApp Number * (10 digits)"
+              maxlength="10"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;">📍</span>
+            <select id="sellerArea"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:#fff;appearance:none;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+              <option value="">Select Your Area *</option>
+              <option>Gandhi Nagar</option>
+              <option>Vijay Nagar</option>
+              <option>MG Road</option>
+              <option>Sarafa Bazaar</option>
+              <option>South Tukoganj</option>
+              <option>Palasia</option>
+              <option>Rajwada</option>
+              <option>Bhawarkuan</option>
+              <option>Khajrana</option>
+              <option>Scheme No. 54</option>
+              <option>Other Area</option>
+            </select>
+          </div>
+          <div style="position:relative;">
+            <span style="position:absolute;left:13px;top:50%;transform:translateY(-50%);font-size:16px;">🛍️</span>
+            <select id="sellerCat"
+              style="width:100%;padding:13px 13px 13px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;outline:none;font-family:inherit;background:#fff;appearance:none;transition:border-color .2s;"
+              onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'">
+              <option value="">Shop Category *</option>
+              <option>👔 Men Fashion</option>
+              <option>👗 Women Fashion</option>
+              <option>🧒 Kids Wear</option>
+              <option>📱 Electronics</option>
+              <option>💍 Jewellery</option>
+              <option>👟 Footwear</option>
+              <option>🏠 Home Decor</option>
+              <option>🧴 Daily Needs</option>
+              <option>💄 Beauty & Care</option>
+              <option>📚 Books & Stationery</option>
+              <option>🛍️ General Store</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Terms -->
+        <label style="display:flex;align-items:flex-start;gap:10px;margin-bottom:18px;cursor:pointer;">
+          <input type="checkbox" id="sellerTerms" style="margin-top:3px;width:16px;height:16px;accent-color:var(--primary);">
+          <span style="font-size:13px;color:var(--text-mid);">I agree to the <a href="privacy-policy.html" style="color:var(--primary);font-weight:600;">Terms & Conditions</a> and confirm all details are correct.</span>
+        </label>
+
+        <!-- Submit -->
+        <button onclick="submitSellerReg()" class="btn-submit" style="background:linear-gradient(135deg,#f97316,#ea580c);">
+          🏪 Register My Shop Free
+        </button>
+
+        <div style="text-align:center;margin-top:14px;font-size:13px;color:var(--text-light);">
+          Already registered? <a onclick="setMode('login');setLoginType('seller');" style="color:#f97316;font-weight:700;cursor:pointer;">Login here →</a>
+        </div>
+
+        <div style="margin-top:16px;background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:12px 14px;font-size:12.5px;color:var(--text-light);text-align:center;">
+          💡 Want full shop setup with photos &amp; products?<br>
+          <a href="shopkeeper-registration.html" style="color:var(--primary);font-weight:700;">Complete Registration →</a>
+        </div>
+
+      </div>
+      <!-- /seller panel -->
+
+      <!-- LOGIN SUCCESS SCREEN -->
+      <div id="loginSuccess" style="display:none;text-align:center;padding:20px 0;">
+        <div class="success-screen active">
+          <div class="success-emoji" id="loginSuccessEmoji">👋</div>
+          <div class="success-title" style="color:var(--primary);" id="loginSuccessTitle">Welcome Back!</div>
+          <div class="success-msg" id="loginSuccessMsg">You have been logged in successfully. Redirecting...</div>
+          <div style="margin:14px 0;">
+            <div style="height:4px;background:var(--border);border-radius:2px;overflow:hidden;">
+              <div id="loginRedirectBar" style="height:100%;background:var(--primary);width:0%;transition:width 3s linear;border-radius:2px;"></div>
+            </div>
+          </div>
+          <div class="success-actions" id="loginSuccessActions">
+            <button class="btn-go-home" onclick="window.location='local-bazaar-hub.html'">🏠 Go to Homepage</button>
+            <button class="btn-go-shop" onclick="window.location='shop-directory.html'">🏪 Browse Shops</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /form-wrap -->
+  </div><!-- /right-panel -->
+</div>
+
+<!-- FORGOT PASSWORD MODAL -->
+<div class="modal-overlay" id="forgotModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" onclick="closeForgotModal()">✕</button>
+    <div id="forgotStep1">
+      <h3 class="modal-title">🔑 Reset Your Password</h3>
+      <p class="modal-sub">Enter your registered phone number or email. We'll send you an OTP to reset your password.</p>
+      <div class="field-group">
+        <label class="field-label">Phone or Email <span class="req">*</span></label>
+        <div class="field-wrap">
+          <span class="field-icon-left">👤</span>
+          <input type="text" class="field-input has-icon" id="forgotInput" placeholder="+91 98765 43210 or email">
+        </div>
+      </div>
+      <button class="btn-submit" onclick="sendForgotOTP()">📱 Send Reset OTP</button>
+    </div>
+    <div id="forgotStep2" style="display:none;">
+      <h3 class="modal-title">📱 Enter OTP</h3>
+      <p class="modal-sub">Enter the OTP sent to your phone / email and create a new password.</p>
+      <div class="otp-inputs" style="justify-content:flex-start;margin-bottom:16px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+        <input type="text" class="otp-box" maxlength="1" style="width:44px;height:50px;">
+      </div>
+      <div class="field-group">
+        <label class="field-label">New Password <span class="req">*</span></label>
+        <div class="field-wrap">
+          <span class="field-icon-left">🔒</span>
+          <input type="password" class="field-input has-icon has-icon-right" placeholder="New password (min 8 chars)">
+          <span class="field-icon-right" style="cursor:pointer;">👁️</span>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="resetPasswordDone()">✅ Reset Password</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── MODE TOGGLE (Login / Register) ──
+function setMode(mode){
+  document.getElementById('loginPanel').classList.toggle('active', mode==='login');
+  document.getElementById('registerPanel').classList.toggle('active', mode==='register');
+  const sp = document.getElementById('sellerPanel');
+  if(sp) sp.classList.toggle('active', mode==='seller');
+  document.getElementById('loginModeBtn').classList.toggle('active', mode==='login');
+  document.getElementById('regModeBtn').classList.toggle('active', mode==='register');
+  const selBtn = document.getElementById('sellerModeBtn');
+  if(selBtn){
+    selBtn.classList.toggle('active', mode==='seller');
+    selBtn.style.color = mode==='seller' ? '#f97316' : '#f97316';
+  }
+  document.getElementById('loginSuccess').style.display = 'none';
+}
+
+// Auto-open tab from URL param: ?mode=seller or ?mode=register
+const urlMode = new URLSearchParams(window.location.search).get('mode');
+if(urlMode === 'seller') setMode('seller');
+else if(urlMode === 'register') setMode('register');
+
+// ── LOGIN: OTP vs Password ──
+function setLoginMode(type, el){
+  document.getElementById('loginOtpForm').style.display = type==='otp' ? 'block' : 'none';
+  document.getElementById('loginPassForm').style.display = type==='pass' ? 'block' : 'none';
+  document.getElementById('loginOtpBtn').style.cssText = type==='otp' ? 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;' : 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);font-size:12.5px;font-weight:600;cursor:pointer;';
+  document.getElementById('loginPassBtn').style.cssText = type==='pass' ? 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;' : 'padding:7px 16px;border-radius:20px;border:1.5px solid var(--border);background:var(--white);color:var(--text-mid);font-size:12.5px;font-weight:600;cursor:pointer;';
+}
+
+// ── SEND LOGIN OTP ──
+let otpTimer = null;
+function sendLoginOTP(){
+  const phone = document.getElementById('loginPhone').value.trim();
+  if(phone.length < 10){ alert('Please enter a valid 10-digit phone number.'); return; }
+  document.getElementById('sendOtpBtn').textContent = '✅ OTP Sent!';
+  document.getElementById('sendOtpBtn').style.background = 'linear-gradient(135deg,var(--success),#15803d)';
+  document.getElementById('otpInputSection').style.display = 'block';
+  document.getElementById('otpSentTo').textContent = '+91 ' + phone.substring(0,5) + 'XXXXX';
+  startOtpTimer('otpCountdown');
+  document.getElementById('otp1').focus();
+}
+
+function startOtpTimer(id){
+  let t = 30;
+  clearInterval(otpTimer);
+  otpTimer = setInterval(()=>{
+    t--;
+    const el = document.getElementById(id);
+    if(el) el.textContent = t+'s';
+    if(t<=0){ clearInterval(otpTimer); if(el) el.textContent = 'now'; }
+  },1000);
+}
+
+function otpMove(input, idx){
+  input.value = input.value.replace(/[^0-9]/g,'');
+  if(input.value){ input.classList.add('filled'); }
+  else { input.classList.remove('filled'); }
+  if(input.value && idx < 6){
+    const boxes = document.querySelectorAll('#otpInputSection .otp-box');
+    if(boxes[idx]) boxes[idx].focus();
+  }
+}
+
+function regOtpMove(input, idx){
+  input.value = input.value.replace(/[^0-9]/g,'');
+  if(input.value){ input.classList.add('filled'); }
+  else { input.classList.remove('filled'); }
+  if(input.value && idx < 6){
+    const boxes = document.querySelectorAll('#regStep3 .otp-box');
+    if(boxes[idx]) boxes[idx].focus();
+  }
+}
+
+function showLoginSuccess(){
+  document.getElementById('loginPanel').style.display='none';
+  document.getElementById('loginSuccess').style.display='block';
+
+  const isSeller = loginType === 'seller';
+  document.getElementById('loginSuccessEmoji').textContent  = isSeller ? '🏪' : '👋';
+  document.getElementById('loginSuccessTitle').textContent  = isSeller ? 'Seller Login Successful!' : 'Welcome Back!';
+  document.getElementById('loginSuccessMsg').textContent    = isSeller
+    ? 'Redirecting you to your Seller Dashboard...'
+    : 'Logged in successfully. Redirecting to your account...';
+
+  // Update action buttons
+  const actions = document.getElementById('loginSuccessActions');
+  if(isSeller){
+    actions.innerHTML = `
+      <button class="btn-go-home" onclick="window.location='seller-dashboard.html'" style="background:linear-gradient(135deg,#f97316,#ea580c);">📊 Go to Seller Dashboard</button>
+      <button class="btn-go-shop" onclick="window.location='local-bazaar-hub.html'">🏠 Homepage</button>`;
+  } else {
+    actions.innerHTML = `
+      <button class="btn-go-home" onclick="window.location='user-dashboard.html'">👤 My Account</button>
+      <button class="btn-go-shop" onclick="window.location='shop-directory.html'">🏪 Browse Shops</button>`;
+  }
+
+  // Progress bar animation
+  setTimeout(()=>{ document.getElementById('loginRedirectBar').style.width='100%'; }, 100);
+  setTimeout(()=>{ window.location = getRedirectUrl(); }, 3000);
+}
+
+function resendOTP(){ startOtpTimer('otpCountdown'); }
+function resendRegOTP(){ startOtpTimer('regOtpCountdown'); }
+
+// ── LOGIN TYPE (buyer / seller) ──
+let loginType = 'buyer';
+function setLoginType(type){
+  loginType = type;
+  const buyerBtn  = document.getElementById('loginBuyerBtn');
+  const sellerBtn = document.getElementById('loginSellerBtn');
+  const title     = document.getElementById('loginTitle');
+  const subtitle  = document.getElementById('loginSubtitle');
+  const otpBtn    = document.getElementById('sendOtpBtn');
+  const createLink = document.getElementById('createAccLink');
+
+  if(type === 'buyer'){
+    // Buyer button — blue active
+    buyerBtn.style.background  = 'var(--primary)';
+    buyerBtn.style.color       = '#fff';
+    buyerBtn.style.boxShadow   = '0 2px 8px rgba(26,86,219,.2)';
+    sellerBtn.style.background = 'transparent';
+    sellerBtn.style.color      = 'var(--text-light)';
+    sellerBtn.style.boxShadow  = 'none';
+
+    // Title
+    title.textContent    = 'Welcome Back! 👋';
+    subtitle.textContent = 'Login to access your account, saved shops, and order history.';
+
+    // OTP button — blue
+    if(otpBtn){
+      otpBtn.style.background = 'linear-gradient(135deg,var(--primary),var(--primary-dark))';
+      otpBtn.style.boxShadow  = '0 4px 16px rgba(26,86,219,.28)';
+    }
+
+    // "Create one free" → Buyer register tab
+    if(createLink){
+      createLink.textContent = 'Create one free →';
+      createLink.style.color = 'var(--primary)';
+      createLink.onclick = function(){ setMode('register'); };
+    }
+
+  } else {
+    // Seller button — orange active
+    sellerBtn.style.background = '#f97316';
+    sellerBtn.style.color      = '#fff';
+    sellerBtn.style.boxShadow  = '0 2px 8px rgba(249,115,22,.25)';
+    buyerBtn.style.background  = 'transparent';
+    buyerBtn.style.color       = 'var(--text-light)';
+    buyerBtn.style.boxShadow   = 'none';
+
+    // Title
+    title.textContent    = 'Seller Login 🏪';
+    subtitle.textContent = 'Login to your Seller Dashboard to manage products, view inquiries and analytics.';
+
+    // OTP button — orange (same as seller color)
+    if(otpBtn){
+      otpBtn.style.background = 'linear-gradient(135deg,#f97316,#ea580c)';
+      otpBtn.style.boxShadow  = '0 4px 16px rgba(249,115,22,.35)';
+    }
+
+    // "Create one free" → Seller register tab
+    if(createLink){
+      createLink.textContent = 'Register your shop free →';
+      createLink.style.color = '#f97316';
+      createLink.onclick = function(){ setMode('seller'); };
+    }
+  }
+}
+
+function getRedirectUrl(){
+  return loginType === 'seller' ? 'seller-dashboard.html' : 'user-dashboard.html';
+}
+
+function verifyLoginOTP(){
+  const otp = ['otp1','otp2','otp3','otp4','otp5','otp6'].map(id=>document.getElementById(id).value).join('');
+  if(otp.length < 6){ alert('Please enter the complete 6-digit OTP.'); return; }
+  showLoginSuccess();
+}
+
+function passwordLogin(){
+  const email = document.getElementById('loginEmail').value.trim();
+  const pass  = document.getElementById('loginPassword').value;
+  if(!email || !pass){ alert('Please fill in all required fields.'); return; }
+  showLoginSuccess();
+}
+
+// ── REGISTER STEPS ──
+let currentRegStep = 1;
+let selectedAccountType = 'buyer';
+
+function selectAccType(el, type){
+  document.querySelectorAll('.account-type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAccountType = type;
+}
+
+function goRegStep(step){
+  // Validate current step
+  if(step > currentRegStep){
+    if(currentRegStep===2){
+      const firstName = document.getElementById('regFirstName').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const city  = document.getElementById('regCity').value;
+      const pass  = document.getElementById('regPassword').value;
+      const agree = document.getElementById('agreeTerms').checked;
+      if(!firstName || !phone || !city || !pass){ alert('Please fill in all required fields.'); return; }
+      if(phone.length < 10){ alert('Please enter a valid 10-digit phone number.'); return; }
+      if(pass.length < 8){ alert('Password must be at least 8 characters.'); return; }
+      if(!agree){ alert('Please agree to the Terms of Service and Privacy Policy.'); return; }
+      document.getElementById('regOtpSentTo').textContent = '+91 ' + phone.substring(0,5) + 'XXXXX';
+      startOtpTimer('regOtpCountdown');
+    }
+    if(currentRegStep===3){
+      // verify OTP
+    }
+  }
+  // Hide current, show next
+  document.getElementById('regStep'+currentRegStep).classList.remove('active');
+  document.getElementById('regStep'+step).classList.add('active');
+
+  // Update step indicators
+  for(let i=1;i<=4;i++){
+    const ps = document.getElementById('rs'+i);
+    const pc = document.getElementById('rc'+i);
+    if(!ps||!pc) continue;
+    ps.classList.remove('active','done');
+    if(i < step){ ps.classList.add('done'); pc.innerHTML = '✓'; }
+    else if(i===step){ ps.classList.add('active'); pc.textContent=i; }
+    else{ pc.textContent=i; }
+    const line = document.getElementById('rl'+i);
+    if(line) line.classList.toggle('done', i<step);
+  }
+  currentRegStep = step;
+}
+
+function verifyRegOTP(){
+  const otp = ['rotp1','rotp2','rotp3','rotp4','rotp5','rotp6'].map(id=>document.getElementById(id).value).join('');
+  if(otp.length < 6){ alert('Please enter the complete 6-digit OTP.'); return; }
+
+  if(selectedAccountType === 'seller'){
+    // Seller — phone verified, now redirect to full shop registration
+    const phone = document.getElementById('regPhone')?.value.trim() || '';
+    const name  = document.getElementById('regFirstName')?.value.trim() || '';
+    // Save verified phone to localStorage for shopkeeper-registration to use
+    localStorage.setItem('lbh_seller_phone', phone);
+    localStorage.setItem('lbh_seller_name', name);
+    localStorage.setItem('lbh_phone_verified', 'true');
+
+    // Show interim success then redirect
+    goRegStep(4);
+    document.getElementById('regSuccessMsg').innerHTML = `
+      ✅ Phone verified! Now complete your shop setup.<br><br>
+      <strong>Redirecting to Shop Registration...</strong>`;
+    document.getElementById('regSuccessActions').innerHTML = `
+      <button class="btn-go-home" onclick="window.location='shopkeeper-registration.html'"
+        style="background:linear-gradient(135deg,#f97316,#ea580c);">
+        🏪 Complete Shop Registration →
+      </button>
+      <button class="btn-go-shop" onclick="window.location='local-bazaar-hub.html'">
+        🏠 Homepage
+      </button>`;
+    setTimeout(()=>{ window.location='shopkeeper-registration.html'; }, 3000);
+
+  } else {
+    // Buyer — account created
+    document.getElementById('regSuccessMsg').textContent =
+      'Welcome to Local Bazaar Hub! Start exploring 500+ local shops and connect with sellers directly on WhatsApp.';
+    goRegStep(4);
+  }
+}
+
+// ── SELLER EXTRA FIELDS ──
+document.querySelectorAll('.account-type-card').forEach(card=>{
+  card.addEventListener('click',()=>{
+    document.getElementById('sellerExtraFields').style.display = selectedAccountType==='seller' ? 'block' : 'none';
+  });
+});
+function selectAccType(el, type){
+  document.querySelectorAll('.account-type-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedAccountType = type;
+  document.getElementById('sellerExtraFields').style.display = type==='seller' ? 'block' : 'none';
+  const title = document.getElementById('regStep2Title');
+  if(title) title.textContent = type==='seller' ? 'Shop Owner Details' : 'Your Personal Details';
+}
+
+// ── PASSWORD STRENGTH ──
+function checkStrength(val){
+  const fill = document.getElementById('strengthFill');
+  const text = document.getElementById('strengthText');
+  if(!fill||!text) return;
+  let score = 0;
+  if(val.length >= 8) score++;
+  if(/[A-Z]/.test(val)) score++;
+  if(/[0-9]/.test(val)) score++;
+  if(/[^A-Za-z0-9]/.test(val)) score++;
+  const levels = [
+    {w:'0%',c:'var(--border)',t:'Enter password'},
+    {w:'25%',c:'var(--danger)',t:'Weak'},
+    {w:'50%',c:'var(--warning)',t:'Fair'},
+    {w:'75%',c:'var(--accent)',t:'Good'},
+    {w:'100%',c:'var(--success)',t:'Strong ✓'},
+  ];
+  const lvl = val.length===0 ? levels[0] : levels[Math.min(score,4)];
+  fill.style.width = lvl.w;
+  fill.style.background = lvl.c;
+  text.textContent = val.length===0 ? 'Enter password to check strength' : lvl.t;
+  text.style.color = lvl.c;
+}
+
+// ── TOGGLE PASSWORD VISIBILITY ──
+function togglePass(inputId, iconEl){
+  const input = document.getElementById(inputId);
+  if(!input) return;
+  input.type = input.type==='password' ? 'text' : 'password';
+  iconEl.textContent = input.type==='password' ? '👁️' : '🙈';
+}
+
+// ── FORGOT PASSWORD MODAL ──
+function openForgotModal(){
+  document.getElementById('forgotModal').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function closeForgotModal(){
+  document.getElementById('forgotModal').classList.remove('open');
+  document.body.style.overflow='';
+}
+function sendForgotOTP(){
+  const val = document.getElementById('forgotInput').value.trim();
+  if(!val){ alert('Please enter your phone or email.'); return; }
+  document.getElementById('forgotStep1').style.display='none';
+  document.getElementById('forgotStep2').style.display='block';
+}
+function resetPasswordDone(){
+  closeForgotModal();
+  alert('✅ Password reset successfully! Please login with your new password.');
+  document.getElementById('forgotStep1').style.display='block';
+  document.getElementById('forgotStep2').style.display='none';
+  document.getElementById('forgotInput').value='';
+}
+document.getElementById('forgotModal').addEventListener('click',function(e){
+  if(e.target===this) closeForgotModal();
+});
+
+// ── SOCIAL LOGIN ──
+function socialLogin(platform){
+  alert(`Connecting to ${platform}...\n\n(WordPress mein: WP OAuth plugin se ${platform} login integrate hoga)`);
+}
+
+// ── KEYBOARD: ESC to close modals ──
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeForgotModal();
+});
+
+function submitSellerReg(){
+  const shop  = document.getElementById('sellerShopName')?.value.trim();
+  const owner = document.getElementById('sellerOwnerName')?.value.trim();
+  const phone = document.getElementById('sellerPhone')?.value.trim();
+  const area  = document.getElementById('sellerArea')?.value;
+  const cat   = document.getElementById('sellerCat')?.value;
+  const terms = document.getElementById('sellerTerms')?.checked;
+
+  if(!shop){ alert('Please enter your shop name.'); return; }
+  if(!owner){ alert('Please enter owner name.'); return; }
+  if(!phone || phone.length!==10){ alert('Please enter a valid 10-digit WhatsApp number.'); return; }
+  if(!area){ alert('Please select your area.'); return; }
+  if(!cat){ alert('Please select shop category.'); return; }
+  if(!terms){ alert('Please agree to Terms & Conditions.'); return; }
+
+  // Save to localStorage
+  const sellerData = { shop, owner, phone, area, cat, registeredAt: new Date().toISOString() };
+  localStorage.setItem('lbh_seller_reg', JSON.stringify(sellerData));
+
+  // Show success
+  document.getElementById('sellerPanel').innerHTML = `
+    <div style="text-align:center;padding:32px 0;">
+      <div style="font-size:64px;margin-bottom:16px;">🎉</div>
+      <h2 style="font-family:'Sora',sans-serif;font-size:24px;font-weight:900;color:var(--text-dark);margin-bottom:10px;">Shop Registered!</h2>
+      <p style="font-size:14px;color:var(--text-light);margin-bottom:20px;line-height:1.7;">
+        <strong>${shop}</strong> has been submitted for review.<br>
+        Our team will verify and activate your shop within <strong>24–48 hours</strong>.<br>
+        You'll receive a WhatsApp confirmation on <strong>+91 ${phone}</strong>.
+      </p>
+      <div style="background:var(--success-bg);border:1px solid var(--success);border-radius:12px;padding:14px;margin-bottom:20px;font-size:13.5px;color:var(--text-mid);">
+        ✅ Registration ID: <strong>LBH-${Math.floor(Math.random()*9000)+1000}</strong>
+      </div>
+      <a href="shopkeeper-registration.html" style="display:block;background:linear-gradient(135deg,#f97316,#ea580c);color:#fff;padding:14px;border-radius:10px;font-weight:700;font-size:15px;text-decoration:none;margin-bottom:10px;">
+        📋 Complete Full Registration →
+      </a>
+      <a href="local-bazaar-hub.html" style="display:block;background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:12px;border-radius:10px;font-weight:600;font-size:14px;text-decoration:none;">
+        🏠 Back to Homepage
+      </a>
+    </div>`;
+}
+</script>
+</body>
+</html>

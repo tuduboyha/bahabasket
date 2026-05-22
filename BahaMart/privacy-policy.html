@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy & Terms of Service – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --text-dark: #0f172a;
+  --text-mid: #334155;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --warning: #d97706;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font-display: 'Sora', sans-serif;
+  --font-body: 'Noto Sans', sans-serif;
+  --shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 16px rgba(0,0,0,0.04);
+  --shadow-hover: 0 8px 32px rgba(26,86,219,0.12);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text-dark); overflow-x: hidden; line-height: 1.7; }
+h1,h2,h3,h4 { font-family: var(--font-display); }
+a { text-decoration: none; color: var(--primary); }
+a:hover { text-decoration: underline; }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+
+/* ── HERO BANNER ── */
+.page-hero {
+  background: linear-gradient(135deg, #0f3460 0%, #1a56db 50%, #2563eb 100%);
+  padding: 52px 24px 44px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='3'/%3E%3C/g%3E%3C/svg%3E");
+}
+.hero-deco-l { position: absolute; left: -60px; top: -60px; width: 220px; height: 220px; background: rgba(255,255,255,.04); border-radius: 50%; }
+.hero-deco-r { position: absolute; right: -40px; bottom: -60px; width: 260px; height: 260px; background: rgba(249,115,22,.07); border-radius: 50%; }
+.hero-content { position: relative; z-index: 1; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(255,255,255,.12); backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,.22);
+  color: #fff; font-size: 12px; font-weight: 700;
+  padding: 5px 14px; border-radius: 20px; margin-bottom: 16px;
+}
+.hero-title { font-size: clamp(26px, 4vw, 40px); font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.2; }
+.hero-title span { color: #fbbf24; }
+.hero-sub { font-size: 15px; color: rgba(255,255,255,.78); max-width: 580px; margin: 0 auto 20px; line-height: 1.7; }
+.hero-meta { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; font-size: 12.5px; color: rgba(255,255,255,.65); }
+.hero-meta span { display: flex; align-items: center; gap: 5px; }
+
+/* ── DOC SWITCHER ── */
+.doc-switcher {
+  max-width: 880px; margin: -22px auto 0; padding: 0 24px;
+  position: relative; z-index: 10;
+}
+.switcher-tabs {
+  display: flex; background: var(--white); border-radius: 12px;
+  padding: 5px; box-shadow: var(--shadow);
+  border: 1px solid var(--border); gap: 4px;
+}
+.switcher-tab {
+  flex: 1; padding: 12px 16px; border-radius: 9px; border: none; background: transparent;
+  font-size: 14px; font-weight: 600; color: var(--text-light);
+  cursor: pointer; transition: all .22s; display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.switcher-tab:hover { color: var(--primary); background: var(--primary-light); }
+.switcher-tab.active { background: var(--primary); color: #fff; box-shadow: 0 3px 12px rgba(26,86,219,.3); }
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+.main-layout { max-width: 1140px; margin: 32px auto 56px; padding: 0 24px; display: grid; grid-template-columns: 260px 1fr; gap: 28px; align-items: start; }
+
+/* ── SIDEBAR TOC ── */
+.toc-sidebar { position: sticky; top: 86px; }
+.toc-card { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.toc-header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: #fff; padding: 14px 18px; font-family: var(--font-display); font-size: 14px; font-weight: 700; display: flex; align-items: center; gap: 7px; }
+.toc-list { padding: 10px 0; }
+.toc-item { display: flex; align-items: center; gap: 8px; padding: 8px 16px; font-size: 13px; color: var(--text-mid); cursor: pointer; transition: all .18s; border-left: 3px solid transparent; }
+.toc-item:hover { background: var(--primary-light); color: var(--primary); }
+.toc-item.active { background: var(--primary-light); color: var(--primary); border-left-color: var(--primary); font-weight: 600; }
+.toc-num { width: 20px; height: 20px; border-radius: 50%; background: var(--border); color: var(--text-light); font-size: 10px; font-weight: 700; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.toc-item.active .toc-num { background: var(--primary); color: #fff; }
+.toc-divider { height: 1px; background: var(--border); margin: 6px 14px; }
+
+/* Quick contact in sidebar */
+.toc-contact { padding: 14px 16px; border-top: 1px solid var(--border); background: var(--bg); }
+.toc-contact-title { font-size: 12px; font-weight: 700; color: var(--text-light); text-transform: uppercase; letter-spacing: .5px; margin-bottom: 10px; }
+.toc-contact-item { display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: var(--text-mid); margin-bottom: 7px; }
+
+/* ── DOCUMENT CONTENT ── */
+.doc-content { min-width: 0; }
+.doc-panel { display: none; }
+.doc-panel.active { display: block; animation: fadeUp .28s ease; }
+@keyframes fadeUp { from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;} }
+
+/* Section heading */
+.doc-section { background: var(--white); border: 1px solid var(--border); border-radius: var(--radius); padding: 28px 32px; margin-bottom: 16px; box-shadow: var(--shadow); scroll-margin-top: 90px; transition: box-shadow .2s; }
+.doc-section:hover { box-shadow: var(--shadow-hover); }
+.section-tag { display: inline-flex; align-items: center; gap: 6px; background: var(--primary-light); color: var(--primary); font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 10px; }
+.section-num { background: var(--primary); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; flex-shrink: 0; }
+.section-title { font-family: var(--font-display); font-size: clamp(17px,2.5vw,21px); font-weight: 800; color: var(--text-dark); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+.section-icon { display:inline-flex;align-items:center;flex-shrink:0; }
+.section-body { font-size: 14px; color: var(--text-mid); line-height: 1.85; }
+.section-body p { margin-bottom: 12px; }
+.section-body p:last-child { margin-bottom: 0; }
+.section-body h4 { font-family: var(--font-display); font-size: 15px; font-weight: 700; color: var(--text-dark); margin: 18px 0 8px; }
+
+/* Lists */
+.doc-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin: 10px 0 14px; }
+.doc-list li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: var(--text-mid); }
+.doc-list li .li-icon { width: 22px; height: 22px; border-radius: 5px; display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; margin-top: 1px; }
+.doc-list.check li .li-icon { background: #dcfce7; }
+.doc-list.cross li .li-icon { background: #fee2e2; }
+.doc-list.info li .li-icon { background: var(--primary-light); }
+.doc-list.bullet li::before { content: '•'; color: var(--primary); font-weight: 800; flex-shrink: 0; margin-top: 2px; }
+
+/* Highlight boxes */
+.info-box { border-radius: 10px; padding: 14px 18px; margin: 14px 0; display: flex; align-items: flex-start; gap: 12px; }
+.info-box.blue { background: var(--primary-light); border-left: 4px solid var(--primary); }
+.info-box.green { background: #dcfce7; border-left: 4px solid var(--success); }
+.info-box.orange { background: var(--accent-light); border-left: 4px solid var(--accent); }
+.info-box.red { background: #fee2e2; border-left: 4px solid var(--danger); }
+.info-box.yellow { background: #fef3c7; border-left: 4px solid var(--warning); }
+.info-box-icon { flex-shrink:0; margin-top:1px; display:flex; align-items:center; }
+.info-box-content .ib-title { font-weight: 700; font-size: 13.5px; color: var(--text-dark); margin-bottom: 3px; }
+.info-box-content .ib-text { font-size: 13.5px; color: var(--text-mid); line-height: 1.65; }
+
+/* Table */
+.doc-table { width: 100%; border-collapse: collapse; font-size: 13.5px; margin: 12px 0; border-radius: 8px; overflow: hidden; border: 1px solid var(--border); }
+.doc-table th { background: var(--primary); color: #fff; padding: 11px 16px; text-align: left; font-family: var(--font-display); font-size: 13px; font-weight: 700; }
+.doc-table td { padding: 11px 16px; border-bottom: 1px solid var(--border); color: var(--text-mid); vertical-align: top; }
+.doc-table tr:last-child td { border-bottom: none; }
+.doc-table tr:nth-child(even) td { background: var(--bg); }
+
+/* Last updated / effective date bar */
+.date-bar { background: linear-gradient(135deg, var(--primary-light), #dbeafe); border: 1px solid rgba(26,86,219,.15); border-radius: 10px; padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin-bottom: 20px; }
+.date-bar-item { font-size: 13px; color: var(--text-mid); display: flex; align-items: center; gap: 7px; }
+.date-bar-item strong { color: var(--primary); font-family: var(--font-display); }
+
+/* Accept bar */
+.accept-bar {
+  background: var(--white); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 22px 28px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; flex-wrap: wrap;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+.accept-left .accept-title { font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--text-dark); margin-bottom: 4px; }
+.accept-left .accept-sub { font-size: 13px; color: var(--text-light); }
+.accept-btns { display: flex; gap: 10px; flex-shrink: 0; }
+.btn-accept { background: var(--primary); color: #fff; border: none; padding: 11px 24px; border-radius: 9px; font-size: 14px; font-weight: 700; transition: background .2s, transform .2s; }
+.btn-accept:hover { background: var(--primary-dark); transform: translateY(-1px); }
+.btn-accept.accepted { background: var(--success); cursor: default; }
+.btn-decline { background: var(--bg); border: 2px solid var(--border); color: var(--text-mid); padding: 11px 20px; border-radius: 9px; font-size: 14px; font-weight: 600; transition: all .2s; }
+.btn-decline:hover { border-color: var(--danger); color: var(--danger); }
+
+/* Print/Download bar */
+.action-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+.action-btn { display: flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: 8px; font-size: 13px; font-weight: 600; border: 1.5px solid var(--border); background: var(--white); color: var(--text-mid); cursor: pointer; transition: all .2s; }
+.action-btn:hover { border-color: var(--primary); color: var(--primary); background: var(--primary-light); }
+
+
+/* BACK TO TOP */
+.back-top { position: fixed; bottom: 28px; left: 28px; right: auto; width: 44px; height: 44px; background: var(--primary); color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; box-shadow: 0 4px 16px rgba(26,86,219,.35); transition: all .2s; z-index: 500; opacity: 0; pointer-events: none; }
+.back-top.visible { opacity: 1; pointer-events: all; }
+.back-top:hover { background: var(--primary-dark); transform: translateY(-3px); }
+
+/* RESPONSIVE */
+@media(max-width:900px){ .main-layout{grid-template-columns:1fr;} .toc-sidebar{position:static;} }
+@media(max-width:600px){ .main-layout{padding:0 14px;} .doc-section{padding:20px 18px;} .switcher-tab{font-size:12.5px;padding:10px 10px;} .date-bar{flex-direction:column;} .accept-bar{flex-direction:column;} .hero-meta{gap:12px;} }
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+
+<!-- HERO -->
+<div class="page-hero">
+  <div class="hero-deco-l"></div>
+  <div class="hero-deco-r"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Legal Documents</div>
+    <h1 class="hero-title">Privacy Policy &amp; <span>Terms of Service</span></h1>
+    <p class="hero-sub">We believe in full transparency. Please read these documents carefully before using BahaBasket.</p>
+    <div class="hero-meta">
+      <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Last Updated: December 15, 2024</span>
+      <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Effective Date: January 1, 2025</span>
+      <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg> Applicable: India</span>
+      <span><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg> ~15 min read</span>
+    </div>
+  </div>
+</div>
+
+<!-- DOC SWITCHER -->
+<div class="doc-switcher">
+  <div class="switcher-tabs">
+    <button class="switcher-tab active" id="ppTab" onclick="switchDoc('privacy')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Privacy Policy</button>
+    <button class="switcher-tab" id="tcTab" onclick="switchDoc('terms')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Terms of Service</button>
+    <button class="switcher-tab" id="cookieTab" onclick="switchDoc('cookies')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8.5" cy="9" r="1" fill="currentColor"/><circle cx="14.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15" cy="14" r="1" fill="currentColor"/><circle cx="9" cy="15.5" r="1" fill="currentColor"/></svg> Cookie Policy</button>
+    <button class="switcher-tab" id="sellerTab" onclick="switchDoc('seller')"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Seller Guidelines</button>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="main-layout">
+
+  <!-- SIDEBAR TOC -->
+  <div class="toc-sidebar">
+    <div class="toc-card">
+      <div class="toc-header"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right:6px;vertical-align:-2px;"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>Table of Contents</div>
+      <div class="toc-list" id="tocList">
+        <!-- Filled by JS -->
+      </div>
+      <div class="toc-contact">
+        <div class="toc-contact-title">Questions?</div>
+        <div class="toc-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg> legal@localbazaarhub.in</div>
+        <div class="toc-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp: +91 98765 43210</div>
+        <div class="toc-contact-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Indore, Madhya Pradesh</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DOCUMENT CONTENT -->
+  <div class="doc-content">
+
+    <!-- Action Bar -->
+    <div class="action-bar">
+      <button class="action-btn" onclick="window.print()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg> Print</button>
+      <button class="action-btn" onclick="downloadDoc()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PDF</button>
+      <button class="action-btn" onclick="copyLink()"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg> Copy Link</button>
+    </div>
+
+    <!-- Date Bar -->
+    <div class="date-bar">
+      <div class="date-bar-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> Last Updated: <strong>December 15, 2024</strong></div>
+      <div class="date-bar-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Effective: <strong>January 1, 2025</strong></div>
+      <div class="date-bar-item"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Version: <strong>2.1</strong></div>
+    </div>
+
+    <!-- Accept Bar -->
+    <div class="accept-bar">
+      <div class="accept-left">
+        <div class="accept-title">Do you accept our terms?</div>
+        <div class="accept-sub">By using BahaBasket, you agree to these policies. You can accept or decline below.</div>
+      </div>
+      <div class="accept-btns">
+        <button class="btn-accept" id="acceptBtn" onclick="acceptTerms()">I Accept</button>
+        <button class="btn-decline" onclick="declineTerms()">Decline</button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════
+         PRIVACY POLICY
+    ══════════════════════════════ -->
+    <div class="doc-panel active" id="doc-privacy">
+
+      <div class="doc-section" id="pp1">
+        <div class="section-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> Privacy Policy</div>
+        <div class="section-title"><span class="section-num">1</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></span>Introduction & Overview</div>
+        <div class="section-body">
+          <p>Welcome to <strong>BahaBasket</strong> ("we," "our," or "the Platform"). We operate the website <strong>www.localbazaarhub.in</strong> and related mobile applications. This Privacy Policy explains how we collect, use, store, share, and protect your personal information when you visit or use our platform.</p>
+          <p>BahaBasket is a hyperlocal digital marketplace that connects buyers with local shops and sellers in their city. Our platform is designed primarily for users in India and complies with the <strong>Information Technology Act, 2000</strong> and the <strong>Digital Personal Data Protection Act, 2023 (DPDPA)</strong>.</p>
+          <div class="info-box blue">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Your Consent</div>
+              <div class="ib-text">By accessing or using BahaBasket, you consent to the collection and use of your information as described in this Privacy Policy. If you disagree with any part of this policy, please discontinue use of our platform immediately.</div>
+            </div>
+          </div>
+          <p>This policy applies to all users including <strong>buyers, sellers (shop owners), visitors, and administrators</strong>. We encourage you to read this entire policy carefully.</p>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp2">
+        <div class="section-title"><span class="section-num">2</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span>Information We Collect</div>
+        <div class="section-body">
+          <h4>2.1 Information You Provide Directly</h4>
+          <ul class="doc-list info">
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div><strong>Account Registration:</strong> Name, phone number (WhatsApp), email address, city, gender, and password when you create an account.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><strong>Shop Registration:</strong> Shop name, category, address, GST number (optional), product photos, pricing, and WhatsApp business number.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div><div><strong>Contact Forms:</strong> Messages and queries submitted through our contact or support forms.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><div><strong>Reviews & Ratings:</strong> Text reviews, star ratings, and photos submitted for shops or products.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div><div><strong>Payment Information:</strong> Subscription plan purchase details processed through Razorpay / Instamojo (we do not store card numbers directly).</div></li>
+          </ul>
+          <h4>2.2 Information Collected Automatically</h4>
+          <ul class="doc-list info">
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><strong>Device & Browser Info:</strong> IP address, browser type, operating system, device identifier, and screen resolution.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><strong>Location Data:</strong> Approximate location based on IP address or GPS (if permission granted) to show nearby shops.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div><strong>Usage Data:</strong> Pages visited, products viewed, search queries, time spent, clicks, and navigation patterns.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><strong>WhatsApp Click Tracking:</strong> When you click a WhatsApp button, we log which product/shop was involved (not the conversation content).</div></li>
+          </ul>
+          <h4>2.3 Information from Third Parties</h4>
+          <ul class="doc-list info">
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div><div><strong>Google / Facebook Login:</strong> If you use social login, we receive your name, email, and profile picture from those platforms.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div><strong>Analytics Partners:</strong> Aggregated usage statistics from Google Analytics.</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp3">
+        <div class="section-title"><span class="section-num">3</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>How We Use Your Information</div>
+        <div class="section-body">
+          <p>We use the information collected for the following purposes:</p>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To create and manage your buyer or seller account</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To display relevant local shops and products in your city</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To facilitate WhatsApp communication between buyers and sellers</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To process membership plan payments and send receipts</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To send transactional notifications — OTPs, account alerts, payment confirmations</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To improve platform features, performance, and user experience</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To detect and prevent fraud, abuse, and security threats</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To comply with legal obligations under Indian law</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>To send marketing communications (only with your explicit consent)</div></li>
+          </ul>
+          <div class="info-box green">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">We Do NOT Sell Your Data</div>
+              <div class="ib-text">BahaBasket does not sell, rent, or trade your personal information to third-party advertisers or data brokers. Your data is used solely to operate and improve the platform.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp4">
+        <div class="section-title"><span class="section-num">4</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></span>Data Sharing & Disclosure</div>
+        <div class="section-body">
+          <p>We share your information only in the following limited circumstances:</p>
+          <table class="doc-table">
+            <thead><tr><th>Recipient</th><th>What is Shared</th><th>Purpose</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Shop Owners / Sellers</strong></td><td>Name, city, product/shop inquiry details</td><td>To fulfill your WhatsApp inquiry</td></tr>
+              <tr><td><strong>Payment Gateway (Razorpay)</strong></td><td>Transaction amount, order ID, phone</td><td>To process subscription payments</td></tr>
+              <tr><td><strong>SMS / WhatsApp Service (Twilio/MSG91)</strong></td><td>Phone number</td><td>To send OTP verifications</td></tr>
+              <tr><td><strong>Google Analytics</strong></td><td>Anonymized usage data</td><td>Platform performance analysis</td></tr>
+              <tr><td><strong>Legal Authorities</strong></td><td>As required by court order or law</td><td>Compliance with Indian law</td></tr>
+            </tbody>
+          </table>
+          <div class="info-box orange">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Third-Party Links</div>
+              <div class="ib-text">Our platform contains links to WhatsApp, Google Maps, and social media platforms. We are not responsible for the privacy practices of these third-party services. Please review their individual privacy policies.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp5">
+        <div class="section-title"><span class="section-num">5</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>Data Security</div>
+        <div class="section-body">
+          <p>We implement industry-standard security measures to protect your personal information:</p>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><strong>SSL/TLS Encryption:</strong> All data transmitted between your browser and our servers is encrypted via HTTPS.</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><strong>Password Hashing:</strong> Passwords are stored as bcrypt hashes — never in plain text.</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><strong>Secure Hosting:</strong> Platform hosted on ISO 27001 certified servers (Hostinger/DigitalOcean).</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><strong>Access Controls:</strong> Only authorized personnel can access user data, with strict role-based access.</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><strong>Regular Backups:</strong> Database backed up daily to prevent data loss.</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div><strong>OTP Expiry:</strong> All OTPs expire within 10 minutes and are single-use only.</div></li>
+          </ul>
+          <div class="info-box yellow">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Data Breach Notification</div>
+              <div class="ib-text">In the unlikely event of a data breach affecting your personal information, we will notify you within 72 hours via your registered email or phone number, as required by the DPDPA 2023.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp6">
+        <div class="section-title"><span class="section-num">6</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></span>Data Retention</div>
+        <div class="section-body">
+          <table class="doc-table">
+            <thead><tr><th>Data Type</th><th>Retention Period</th><th>Reason</th></tr></thead>
+            <tbody>
+              <tr><td>Account Information</td><td>Until account deletion + 30 days</td><td>Account management</td></tr>
+              <tr><td>Shop / Product Data</td><td>Until shop deactivation + 90 days</td><td>Dispute resolution</td></tr>
+              <tr><td>Payment Records</td><td>7 years</td><td>Indian tax law compliance</td></tr>
+              <tr><td>OTP Logs</td><td>30 days</td><td>Security audit</td></tr>
+              <tr><td>Usage / Analytics Data</td><td>24 months (anonymized)</td><td>Platform improvement</td></tr>
+              <tr><td>Support Tickets</td><td>2 years</td><td>Quality assurance</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp7">
+        <div class="section-title"><span class="section-num">7</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Your Rights Under DPDPA 2023</div>
+        <div class="section-body">
+          <p>Under the <strong>Digital Personal Data Protection Act, 2023</strong>, you have the following rights:</p>
+          <ul class="doc-list info">
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><div><strong>Right to Access:</strong> Request a copy of all personal data we hold about you.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div><div><strong>Right to Correction:</strong> Request correction of inaccurate or incomplete personal data.</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></div><div><strong>Right to Erasure:</strong> Request deletion of your personal data (subject to legal retention requirements).</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div><strong>Right to Withdraw Consent:</strong> Withdraw consent for data processing at any time (may affect service availability).</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg></div><div><strong>Right to Data Portability:</strong> Receive your data in a machine-readable format (JSON/CSV).</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><div><strong>Right to Grievance:</strong> Lodge a complaint with our Data Protection Officer or the Data Protection Board of India.</div></li>
+          </ul>
+          <div class="info-box blue">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Exercise Your Rights</div>
+              <div class="ib-text">To exercise any of the above rights, email us at <strong>privacy@localbazaarhub.in</strong> or WhatsApp us at <strong>+91 98765 43210</strong>. We will respond within <strong>30 days</strong> as required by DPDPA 2023.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp8">
+        <div class="section-title"><span class="section-num">8</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>Children's Privacy</div>
+        <div class="section-body">
+          <p>BahaBasket is not intended for children under the age of <strong>18 years</strong>. We do not knowingly collect personal information from minors. If you believe a child under 18 has provided us with personal information, please contact us immediately at <strong>privacy@localbazaarhub.in</strong> and we will delete it promptly.</p>
+          <div class="info-box red">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Minor Users Not Permitted</div>
+              <div class="ib-text">If we discover that an account has been created by a person under 18, we will immediately suspend and delete that account without notice, in compliance with DPDPA 2023 provisions on children's data.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="pp9">
+        <div class="section-title"><span class="section-num">9</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-.83.89-.83a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>Contact & Grievance Officer</div>
+        <div class="section-body">
+          <p>For any privacy-related concerns, data requests, or complaints, please contact our designated <strong>Grievance Officer</strong> as required by the IT Act, 2000:</p>
+          <table class="doc-table">
+            <tbody>
+              <tr><td><strong>Grievance Officer</strong></td><td>Mr. Ramesh Kumar (Founder)</td></tr>
+              <tr><td><strong>Organization</strong></td><td>BahaBasket</td></tr>
+              <tr><td><strong>Email</strong></td><td>privacy@localbazaarhub.in</td></tr>
+              <tr><td><strong>WhatsApp</strong></td><td>+91 98765 43210</td></tr>
+              <tr><td><strong>Address</strong></td><td>Gandhi Nagar, Indore, Madhya Pradesh – 452001</td></tr>
+              <tr><td><strong>Response Time</strong></td><td>Within 30 days of receiving complaint</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /doc-privacy -->
+
+    <!-- ══════════════════════════════
+         TERMS OF SERVICE
+    ══════════════════════════════ -->
+    <div class="doc-panel" id="doc-terms">
+
+      <div class="doc-section" id="tc1">
+        <div class="section-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg> Terms of Service</div>
+        <div class="section-title"><span class="section-num">1</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></span>Agreement to Terms</div>
+        <div class="section-body">
+          <p>These Terms of Service ("Terms") govern your access to and use of the BahaBasket website (<strong>www.localbazaarhub.in</strong>), mobile applications, and related services (collectively, the "Platform").</p>
+          <p>By accessing or using BahaBasket, you confirm that you have read, understood, and agreed to be bound by these Terms. These Terms constitute a legally binding agreement between you and <strong>BahaBasket</strong> (operated by [Company Name], registered in India).</p>
+          <div class="info-box orange">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Important Notice</div>
+              <div class="ib-text">If you do not agree to these Terms, you must immediately stop using BahaBasket. Continued use of the platform after any updates to these Terms constitutes acceptance of the revised Terms.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc2">
+        <div class="section-title"><span class="section-num">2</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg></span>Platform Description</div>
+        <div class="section-body">
+          <p>BahaBasket is a <strong>hyperlocal digital marketplace</strong> that:</p>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Lists local shops, products, and services from verified sellers in Indian cities</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Facilitates direct WhatsApp communication between buyers and sellers</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Operates as a <strong>catalog-only platform</strong> — we do not process orders, payments, or deliveries between buyers and sellers</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Provides subscription plans for shop owners to list and promote their businesses</div></li>
+          </ul>
+          <div class="info-box blue">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Important Clarification</div>
+              <div class="ib-text">BahaBasket is a <strong>technology intermediary platform</strong>, not a buyer, seller, or party to any transaction between buyers and sellers. All transactions, disputes, deliveries, and returns are the sole responsibility of the respective buyer and seller.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc3">
+        <div class="section-title"><span class="section-num">3</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></span>User Accounts & Eligibility</div>
+        <div class="section-body">
+          <h4>3.1 Eligibility</h4>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>You must be at least <strong>18 years of age</strong> to use this platform</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>You must be a resident of India or using the platform for transactions within India</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>You must provide accurate and complete information during registration</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>One person may maintain only one buyer account and one seller account</div></li>
+          </ul>
+          <h4>3.2 Account Responsibilities</h4>
+          <ul class="doc-list cross">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not share your account credentials with any other person</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not create accounts using false or misleading information</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not create multiple accounts to circumvent suspensions or bans</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not attempt to access other users' accounts without authorization</div></li>
+          </ul>
+          <p>You are solely responsible for all activities that occur under your account. Notify us immediately at <strong>support@localbazaarhub.in</strong> if you suspect unauthorized access.</p>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc4">
+        <div class="section-title"><span class="section-num">4</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>Seller / Shop Owner Terms</div>
+        <div class="section-body">
+          <h4>4.1 Shop Registration</h4>
+          <p>Shop owners who register on BahaBasket agree to:</p>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Provide accurate shop information including name, address, contact, and category</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Upload only genuine product photos and accurate pricing</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Respond to WhatsApp inquiries promptly and professionally</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Update product availability and pricing regularly</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Maintain a valid and active WhatsApp number at all times</div></li>
+          </ul>
+          <h4>4.2 Prohibited Products</h4>
+          <p>The following products and services may NOT be listed on BahaBasket:</p>
+          <ul class="doc-list cross">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Counterfeit, fake, or duplicate branded goods</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Illegal, banned, or age-restricted substances</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Adult content, services, or materials</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Weapons, ammunition, or explosives of any kind</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Financial services, loans, or investment products</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Products that infringe on intellectual property rights</div></li>
+          </ul>
+          <div class="info-box red">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Violation = Immediate Termination</div>
+              <div class="ib-text">Violation of product listing rules will result in immediate shop suspension without refund of any paid subscription fees. Repeated violations may result in permanent banning and reporting to relevant authorities.</div>
+            </div>
+          </div>
+          <h4>4.3 Membership Plans</h4>
+          <p>Paid membership plans (Growth ₹499/month, Premium ₹999/month) are subject to the following:</p>
+          <ul class="doc-list info">
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><div>Plans are billed monthly and auto-renewed unless cancelled before the renewal date</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div><div>No refunds are issued for partially used subscription periods</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Plans may be cancelled any time from your seller dashboard — effective at end of billing cycle</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></div><div>Plan prices may change with 30 days advance written notice to registered email/phone</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc5">
+        <div class="section-title"><span class="section-num">5</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg></span>Buyer Terms</div>
+        <div class="section-body">
+          <p>As a buyer using BahaBasket, you agree to:</p>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Use the platform only for legitimate shopping inquiries</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Conduct transactions directly with sellers in a lawful manner</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Not use WhatsApp contact information for spam, harassment, or unsolicited marketing</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Report fraudulent shops or misleading listings to our support team</div></li>
+          </ul>
+          <div class="info-box yellow">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Transaction Disclaimer</div>
+              <div class="ib-text">All transactions, negotiations, price agreements, delivery, and returns happen directly between you and the seller via WhatsApp or in-store. BahaBasket is not responsible for any product quality issues, delivery failures, or payment disputes arising from these direct transactions.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc6">
+        <div class="section-title"><span class="section-num">6</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></span>Prohibited Activities</div>
+        <div class="section-body">
+          <p>The following activities are strictly prohibited on BahaBasket:</p>
+          <ul class="doc-list cross">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Scraping, crawling, or automated extraction of shop/product data</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Posting fake reviews, ratings, or testimonials for any shop</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Impersonating another person, shop, or business</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Attempting to hack, disrupt, or overload our servers or infrastructure</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Using the platform to spread misinformation, hate speech, or abusive content</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Collecting other users' contact information for unauthorized purposes</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Circumventing the platform to conduct transactions while avoiding listing fees</div></li>
+          </ul>
+          <p>Violation of these prohibitions may result in immediate account termination, legal action, and reporting to law enforcement authorities as appropriate.</p>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc7">
+        <div class="section-title"><span class="section-num">7</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>Limitation of Liability</div>
+        <div class="section-body">
+          <p>To the maximum extent permitted by applicable Indian law, BahaBasket and its directors, employees, and partners shall NOT be liable for:</p>
+          <ul class="doc-list cross">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Any loss or damage arising from transactions between buyers and sellers</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Inaccurate product information, pricing errors, or false shop details provided by sellers</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Platform downtime, technical errors, or data loss beyond our reasonable control</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Unauthorized access to your account due to your failure to secure login credentials</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Any indirect, incidental, or consequential damages whatsoever</div></li>
+          </ul>
+          <p>Our maximum aggregate liability to any user for any claim related to the platform shall not exceed the total subscription fees paid by that user in the preceding 3 months.</p>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc8">
+        <div class="section-title"><span class="section-num">8</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>Governing Law & Dispute Resolution</div>
+        <div class="section-body">
+          <p>These Terms shall be governed by and construed in accordance with the laws of <strong>India</strong>. Any disputes arising from these Terms or your use of the platform shall be subject to the exclusive jurisdiction of the courts in <strong>Indore, Madhya Pradesh, India</strong>.</p>
+          <h4>Dispute Resolution Process</h4>
+          <ul class="doc-list info">
+            <li><div class="li-icon" style="background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:800;">1</div><div><strong>Step 1 — Informal Resolution:</strong> Contact us at legal@localbazaarhub.in. We will attempt to resolve the dispute informally within 15 days.</div></li>
+            <li><div class="li-icon" style="background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:800;">2</div><div><strong>Step 2 — Mediation:</strong> If informal resolution fails, both parties agree to attempt mediation before pursuing litigation.</div></li>
+            <li><div class="li-icon" style="background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:800;">3</div><div><strong>Step 3 — Arbitration / Court:</strong> Unresolved disputes shall be referred to arbitration under the Arbitration and Conciliation Act, 1996, or the appropriate courts in Indore, MP.</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="doc-section" id="tc9">
+        <div class="section-title"><span class="section-num">9</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></span>Changes to These Terms</div>
+        <div class="section-body">
+          <p>We reserve the right to modify these Terms at any time. When we make significant changes, we will:</p>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Update the "Last Updated" date at the top of this page</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Send a WhatsApp notification to all registered users at least <strong>15 days</strong> before changes take effect</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Display a prominent notice on our homepage for 30 days</div></li>
+          </ul>
+          <p>Your continued use of BahaBasket after the effective date of revised Terms constitutes acceptance of those changes.</p>
+        </div>
+      </div>
+
+    </div><!-- /doc-terms -->
+
+    <!-- ══════════════════════════════
+         COOKIE POLICY
+    ══════════════════════════════ -->
+    <div class="doc-panel" id="doc-cookies">
+
+      <div class="doc-section" id="ck1">
+        <div class="section-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8.5" cy="9" r="1" fill="currentColor"/><circle cx="14.5" cy="8.5" r="1" fill="currentColor"/><circle cx="15" cy="14" r="1" fill="currentColor"/><circle cx="9" cy="15.5" r="1" fill="currentColor"/></svg> Cookie Policy</div>
+        <div class="section-title"><span class="section-num">1</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="8.5" cy="9" r="1" fill="var(--warning)"/><circle cx="14.5" cy="8.5" r="1" fill="var(--warning)"/><circle cx="15" cy="14" r="1" fill="var(--warning)"/><circle cx="9" cy="15.5" r="1" fill="var(--warning)"/></svg></span>What Are Cookies?</div>
+        <div class="section-body">
+          <p>Cookies are small text files stored on your browser when you visit a website. They help websites remember your preferences, login status, and browsing behavior. BahaBasket uses cookies to provide a better, faster, and more personalized experience.</p>
+        </div>
+      </div>
+
+      <div class="doc-section" id="ck2">
+        <div class="section-title"><span class="section-num">2</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/><rect x="8" y="2" width="8" height="4" rx="1" ry="1"/></svg></span>Types of Cookies We Use</div>
+        <div class="section-body">
+          <table class="doc-table">
+            <thead><tr><th>Cookie Type</th><th>Purpose</th><th>Duration</th><th>Can be Disabled?</th></tr></thead>
+            <tbody>
+              <tr><td><strong>Essential Cookies</strong></td><td>Login sessions, shopping cart, security tokens</td><td>Session / 30 days</td><td><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg> No (Platform breaks)</td></tr>
+              <tr><td><strong>Analytics Cookies</strong></td><td>Google Analytics — page views, traffic source</td><td>2 years</td><td><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg> Yes</td></tr>
+              <tr><td><strong>Preference Cookies</strong></td><td>City selection, language, theme preference</td><td>1 year</td><td><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg> Yes</td></tr>
+              <tr><td><strong>Marketing Cookies</strong></td><td>Facebook Pixel — ad performance tracking</td><td>3 months</td><td><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg> Yes</td></tr>
+            </tbody>
+          </table>
+          <div class="info-box green">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Manage Your Cookie Preferences</div>
+              <div class="ib-text">You can manage or disable non-essential cookies through your browser settings or our cookie consent banner. Note that disabling certain cookies may affect platform functionality such as staying logged in or city-specific product recommendations.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="ck3">
+        <div class="section-title"><span class="section-num">3</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></span>Third-Party Cookies</div>
+        <div class="section-body">
+          <p>Some cookies on our platform are set by third-party services that appear on our pages:</p>
+          <ul class="doc-list info">
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div><div><strong>Google Analytics (analytics.google.com)</strong> — Tracks page views and user behavior anonymously</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></div><div><strong>Facebook Pixel (facebook.com)</strong> — Tracks ad conversions and campaign performance</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg></div><div><strong>Google Maps (maps.google.com)</strong> — Embedded maps for shop locations</div></li>
+          </ul>
+          <p>We do not control these third-party cookies. Please refer to their respective privacy policies for more information.</p>
+        </div>
+      </div>
+
+    </div><!-- /doc-cookies -->
+
+    <!-- ══════════════════════════════
+         SELLER GUIDELINES
+    ══════════════════════════════ -->
+    <div class="doc-panel" id="doc-seller">
+
+      <div class="doc-section" id="sg1">
+        <div class="section-tag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Seller Guidelines</div>
+        <div class="section-title"><span class="section-num">1</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#f59e0b"/></svg></span>Our Seller Standards</div>
+        <div class="section-body">
+          <p>BahaBasket maintains a <strong>high-quality, trusted marketplace</strong> for buyers. All sellers must follow these guidelines to keep their shop listed and in good standing. These guidelines exist to protect both buyers and honest sellers.</p>
+          <div class="info-box green">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Our Promise to Sellers</div>
+              <div class="ib-text">We are committed to helping local businesses grow digitally. Our team manually verifies every shop, provides WhatsApp inquiry routing, and offers dedicated seller support to help you succeed on the platform.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="doc-section" id="sg2">
+        <div class="section-title"><span class="section-num">2</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></span>Product Listing Standards</div>
+        <div class="section-body">
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Use <strong>clear, well-lit, original photos</strong> of your actual products — stock photos from other websites are not allowed</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Product title must be accurate and descriptive (e.g., "Men's Cotton Kurta Set – Size S to XXL")</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Pricing must be the actual selling price inclusive of all taxes</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Keep product availability updated — mark out-of-stock items promptly</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Product description must be in English or Hindi — no other languages</div></li>
+          </ul>
+          <ul class="doc-list cross">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not use watermarks, logos of competitor platforms, or irrelevant images</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not use misleading titles like "MRP ₹5000 Selling at ₹500" unless genuinely discounted</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not list products in the wrong category to gain more visibility</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="doc-section" id="sg3">
+        <div class="section-title"><span class="section-num">3</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#25D366" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>WhatsApp Communication Standards</div>
+        <div class="section-body">
+          <p>Since WhatsApp is the primary communication channel on our platform, sellers must maintain high standards:</p>
+          <ul class="doc-list check">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Respond to all buyer inquiries within <strong>2 hours</strong> during shop working hours</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Be polite, professional, and helpful in all communications</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Provide accurate information about price, availability, and delivery</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div><div>Set up a WhatsApp Business account with your shop name and logo</div></li>
+          </ul>
+          <ul class="doc-list cross">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not use buyer contact information for unsolicited marketing after the inquiry is resolved</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not send abusive, threatening, or inappropriate messages to buyers</div></li>
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div><div>Do not share misleading information about product quality or delivery timelines</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="doc-section" id="sg4">
+        <div class="section-title"><span class="section-num">4</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" fill="#f59e0b"/></svg></span>Reviews & Rating Policy</div>
+        <div class="section-body">
+          <p>Reviews are critical to buyer trust. The following rules apply to all shop reviews:</p>
+          <ul class="doc-list info">
+            <li><div class="li-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div><div>Only verified buyers who have submitted a genuine WhatsApp inquiry can leave a review</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg></div><div>All reviews are moderated by our team before being published</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg></div><div>Sellers may NOT ask friends/family to leave fake positive reviews — this results in immediate suspension</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg></div><div>Sellers may report fake negative reviews to <strong>support@localbazaarhub.in</strong> with evidence</div></li>
+            <li><div class="li-icon"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 10 4 15 9 20"/><path d="M20 4v7a4 4 0 0 1-4 4H4"/></svg></div><div>Sellers may post a public reply to any review through their seller dashboard</div></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="doc-section" id="sg5">
+        <div class="section-title"><span class="section-num">5</span><span class="section-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg></span>Shop Rating & Suspension Policy</div>
+        <div class="section-body">
+          <table class="doc-table">
+            <thead><tr><th>Rating</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr><td><svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" style="vertical-align:-1px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 4.5 – 5.0</td><td><span style="color:var(--success);font-weight:700;">Top Rated</span></td><td>Featured in search results — higher visibility</td></tr>
+              <tr><td><svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" style="vertical-align:-1px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 3.5 – 4.4</td><td><span style="color:var(--primary);font-weight:700;">Good Standing</span></td><td>Normal listing — no action required</td></tr>
+              <tr><td><svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" style="vertical-align:-1px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> 2.5 – 3.4</td><td><span style="color:var(--warning);font-weight:700;">Under Review</span></td><td>Warning issued — improve within 30 days</td></tr>
+              <tr><td><svg width="12" height="12" viewBox="0 0 24 24" fill="#f59e0b" stroke="#f59e0b" stroke-width="1" style="vertical-align:-1px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Below 2.5</td><td><span style="color:var(--danger);font-weight:700;">At Risk</span></td><td>Shop suspended pending review and appeal</td></tr>
+            </tbody>
+          </table>
+          <div class="info-box blue">
+            <div class="info-box-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 13a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.56 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 9.91a16 16 0 0 0 6.06 6.06l1.27-.83.89-.83a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg></div>
+            <div class="info-box-content">
+              <div class="ib-title">Appeal Process</div>
+              <div class="ib-text">If your shop has been suspended, you may appeal by contacting us at <strong>sellers@localbazaarhub.in</strong> with your shop ID and explanation. Appeals are reviewed within 7 working days.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /doc-seller -->
+
+  </div><!-- /doc-content -->
+</div><!-- /main-layout -->
+
+<div id="site-footer"></div>
+
+<!-- BACK TO TOP -->
+<div class="back-top" id="backTop" onclick="window.scrollTo({top:0,behavior:'smooth'})"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></div>
+
+<script>
+// ── TOC DATA ──
+const tocData = {
+  privacy: [
+    {id:'pp1',label:'Introduction & Overview'},
+    {id:'pp2',label:'Information We Collect'},
+    {id:'pp3',label:'How We Use Your Info'},
+    {id:'pp4',label:'Data Sharing'},
+    {id:'pp5',label:'Data Security'},
+    {id:'pp6',label:'Data Retention'},
+    {id:'pp7',label:'Your Rights (DPDPA)'},
+    {id:'pp8',label:"Children's Privacy"},
+    {id:'pp9',label:'Contact & Grievance'},
+  ],
+  terms: [
+    {id:'tc1',label:'Agreement to Terms'},
+    {id:'tc2',label:'Platform Description'},
+    {id:'tc3',label:'User Accounts'},
+    {id:'tc4',label:'Seller Terms'},
+    {id:'tc5',label:'Buyer Terms'},
+    {id:'tc6',label:'Prohibited Activities'},
+    {id:'tc7',label:'Limitation of Liability'},
+    {id:'tc8',label:'Governing Law'},
+    {id:'tc9',label:'Changes to Terms'},
+  ],
+  cookies: [
+    {id:'ck1',label:'What Are Cookies?'},
+    {id:'ck2',label:'Types of Cookies'},
+    {id:'ck3',label:'Third-Party Cookies'},
+  ],
+  seller: [
+    {id:'sg1',label:'Our Seller Standards'},
+    {id:'sg2',label:'Product Listing Standards'},
+    {id:'sg3',label:'WhatsApp Standards'},
+    {id:'sg4',label:'Reviews & Rating Policy'},
+    {id:'sg5',label:'Shop Rating & Suspension'},
+  ],
+};
+
+let currentDoc = 'privacy';
+
+function buildTOC(docKey){
+  const items = tocData[docKey] || [];
+  document.getElementById('tocList').innerHTML = items.map((item,i)=>`
+    <div class="toc-item" id="toc-${item.id}" onclick="scrollToSection('${item.id}')">
+      <div class="toc-num">${i+1}</div>
+      ${item.label}
+    </div>
+    ${i < items.length-1 ? '' : ''}`).join('');
+}
+
+function switchDoc(doc){
+  // Hide all panels
+  document.querySelectorAll('.doc-panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.switcher-tab').forEach(t=>t.classList.remove('active'));
+  // Show selected
+  document.getElementById('doc-'+doc).classList.add('active');
+  document.getElementById(doc.charAt(0)+(doc==='cookies'?'ookie':'erm'||doc==='seller'?'eller':'')+'Tab');
+  // Activate correct tab
+  const tabMap = {privacy:'ppTab', terms:'tcTab', cookies:'cookieTab', seller:'sellerTab'};
+  document.getElementById(tabMap[doc]).classList.add('active');
+  currentDoc = doc;
+  buildTOC(doc);
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function scrollToSection(id){
+  const el = document.getElementById(id);
+  if(el){ el.scrollIntoView({behavior:'smooth',block:'start'}); }
+  // Update active TOC
+  document.querySelectorAll('.toc-item').forEach(t=>t.classList.remove('active'));
+  const tocEl = document.getElementById('toc-'+id);
+  if(tocEl) tocEl.classList.add('active');
+}
+
+// Highlight TOC on scroll
+window.addEventListener('scroll', ()=>{
+  const sections = tocData[currentDoc] || [];
+  let closest = null, closestDist = Infinity;
+  sections.forEach(sec=>{
+    const el = document.getElementById(sec.id);
+    if(!el) return;
+    const rect = el.getBoundingClientRect();
+    const dist = Math.abs(rect.top - 100);
+    if(dist < closestDist){ closestDist = dist; closest = sec.id; }
+  });
+  if(closest){
+    document.querySelectorAll('.toc-item').forEach(t=>t.classList.remove('active'));
+    const tocEl = document.getElementById('toc-'+closest);
+    if(tocEl) tocEl.classList.add('active');
+  }
+  // Back to top
+  document.getElementById('backTop').classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── ACCEPT / DECLINE ──
+function acceptTerms(){
+  const btn = document.getElementById('acceptBtn');
+  btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>Accepted!';
+  btn.classList.add('accepted');
+  btn.disabled = true;
+  localStorage.setItem('lbh_terms_accepted','true');
+}
+function declineTerms(){
+  if(confirm('If you decline these terms, you will not be able to use BahaBasket. Do you want to go back to the homepage?')){
+    window.location = 'local-bazaar-hub.html';
+  }
+}
+
+// Check if already accepted
+if(localStorage.getItem('lbh_terms_accepted')){
+  const btn = document.getElementById('acceptBtn');
+  if(btn){ btn.innerHTML='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>Accepted!'; btn.classList.add('accepted'); btn.disabled=true; }
+}
+
+// ── DOWNLOAD / COPY ──
+function downloadDoc(){
+  alert('PDF download feature: In WordPress, this can be implemented using a PDF generator plugin (e.g. WP HTML2PDF) or a static PDF file linked directly.');
+}
+function copyLink(){
+  navigator.clipboard?.writeText(window.location.href).then(()=>alert('Page link copied to clipboard!'));
+}
+
+// ── INIT ──
+buildTOC('privacy');
+</script>
+<script src="components.js"></script>
+</body>
+</html>

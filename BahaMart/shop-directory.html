@@ -1,0 +1,2123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop Directory – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #111827;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --card-shadow: 0 2px 12px rgba(26,86,219,0.08);
+  --card-shadow-hover: 0 8px 32px rgba(26,86,219,0.15);
+  --radius: 14px;
+  --radius-sm: 8px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans', sans-serif; background: var(--bg); color: var(--text-dark); overflow-x: hidden; }
+h1,h2,h3,h4,h5 { font-family: 'Baloo 2', cursive; }
+a { text-decoration: none; color: inherit; }
+img { max-width: 100%; display: block; }
+button { cursor: pointer; font-family: 'Noto Sans', sans-serif; }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* ── TOPBAR + NAVBAR → components.js se inject hota hai ── */
+
+/* ── BREADCRUMB ── */
+.breadcrumb {
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-light);
+}
+.breadcrumb a { color: var(--primary); }
+.breadcrumb a:hover { text-decoration: underline; }
+.breadcrumb .sep { color: var(--border); }
+.breadcrumb .current { color: var(--text-dark); font-weight: 600; }
+
+/* ── PAGE HERO ── */
+.page-hero {
+  background: linear-gradient(135deg, #0f3460 0%, #1a56db 60%, #1e88e5 100%);
+  padding: 48px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.page-hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+.page-hero-inner { max-width: 1280px; margin: 0 auto; position: relative; }
+.page-hero h1 { font-size: clamp(26px, 4vw, 40px); font-weight: 800; color: #fff; margin-bottom: 10px; }
+.page-hero h1 span { color: #fbbf24; }
+.page-hero p { color: rgba(255,255,255,.8); font-size: 15px; margin-bottom: 28px; }
+.hero-stats-row {
+  display: flex; gap: 32px; flex-wrap: wrap;
+}
+.h-stat {
+  background: rgba(255,255,255,.12);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 10px;
+  padding: 12px 20px;
+  text-align: center;
+}
+.h-stat .num { font-family: 'Baloo 2', cursive; font-size: 24px; font-weight: 800; color: #fbbf24; }
+.h-stat .lbl { font-size: 11px; color: rgba(255,255,255,.7); margin-top: 2px; }
+
+/* ── MAIN LAYOUT ── */
+.directory-layout {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 28px;
+  align-items: start;
+}
+
+/* ── SIDEBAR ── */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: sticky;
+  top: 76px;
+}
+.filter-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+.filter-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-title { font-family: 'Baloo 2', cursive; font-size: 16px; font-weight: 700; color: var(--text-dark); }
+.filter-clear { font-size: 12px; color: var(--primary); font-weight: 600; cursor: pointer; }
+.filter-clear:hover { text-decoration: underline; }
+.filter-body { padding: 16px 20px; }
+.filter-section { margin-bottom: 20px; }
+.filter-section:last-child { margin-bottom: 0; }
+.filter-section-title {
+  font-size: 13px; font-weight: 700;
+  color: var(--text-mid);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 12px;
+}
+.filter-search-input {
+  width: 100%;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  padding: 9px 12px;
+  font-size: 13px;
+  outline: none;
+  transition: border-color .2s;
+  font-family: 'Noto Sans', sans-serif;
+  margin-bottom: 12px;
+}
+.filter-search-input:focus { border-color: var(--primary); }
+
+.check-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+.check-item {
+  display: flex; align-items: center; gap: 10px;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: 6px;
+  transition: background .15s;
+}
+.check-item:hover { background: var(--bg); }
+.check-item input[type="checkbox"] {
+  width: 16px; height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+.check-item label {
+  font-size: 13.5px; color: var(--text-mid);
+  cursor: pointer; flex: 1;
+  display: flex; align-items: center;
+}
+.check-count {
+  background: var(--bg);
+  color: var(--text-light);
+  font-size: 11px;
+  padding: 2px 7px;
+  border-radius: 10px;
+  font-weight: 600;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.rating-filter { display: flex; flex-direction: column; }
+.rating-option { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; }
+.rating-option input { accent-color: var(--primary); cursor: pointer; }
+.rat-stars { color: #fbbf24; font-size: 13px; }
+.rat-label { font-size: 13px; color: var(--text-mid); }
+
+.area-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.area-tag {
+  background: var(--bg);
+  border: 1.5px solid var(--border);
+  color: var(--text-mid);
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all .2s;
+}
+.area-tag:hover, .area-tag.active { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 600; }
+
+.btn-apply-filter {
+  width: 100%;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  padding: 11px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  transition: background .2s;
+  margin-top: 4px;
+}
+.btn-apply-filter:hover { background: var(--primary-dark); }
+
+/* ── MAIN CONTENT ── */
+.main-content { min-width: 0; }
+
+/* Toolbar */
+.toolbar {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+.toolbar-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.result-count { font-size: 14px; color: var(--text-mid); }
+.result-count strong { color: var(--text-dark); font-weight: 700; }
+.active-filters { display: flex; gap: 6px; flex-wrap: wrap; }
+.active-filter-tag {
+  display: flex; align-items: center; gap: 5px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.active-filter-tag .remove { cursor: pointer; font-size: 14px; line-height: 1; }
+.toolbar-right { display: flex; align-items: center; gap: 12px; }
+.sort-select {
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 7px 32px 7px 10px;
+  font-size: 13px;
+  outline: none;
+  color: var(--text-dark);
+  cursor: pointer;
+  font-family: 'Noto Sans', sans-serif;
+  background: var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.view-toggle { display: flex; gap: 4px; }
+.view-btn {
+  width: 34px; height: 34px;
+  border: 2px solid var(--border);
+  border-radius: 7px;
+  background: transparent;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: all .2s;
+  color: var(--text-light);
+}
+.view-btn.active, .view-btn:hover { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+
+/* Category Tabs */
+.cat-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.cat-tab {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 16px;
+  border-radius: 24px;
+  font-size: 13px;
+  font-weight: 500;
+  border: 2px solid var(--border);
+  background: var(--white);
+  color: var(--text-mid);
+  cursor: pointer;
+  transition: all .2s;
+}
+.cat-tab:hover { border-color: var(--primary); color: var(--primary); }
+.cat-tab.active { background: var(--primary); border-color: var(--primary); color: #fff; font-weight: 600; }
+.cat-tab .count { font-size: 11px; opacity: .8; }
+
+/* Shop Cards Grid */
+.shops-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+.shops-grid.list-view { grid-template-columns: 1fr; }
+
+/* Shop Card */
+.shop-card {
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  transition: all .25s;
+  position: relative;
+}
+.shop-card:hover { box-shadow: var(--card-shadow-hover); transform: translateY(-3px); border-color: transparent; }
+
+.shop-cover {
+  height: 110px;
+  position: relative;
+  overflow: visible;
+}
+.shop-cover-bg { display: none; }
+.cover-pattern {
+  position: absolute; inset: 0;
+  opacity: .12;
+  background-image: repeating-linear-gradient(45deg, transparent, transparent 8px, rgba(255,255,255,.5) 8px, rgba(255,255,255,.5) 9px);
+}
+.shop-logo { display: none; }
+.shop-badges {
+  position: absolute;
+  top: 10px; right: 10px;
+  display: flex; gap: 5px;
+}
+.badge {
+  font-size: 10px; font-weight: 700;
+  padding: 3px 9px; border-radius: 5px; color: #fff;
+}
+.badge-featured { background: var(--accent); }
+.badge-verified { background: var(--primary); }
+.badge-hot { background: #dc2626; }
+.badge-new { background: #059669; }
+.badge-premium { background: #7c3aed; }
+
+/* Card Body */
+.shop-body { padding: 16px 20px 20px; }
+.shop-name-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; margin-bottom: 4px; }
+.shop-name { font-family: 'Baloo 2', cursive; font-size: 17px; font-weight: 700; color: var(--text-dark); }
+.shop-category-tag {
+  font-size: 11px; color: var(--primary); font-weight: 600;
+  background: var(--primary-light); padding: 3px 9px; border-radius: 4px;
+  display: inline-block; margin-bottom: 8px; white-space: nowrap;
+}
+.shop-rating { display: flex; align-items: center; gap: 6px; margin-bottom: 10px; }
+.stars { color: #fbbf24; font-size: 13px; letter-spacing: 1px; }
+.rating-num { font-size: 13px; font-weight: 700; color: var(--text-dark); }
+.rating-cnt { font-size: 12px; color: var(--text-light); }
+.shop-desc {
+  font-size: 13px; color: var(--text-light);
+  line-height: 1.6; margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.shop-meta-row {
+  display: flex; gap: 14px; flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+.meta-item {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--text-light);
+}
+.meta-dot { width: 6px; height: 6px; background: var(--whatsapp); border-radius: 50%; flex-shrink: 0; }
+.meta-dot.closed { background: #dc2626; }
+.shop-tags { display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 14px; }
+.shop-tag {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-light);
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+.shop-actions { display: flex; gap: 8px; }
+.btn-wa {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+  background: var(--whatsapp); color: #fff;
+  border: none; padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 700;
+  transition: background .2s;
+}
+.btn-wa:hover { background: var(--whatsapp-dark); }
+.btn-view {
+  padding: 10px 14px;
+  background: var(--primary-light); color: var(--primary);
+  border: none; border-radius: var(--radius-sm);
+  font-size: 13px; font-weight: 600;
+  transition: all .2s;
+}
+.btn-view:hover { background: var(--primary); color: #fff; }
+.btn-save {
+  width: 40px; height: 40px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 16px;
+  transition: all .2s;
+}
+.btn-save:hover { border-color: var(--accent); background: var(--accent-light); }
+
+/* LIST VIEW card */
+.shops-grid.list-view .shop-card {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+}
+.shops-grid.list-view .shop-cover { height: 100%; min-height: 140px; border-radius: 0; }
+.shops-grid.list-view .shop-body { padding: 20px 24px; }
+
+/* Featured Banner */
+.featured-banner {
+  background: linear-gradient(135deg, #fef3c7, #fff7ed);
+  border: 2px solid #fbbf24;
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.featured-banner-icon { font-size: 32px; flex-shrink: 0; color: #fbbf24; }
+.featured-banner-text { flex: 1; }
+.featured-banner-text h4 { font-family: 'Baloo 2', cursive; font-size: 16px; font-weight: 700; color: #92400e; margin-bottom: 2px; }
+.featured-banner-text p { font-size: 13px; color: #78350f; }
+.btn-feature-your-shop {
+  background: var(--accent); color: #fff;
+  border: none; padding: 9px 18px;
+  border-radius: 8px; font-size: 13px; font-weight: 700;
+  white-space: nowrap; transition: background .2s;
+}
+.btn-feature-your-shop:hover { background: #ea6c04; }
+
+/* Pagination */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px; margin-top: 32px; flex-wrap: wrap;
+}
+.page-btn {
+  width: 38px; height: 38px;
+  border: 2px solid var(--border);
+  border-radius: 8px;
+  background: var(--white);
+  font-size: 14px; font-weight: 600;
+  color: var(--text-mid);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s;
+}
+.page-btn:hover { border-color: var(--primary); color: var(--primary); }
+.page-btn.active { background: var(--primary); border-color: var(--primary); color: #fff; }
+.page-btn.prev-next { width: auto; padding: 0 14px; font-size: 13px; }
+
+/* No results */
+.no-results {
+  text-align: center; padding: 64px 24px;
+  background: var(--white);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+}
+.no-results-icon { font-size: 56px; margin-bottom: 16px; }
+.no-results h3 { font-size: 20px; margin-bottom: 8px; }
+.no-results p { color: var(--text-light); font-size: 14px; }
+
+/* ── FLOATING WHATSAPP ── */
+.float-wa {
+  position: fixed; bottom: 28px; right: 28px;
+  z-index: 9999;
+}
+.float-wa-btn {
+  width: 56px; height: 56px;
+  background: var(--whatsapp); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 26px;
+  box-shadow: 0 4px 20px rgba(37,211,102,.4);
+  cursor: pointer;
+  animation: float-bounce 3s infinite;
+}
+@keyframes float-bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+/* ── FOOTER → components.js se inject hota hai ── */
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .directory-layout { grid-template-columns: 240px 1fr; }
+}
+@media (max-width: 860px) {
+  .directory-layout { grid-template-columns: 1fr; }
+  .sidebar { position: static; }
+  .shops-grid.list-view .shop-card { grid-template-columns: 1fr; }
+  .shops-grid.list-view .shop-cover { min-height: 110px; }
+}
+@media (max-width: 600px) {
+  .directory-layout { padding: 20px 14px; }
+  .shops-grid { grid-template-columns: 1fr; }
+  .page-hero { padding: 32px 16px; }
+  .hero-stats-row { gap: 12px; }
+  .h-stat { padding: 10px 14px; }
+}
+
+/* Animate in */
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to { opacity:1; transform: translateY(0); }
+}
+@keyframes popIn { from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);} }
+@keyframes spin   { to{transform:rotate(360deg);} }
+.shop-card { animation: fadeUp .4s ease both; }
+.shop-card:nth-child(1) { animation-delay: .05s; }
+.shop-card:nth-child(2) { animation-delay: .1s; }
+.shop-card:nth-child(3) { animation-delay: .15s; }
+.shop-card:nth-child(4) { animation-delay: .2s; }
+.shop-card:nth-child(5) { animation-delay: .25s; }
+.shop-card:nth-child(6) { animation-delay: .3s; }
+.shop-card:nth-child(7) { animation-delay: .35s; }
+.shop-card:nth-child(8) { animation-delay: .4s; }
+</style>
+</head>
+<body>
+
+<!-- PINCODE / LOCATION MODAL -->
+<div id="pincodeModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:9999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#fff;border-radius:20px;padding:28px 26px;max-width:400px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.25);animation:popIn .25s ease;">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;">
+      <div style="font-family:'Baloo 2',cursive;font-size:18px;font-weight:800;color:var(--text-dark);display:flex;align-items:center;gap:8px;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> Set Your Location</div>
+      <button onclick="closePincodeModal()" style="background:none;border:none;cursor:pointer;color:var(--text-light);display:flex;align-items:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <button onclick="requestLocation(true)" style="width:100%;display:flex;align-items:center;gap:12px;background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:14px 16px;cursor:pointer;margin-bottom:14px;transition:all .2s;"
+      onmouseover="this.style.background='var(--primary)';this.querySelector('.gps-text').style.color='#fff';this.querySelector('.gps-sub').style.color='rgba(255,255,255,.75)'"
+      onmouseout="this.style.background='var(--primary-light)';this.querySelector('.gps-text').style.color='var(--primary)';this.querySelector('.gps-sub').style.color='var(--text-light)'">
+      <span style="display:flex;align-items:center;justify-content:center;"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="3 11 22 2 13 21 11 13 3 11"/></svg></span>
+      <div style="text-align:left;">
+        <div class="gps-text" style="font-size:14px;font-weight:700;color:var(--primary);">Use My Current Location</div>
+        <div class="gps-sub" style="font-size:12px;color:var(--text-light);">Auto-detect via GPS</div>
+      </div>
+    </button>
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+      <span style="font-size:12px;color:var(--text-light);">OR</span>
+      <div style="flex:1;height:1px;background:var(--border);"></div>
+    </div>
+    <div style="margin-bottom:14px;">
+      <label style="font-size:13px;font-weight:600;color:var(--text-mid);display:block;margin-bottom:7px;">Enter Pincode Manually</label>
+      <div style="display:flex;gap:9px;">
+        <input type="number" id="pincodeInput" placeholder="e.g. 452001" maxlength="6"
+          style="flex:1;border:1.5px solid var(--border);border-radius:9px;padding:10px 13px;font-size:15px;color:var(--text-dark);outline:none;font-family:'Noto Sans',sans-serif;transition:border-color .2s;"
+          onfocus="this.style.borderColor='var(--primary)'" onblur="this.style.borderColor='var(--border)'"
+          onkeydown="if(event.key==='Enter')applyPincode()">
+        <button onclick="applyPincode()" style="background:var(--primary);color:#fff;border:none;padding:10px 18px;border-radius:9px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Apply</button>
+      </div>
+    </div>
+    <div>
+      <div style="font-size:12px;font-weight:600;color:var(--text-light);margin-bottom:8px;">Popular Areas in Indore:</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;" id="popularPincodes"></div>
+    </div>
+    <div id="locDetecting" style="display:none;margin-top:14px;padding:12px 16px;background:var(--primary-light);border-radius:10px;align-items:center;gap:10px;font-size:13px;color:var(--primary);font-weight:600;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="animation:spin 1s linear infinite;flex-shrink:0;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg> Detecting your location…
+    </div>
+    <div id="locDetected" style="display:none;margin-top:14px;padding:12px 16px;background:#dcfce7;border-radius:10px;align-items:center;gap:10px;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <div style="font-size:13px;font-weight:600;color:#16a34a;" id="locAreaName">Location detected</div>
+    </div>
+    <div id="locError" style="display:none;margin-top:14px;padding:12px 16px;background:#fee2e2;border-radius:10px;align-items:center;gap:10px;font-size:13px;color:#dc2626;font-weight:600;">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Could not detect location. Please enter pincode manually.
+    </div>
+  </div>
+</div>
+
+<!-- SHARED HEADER — components.js se inject hota hai -->
+<div id="site-header"></div>
+<script src="components.js"></script>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <span class="sep">›</span>
+  <span class="current"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M4 7l1-5h14l1 5"/><path d="M3 7h18v15H3z"/><path d="M10 7v4a2 2 0 0 0 4 0V7"/></svg>Shop Directory</span>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <h1><svg width="1em" height="1em" viewBox="0 0 24 24" fill="none" style="vertical-align:-0.15em;margin-right:10px;">
+  <path d="M4 7L5 3h14l1 4H4z" fill="#fbbf24"/>
+  <rect x="2" y="7" width="20" height="4" rx="1" fill="#f97316"/>
+  <rect x="2" y="10" width="20" height="12" rx="1" fill="#dbeafe"/>
+  <rect x="9.5" y="14" width="5" height="8" rx="1" fill="#2563eb"/>
+  <circle cx="13.5" cy="18" r="0.7" fill="#fbbf24"/>
+  <rect x="3" y="11.5" width="5" height="4" rx="0.8" fill="#93c5fd"/>
+  <rect x="16" y="11.5" width="5" height="4" rx="0.8" fill="#93c5fd"/>
+  <rect x="3.5" y="12" width="1.5" height="1.5" rx="0.3" fill="#fff" opacity="0.7"/>
+  <rect x="16.5" y="12" width="1.5" height="1.5" rx="0.3" fill="#fff" opacity="0.7"/>
+</svg>Shop <span>Directory</span></h1>
+    <p>Your city's most trusted local shops — all in one place. Filter, compare, and contact sellers directly on WhatsApp.</p>
+    <div class="hero-stats-row">
+      <div class="h-stat"><div class="num">500+</div><div class="lbl">Registered Shops</div></div>
+      <div class="h-stat"><div class="num">14</div><div class="lbl">Categories</div></div>
+      <div class="h-stat"><div class="num">25+</div><div class="lbl">City Areas</div></div>
+      <div class="h-stat"><div class="num">4.7 ★</div><div class="lbl">Avg Rating</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- MAIN LAYOUT -->
+<div class="directory-layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+
+    <!-- Search Filter -->
+    <div class="filter-card">
+      <div class="filter-header">
+        <span class="filter-title"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Filters</span>
+        <span class="filter-clear" onclick="clearFilters()">Clear All</span>
+      </div>
+      <div class="filter-body">
+
+        <!-- Shop Search -->
+        <div class="filter-section">
+          <div class="filter-section-title">Shop Name</div>
+          <input type="text" class="filter-search-input" placeholder="e.g. Sharma Cloth...">
+        </div>
+
+        <!-- Category -->
+        <div class="filter-section">
+          <div class="filter-section-title">Category</div>
+          <ul class="check-list">
+            <li class="check-item">
+              <input type="checkbox" id="c1" checked>
+              <label for="c1">All Shops <span class="check-count">500</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c2">
+              <label for="c2"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M6 2L2 7l4 2v13h12V9l4-2-4-5"/><path d="M9 2c.5 2 1.5 3 3 3s2.5-1 3-3"/></svg>Men Fashion <span class="check-count">120</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c3">
+              <label for="c3"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 3a3 3 0 0 1 3 3v1l3 4-4 1v10H10V12L6 11l3-4V6a3 3 0 0 1 3-3z"/></svg>Women Fashion <span class="check-count">145</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c4">
+              <label for="c4"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="6" r="3"/><path d="M9 22v-3l-2-2v-5h10v5l-2 2v3"/></svg>Kids Wear <span class="check-count">68</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c5">
+              <label for="c5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Electronics <span class="check-count">92</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c6">
+              <label for="c6"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Mobile Accessories <span class="check-count">75</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c7">
+              <label for="c7"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 17l3-8h8l3 4 4 1v3H3z"/><path d="M10 9V7"/></svg>Footwear <span class="check-count">54</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c8">
+              <label for="c8"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="15" r="6"/><path d="M8 9l2-3h4l2 3"/><line x1="8" y1="9" x2="16" y2="9"/></svg>Jewellery <span class="check-count">46</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c9">
+              <label for="c9"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home Decor <span class="check-count">38</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c10">
+              <label for="c10"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 2l3 7H7l3-7z"/><path d="M7 9v13h10V9"/></svg>Ethnic Wear <span class="check-count">62</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c11">
+              <label for="c11"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Bags &amp; Wallets <span class="check-count">44</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c12">
+              <label for="c12"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg>Watches <span class="check-count">31</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c13">
+              <label for="c13"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Beauty &amp; Care <span class="check-count">57</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="c14">
+              <label for="c14"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l4.24 4.24"/><path d="M14.83 9.17l4.24-4.24"/><path d="M14.83 14.83l4.24 4.24"/><path d="M9.17 14.83l-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>Sports &amp; Fitness <span class="check-count">29</span></label>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Rating -->
+        <div class="filter-section">
+          <div class="filter-section-title">Minimum Rating</div>
+          <div class="rating-filter">
+            <div class="rating-option"><input type="radio" name="rating" id="r4"><span class="rat-stars">★★★★★</span><span class="rat-label">4.5 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rating" id="r3"><span class="rat-stars">★★★★☆</span><span class="rat-label">4.0 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rating" id="r2"><span class="rat-stars">★★★☆☆</span><span class="rat-label">3.0 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rating" id="r0" checked><span class="rat-stars">★☆☆☆☆</span><span class="rat-label">Any Rating</span></div>
+          </div>
+        </div>
+
+        <!-- Area -->
+        <div class="filter-section">
+          <div class="filter-section-title">Area / Locality</div>
+          <div class="area-tags" id="areaTags">
+            <span class="area-tag active" onclick="toggleArea(this)">All Areas</span>
+            <span class="area-tag" onclick="toggleArea(this)">Gandhi Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Station Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">Sarafa Bazar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Civil Lines</span>
+            <span class="area-tag" onclick="toggleArea(this)">MG Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">New Market</span>
+            <span class="area-tag" onclick="toggleArea(this)">Indra Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Vijay Nagar</span>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="filter-section">
+          <div class="filter-section-title">Shop Status</div>
+          <ul class="check-list">
+            <li class="check-item">
+              <input type="checkbox" id="s1" checked>
+              <label for="s1"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Open Now <span class="check-count">312</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="s2">
+              <label for="s2"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured Shops <span class="check-count">48</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="s3">
+              <label for="s3"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified Only <span class="check-count">380</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="s4">
+              <label for="s4"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>New Shops <span class="check-count">24</span></label>
+            </li>
+            <li class="check-item">
+              <input type="checkbox" id="s5">
+              <label for="s5"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Home Delivery <span class="check-count">310</span></label>
+            </li>
+          </ul>
+        </div>
+
+        <button class="btn-apply-filter" id="btnApply">Apply Filters</button>
+      </div>
+    </div>
+
+    <!-- Map Preview -->
+    <div class="filter-card">
+      <div class="filter-header">
+        <span class="filter-title"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Shop Map</span>
+      </div>
+      <div style="padding:0;">
+        <div style="background: linear-gradient(135deg, var(--primary-light), #dbeafe); height: 160px; display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px; font-size:36px; cursor:pointer;" onclick="alert('Google Maps integration will be available in WordPress')">
+          <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
+          <span style="font-size:13px; color:var(--primary); font-weight:600;">Open Map View</span>
+        </div>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <main class="main-content">
+
+    <!-- Featured Banner -->
+    <div class="featured-banner">
+      <span class="featured-banner-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span>
+      <div class="featured-banner-text">
+        <h4>Get Your Shop Featured!</h4>
+        <p>Get top placement on homepage &amp; directory — starting at just ₹499/month</p>
+      </div>
+      <button class="btn-feature-your-shop">Feature My Shop</button>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="cat-tabs" id="catTabs">
+      <div class="cat-tab active" onclick="filterCat(this,'all')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M4 7l1-5h14l1 5"/><path d="M3 7h18v15H3z"/><path d="M10 7v4a2 2 0 0 0 4 0V7"/></svg>All Shops <span class="count">(500)</span></div>
+      <div class="cat-tab" onclick="filterCat(this,'men')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M6 2L2 7l4 2v13h12V9l4-2-4-5"/><path d="M9 2c.5 2 1.5 3 3 3s2.5-1 3-3"/></svg>Men Fashion</div>
+      <div class="cat-tab" onclick="filterCat(this,'women')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 3a3 3 0 0 1 3 3v1l3 4-4 1v10H10V12L6 11l3-4V6a3 3 0 0 1 3-3z"/></svg>Women Fashion</div>
+      <div class="cat-tab" onclick="filterCat(this,'kids')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="6" r="3"/><path d="M9 22v-3l-2-2v-5h10v5l-2 2v3"/></svg>Kids Wear</div>
+      <div class="cat-tab" onclick="filterCat(this,'electronics')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Electronics</div>
+      <div class="cat-tab" onclick="filterCat(this,'mobile')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Mobile Access.</div>
+      <div class="cat-tab" onclick="filterCat(this,'footwear')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 17l3-8h8l3 4 4 1v3H3z"/><path d="M10 9V7"/></svg>Footwear</div>
+      <div class="cat-tab" onclick="filterCat(this,'jewellery')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="15" r="6"/><path d="M8 9l2-3h4l2 3"/><line x1="8" y1="9" x2="16" y2="9"/></svg>Jewellery</div>
+      <div class="cat-tab" onclick="filterCat(this,'home-decor')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home Decor</div>
+      <div class="cat-tab" onclick="filterCat(this,'ethnic-wear')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 2l3 7H7l3-7z"/><path d="M7 9v13h10V9"/></svg>Ethnic Wear</div>
+      <div class="cat-tab" onclick="filterCat(this,'bags-wallets')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Bags &amp; Wallets</div>
+      <div class="cat-tab" onclick="filterCat(this,'watches')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg>Watches</div>
+      <div class="cat-tab" onclick="filterCat(this,'beauty-care')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Beauty &amp; Care</div>
+      <div class="cat-tab" onclick="filterCat(this,'sports-fitness')"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l4.24 4.24"/><path d="M14.83 9.17l4.24-4.24"/><path d="M14.83 14.83l4.24 4.24"/><path d="M9.17 14.83l-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>Sports &amp; Fitness</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <span class="result-count">Showing <strong>500</strong> shops</span>
+        <div class="active-filters" id="activeFilters">
+          <span class="active-filter-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>Open Now <span class="remove" onclick="removeFilter(this)">×</span></span>
+          <span class="active-filter-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>All Areas <span class="remove" onclick="removeFilter(this)">×</span></span>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <select class="sort-select" id="sortSelect">
+          <option>Sort: Featured First</option>
+          <option>Sort: Rating High→Low</option>
+          <option>Sort: Most Reviews</option>
+          <option>Sort: Newest First</option>
+          <option>Sort: A→Z</option>
+        </select>
+        <div class="view-toggle">
+          <button class="view-btn active" id="gridBtn" onclick="setView('grid')" title="Grid View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+          <button class="view-btn" id="listBtn" onclick="setView('list')" title="List View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Shops Grid -->
+    <div class="shops-grid" id="shopsGrid">
+      <!-- Loading skeleton — replaced by JS -->
+      <div id="loadingShops" style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;gap:16px;">
+        <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" style="animation:spin 1s linear infinite;flex-shrink:0;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+        <span style="font-size:14px;color:var(--text-light);font-weight:600;">Loading shops…</span>
+      </div>
+      <!-- Shop cards injected here by loadShops() -->
+
+      <!-- STATIC FALLBACK CARDS START — will be removed by JS on load -->
+      <!-- Shop 1 — Featured -->
+      <div class="shop-card" data-cat="men" data-delivery="no">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #1a56db, #1e88e5);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L2 7l4 2v13h12V9l4-2-4-5"/><path d="M9 2c.5 2 1.5 3 3 3s2.5-1 3-3"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L2 7l4 2v13h12V9l4-2-4-5"/><path d="M9 2c.5 2 1.5 3 3 3s2.5-1 3-3"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-featured"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name-row">
+            <div class="shop-name">Sharma Cloth House</div>
+          </div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M6 2L2 7l4 2v13h12V9l4-2-4-5"/><path d="M9 2c.5 2 1.5 3 3 3s2.5-1 3-3"/></svg>Men Fashion</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.8</span>
+            <span class="rating-cnt">(124 reviews)</span>
+          </div>
+          <div class="shop-desc">Premium men's clothing — kurta, shirt, trouser, suit — everything in one place. Wholesale also available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Gandhi Nagar</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>240 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Kurta</span>
+            <span class="shop-tag">Shirt</span>
+            <span class="shop-tag">Suit</span>
+            <span class="shop-tag">Wholesale</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Sharma Cloth House')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 2 -->
+      <div class="shop-card" data-cat="electronics" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #f97316, #fb923c);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-hot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Hot</span>
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Digital Zone Electronics</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Electronics</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.5</span>
+            <span class="rating-cnt">(89 reviews)</span>
+          </div>
+          <div class="shop-desc">Mobiles, laptops, earphones, chargers and all accessories. With best price guarantee.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Station Road</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>180 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Mobile</span>
+            <span class="shop-tag">Laptop</span>
+            <span class="shop-tag">Earphones</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Digital Zone')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 3 -->
+      <div class="shop-card" data-cat="women" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #7c3aed, #a78bfa);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 1 3 3v1l3 4-4 1v10H10V12L6 11l3-4V6a3 3 0 0 1 3-3z"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a3 3 0 0 1 3 3v1l3 4-4 1v10H10V12L6 11l3-4V6a3 3 0 0 1 3-3z"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-premium"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M2 20h20M4 20L2 8l5 4 5-7 5 7 5-4-2 12"/></svg>Premium</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Meera Saree Center</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 3a3 3 0 0 1 3 3v1l3 4-4 1v10H10V12L6 11l3-4V6a3 3 0 0 1 3-3z"/></svg>Women Fashion</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.9</span>
+            <span class="rating-cnt">(210 reviews)</span>
+          </div>
+          <div class="shop-desc">Banarasi, Kanjivaram, Georgette — perfect sarees for every occasion. Blouse stitching also available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Sarafa Bazar</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>320 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Saree</span>
+            <span class="shop-tag">Lehenga</span>
+            <span class="shop-tag">Suit</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Meera Saree Center')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 4 -->
+      <div class="shop-card" data-cat="kids" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #059669, #10b981);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M9 22v-3l-2-2v-5h10v5l-2 2v3"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="6" r="3"/><path d="M9 22v-3l-2-2v-5h10v5l-2 2v3"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-new"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>New</span>
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Little Star Kids Wear</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="6" r="3"/><path d="M9 22v-3l-2-2v-5h10v5l-2 2v3"/></svg>Kids Wear</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.3</span>
+            <span class="rating-cnt">(56 reviews)</span>
+          </div>
+          <div class="shop-desc">Stylish and comfortable clothing for kids — from school uniforms to party wear, everything available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Civil Lines</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>150 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">School Uniform</span>
+            <span class="shop-tag">Party Wear</span>
+            <span class="shop-tag">Infant</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Little Star Kids Wear')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 5 -->
+      <div class="shop-card" data-cat="mobile" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #dc2626, #f87171);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-featured"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Mobile Master</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"/><path d="M3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>Mobile Accessories</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.7</span>
+            <span class="rating-cnt">(98 reviews)</span>
+          </div>
+          <div class="shop-desc">Mobile covers, tempered glass, chargers, cables for every phone — at the lowest prices. Bulk orders welcome.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot closed"></span> Closed Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>MG Road</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>430 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Cover</span>
+            <span class="shop-tag">Charger</span>
+            <span class="shop-tag">Tempered</span>
+            <span class="shop-tag">Bulk</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Mobile Master')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 6 -->
+      <div class="shop-card" data-cat="footwear" data-delivery="no">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #d97706, #fbbf24);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l3-8h8l3 4 4 1v3H3z"/><path d="M10 9V7"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l3-8h8l3 4 4 1v3H3z"/><path d="M10 9V7"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Step In Footwear</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 17l3-8h8l3 4 4 1v3H3z"/><path d="M10 9V7"/></svg>Footwear</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.2</span>
+            <span class="rating-cnt">(73 reviews)</span>
+          </div>
+          <div class="shop-desc">Sports shoes, formal shoes, sandals and slippers — for men, women and kids. Both branded and local options available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>New Market</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>280 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Sports</span>
+            <span class="shop-tag">Formal</span>
+            <span class="shop-tag">Sandal</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Step In Footwear')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 7 -->
+      <div class="shop-card" data-cat="jewellery" data-delivery="no">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #0891b2, #22d3ee);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="6"/><path d="M8 9l2-3h4l2 3"/><line x1="8" y1="9" x2="16" y2="9"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="15" r="6"/><path d="M8 9l2-3h4l2 3"/><line x1="8" y1="9" x2="16" y2="9"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-premium"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M2 20h20M4 20L2 8l5 4 5-7 5 7 5-4-2 12"/></svg>Premium</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Rani Jewellery House</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="15" r="6"/><path d="M8 9l2-3h4l2 3"/><line x1="8" y1="9" x2="16" y2="9"/></svg>Jewellery</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.9</span>
+            <span class="rating-cnt">(187 reviews)</span>
+          </div>
+          <div class="shop-desc">Gold, silver, artificial and bridal jewellery. Custom designs also available. A trusted shop for over 25 years.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Sarafa Bazar</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>195 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Gold</span>
+            <span class="shop-tag">Bridal</span>
+            <span class="shop-tag">Custom</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Rani Jewellery House')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 8 -->
+      <div class="shop-card" data-cat="home-decor" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #4f46e5, #818cf8);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-new"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>New</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Home Decor Palace</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home Decor</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.1</span>
+            <span class="rating-cnt">(34 reviews)</span>
+          </div>
+          <div class="shop-desc">Make your home beautiful — curtains, cushions, wall art, lights and much more, all under one roof.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Vijay Nagar</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>120 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Curtains</span>
+            <span class="shop-tag">Wall Art</span>
+            <span class="shop-tag">Lights</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Home Decor Palace')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 9 — Ethnic Wear -->
+      <div class="shop-card" data-cat="ethnic-wear" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #be185d, #f472b6);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7H7l3-7z"/><path d="M7 9v13h10V9"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3 7H7l3-7z"/><path d="M7 9v13h10V9"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-featured"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Royal Ethnic Wear</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M12 2l3 7H7l3-7z"/><path d="M7 9v13h10V9"/></svg>Ethnic Wear</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.7</span>
+            <span class="rating-cnt">(142 reviews)</span>
+          </div>
+          <div class="shop-desc">Kurta sets, sherwanis, anarkalis, salwar suits — best collection for festivals and weddings. Custom stitching also available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>MG Road</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>310 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Kurta</span>
+            <span class="shop-tag">Sherwani</span>
+            <span class="shop-tag">Anarkali</span>
+            <span class="shop-tag">Custom</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Royal Ethnic Wear')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 10 — Bags & Wallets -->
+      <div class="shop-card" data-cat="bags-wallets" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #92400e, #d97706);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-hot"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>Hot</span>
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Leather Lane Bags</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>Bags &amp; Wallets</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.4</span>
+            <span class="rating-cnt">(88 reviews)</span>
+          </div>
+          <div class="shop-desc">Ladies purses, men's wallets, office bags, school bags, travel bags — genuine leather and synthetic both available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Vijay Nagar</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>200 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Purse</span>
+            <span class="shop-tag">Wallet</span>
+            <span class="shop-tag">Travel Bag</span>
+            <span class="shop-tag">Leather</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Leather Lane Bags')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 11 — Watches -->
+      <div class="shop-card" data-cat="watches" data-delivery="no">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #374151, #6b7280);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-premium"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M2 20h20M4 20L2 8l5 4 5-7 5 7 5-4-2 12"/></svg>Premium</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Time Zone Watches</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/></svg>Watches</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.5</span>
+            <span class="rating-cnt">(63 reviews)</span>
+          </div>
+          <div class="shop-desc">Branded and local watches — Titan, Fastrack, Casio and imported brands. Battery replacement and repair also available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Station Road</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>160 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Titan</span>
+            <span class="shop-tag">Casio</span>
+            <span class="shop-tag">Repair</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Time Zone Watches')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 12 — Beauty & Care -->
+      <div class="shop-card" data-cat="beauty-care" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #db2777, #f9a8d4);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-new"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>New</span>
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Glam &amp; Glow Beauty Store</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Beauty &amp; Care</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★★</span>
+            <span class="rating-num">4.6</span>
+            <span class="rating-cnt">(115 reviews)</span>
+          </div>
+          <div class="shop-desc">Skincare, haircare, makeup, perfume — both branded and herbal options. Beauty salon products at wholesale prices.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Indra Nagar</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>380 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Skincare</span>
+            <span class="shop-tag">Makeup</span>
+            <span class="shop-tag">Perfume</span>
+            <span class="shop-tag">Herbal</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Glam & Glow Beauty Store')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shop 13 — Sports & Fitness -->
+      <div class="shop-card" data-cat="sports-fitness" data-delivery="yes">
+        <div class="shop-cover" style="background: linear-gradient(135deg, #15803d, #4ade80);">
+          <div class="shop-cover-bg"><svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l4.24 4.24"/><path d="M14.83 9.17l4.24-4.24"/><path d="M14.83 14.83l4.24 4.24"/><path d="M9.17 14.83l-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="cover-pattern"></div>
+          <div class="shop-logo"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l4.24 4.24"/><path d="M14.83 9.17l4.24-4.24"/><path d="M14.83 14.83l4.24 4.24"/><path d="M9.17 14.83l-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg></div>
+          <div class="shop-badges">
+            <span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+          </div>
+        </div>
+        <div class="shop-body">
+          <div class="shop-name">Champion Sports World</div>
+          <span class="shop-category-tag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><path d="M4.93 4.93l4.24 4.24"/><path d="M14.83 9.17l4.24-4.24"/><path d="M14.83 14.83l4.24 4.24"/><path d="M9.17 14.83l-4.24 4.24"/><circle cx="12" cy="12" r="4"/></svg>Sports &amp; Fitness</span>
+          <div class="shop-rating">
+            <span class="stars">★★★★☆</span>
+            <span class="rating-num">4.3</span>
+            <span class="rating-cnt">(77 reviews)</span>
+          </div>
+          <div class="shop-desc">Cricket, football, badminton, gym equipment, protein supplements — everything in one place. Bulk order discounts available.</div>
+          <div class="shop-meta-row">
+            <span class="meta-item"><span class="meta-dot"></span> Open Now</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Civil Lines</span>
+            <span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>250 Products</span>
+          </div>
+          <div class="shop-tags">
+            <span class="shop-tag">Cricket</span>
+            <span class="shop-tag">Gym</span>
+            <span class="shop-tag">Football</span>
+            <span class="shop-tag">Bulk</span>
+          </div>
+          <div class="shop-actions">
+            <button class="btn-wa" onclick="openWA('Champion Sports World')"><svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
+            <button class="btn-view">View Shop →</button>
+            <button class="btn-save" onclick="toggleSave(this)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /shops-grid -->
+
+    <!-- No Results -->
+    <div id="noResults" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);text-align:center;margin-bottom:18px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" width="64" height="64" style="margin-bottom:16px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      <div style="font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">No Shops Found</div>
+      <div style="font-size:13px;color:var(--text-light);max-width:280px;line-height:1.6;margin-bottom:20px;">No shops match your selected filters. Try adjusting or clearing the filters.</div>
+      <button onclick="clearFilters()" style="background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Clear All Filters</button>
+    </div>
+
+    <!-- Pagination — rendered by JS -->
+    <div class="pagination" id="paginationContainer"></div>
+
+  </main>
+</div>
+
+<!-- SHARED FOOTER — components.js se inject hota hai -->
+<div id="site-footer"></div>
+<script>injectComponents();</script>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  SHOP DIRECTORY — Real API
+// ════════════════════════════════════════════════════════
+const API_BASE = 'http://localhost:5000/api';
+
+// ── State ──────────────────────────────────────────────
+var SD = {
+  page: 1,
+  limit: 12,
+  total: 0,
+  category: '',
+  search: '',
+  sort: 'featured',
+  verifiedOnly: false,
+  currentShops: []
+};
+
+// ── Category → cover gradient map ─────────────────────
+var CAT_COLORS = {
+  'men':           'linear-gradient(135deg,#1a56db,#1e88e5)',
+  'women':         'linear-gradient(135deg,#7c3aed,#a78bfa)',
+  'kids':          'linear-gradient(135deg,#059669,#10b981)',
+  'electronics':   'linear-gradient(135deg,#f97316,#fb923c)',
+  'mobile':        'linear-gradient(135deg,#0284c7,#38bdf8)',
+  'footwear':      'linear-gradient(135deg,#92400e,#d97706)',
+  'jewellery':     'linear-gradient(135deg,#0891b2,#22d3ee)',
+  'home-decor':    'linear-gradient(135deg,#4f46e5,#818cf8)',
+  'ethnic-wear':   'linear-gradient(135deg,#be185d,#f472b6)',
+  'bags-wallets':  'linear-gradient(135deg,#92400e,#d97706)',
+  'watches':       'linear-gradient(135deg,#374151,#6b7280)',
+  'beauty-care':   'linear-gradient(135deg,#db2777,#f9a8d4)',
+  'sports-fitness':'linear-gradient(135deg,#16a34a,#4ade80)',
+  'default':       'linear-gradient(135deg,#1a56db,#7c3aed)'
+};
+
+// ── Build a shop card HTML ─────────────────────────────
+function buildShopCard(shop) {
+  const cats     = Array.isArray(shop.category) ? shop.category : [shop.category || ''];
+  const catSlug  = (cats[0] || '').toLowerCase().replace(/\s+/g,'-');
+  const catLabel = cats[0] || 'General';
+  const bg       = CAT_COLORS[catSlug] || CAT_COLORS['default'];
+  const rating   = parseFloat(shop.rating) || 0;
+  const stars    = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+  const waNum    = (shop.whatsapp || '').replace(/[^0-9]/g,'');
+  const fullWa   = waNum ? (waNum.startsWith('91') ? waNum : '91' + waNum) : '919876543210';
+
+  // Badges
+  let badges = '';
+  if (shop.plan === 'premium') {
+    badges += `<span class="badge badge-premium"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M2 20h20M4 20L2 8l5 4 5-7 5 7 5-4-2 12"/></svg>Premium</span>`;
+  } else if (shop.plan === 'growth') {
+    badges += `<span class="badge badge-featured"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1" style="vertical-align:-2px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured</span>`;
+  }
+  if (shop.is_verified) {
+    badges += `<span class="badge badge-verified"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>`;
+  }
+
+  const city = shop.city || '';
+  const desc = shop.description || 'Quality products at best prices. Contact us on WhatsApp for inquiries.';
+  const products = shop.product_count || '';
+  const productsMeta = products ? `<span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>${products} Products</span>` : '';
+
+  return `
+    <div class="shop-card" data-cat="${catSlug}" data-id="${shop.id}">
+      <div class="shop-cover" style="background:${bg};">
+        <div class="cover-pattern"></div>
+        <div class="shop-badges">${badges}</div>
+      </div>
+      <div class="shop-body">
+        <div class="shop-name-row">
+          <div class="shop-name">${shop.name}</div>
+        </div>
+        <span class="shop-category-tag">${catLabel}</span>
+        <div class="shop-rating">
+          <span class="stars">${stars}</span>
+          <span class="rating-num">${rating > 0 ? rating.toFixed(1) : 'New'}</span>
+          ${shop.review_count > 0 ? `<span class="rating-cnt">(${shop.review_count} reviews)</span>` : '<span class="rating-cnt">(No reviews yet)</span>'}
+        </div>
+        <div class="shop-desc">${desc}</div>
+        <div class="shop-meta-row">
+          <span class="meta-item"><span class="meta-dot"></span> Open</span>
+          ${city ? `<span class="meta-item"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${city}</span>` : ''}
+          ${productsMeta}
+        </div>
+        <div class="shop-actions">
+          <button class="btn-wa" onclick="openWA('${shop.name.replace(/'/g,"\\'")}','${fullWa}')">
+            <svg style="vertical-align:-3px;margin-right:5px;" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+          <button class="btn-view" onclick="viewShop('${shop.slug}')">View Shop →</button>
+          <button class="btn-save" onclick="toggleSave(this)" title="Save Shop">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── LOAD SHOPS from API ────────────────────────────────
+async function loadShops(page) {
+  page = page || 1;
+  SD.page = page;
+
+  const grid    = document.getElementById('shopsGrid');
+  const noRes   = document.getElementById('noResults');
+  const loading = document.getElementById('loadingShops');
+  const countEl = document.querySelector('.result-count strong');
+
+  // Show loader, hide content
+  if (loading) loading.style.display = 'flex';
+  if (noRes)   noRes.style.display   = 'none';
+
+  // Remove previously rendered dynamic cards (keep loading div + static fallback comment)
+  grid.querySelectorAll('.shop-card').forEach(c => c.remove());
+
+  // Build query string
+  const params = new URLSearchParams({ page, limit: SD.limit });
+  if (SD.category) params.set('category', SD.category);
+  if (SD.search)   params.set('search',   SD.search);
+
+  try {
+    const res  = await fetch(`${API_BASE}/shops?${params}`);
+    const data = await res.json();
+
+    if (loading) loading.style.display = 'none';
+
+    if (!data.success || !data.shops) throw new Error(data.error || 'API error');
+
+    SD.total       = data.total || 0;
+    SD.currentShops = data.shops;
+
+    if (data.shops.length === 0) {
+      if (noRes) noRes.style.display = 'flex';
+      if (countEl) countEl.textContent = '0';
+      renderPagination(0, page);
+      return;
+    }
+
+    // Render cards
+    let html = '';
+    data.shops.forEach(shop => { html += buildShopCard(shop); });
+    grid.insertAdjacentHTML('beforeend', html);
+
+    if (countEl) countEl.textContent = SD.total;
+    renderPagination(SD.total, page);
+
+  } catch (err) {
+    if (loading) loading.style.display = 'none';
+    // Show error + fallback to static cards
+    grid.insertAdjacentHTML('beforeend', `
+      <div style="grid-column:1/-1;background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:32px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">⚠️</div>
+        <div style="font-weight:700;font-size:16px;color:var(--text-dark);margin-bottom:8px;">Could not load shops</div>
+        <div style="font-size:13px;color:var(--text-light);margin-bottom:20px;">${err.message}<br>Please make sure the backend server is running on port 5000.</div>
+        <button onclick="loadShops(1)" style="background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;">Try Again</button>
+      </div>`);
+  }
+}
+
+// ── Render Pagination ──────────────────────────────────
+function renderPagination(total, currentPage) {
+  const container = document.getElementById('paginationContainer');
+  if (!container) return;
+  const totalPages = Math.ceil(total / SD.limit);
+  if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+  let html = '';
+  html += `<button class="page-btn prev-next" onclick="loadShops(${currentPage - 1})" ${currentPage === 1 ? 'disabled style="opacity:.4;cursor:not-allowed;"' : ''}>← Prev</button>`;
+
+  for (let p = 1; p <= Math.min(totalPages, 7); p++) {
+    html += `<button class="page-btn ${p === currentPage ? 'active' : ''}" onclick="loadShops(${p})">${p}</button>`;
+  }
+  if (totalPages > 7) {
+    html += `<span style="color:var(--text-light);padding:0 4px;">…</span>
+             <button class="page-btn" onclick="loadShops(${totalPages})">${totalPages}</button>`;
+  }
+
+  html += `<button class="page-btn prev-next" onclick="loadShops(${currentPage + 1})" ${currentPage === totalPages ? 'disabled style="opacity:.4;cursor:not-allowed;"' : ''}>Next →</button>`;
+  container.innerHTML = html;
+}
+
+// ── WhatsApp open ──────────────────────────────────────
+function openWA(shopName, waNum) {
+  const num = waNum || '919876543210';
+  const msg = encodeURIComponent(`Hello! I found "${shopName}" on BahaBasket. Could you please share more details?`);
+  window.open(`https://wa.me/${num}?text=${msg}`, '_blank');
+}
+
+// Save/wishlist toggle
+function toggleSave(btn) {
+  const saved = btn.classList.toggle('saved');
+  btn.innerHTML = saved
+    ? '<svg width="15" height="15" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>'
+    : '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+}
+
+// View toggle (grid / list)
+function setView(mode) {
+  const grid = document.getElementById('shopsGrid');
+  const gridBtn = document.getElementById('gridBtn');
+  const listBtn = document.getElementById('listBtn');
+  if (mode === 'list') {
+    grid.classList.add('list-view');
+    listBtn.classList.add('active');
+    gridBtn.classList.remove('active');
+  } else {
+    grid.classList.remove('list-view');
+    gridBtn.classList.add('active');
+    listBtn.classList.remove('active');
+  }
+}
+
+// ── View Shop ──────────────────────────────────────────
+function viewShop(slug) {
+  if (slug) window.location.href = 'shop-profile.html?slug=' + slug;
+  else alert('Shop profile page coming soon!');
+}
+
+// ══════════════════════════════
+//  FILTER ENGINE → API-driven
+// ══════════════════════════════
+var CAT_MAP = {
+  'c2':'men','c3':'women','c4':'kids','c5':'electronics',
+  'c6':'mobile','c7':'footwear','c8':'jewellery','c9':'home-decor',
+  'c10':'ethnic-wear','c11':'bags-wallets','c12':'watches',
+  'c13':'beauty-care','c14':'sports-fitness'
+};
+
+function applyFilters() {
+  // Read category from sidebar checkboxes
+  var allCat = document.getElementById('c1') && document.getElementById('c1').checked;
+  if (allCat) {
+    SD.category = '';
+  } else {
+    var selectedCats = [];
+    Object.keys(CAT_MAP).forEach(function(id) {
+      var cb = document.getElementById(id);
+      if (cb && cb.checked) selectedCats.push(CAT_MAP[id]);
+    });
+    SD.category = selectedCats[0] || '';
+  }
+
+  // Read search from filter input
+  var searchInput = document.querySelector('.filter-search-input');
+  SD.search = searchInput ? searchInput.value.trim() : '';
+
+  SD.page = 1;
+  loadShops(1);
+  return; // below is the old static code (kept for reference but not used)
+  var cards = document.querySelectorAll('#shopsGrid .shop-card');
+
+  // 1. Category (sidebar checkboxes c1–c14)
+  var allCat = document.getElementById('c1') && document.getElementById('c1').checked;
+  var selectedCats = [];
+  if (!allCat) {
+    Object.keys(CAT_MAP).forEach(function(id) {
+      var cb = document.getElementById(id);
+      if (cb && cb.checked) selectedCats.push(CAT_MAP[id]);
+    });
+  }
+
+  // 2. Rating
+  var rEl = document.querySelector('input[name="rating"]:checked');
+  var rid = rEl ? rEl.id : 'r0';
+  var minRating = rid === 'r4' ? 4.5 : rid === 'r3' ? 4.0 : rid === 'r2' ? 3.0 : 0;
+
+  // 3. Area
+  var activeAreaEl = document.querySelector('.area-tag.active');
+  var selectedArea = activeAreaEl ? activeAreaEl.textContent.trim().toLowerCase() : 'all areas';
+
+  // 4. Status checkboxes
+  var openOnly     = !!(document.getElementById('s1') && document.getElementById('s1').checked);
+  var featuredOnly = !!(document.getElementById('s2') && document.getElementById('s2').checked);
+  var verifiedOnly = !!(document.getElementById('s3') && document.getElementById('s3').checked);
+  var newOnly      = !!(document.getElementById('s4') && document.getElementById('s4').checked);
+  var deliveryOnly = !!(document.getElementById('s5') && document.getElementById('s5').checked);
+
+  var visible = 0;
+
+  cards.forEach(function(card) {
+    var show = true;
+
+    // — Category —
+    if (!allCat && selectedCats.length > 0) {
+      if (selectedCats.indexOf(card.getAttribute('data-cat')) === -1) show = false;
+    }
+
+    // — Rating —
+    if (show && minRating > 0) {
+      var ratingEl = card.querySelector('.rating-num');
+      if (!ratingEl || parseFloat(ratingEl.textContent) < minRating) show = false;
+    }
+
+    // — Area —
+    if (show && selectedArea !== 'all areas') {
+      var metaItems = card.querySelectorAll('.meta-item');
+      // 2nd meta-item has the area (1st = open/closed, 3rd = product count)
+      var cardArea = metaItems[1] ? metaItems[1].textContent.trim().toLowerCase() : '';
+      if (cardArea.indexOf(selectedArea) === -1) show = false;
+    }
+
+    // — Open Now —
+    if (show && openOnly) {
+      if (card.querySelector('.meta-dot.closed')) show = false;
+    }
+
+    // — Featured —
+    if (show && featuredOnly) {
+      if (!card.querySelector('.badge-featured')) show = false;
+    }
+
+    // — Verified —
+    if (show && verifiedOnly) {
+      if (!card.querySelector('.badge-verified')) show = false;
+    }
+
+    // — New Shops —
+    if (show && newOnly) {
+      if (!card.querySelector('.badge-new')) show = false;
+    }
+
+    // — Home Delivery —
+    if (show && deliveryOnly) {
+      if (card.getAttribute('data-delivery') !== 'yes') show = false;
+    }
+
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+
+  // Update result count
+  var countEl = document.querySelector('.result-count strong');
+  if (countEl) countEl.textContent = visible;
+
+  // No-results message
+  var noRes = document.getElementById('noResults');
+  var grid  = document.getElementById('shopsGrid');
+  if (noRes && grid) {
+    noRes.style.display = visible === 0 ? 'flex' : 'none';
+    grid.style.display  = visible === 0 ? 'none' : '';
+  }
+
+  // Sync cat-tab active state
+  document.querySelectorAll('.cat-tab').forEach(function(t) { t.classList.remove('active'); });
+  if (allCat || selectedCats.length === 0) {
+    var allTab = document.querySelector('.cat-tab[onclick*="\'all\'"]');
+    if (allTab) allTab.classList.add('active');
+  } else if (selectedCats.length === 1) {
+    var slug = selectedCats[0];
+    document.querySelectorAll('.cat-tab').forEach(function(tab) {
+      if ((tab.getAttribute('onclick') || '').indexOf("'" + slug + "'") !== -1)
+        tab.classList.add('active');
+    });
+  }
+}
+
+// Category tab click — API call
+function filterCat(el, cat) {
+  document.querySelectorAll('.cat-tab').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+
+  // Sync sidebar checkboxes
+  for (var i = 1; i <= 14; i++) {
+    var cb = document.getElementById('c' + i);
+    if (cb) cb.checked = false;
+  }
+  var catToCb = {
+    'all':'c1','men':'c2','women':'c3','kids':'c4','electronics':'c5',
+    'mobile':'c6','footwear':'c7','jewellery':'c8','home-decor':'c9',
+    'ethnic-wear':'c10','bags-wallets':'c11','watches':'c12',
+    'beauty-care':'c13','sports-fitness':'c14'
+  };
+  var cbId = catToCb[cat];
+  if (cbId) { var cb2 = document.getElementById(cbId); if (cb2) cb2.checked = true; }
+
+  SD.category = cat === 'all' ? '' : cat;
+  SD.page = 1;
+  loadShops(1);
+}
+
+// Area tag toggle
+function toggleArea(el) {
+  document.querySelectorAll('.area-tag').forEach(function(t) { t.classList.remove('active'); });
+  el.classList.add('active');
+  applyFilters();
+}
+
+// Remove active filter tag
+function removeFilter(btn) {
+  btn.closest('.active-filter-tag').remove();
+}
+
+// Clear all filters
+function clearFilters() {
+  // Reset category checkboxes — c1 (All) check, baaki uncheck
+  for (var i = 1; i <= 14; i++) {
+    var cb = document.getElementById('c' + i);
+    if (cb) cb.checked = (i === 1);
+  }
+  // Reset rating
+  document.querySelectorAll('input[name="rating"]').forEach(function(r) { r.checked = false; });
+  var r0 = document.getElementById('r0'); if (r0) r0.checked = true;
+  // Reset area
+  document.querySelectorAll('.area-tag').forEach(function(t) { t.classList.remove('active'); });
+  var firstArea = document.querySelector('.area-tag'); if (firstArea) firstArea.classList.add('active');
+  // Reset status checkboxes
+  ['s1','s2','s3','s4','s5'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.checked = false;
+  });
+  // Clear active-filter tags
+  var af = document.getElementById('activeFilters'); if (af) af.innerHTML = '';
+  // Reset cat-tabs
+  document.querySelectorAll('.cat-tab').forEach(function(t) { t.classList.remove('active'); });
+  var firstTab = document.querySelector('.cat-tab'); if (firstTab) firstTab.classList.add('active');
+  // Reset API state and reload
+  SD.category = '';
+  SD.search = '';
+  SD.page = 1;
+  var searchInput = document.querySelector('.filter-search-input');
+  if (searchInput) searchInput.value = '';
+  loadShops(1);
+}
+
+// ── Init on page load ─────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+
+  // 1. Load shops from API immediately
+  loadShops(1);
+
+  // 2. Category checkboxes
+  for (var i = 1; i <= 14; i++) {
+    (function(idx) {
+      var cb = document.getElementById('c' + idx);
+      if (!cb) return;
+      cb.addEventListener('change', function() {
+        if (idx === 1 && this.checked) {
+          for (var j = 2; j <= 14; j++) {
+            var o = document.getElementById('c' + j); if (o) o.checked = false;
+          }
+        } else if (idx !== 1 && this.checked) {
+          var allCb = document.getElementById('c1'); if (allCb) allCb.checked = false;
+        }
+        applyFilters();
+      });
+    })(i);
+  }
+
+  // 3. Apply Filters button
+  var applyBtn = document.getElementById('btnApply');
+  if (applyBtn) applyBtn.addEventListener('click', applyFilters);
+
+  // 4. Search filter input — Enter key or 500ms debounce
+  var searchInput = document.querySelector('.filter-search-input');
+  if (searchInput) {
+    var debTimer;
+    searchInput.addEventListener('input', function() {
+      clearTimeout(debTimer);
+      debTimer = setTimeout(function() {
+        SD.search = searchInput.value.trim();
+        SD.page = 1;
+        loadShops(1);
+      }, 500);
+    });
+    searchInput.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        clearTimeout(debTimer);
+        SD.search = this.value.trim();
+        SD.page = 1;
+        loadShops(1);
+      }
+    });
+  }
+});
+
+// Sort change
+document.getElementById('sortSelect').addEventListener('change', function() {
+  // Basic sort — reload with new order
+  loadShops(1);
+});
+
+// Pagination
+document.querySelectorAll('.page-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    if (this.classList.contains('prev-next')) return;
+    document.querySelectorAll('.page-btn:not(.prev-next)').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+});
+
+// ── SEARCH RECOMMENDATIONS (shared navbar) ──
+document.addEventListener('DOMContentLoaded', function(){
+  const inp       = document.getElementById('navSearchInput');
+  const drop      = document.getElementById('searchDropdown');
+  const dropInner = document.getElementById('searchDropdownInner');
+  if(!inp) return;
+
+  const SHOP_DATA = [
+    {name:'Sharma Cloth House',    area:'Gandhi Nagar', cat:'Men Fashion'},
+    {name:'Royal Ethnic Wear',     area:'MG Road',      cat:'Men Fashion'},
+    {name:'Gandhi Nagar Cloths',   area:'Gandhi Nagar', cat:'Men & Women Fashion'},
+    {name:'Fashion Hub Indore',    area:'Vijay Nagar',  cat:'Men Fashion'},
+    {name:'Meera Saree Center',    area:'Sarafa Bazar', cat:'Women Fashion'},
+    {name:'Style Street',          area:'Palasia',      cat:'Men Fashion'},
+    {name:'Tech World Electronics', area:'Station Road', cat:'Electronics'},
+    {name:'Jewels of Indore',      area:'Sarafa Bazar', cat:'Jewellery'},
+  ];
+
+  function closeDrop(){ if(drop) drop.style.display='none'; }
+  window.closeDrop_SD = closeDrop;
+
+  function hl(text, q){
+    const re = new RegExp('('+q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+')','gi');
+    return text.replace(re,'<mark style="background:#fef9c3;color:var(--text-dark);border-radius:2px;padding:0 1px;">$1</mark>');
+  }
+
+  function showSuggestions(q){
+    if(!drop || !dropInner) return;
+    const ql = q.toLowerCase();
+    const matched = SHOP_DATA.filter(s =>
+      s.name.toLowerCase().includes(ql) ||
+      s.area.toLowerCase().includes(ql) ||
+      s.cat.toLowerCase().includes(ql)
+    ).slice(0,6);
+
+    if(!matched.length){
+      dropInner.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">No shops found for "<strong>${q}</strong>"</div>`;
+      drop.style.display = 'block';
+      return;
+    }
+
+    let html = `<div style="padding:8px 16px 4px;font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.6px;display:flex;align-items:center;gap:5px;"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l1-5h14l1 5"/><path d="M3 7h18v15H3z"/><path d="M10 7v4a2 2 0 0 0 4 0V7"/></svg> Shops</div>`;
+    matched.forEach(function(s){
+      html += `<div onclick="closeDrop_SD()" style="display:flex;align-items:center;gap:10px;padding:9px 16px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='var(--bg)'" onmouseout="this.style.background='transparent'">
+        <span style="flex-shrink:0;width:36px;height:36px;background:var(--primary-light);border-radius:8px;display:flex;align-items:center;justify-content:center;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7l1-5h14l1 5"/><path d="M3 7h18v15H3z"/><path d="M10 7v4a2 2 0 0 0 4 0V7"/></svg></span>
+        <div style="flex:1;min-width:0;">
+          <div style="font-size:13.5px;font-weight:600;">${hl(s.name,q)}</div>
+          <div style="font-size:11.5px;color:var(--text-light);display:flex;align-items:center;gap:3px;"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg> ${s.area} &middot; ${s.cat}</div>
+        </div>
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>`;
+    });
+    html += `<div style="border-top:1px solid var(--border);padding:10px 16px;">
+      <a href="search-results.html?q=${encodeURIComponent(q)}" style="display:flex;align-items:center;justify-content:center;gap:6px;font-size:13px;font-weight:700;color:var(--primary);padding:6px;border-radius:8px;transition:background .15s;" onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search all results for "<strong>${q}</strong>"
+      </a></div>`;
+
+    dropInner.innerHTML = html;
+    drop.style.display = 'block';
+  }
+
+  inp.addEventListener('input', function(){
+    const q = this.value.trim();
+    if(q.length < 2){ closeDrop(); return; }
+    showSuggestions(q);
+  });
+  inp.addEventListener('keydown', function(e){
+    if(e.key === 'Enter'){
+      const q = this.value.trim();
+      if(q) window.location.href = 'search-results.html?q=' + encodeURIComponent(q);
+      closeDrop();
+    }
+  });
+  document.addEventListener('click', function(e){
+    if(!e.target.closest('.nav-search') && !e.target.closest('#searchDropdown'))
+      closeDrop();
+  });
+});
+
+// ══════════════════════════════
+//  LOCATION SYSTEM
+// ══════════════════════════════
+const PINCODE_MAP = {
+  '452001': {area:'Gandhi Nagar / Old Palasia', city:'Indore', shopAreas:['gandhi','mg'],    rank:1},
+  '452002': {area:'Vijay Nagar',               city:'Indore', shopAreas:['vijay','palasia'],rank:2},
+  '452003': {area:'South Tukoganj / Sarafa',   city:'Indore', shopAreas:['sarafa','south'], rank:3},
+  '452005': {area:'MG Road / Manik Bagh',      city:'Indore', shopAreas:['mg'],             rank:5},
+  '452008': {area:'Palasia / New Palasia',     city:'Indore', shopAreas:['palasia','vijay'],rank:8},
+  '452010': {area:'Khajrana / Banganga',       city:'Indore', shopAreas:['south'],          rank:10},
+};
+const POPULAR_PINCODES = [
+  {code:'452001',label:'Gandhi Nagar'}, {code:'452002',label:'Vijay Nagar'},
+  {code:'452003',label:'South Tukoganj'},{code:'452005',label:'MG Road'},
+  {code:'452008',label:'Palasia'},      {code:'452010',label:'Khajrana'},
+];
+// Area-to-shopName mapping (matches card text)
+const AREA_SHOP_MAP = {
+  gandhi: ['sharma cloth house','gandhi nagar cloths'],
+  mg:     ['royal ethnic wear'],
+  vijay:  ['fashion hub indore'],
+  palasia:['style street'],
+  sarafa: ['meera saree center','jewels of indore'],
+  south:  ['meera saree center'],
+};
+
+window.addEventListener('load', function(){
+  const saved = localStorage.getItem('lbh_pincode');
+  if(saved && PINCODE_MAP[saved]) applyLocationData(saved, PINCODE_MAP[saved], 'saved');
+  else requestLocation(false);
+  buildPopularPincodes();
+});
+
+function requestLocation(fromModal){
+  if(!navigator.geolocation){ if(fromModal) showLocState('error'); return; }
+  if(fromModal) showLocState('detecting');
+  navigator.geolocation.getCurrentPosition(
+    function(pos){
+      fetch('https://nominatim.openstreetmap.org/reverse?lat='+pos.coords.latitude+'&lon='+pos.coords.longitude+'&format=json')
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+          const pc = ((d.address||{}).postcode||'').replace(/\s/g,'').slice(0,6);
+          if(pc && PINCODE_MAP[pc]){
+            if(fromModal) showLocState('detected', PINCODE_MAP[pc].area);
+            applyLocationData(pc, PINCODE_MAP[pc], 'gps');
+            setTimeout(function(){ if(fromModal) closePincodeModal(); }, 1200);
+          } else if(pc){
+            const info = {area:(d.address||{}).suburb||(d.address||{}).city_district||'Your Area', city:'Indore', shopAreas:[], rank:99};
+            PINCODE_MAP[pc] = info;
+            if(fromModal) showLocState('detected', info.area);
+            applyLocationData(pc, info, 'gps');
+            setTimeout(function(){ if(fromModal) closePincodeModal(); }, 1200);
+          } else { if(fromModal) showLocState('error'); }
+        }).catch(function(){ if(fromModal) showLocState('error'); });
+    },
+    function(){ if(fromModal) showLocState('error'); },
+    {timeout:8000, maximumAge:300000}
+  );
+}
+
+function applyPincode(){
+  const val = document.getElementById('pincodeInput').value.trim();
+  if(val.length !== 6 || !/^\d{6}$/.test(val)){
+    const inp = document.getElementById('pincodeInput');
+    inp.style.borderColor = '#dc2626';
+    setTimeout(function(){ inp.style.borderColor = 'var(--border)'; }, 1500);
+    return;
+  }
+  const info = PINCODE_MAP[val] || {area:'Pincode '+val, city:'Indore', shopAreas:[], rank:99};
+  showLocState('detected', info.area);
+  applyLocationData(val, info, 'manual');
+  setTimeout(closePincodeModal, 900);
+}
+
+function openPincodeModal(){
+  document.getElementById('pincodeModal').style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+  showLocState('none');
+}
+function closePincodeModal(){
+  document.getElementById('pincodeModal').style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+function buildPopularPincodes(){
+  const wrap = document.getElementById('popularPincodes');
+  if(!wrap) return;
+  wrap.innerHTML = POPULAR_PINCODES.map(function(p){
+    return `<button onclick="applyLocationData('${p.code}',PINCODE_MAP['${p.code}'],'chip');closePincodeModal()"
+      style="background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:5px 12px;border-radius:16px;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .18s;"
+      onmouseover="this.style.borderColor='var(--primary)';this.style.color='var(--primary)';this.style.background='var(--primary-light)'"
+      onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text-mid)';this.style.background='var(--bg)'"
+      ><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${p.label}</button>`;
+  }).join('');
+}
+
+function showLocState(state, areaName){
+  ['locDetecting','locDetected','locError'].forEach(function(id){
+    const el = document.getElementById(id); if(el) el.style.display='none';
+  });
+  if(state==='detecting'){ const el=document.getElementById('locDetecting'); if(el) el.style.display='flex'; }
+  else if(state==='detected'){
+    const el=document.getElementById('locDetected'); if(el) el.style.display='flex';
+    const na=document.getElementById('locAreaName'); if(na&&areaName) na.textContent='Located: '+areaName;
+  }
+  else if(state==='error'){ const el=document.getElementById('locError'); if(el) el.style.display='flex'; }
+}
+
+function getLocalShopNames(shopAreas){
+  const names = [];
+  (shopAreas||[]).forEach(function(area){
+    (AREA_SHOP_MAP[area]||[]).forEach(function(n){ if(names.indexOf(n)===-1) names.push(n); });
+  });
+  return names;
+}
+
+function applyLocationData(pincode, info, source){
+  if(!info) return;
+  localStorage.setItem('lbh_pincode', pincode);
+  // Nav location name
+  const navLoc = document.getElementById('navLocName');
+  if(navLoc) navLoc.textContent = info.area.split('/')[0].trim().split(' ').slice(0,2).join(' ');
+  // Apply local-first on shop cards
+  applyLocalFirst(info.shopAreas||[]);
+  // Show local banner
+  showLocalBanner(info);
+}
+
+function applyLocalFirst(shopAreas){
+  const grid = document.getElementById('shopsGrid');
+  if(!grid) return;
+  const localNames = getLocalShopNames(shopAreas);
+  const cards = Array.from(grid.querySelectorAll('.shop-card'));
+
+  // Remove existing "Near You" badges
+  grid.querySelectorAll('.near-you-badge').forEach(function(b){ b.remove(); });
+  // Remove local highlight
+  cards.forEach(function(c){ c.style.borderColor=''; c.style.boxShadow=''; });
+
+  if(!localNames.length) return;
+
+  // Add badge + highlight to local cards; sort local first
+  const local=[], others=[];
+  cards.forEach(function(card){
+    const nameEl = card.querySelector('.shop-name');
+    const shopName = nameEl ? nameEl.textContent.trim().toLowerCase() : '';
+    const isLocal = localNames.some(function(n){ return shopName.includes(n); });
+    if(isLocal){
+      // Blue highlight
+      card.style.borderColor = 'rgba(26,86,219,.3)';
+      card.style.boxShadow   = '0 0 0 2px rgba(26,86,219,.08),0 4px 20px rgba(26,86,219,.12)';
+      // Add "Near You" badge beside shop name
+      if(nameEl && !nameEl.parentNode.querySelector('.near-you-badge')){
+        const badge = document.createElement('span');
+        badge.className = 'near-you-badge';
+        badge.style.cssText = 'background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;white-space:nowrap;flex-shrink:0;';
+        badge.innerHTML = '<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Near You';
+        nameEl.parentNode.appendChild(badge);
+      }
+      local.push(card);
+    } else {
+      others.push(card);
+    }
+  });
+  // Re-append: local first, then others
+  local.concat(others).forEach(function(c){ grid.appendChild(c); });
+}
+
+function showLocalBanner(info){
+  // Remove existing banner if any
+  const existing = document.getElementById('localBannerSD');
+  if(existing) existing.remove();
+
+  const toolbar = document.querySelector('.toolbar');
+  if(!toolbar) return;
+
+  const banner = document.createElement('div');
+  banner.id = 'localBannerSD';
+  banner.style.cssText = 'background:linear-gradient(135deg,var(--primary-light),#dbeafe);border:1.5px solid rgba(26,86,219,.2);border-radius:12px;padding:12px 16px;margin-bottom:16px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;animation:fadeUp .3s ease;';
+  banner.innerHTML =
+    `<span style="flex-shrink:0;width:38px;height:38px;background:var(--primary);border-radius:10px;display:flex;align-items:center;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>`+
+    `<div style="flex:1;min-width:0;">`+
+      `<div style="font-size:14px;font-weight:700;color:var(--primary-dark);">Showing shops near <strong>${info.area}</strong></div>`+
+      `<div style="font-size:12.5px;color:var(--text-mid);margin-top:2px;">Local shops appear first &nbsp;·&nbsp; `+
+        `<span onclick="resetLocation()" style="color:var(--primary);font-weight:600;cursor:pointer;text-decoration:underline;">Show all areas</span>`+
+      `</div>`+
+    `</div>`+
+    `<button onclick="openPincodeModal()" `+
+      `style="background:#fff;border:1.5px solid var(--primary);color:var(--primary);padding:7px 13px;border-radius:8px;font-size:12.5px;font-weight:700;cursor:pointer;flex-shrink:0;white-space:nowrap;transition:all .2s;" `+
+      `onmouseover="this.style.background='var(--primary)';this.style.color='#fff'" `+
+      `onmouseout="this.style.background='#fff';this.style.color='var(--primary)'">`+
+      `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:4px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>Change</button>`;
+  toolbar.insertAdjacentElement('beforebegin', banner);
+}
+
+function resetLocation(){
+  localStorage.removeItem('lbh_pincode');
+  const navLoc = document.getElementById('navLocName');
+  if(navLoc) navLoc.textContent = 'Indore';
+  const banner = document.getElementById('localBannerSD');
+  if(banner) banner.remove();
+  // Remove badges + highlights from all cards
+  document.querySelectorAll('.near-you-badge').forEach(function(b){ b.remove(); });
+  document.querySelectorAll('#shopsGrid .shop-card').forEach(function(c){
+    c.style.borderColor=''; c.style.boxShadow='';
+  });
+}
+</script>
+</body>
+</html>

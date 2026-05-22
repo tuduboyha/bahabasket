@@ -1,0 +1,9 @@
+npm start
+
+npx http-server "Z:\LocalBazaarHub\BahaMart" -p 5500 --cors
+
+cd Z:\LocalBazaarHub\bahabasket-backend
+
+Fill karo:
+Email: test@bahabasket.com
+Password: Test@1234

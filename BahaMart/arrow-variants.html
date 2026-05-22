@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arrow Variants – City Landing</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Noto+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --border:#e2e8f0;--bg:#f1f5f9;--white:#fff;
+  --text-dark:#0f172a;--text-mid:#334155;--text-light:#64748b;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);padding:40px 24px;}
+h1{font-family:'Sora',sans-serif;font-size:22px;font-weight:800;margin-bottom:6px;color:var(--text-dark);}
+.sub{font-size:14px;color:var(--text-light);margin-bottom:36px;}
+
+/* ── CARD ── */
+.variant-card{background:var(--white);border-radius:16px;padding:28px 32px;margin-bottom:24px;box-shadow:0 2px 12px rgba(0,0,0,.06);}
+.variant-label{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.variant-label h2{font-family:'Sora',sans-serif;font-size:16px;font-weight:700;}
+.variant-desc{font-size:13px;color:var(--text-light);margin-bottom:22px;}
+.badge-current{background:#dcfce7;color:#15803d;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+.badge-new{background:#e0e7ff;color:#3730a3;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;}
+
+/* ── STRIP DEMO AREA ── */
+.demo-area{background:#f8fafc;border-radius:10px;padding:20px 36px;position:relative;overflow:visible;}
+.demo-label{font-size:11px;color:var(--text-light);font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:14px;}
+
+/* ── STRIPS ── */
+.strip-wrap{position:relative;}
+.strip-inner{display:flex;align-items:center;gap:10px;overflow-x:auto;scrollbar-width:none;padding:4px 0;}
+.strip-inner::-webkit-scrollbar{display:none;}
+
+/* ── CITY PILLS ── */
+.city-pill{display:flex;align-items:center;gap:6px;padding:7px 14px;border-radius:20px;font-size:13px;font-weight:600;color:var(--text-mid);border:1.5px solid var(--border);background:var(--white);white-space:nowrap;flex-shrink:0;}
+.city-pill.active{border-color:var(--primary);background:var(--primary);color:#fff;}
+
+/* ── CAT CHIPS ── */
+.cat-chip{display:flex;align-items:center;gap:7px;padding:9px 15px;border-radius:12px;font-size:13px;font-weight:600;color:var(--text-mid);border:1.5px solid var(--border);background:var(--white);white-space:nowrap;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.cat-chip.active{border-color:var(--primary);background:var(--primary);color:#fff;}
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:18px 0;}
+
+/* ════════════════════════════
+   VARIANT 1: White + Blue (Current)
+════════════════════════════ */
+.v1 .strip-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:10;width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .28s cubic-bezier(.34,1.56,.64,1);
+  user-select:none;padding:0;
+}
+.v1 .strip-arrow svg{pointer-events:none;}
+.v1 .strip-arrow.left{left:-22px;background:#fff;border:1.5px solid #e2e8f0;color:var(--primary);box-shadow:0 4px 20px rgba(0,0,0,.10),0 1px 4px rgba(0,0,0,.06);}
+.v1 .strip-arrow.left:hover{background:var(--primary);border-color:var(--primary);color:#fff;transform:translateY(-50%) scale(1.1);box-shadow:0 8px 28px rgba(26,86,219,.35);}
+.v1 .strip-arrow.right{right:-22px;background:var(--primary);border:none;color:#fff;box-shadow:0 4px 20px rgba(26,86,219,.32),0 1px 4px rgba(26,86,219,.15);}
+.v1 .strip-arrow.right:hover{transform:translateY(-50%) scale(1.1);box-shadow:0 10px 30px rgba(26,86,219,.35);}
+.v1 .strip-arrow:active{transform:translateY(-50%) scale(.95)!important;}
+
+/* ════════════════════════════
+   VARIANT 2: Ghost Outline
+════════════════════════════ */
+.v2 .strip-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:10;width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .25s ease;
+  user-select:none;padding:0;
+  background:transparent;border:2px solid var(--primary);color:var(--primary);
+}
+.v2 .strip-arrow svg{pointer-events:none;}
+.v2 .strip-arrow.left{left:-22px;}
+.v2 .strip-arrow.right{right:-22px;}
+.v2 .strip-arrow:hover{background:var(--primary);color:#fff;transform:translateY(-50%) scale(1.08);box-shadow:0 6px 20px rgba(26,86,219,.30);}
+.v2 .strip-arrow:active{transform:translateY(-50%) scale(.93)!important;}
+
+/* ════════════════════════════
+   VARIANT 3: Shadow Float (Both White)
+════════════════════════════ */
+.v3 .strip-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:10;width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .28s cubic-bezier(.34,1.56,.64,1);
+  user-select:none;padding:0;
+  background:#fff;border:none;color:var(--primary);
+  box-shadow:0 6px 24px rgba(0,0,0,.14),0 2px 6px rgba(0,0,0,.08);
+}
+.v3 .strip-arrow svg{pointer-events:none;}
+.v3 .strip-arrow.left{left:-22px;}
+.v3 .strip-arrow.right{right:-22px;}
+.v3 .strip-arrow:hover{background:var(--primary);color:#fff;transform:translateY(-50%) scale(1.1);box-shadow:0 10px 30px rgba(26,86,219,.35);}
+.v3 .strip-arrow:active{transform:translateY(-50%) scale(.95)!important;}
+
+/* ════════════════════════════
+   VARIANT 4: Gradient Blue
+════════════════════════════ */
+.v4 .strip-arrow{
+  position:absolute;top:50%;transform:translateY(-50%);
+  z-index:10;width:44px;height:44px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .28s cubic-bezier(.34,1.56,.64,1);
+  user-select:none;padding:0;border:none;color:#fff;
+}
+.v4 .strip-arrow svg{pointer-events:none;}
+.v4 .strip-arrow.left{left:-22px;background:linear-gradient(135deg,#60a5fa,#1a56db);box-shadow:0 4px 18px rgba(26,86,219,.38);}
+.v4 .strip-arrow.right{right:-22px;background:linear-gradient(135deg,#1a56db,#1042b0);box-shadow:0 4px 18px rgba(26,86,219,.38);}
+.v4 .strip-arrow:hover{transform:translateY(-50%) scale(1.12);box-shadow:0 10px 28px rgba(26,86,219,.50);}
+.v4 .strip-arrow:active{transform:translateY(-50%) scale(.95)!important;}
+
+/* ── SELECT BUTTON ── */
+.select-btn{margin-top:18px;padding:10px 24px;border-radius:10px;border:2px solid var(--primary);background:#fff;color:var(--primary);font-size:14px;font-weight:700;cursor:pointer;transition:all .2s;font-family:'Noto Sans',sans-serif;}
+.select-btn:hover{background:var(--primary);color:#fff;}
+.select-btn.selected{background:var(--primary);color:#fff;}
+
+/* ── CHOSEN BANNER ── */
+#chosen-banner{display:none;position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#0f172a;color:#fff;padding:14px 28px;border-radius:12px;font-size:14px;font-weight:600;box-shadow:0 8px 32px rgba(0,0,0,.25);z-index:999;gap:10px;align-items:center;}
+#chosen-banner svg{flex-shrink:0;}
+</style>
+</head>
+<body>
+
+<h1>Arrow Variants – City Landing</h1>
+<p class="sub">Hover karke effect dekhein, phir pasand aaya to "Select" dabayein</p>
+
+<!-- ══════════════════════════════════
+     VARIANT 1: White + Blue (Current)
+══════════════════════════════════ -->
+<div class="variant-card">
+  <div class="variant-label">
+    <h2>Variant 1 — White + Blue</h2>
+    <span class="badge-current">Current</span>
+  </div>
+  <p class="variant-desc">Left arrow: white circle with blue border &amp; blue icon → hover pe blue fill. Right arrow: solid blue with white icon &amp; blue glow shadow.</p>
+  <div class="demo-area v1">
+    <div class="demo-label">Other Cities Strip</div>
+    <div class="strip-wrap" style="margin-bottom:20px;">
+      <button class="strip-arrow left" onclick="scrollDemo('v1cities',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v1cities">
+        <div class="city-pill active">📍 Indore <span style="opacity:.7;font-size:11px;">(500)</span></div>
+        <div class="city-pill">📍 Bhopal <span style="opacity:.7;font-size:11px;">(280)</span></div>
+        <div class="city-pill">📍 Jabalpur <span style="opacity:.7;font-size:11px;">(180)</span></div>
+        <div class="city-pill">📍 Ujjain <span style="opacity:.7;font-size:11px;">(120)</span></div>
+        <div class="city-pill">📍 Gwalior <span style="opacity:.7;font-size:11px;">(95)</span></div>
+        <div class="city-pill">📍 Raipur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+        <div class="city-pill">📍 Nagpur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v1cities',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="divider"></div>
+    <div class="demo-label" style="margin-top:16px;">Category Filter Strip</div>
+    <div class="strip-wrap">
+      <button class="strip-arrow left" onclick="scrollDemo('v1cats',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v1cats">
+        <div class="cat-chip active">All (500)</div>
+        <div class="cat-chip">Men Fashion</div>
+        <div class="cat-chip">Women Fashion</div>
+        <div class="cat-chip">Electronics</div>
+        <div class="cat-chip">Kids Wear</div>
+        <div class="cat-chip">Jewellery</div>
+        <div class="cat-chip">Footwear</div>
+        <div class="cat-chip">Home Decor</div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v1cats',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+  </div>
+  <button class="select-btn" id="btn1" onclick="choose(1)">Select This</button>
+</div>
+
+<!-- ══════════════════════════════════
+     VARIANT 2: Ghost Outline
+══════════════════════════════════ -->
+<div class="variant-card">
+  <div class="variant-label">
+    <h2>Variant 2 — Ghost Outline</h2>
+    <span class="badge-new">New</span>
+  </div>
+  <p class="variant-desc">Dono arrows transparent hain sirf blue border ke saath → hover pe solid blue fill ho jaata hai. Minimal aur clean look.</p>
+  <div class="demo-area v2">
+    <div class="demo-label">Other Cities Strip</div>
+    <div class="strip-wrap" style="margin-bottom:20px;">
+      <button class="strip-arrow left" onclick="scrollDemo('v2cities',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v2cities">
+        <div class="city-pill active">📍 Indore <span style="opacity:.7;font-size:11px;">(500)</span></div>
+        <div class="city-pill">📍 Bhopal <span style="opacity:.7;font-size:11px;">(280)</span></div>
+        <div class="city-pill">📍 Jabalpur <span style="opacity:.7;font-size:11px;">(180)</span></div>
+        <div class="city-pill">📍 Ujjain <span style="opacity:.7;font-size:11px;">(120)</span></div>
+        <div class="city-pill">📍 Gwalior <span style="opacity:.7;font-size:11px;">(95)</span></div>
+        <div class="city-pill">📍 Raipur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+        <div class="city-pill">📍 Nagpur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v2cities',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="divider"></div>
+    <div class="demo-label" style="margin-top:16px;">Category Filter Strip</div>
+    <div class="strip-wrap">
+      <button class="strip-arrow left" onclick="scrollDemo('v2cats',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v2cats">
+        <div class="cat-chip active">All (500)</div>
+        <div class="cat-chip">Men Fashion</div>
+        <div class="cat-chip">Women Fashion</div>
+        <div class="cat-chip">Electronics</div>
+        <div class="cat-chip">Kids Wear</div>
+        <div class="cat-chip">Jewellery</div>
+        <div class="cat-chip">Footwear</div>
+        <div class="cat-chip">Home Decor</div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v2cats',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+  </div>
+  <button class="select-btn" id="btn2" onclick="choose(2)">Select This</button>
+</div>
+
+<!-- ══════════════════════════════════
+     VARIANT 3: Shadow Float (Both White)
+══════════════════════════════════ -->
+<div class="variant-card">
+  <div class="variant-label">
+    <h2>Variant 3 — Shadow Float</h2>
+    <span class="badge-new">New</span>
+  </div>
+  <p class="variant-desc">Dono arrows white circle with strong drop shadow — hover pe blue fill. Premium "floating card" jaisa feel.</p>
+  <div class="demo-area v3">
+    <div class="demo-label">Other Cities Strip</div>
+    <div class="strip-wrap" style="margin-bottom:20px;">
+      <button class="strip-arrow left" onclick="scrollDemo('v3cities',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v3cities">
+        <div class="city-pill active">📍 Indore <span style="opacity:.7;font-size:11px;">(500)</span></div>
+        <div class="city-pill">📍 Bhopal <span style="opacity:.7;font-size:11px;">(280)</span></div>
+        <div class="city-pill">📍 Jabalpur <span style="opacity:.7;font-size:11px;">(180)</span></div>
+        <div class="city-pill">📍 Ujjain <span style="opacity:.7;font-size:11px;">(120)</span></div>
+        <div class="city-pill">📍 Gwalior <span style="opacity:.7;font-size:11px;">(95)</span></div>
+        <div class="city-pill">📍 Raipur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+        <div class="city-pill">📍 Nagpur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v3cities',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="divider"></div>
+    <div class="demo-label" style="margin-top:16px;">Category Filter Strip</div>
+    <div class="strip-wrap">
+      <button class="strip-arrow left" onclick="scrollDemo('v3cats',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v3cats">
+        <div class="cat-chip active">All (500)</div>
+        <div class="cat-chip">Men Fashion</div>
+        <div class="cat-chip">Women Fashion</div>
+        <div class="cat-chip">Electronics</div>
+        <div class="cat-chip">Kids Wear</div>
+        <div class="cat-chip">Jewellery</div>
+        <div class="cat-chip">Footwear</div>
+        <div class="cat-chip">Home Decor</div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v3cats',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+  </div>
+  <button class="select-btn" id="btn3" onclick="choose(3)">Select This</button>
+</div>
+
+<!-- ══════════════════════════════════
+     VARIANT 4: Gradient Blue
+══════════════════════════════════ -->
+<div class="variant-card">
+  <div class="variant-label">
+    <h2>Variant 4 — Gradient Blue</h2>
+    <span class="badge-new">New</span>
+  </div>
+  <p class="variant-desc">Left arrow: light-blue → deep-blue gradient. Right arrow: deep-blue → darker-blue gradient. Vibrant aur bold look, hover pe scale up.</p>
+  <div class="demo-area v4">
+    <div class="demo-label">Other Cities Strip</div>
+    <div class="strip-wrap" style="margin-bottom:20px;">
+      <button class="strip-arrow left" onclick="scrollDemo('v4cities',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v4cities">
+        <div class="city-pill active">📍 Indore <span style="opacity:.7;font-size:11px;">(500)</span></div>
+        <div class="city-pill">📍 Bhopal <span style="opacity:.7;font-size:11px;">(280)</span></div>
+        <div class="city-pill">📍 Jabalpur <span style="opacity:.7;font-size:11px;">(180)</span></div>
+        <div class="city-pill">📍 Ujjain <span style="opacity:.7;font-size:11px;">(120)</span></div>
+        <div class="city-pill">📍 Gwalior <span style="opacity:.7;font-size:11px;">(95)</span></div>
+        <div class="city-pill">📍 Raipur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+        <div class="city-pill">📍 Nagpur <span style="opacity:.7;font-size:11px;">(Soon)</span></div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v4cities',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+    <div class="divider"></div>
+    <div class="demo-label" style="margin-top:16px;">Category Filter Strip</div>
+    <div class="strip-wrap">
+      <button class="strip-arrow left" onclick="scrollDemo('v4cats',-200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg></button>
+      <div class="strip-inner" id="v4cats">
+        <div class="cat-chip active">All (500)</div>
+        <div class="cat-chip">Men Fashion</div>
+        <div class="cat-chip">Women Fashion</div>
+        <div class="cat-chip">Electronics</div>
+        <div class="cat-chip">Kids Wear</div>
+        <div class="cat-chip">Jewellery</div>
+        <div class="cat-chip">Footwear</div>
+        <div class="cat-chip">Home Decor</div>
+      </div>
+      <button class="strip-arrow right" onclick="scrollDemo('v4cats',200)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg></button>
+    </div>
+  </div>
+  <button class="select-btn" id="btn4" onclick="choose(4)">Select This</button>
+</div>
+
+<!-- Chosen banner -->
+<div id="chosen-banner">
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#4ade80" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+  <span id="chosen-text">Selected!</span>
+</div>
+
+<script>
+function scrollDemo(id, amt){
+  const el = document.getElementById(id);
+  if(el) el.scrollBy({left:amt, behavior:'smooth'});
+}
+
+function choose(n){
+  [1,2,3,4].forEach(i=>{
+    document.getElementById('btn'+i).classList.remove('selected');
+    document.getElementById('btn'+i).textContent = 'Select This';
+  });
+  const btn = document.getElementById('btn'+n);
+  btn.classList.add('selected');
+  btn.textContent = '✓ Selected';
+
+  const names = {1:'Variant 1 (White + Blue)', 2:'Variant 2 (Ghost Outline)', 3:'Variant 3 (Shadow Float)', 4:'Variant 4 (Gradient Blue)'};
+  document.getElementById('chosen-text').textContent = names[n] + ' — Claude ko batayein!';
+  const banner = document.getElementById('chosen-banner');
+  banner.style.display = 'flex';
+  clearTimeout(banner._t);
+  banner._t = setTimeout(()=> banner.style.display='none', 4000);
+}
+</script>
+</body>
+</html>

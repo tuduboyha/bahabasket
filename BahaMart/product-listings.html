@@ -1,0 +1,1712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product Listings – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #111827;
+  --text-mid: #374151;
+  --text-light: #6b7280;
+  --border: #e5e7eb;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --card-shadow: 0 2px 12px rgba(26,86,219,0.07);
+  --card-shadow-hover: 0 10px 36px rgba(26,86,219,0.15);
+  --radius: 14px;
+  --radius-sm: 8px;
+  --success: #16a34a;
+  --danger: #dc2626;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4,h5{font-family:'Baloo 2',cursive;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Noto Sans',sans-serif;}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ── PINCODE MODAL ── */
+@keyframes popIn{from{opacity:0;transform:scale(.94) translateY(10px);}to{opacity:1;transform:scale(1) translateY(0);}}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── AD BANNER SLIDER ── */
+.ad-slider-section{background:var(--bg);padding:20px 24px 0;}
+.ad-slider-wrap{position:relative;max-width:1280px;margin:0 auto;border-radius:18px;overflow:hidden;box-shadow:0 6px 32px rgba(0,0,0,.13);}
+.ad-slider-track{display:flex;width:100%;transition:transform .55s cubic-bezier(.4,0,.2,1);}
+.ad-slide{width:100%;flex-shrink:0;height:280px;position:relative;cursor:pointer;overflow:hidden;}
+.ad-slide img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 8s linear;}
+.ad-slide.active img{transform:scale(1.06);}
+.ad-slide-overlay{position:absolute;inset:0;}
+.ad-slide-content{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:36px 52px;}
+.ad-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.8px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;width:fit-content;}
+.ad-headline{font-family:'Baloo 2',cursive;font-size:clamp(24px,3.5vw,40px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:8px;text-shadow:0 2px 12px rgba(0,0,0,.3);}
+.ad-headline em{font-style:normal;}
+.ad-sub{font-size:clamp(13px,1.6vw,16px);color:rgba(255,255,255,.88);margin-bottom:22px;max-width:420px;line-height:1.5;}
+.ad-cta{display:inline-flex;align-items:center;align-self:flex-start;gap:6px;padding:11px 16px;border-radius:50px;font-size:14px;font-weight:800;border:none;cursor:pointer;transition:all .22s;box-shadow:0 4px 16px rgba(0,0,0,.2);}
+.ad-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.28);}
+/* Prev / Next arrows */
+.ad-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.18);backdrop-filter:blur(6px);border:1.5px solid rgba(255,255,255,.35);color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .22s;}
+.ad-arrow:hover{background:rgba(255,255,255,.35);}
+.ad-arrow.left{left:16px;}
+.ad-arrow.right{right:16px;}
+/* Dots */
+.ad-dots{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:20;}
+.ad-dot{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5);cursor:pointer;transition:all .28s;border:none;}
+.ad-dot.active{background:#fff;width:22px;border-radius:4px;}
+/* Slide counter */
+.ad-counter{position:absolute;top:14px;right:16px;background:rgba(0,0,0,.35);backdrop-filter:blur(6px);color:#fff;font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;z-index:20;letter-spacing:.5px;}
+@media(max-width:640px){
+  .ad-slider-section{padding:14px 12px 0;}
+  .ad-slide{height:200px;}
+  .ad-slide-content{padding:22px 22px;}
+  .ad-headline{font-size:20px;}
+  .ad-sub{display:none;}
+  .ad-cta{padding:9px 14px;font-size:13px;}
+  .ad-arrow{width:34px;height:34px;}
+}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-light);}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ── PAGE HERO (compact) ── */
+.page-hero{background:linear-gradient(135deg,#0f3460 0%,#1a56db 55%,#1e88e5 100%);padding:36px 24px 44px;position:relative;overflow:hidden;}
+.page-hero::before{content:'';position:absolute;inset:0;background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");}
+.page-hero-inner{max-width:1280px;margin:0 auto;position:relative;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:20px;}
+.page-hero-left h1{font-size:clamp(22px,3.5vw,36px);font-weight:800;color:#fff;margin-bottom:8px;}
+.page-hero-left h1 span{color:#fbbf24;}
+.page-hero-left p{color:rgba(255,255,255,.75);font-size:14px;}
+.hero-right-stats{display:flex;gap:16px;}
+.h-stat{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 18px;text-align:center;}
+.h-stat .num{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#fff;}
+.h-stat .lbl{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;}
+
+/* ── LAYOUT ── */
+.listing-layout{max-width:1280px;margin:0 auto;padding:28px 24px;display:grid;grid-template-columns:268px 1fr;gap:26px;align-items:start;}
+
+/* ── SIDEBAR ── */
+.sidebar{display:flex;flex-direction:column;gap:18px;position:sticky;top:76px;}
+.filter-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;}
+.filter-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+.filter-title{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--text-dark);}
+.filter-clear{font-size:12px;color:var(--primary);font-weight:600;cursor:pointer;}
+.filter-clear:hover{text-decoration:underline;}
+.filter-body{padding:16px 18px;}
+.filter-section{margin-bottom:18px;}
+.filter-section:last-child{margin-bottom:0;}
+.fs-title{font-size:12px;font-weight:700;color:var(--text-mid);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.check-list{list-style:none;display:flex;flex-direction:column;gap:6px;}
+.check-item{display:flex;align-items:center;gap:8px;cursor:pointer;padding:5px 7px;border-radius:6px;transition:background .15s;}
+.check-item:hover{background:var(--bg);}
+.check-item input[type="checkbox"]{width:15px;height:15px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;}
+.check-item label{font-size:13px;color:var(--text-mid);cursor:pointer;flex:1;display:flex;align-items:center;gap:5px;}
+.check-item label svg{flex-shrink:0;vertical-align:unset !important;margin-right:0 !important;}
+.cc{background:var(--bg);color:var(--text-light);font-size:11px;padding:1px 6px;border-radius:8px;font-weight:600;margin-left:auto;}
+
+/* Price Range */
+.price-divider{text-align:center;font-size:11px;color:var(--text-light);margin:10px 0 8px;letter-spacing:.3px;}
+.price-inputs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px;}
+.price-input{width:100%;border:1.5px solid var(--border);border-radius:7px;padding:7px 10px;font-size:13px;outline:none;transition:border-color .2s;font-family:'Noto Sans',sans-serif;}
+.price-input:focus{border-color:var(--primary);}
+.dual-range{position:relative;height:22px;margin:4px 0 6px;}
+.range-track{position:absolute;top:50%;transform:translateY(-50%);left:0;right:0;height:4px;background:var(--border);border-radius:2px;}
+.range-fill{position:absolute;height:100%;background:var(--primary);border-radius:2px;}
+.dual-range .range-slider{position:absolute;width:100%;top:50%;transform:translateY(-50%);-webkit-appearance:none;appearance:none;background:transparent;pointer-events:none;height:22px;margin:0;padding:0;}
+.dual-range .range-slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.22);cursor:pointer;pointer-events:all;transition:transform .15s;}
+.dual-range .range-slider::-webkit-slider-thumb:hover{transform:scale(1.15);}
+.dual-range .range-slider::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--primary);border:2.5px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,0.22);cursor:pointer;pointer-events:all;}
+.price-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-top:2px;}
+
+/* Rating filter */
+.rating-filter{display:flex;flex-direction:column;}
+.rating-option{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;}
+.rating-option input{accent-color:var(--primary);cursor:pointer;}
+.rat-stars{color:#fbbf24;font-size:13px;}
+.rat-label{font-size:13px;color:var(--text-mid);}
+
+/* Area tags */
+.area-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.area-tag{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:4px 10px;border-radius:16px;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;}
+.area-tag:hover,.area-tag.active{background:var(--primary-light);border-color:var(--primary);color:var(--primary);font-weight:600;}
+
+.btn-apply{width:100%;background:var(--primary);color:#fff;border:none;padding:11px;border-radius:8px;font-size:14px;font-weight:700;transition:background .2s;margin-top:4px;}
+.btn-apply:hover{background:var(--primary-dark);}
+.btn-register-free{width:100%;background:#fff;color:#ea580c;border:2px solid transparent;padding:9px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s;}
+.btn-register-free:hover{background:transparent;color:#fff;border-color:#fff;}
+
+/* ── MAIN CONTENT ── */
+.main-content{min-width:0;}
+
+/* ── CATEGORY TABS ── */
+.cat-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px;}
+.cat-tab{display:flex;align-items:center;gap:6px;padding:8px 16px;border-radius:24px;font-size:13px;font-weight:500;border:2px solid var(--border);background:var(--white);color:var(--text-mid);cursor:pointer;transition:all .2s;white-space:nowrap;}
+.cat-tab:hover{border-color:var(--primary);color:var(--primary);}
+.cat-tab.active{background:var(--primary);border-color:var(--primary);color:#fff;font-weight:600;}
+.cat-tab .cnt{font-size:11px;opacity:.8;}
+
+/* ── TOOLBAR ── */
+.toolbar{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px;flex-wrap:wrap;}
+.toolbar-left{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.toolbar-right{display:flex;align-items:center;gap:10px;}
+.result-count{font-size:13px;color:var(--text-mid);white-space:nowrap;}
+.result-count strong{color:var(--text-dark);font-weight:700;}
+.active-filters{display:flex;gap:6px;flex-wrap:wrap;}
+.af-tag{display:flex;align-items:center;gap:4px;background:var(--primary-light);color:var(--primary);border:1px solid var(--primary);padding:3px 9px;border-radius:20px;font-size:11px;font-weight:600;}
+.af-tag .rm{cursor:pointer;font-size:13px;}
+.sort-select{height:36px;border:1.5px solid var(--border);border-radius:8px;padding:0 32px 0 10px;font-size:13px;outline:none;color:var(--text-dark);cursor:pointer;font-family:'Noto Sans',sans-serif;background:var(--white) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E") no-repeat right 10px center;-webkit-appearance:none;-moz-appearance:none;appearance:none;}
+.sort-select:focus{border-color:var(--primary);}
+.view-toggle{display:flex;gap:3px;}
+.vbtn{width:36px;height:36px;border:1.5px solid var(--border);border-radius:6px;background:transparent;display:flex;align-items:center;justify-content:center;font-size:15px;transition:all .2s;color:var(--text-light);cursor:pointer;}
+.vbtn.active,.vbtn:hover{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+
+/* ── PRODUCT GRID ── */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(218px,1fr));gap:18px;}
+.products-grid.list-view{grid-template-columns:1fr;}
+
+/* ── PRODUCT CARD (Grid) ── */
+.product-card{background:var(--white);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;transition:all .26s;cursor:pointer;position:relative;}
+.product-card:hover{box-shadow:var(--card-shadow-hover);transform:translateY(-4px);border-color:transparent;}
+
+.prod-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:var(--bg);}
+.prod-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.product-card:hover .prod-img-wrap img{transform:scale(1.06);}
+.prod-badge{position:absolute;top:10px;left:10px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:5px;color:#fff;}
+.badge-new{background:var(--primary);}
+.badge-sale{background:var(--danger);}
+.badge-hot{background:var(--accent);}
+.badge-sold{background:#6b7280;}
+.prod-wishlist{position:absolute;top:10px;right:10px;width:30px;height:30px;background:rgba(255,255,255,.92);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;opacity:0;transition:opacity .2s;box-shadow:0 2px 8px rgba(0,0,0,.12);border:none;}
+.product-card:hover .prod-wishlist{opacity:1;}
+.prod-gallery-dots{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);display:flex;gap:4px;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.6);}
+.dot.active{background:#fff;width:14px;border-radius:3px;}
+.prod-availability{position:absolute;bottom:0;left:0;right:0;background:rgba(220,38,38,.9);color:#fff;font-size:11px;font-weight:700;text-align:center;padding:4px;letter-spacing:.5px;}
+
+.prod-body{padding:12px 14px 14px;}
+.prod-shop-row{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-light);margin-bottom:5px;}
+.shop-dot{width:6px;height:6px;border-radius:50%;background:var(--whatsapp);flex-shrink:0;}
+.shop-dot.closed{background:var(--danger);}
+.prod-title{font-weight:600;font-size:13.5px;color:var(--text-dark);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.prod-price-row{display:flex;align-items:center;gap:7px;margin-bottom:4px;}
+.prod-price{font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:var(--primary);}
+.prod-mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;}
+.prod-disc{font-size:12px;color:var(--success);font-weight:700;}
+.prod-rating{display:flex;align-items:center;gap:4px;margin-bottom:10px;}
+.stars-xs{color:#fbbf24;font-size:11px;}
+.rating-val{font-size:12px;font-weight:600;color:var(--text-dark);}
+.rating-cnt-sm{font-size:11px;color:var(--text-light);}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:var(--whatsapp);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;transition:background .2s,transform .1s;}
+.btn-wa:hover{background:var(--whatsapp-dark);}
+.btn-wa:active{transform:scale(.97);}
+.btn-wa svg{width:15px;height:15px;flex-shrink:0;}
+
+/* ── PRODUCT CARD (List View) ── */
+.products-grid.list-view .product-card{display:grid;grid-template-columns:180px 1fr;}
+.products-grid.list-view .prod-img-wrap{aspect-ratio:unset;height:100%;min-height:170px;border-radius:0;}
+.products-grid.list-view .prod-body{padding:16px 20px;display:flex;flex-direction:column;justify-content:space-between;}
+.products-grid.list-view .prod-title{-webkit-line-clamp:3;font-size:15px;}
+.products-grid.list-view .prod-price{font-size:22px;}
+.products-grid.list-view .btn-wa{width:auto;padding:10px 22px;align-self:flex-start;}
+
+/* ── QUICK VIEW MODAL ── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center;padding:16px;}
+.modal-overlay.open{display:flex;animation:fadeIn .2s ease;}
+@keyframes fadeIn{from{opacity:0;}to{opacity:1;}}
+.modal-box{background:#fff;border-radius:20px;width:100%;max-width:820px;max-height:90vh;overflow:hidden;display:grid;grid-template-columns:1fr 1fr;box-shadow:0 24px 80px rgba(0,0,0,.25);animation:slideUp .25s ease;}
+@keyframes slideUp{from{transform:translateY(30px);opacity:0;}to{transform:none;opacity:1;}}
+.modal-img-col{background:var(--bg);display:flex;flex-direction:column;}
+.modal-main-img{aspect-ratio:1;overflow:hidden;position:relative;}
+.modal-main-img img{width:100%;height:100%;object-fit:cover;}
+.modal-thumbs{display:flex;gap:8px;padding:12px;}
+.thumb{width:56px;height:56px;border-radius:8px;overflow:hidden;border:2px solid var(--border);cursor:pointer;flex-shrink:0;transition:border-color .2s;}
+.thumb.active,.thumb:hover{border-color:var(--primary);}
+.thumb img{width:100%;height:100%;object-fit:cover;}
+.modal-body-col{padding:28px;overflow-y:auto;display:flex;flex-direction:column;gap:14px;}
+.modal-close{position:absolute;top:16px;right:16px;width:34px;height:34px;background:#fff;border:none;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(0,0,0,.15);cursor:pointer;z-index:10;}
+.modal-box{position:relative;}
+.modal-category{font-size:12px;color:var(--primary);font-weight:700;background:var(--primary-light);padding:3px 10px;border-radius:4px;display:inline-block;}
+.modal-title{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:var(--text-dark);line-height:1.3;}
+.modal-shop-row{display:flex;align-items:center;gap:8px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--border);}
+.modal-shop-icon{font-size:24px;}
+.modal-shop-info{flex:1;}
+.modal-shop-name{font-weight:700;font-size:14px;color:var(--text-dark);}
+.modal-shop-sub{font-size:12px;color:var(--text-light);}
+.modal-price-row{display:flex;align-items:center;gap:10px;}
+.modal-price{font-family:'Baloo 2',cursive;font-size:32px;font-weight:800;color:var(--primary);}
+.modal-mrp{font-size:14px;color:var(--text-light);text-decoration:line-through;}
+.modal-disc{font-size:14px;color:var(--success);font-weight:700;}
+.modal-rating-row{display:flex;align-items:center;gap:8px;}
+.stars-md{color:#fbbf24;font-size:16px;}
+.modal-desc{font-size:14px;color:var(--text-mid);line-height:1.7;}
+.modal-details{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.detail-item{background:var(--bg);border-radius:8px;padding:8px 12px;}
+.detail-label{font-size:11px;color:var(--text-light);font-weight:600;text-transform:uppercase;letter-spacing:.5px;}
+.detail-value{font-size:13px;color:var(--text-dark);font-weight:600;margin-top:2px;}
+.modal-wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--whatsapp);color:#fff;border:none;padding:14px;border-radius:10px;font-size:16px;font-weight:700;transition:background .2s,transform .1s;}
+.modal-wa-btn:hover{background:var(--whatsapp-dark);}
+.modal-wa-btn:active{transform:scale(.98);}
+.modal-wa-btn svg{width:20px;height:20px;}
+.modal-actions-row{display:flex;gap:8px;}
+.modal-call-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--primary-light);color:var(--primary);border:none;padding:11px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;}
+.modal-call-btn:hover{background:var(--primary);color:#fff;}
+.modal-share-btn{width:42px;height:42px;background:var(--bg);border:1.5px solid var(--border);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;transition:all .2s;}
+.modal-share-btn:hover{border-color:var(--primary);background:var(--primary-light);}
+.avail-tag{display:inline-flex;align-items:center;gap:5px;font-size:12px;font-weight:600;padding:4px 10px;border-radius:6px;}
+.avail-tag.in{background:#dcfce7;color:#15803d;}
+.avail-tag.out{background:#fee2e2;color:var(--danger);}
+
+/* ── PAGINATION ── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:6px;margin-top:32px;flex-wrap:wrap;}
+.page-btn{width:38px;height:38px;border:2px solid var(--border);border-radius:8px;background:var(--white);font-size:13.5px;font-weight:600;color:var(--text-mid);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+.page-btn:hover{border-color:var(--primary);color:var(--primary);}
+.page-btn.active{background:var(--primary);border-color:var(--primary);color:#fff;}
+.page-btn.pn{width:auto;padding:0 14px;font-size:13px;}
+
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.listing-layout{grid-template-columns:240px 1fr;}}
+@media(max-width:860px){
+  .listing-layout{grid-template-columns:1fr;}
+  .sidebar{position:static;}
+  .nav-links{display:none;}
+  .filter-header{cursor:pointer;user-select:none;}
+  .filter-chevron{transition:transform .3s;flex-shrink:0;color:var(--text-light);}
+  .filter-card.expanded .filter-chevron{transform:rotate(180deg);}
+  .filter-body{max-height:0;overflow:hidden;padding:0;transition:max-height .35s ease,padding .35s ease;}
+  .filter-card.expanded .filter-body{max-height:2000px;padding:16px 18px;}
+  .products-grid.list-view .product-card{grid-template-columns:140px 1fr;}
+  .modal-box{grid-template-columns:1fr;max-height:95vh;overflow-y:auto;}
+  .modal-img-col .modal-main-img{aspect-ratio:16/9;}
+}
+@media(max-width:560px){
+  .listing-layout{padding:16px 12px;}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .products-grid.list-view{grid-template-columns:1fr;}
+  .products-grid.list-view .product-card{grid-template-columns:120px 1fr;}
+  .hero-right-stats{display:none;}
+  .page-hero{padding:28px 16px 36px;}
+  .topbar-left span:not(:first-child){display:none;}
+  .toolbar{flex-direction:column;align-items:flex-start;gap:8px;}
+  .toolbar-right{width:100%;justify-content:flex-end;}
+}
+@media(max-width:380px){
+  .products-grid{grid-template-columns:1fr;}
+}
+
+/* ── ANIMATION ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.product-card{animation:fadeUp .4s ease both;}
+.product-card:nth-child(1){animation-delay:.04s;}
+.product-card:nth-child(2){animation-delay:.08s;}
+.product-card:nth-child(3){animation-delay:.12s;}
+.product-card:nth-child(4){animation-delay:.16s;}
+.product-card:nth-child(5){animation-delay:.20s;}
+.product-card:nth-child(6){animation-delay:.24s;}
+.product-card:nth-child(7){animation-delay:.28s;}
+.product-card:nth-child(8){animation-delay:.32s;}
+.product-card:nth-child(9){animation-delay:.36s;}
+.product-card:nth-child(10){animation-delay:.40s;}
+.product-card:nth-child(11){animation-delay:.44s;}
+.product-card:nth-child(12){animation-delay:.48s;}
+</style>
+</head>
+<body>
+
+<!-- PINCODE / LOCATION MODAL -->
+<div id="pincodeModal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.45);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+  <div style="background:#fff;border-radius:20px;padding:32px 28px;width:min(420px,92vw);box-shadow:0 24px 60px rgba(0,0,0,.18);animation:popIn .28s ease;position:relative;">
+    <button onclick="closePincodeModal()" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;cursor:pointer;color:#6b7280;line-height:1;">✕</button>
+    <div style="font-size:22px;margin-bottom:6px;">📍</div>
+    <div style="font-family:'Baloo 2',cursive;font-size:19px;font-weight:800;color:#111827;margin-bottom:4px;">Set Your Location</div>
+    <div style="font-size:13px;color:#6b7280;margin-bottom:20px;">Local shops aur products aapke area ke according dikhenge</div>
+    <button onclick="requestLocation(true)" style="width:100%;display:flex;align-items:center;justify-content:center;gap:10px;padding:13px;background:linear-gradient(135deg,#1a56db,#1042b0);color:#fff;border:none;border-radius:12px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:14px;transition:opacity .2s;" onmouseover="this.style.opacity='.88'" onmouseout="this.style.opacity='1'">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+      Use My Current Location
+    </button>
+    <div style="text-align:center;font-size:12px;color:#9ca3af;margin-bottom:14px;">— ya pincode enter karein —</div>
+    <div style="display:flex;gap:8px;margin-bottom:16px;">
+      <input id="pincodeInput" type="number" placeholder="Enter 6-digit Pincode" maxlength="6"
+        style="flex:1;padding:11px 14px;border:2px solid #e5e7eb;border-radius:10px;font-size:14px;outline:none;transition:border-color .2s;"
+        onfocus="this.style.borderColor='#1a56db'" onblur="this.style.borderColor='#e5e7eb'"
+        onkeydown="if(event.key==='Enter') applyPincode()">
+      <button onclick="applyPincode()" style="padding:11px 18px;background:#1a56db;color:#fff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='#1042b0'" onmouseout="this.style.background='#1a56db'">Go</button>
+    </div>
+    <div id="popularPincodes" style="display:flex;flex-wrap:wrap;gap:6px;"></div>
+    <div id="pincodeMsg" style="margin-top:12px;font-size:13px;min-height:20px;"></div>
+  </div>
+</div>
+
+<!-- SHARED HEADER -->
+<div id="site-header"></div>
+<script src="components.js"></script>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home</a>
+  <span class="sep">›</span>
+  <a href="categories.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>Categories</a>
+  <span class="sep">›</span>
+  <span class="current"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>All Products</span>
+</div>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-hero-left">
+      <h1><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="28" height="28" style="vertical-align:-4px;margin-right:8px;"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>All <span>Products</span></h1>
+      <p>Best products from local shops — Contact sellers directly on WhatsApp</p>
+    </div>
+    <div class="hero-right-stats">
+      <div class="h-stat"><div class="num">10K+</div><div class="lbl">Products</div></div>
+      <div class="h-stat"><div class="num">500+</div><div class="lbl">Shops</div></div>
+      <div class="h-stat"><div class="num">0%</div><div class="lbl">Commission</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- AD BANNER SLIDER -->
+<section class="ad-slider-section">
+  <div class="ad-slider-wrap">
+
+    <!-- Slide Track -->
+    <div class="ad-slider-track" id="adTrack">
+
+      <!-- Slide 1 — Men Fashion -->
+      <div class="ad-slide active" onclick="filterByCatSlide('men-fashion')">
+        <img src="https://images.unsplash.com/photo-1490367532201-b9bc1dc483f6?w=1400&h=560&fit=crop&auto=format" alt="Men Fashion Sale">
+        <div class="ad-slide-overlay" style="background:linear-gradient(100deg,rgba(10,32,90,.82) 0%,rgba(26,86,219,.45) 55%,transparent 100%);"></div>
+        <div class="ad-slide-content">
+          <div class="ad-badge" style="background:#fbbf24;color:#1a1a1a;">🔥 Limited Time Offer</div>
+          <div class="ad-headline">Men's Fashion<br><em style="color:#93c5fd;">Upto 60% Off</em></div>
+          <div class="ad-sub">Premium kurtas, shirts & formals from local Indore shops. Exclusive WhatsApp deals.</div>
+          <button class="ad-cta" style="background:#fff;color:#1a56db;">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Slide 2 — Women Fashion -->
+      <div class="ad-slide" onclick="filterByCatSlide('women-fashion')">
+        <img src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=1400&h=560&fit=crop&auto=format" alt="Women Fashion">
+        <div class="ad-slide-overlay" style="background:linear-gradient(100deg,rgba(80,7,36,.85) 0%,rgba(190,24,93,.4) 55%,transparent 100%);"></div>
+        <div class="ad-slide-content">
+          <div class="ad-badge" style="background:#f9a8d4;color:#831843;">✨ New Arrivals</div>
+          <div class="ad-headline">Women's Fashion<br><em style="color:#fda4af;">Sarees, Kurtis & More</em></div>
+          <div class="ad-sub">Handpicked collection from Vijay Nagar's best shops. 2,180+ products available.</div>
+          <button class="ad-cta" style="background:#fff;color:#be185d;">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Slide 3 — Electronics -->
+      <div class="ad-slide" onclick="filterByCatSlide('electronics')">
+        <img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=1400&h=560&fit=crop&auto=format" alt="Electronics">
+        <div class="ad-slide-overlay" style="background:linear-gradient(100deg,rgba(2,44,34,.88) 0%,rgba(13,115,119,.45) 55%,transparent 100%);"></div>
+        <div class="ad-slide-content">
+          <div class="ad-badge" style="background:#6ee7b7;color:#064e3b;">⚡ Tech Deals</div>
+          <div class="ad-headline">Electronics &<br><em style="color:#67e8f9;">Gadgets Sale</em></div>
+          <div class="ad-sub">Earphones, power banks, smart gadgets — best prices from MG Road stores.</div>
+          <button class="ad-cta" style="background:#fff;color:#0d7377;">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Slide 4 — Ethnic Wear -->
+      <div class="ad-slide" onclick="filterByCatSlide('ethnic-wear')">
+        <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=1400&h=560&fit=crop&auto=format" alt="Ethnic Wear">
+        <div class="ad-slide-overlay" style="background:linear-gradient(100deg,rgba(46,7,80,.88) 0%,rgba(124,58,237,.42) 55%,transparent 100%);"></div>
+        <div class="ad-slide-content">
+          <div class="ad-badge" style="background:#ddd6fe;color:#4c1d95;">🎉 Wedding Season</div>
+          <div class="ad-headline">Ethnic Wear<br><em style="color:#c4b5fd;">Sherwanis & Lehengas</em></div>
+          <div class="ad-sub">Wedding & festive collection from Sarafa Bazaar's finest shops. Upto 44% off.</div>
+          <button class="ad-cta" style="background:#fff;color:#7c3aed;">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Slide 5 — Jewellery -->
+      <div class="ad-slide" onclick="filterByCatSlide('jewellery')">
+        <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=1400&h=560&fit=crop&auto=format" alt="Jewellery">
+        <div class="ad-slide-overlay" style="background:linear-gradient(100deg,rgba(69,26,3,.88) 0%,rgba(180,83,9,.45) 55%,transparent 100%);"></div>
+        <div class="ad-slide-content">
+          <div class="ad-badge" style="background:#fde68a;color:#78350f;">💎 Sarafa Special</div>
+          <div class="ad-headline">Jewellery<br><em style="color:#fcd34d;">Indore's Finest Sarafa</em></div>
+          <div class="ad-sub">Necklaces, bangles & rings from Sarafa Bazaar's trusted jewellers. Contact on WhatsApp.</div>
+          <button class="ad-cta" style="background:#fff;color:#b45309;">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Slide 6 — Footwear -->
+      <div class="ad-slide" onclick="filterByCatSlide('footwear')">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1400&h=560&fit=crop&auto=format" alt="Footwear">
+        <div class="ad-slide-overlay" style="background:linear-gradient(100deg,rgba(28,15,6,.88) 0%,rgba(146,64,14,.45) 55%,transparent 100%);"></div>
+        <div class="ad-slide-content">
+          <div class="ad-badge" style="background:#fed7aa;color:#7c2d12;">👟 Step Up</div>
+          <div class="ad-headline">Footwear Sale<br><em style="color:#fdba74;">Upto 40% Off</em></div>
+          <div class="ad-sub">Sports shoes, sandals & formals — 720+ products from Civil Lines shops.</div>
+          <button class="ad-cta" style="background:#fff;color:#92400e;">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+
+      <!-- Slide 7 — Sports & Fitness -->
+      <div class="ad-slide" onclick="filterByCatSlide('sports-fitness')">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1400&h=560&fit=crop&auto=format" alt="Sports & Fitness">
+        <div class="ad-slide-overlay" style="background:linear-gradient(100deg,rgba(2,44,17,.88) 0%,rgba(22,101,52,.45) 55%,transparent 100%);"></div>
+        <div class="ad-slide-content">
+          <div class="ad-badge" style="background:#bbf7d0;color:#14532d;">💪 Stay Fit</div>
+          <div class="ad-headline">Sports & Fitness<br><em style="color:#86efac;">Running Shoes & More</em></div>
+          <div class="ad-sub">Premium sports gear from Indore's top fitness shops. New stock, unbeatable prices.</div>
+          <button class="ad-cta" style="background:#fff;color:#16a34a;">Shop Now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><polyline points="9 6 15 12 9 18"/></svg></button>
+        </div>
+      </div>
+
+    </div><!-- /ad-slider-track -->
+
+    <!-- Arrows -->
+    <button class="ad-arrow left" id="adPrev" onclick="adSlide(-1)" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="ad-arrow right" id="adNext" onclick="adSlide(1)" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="18" height="18" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+    </button>
+
+    <!-- Slide counter -->
+    <div class="ad-counter" id="adCounter">1 / 7</div>
+
+    <!-- Dots -->
+    <div class="ad-dots" id="adDots"></div>
+
+  </div><!-- /ad-slider-wrap -->
+</section>
+
+<!-- LISTING LAYOUT -->
+<div class="listing-layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar">
+    <div class="filter-card">
+      <div class="filter-header" onclick="toggleFilterMobile()">
+        <span class="filter-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/></svg>Filter Products</span>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span class="filter-clear" onclick="event.stopPropagation();clearAllFilters()">Clear All</span>
+          <svg class="filter-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><polyline points="6 9 12 15 18 9"/></svg>
+        </div>
+      </div>
+      <div class="filter-body">
+
+        <!-- Category -->
+        <div class="filter-section">
+          <div class="fs-title">Category</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="fc1" checked onchange="onCatChange(this)"><label for="fc1">All Categories <span class="cc">10,000</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc2" onchange="onCatChange(this)"><label for="fc2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion <span class="cc">1,240</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc3" onchange="onCatChange(this)"><label for="fc3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Women Fashion <span class="cc">2,180</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc4" onchange="onCatChange(this)"><label for="fc4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Kids Wear <span class="cc">890</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc5" onchange="onCatChange(this)"><label for="fc5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Electronics <span class="cc">560</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc6" onchange="onCatChange(this)"><label for="fc6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>Mobile Accessories <span class="cc">430</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc7" onchange="onCatChange(this)"><label for="fc7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Footwear <span class="cc">720</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc8" onchange="onCatChange(this)"><label for="fc8"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><polygon points="6 3 18 3 22 9 12 22 2 9 6 3"/><polyline points="2 9 12 9 18 3"/><line x1="12" y1="9" x2="12" y2="22"/></svg>Jewellery <span class="cc">380</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc9" onchange="onCatChange(this)"><label for="fc9"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home Decor <span class="cc">520</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc10" onchange="onCatChange(this)"><label for="fc10"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Ethnic Wear <span class="cc">640</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc11" onchange="onCatChange(this)"><label for="fc11"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Bags & Wallets <span class="cc">310</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc12" onchange="onCatChange(this)"><label for="fc12"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 01-2 1.82H9.83a2 2 0 01-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 019.83 1h4.35a2 2 0 012 1.82l.35 3.83"/></svg>Watches <span class="cc">275</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc13" onchange="onCatChange(this)"><label for="fc13"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M5 21c.5-4.5 2.5-8 7-10"/><path d="M9 18c6.218 0 10.5-3.288 11-12v-2h-4.014c-9 0-11.986 4-12 9 0 1 0 3 2 5h3z"/></svg>Beauty & Care <span class="cc">460</span></label></li>
+            <li class="check-item"><input type="checkbox" id="fc14" onchange="onCatChange(this)"><label for="fc14"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M6.5 6.5m-2.5 0a2.5 2.5 0 105 0 2.5 2.5 0 10-5 0"/><path d="M17.5 17.5m-2.5 0a2.5 2.5 0 105 0 2.5 2.5 0 10-5 0"/><path d="M6.5 9l4.5 3 4.5-3"/><path d="M6.5 15l4.5-3 4.5 3"/></svg>Sports & Fitness <span class="cc">390</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Price Range -->
+        <div class="filter-section">
+          <div class="fs-title">Price Range (₹)</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="pr0a"><label for="pr0a">Under ₹99 <span class="cc">0</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr0b"><label for="pr0b">Under ₹199 <span class="cc">0</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr0c"><label for="pr0c">Under ₹499 <span class="cc">1</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr0d"><label for="pr0d">Under ₹999 <span class="cc">5</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr3"><label for="pr3">₹1,000 – ₹2,500 <span class="cc">3</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr4"><label for="pr4">₹2,500 – ₹5,000 <span class="cc">1</span></label></li>
+            <li class="check-item"><input type="checkbox" id="pr5"><label for="pr5">Above ₹5,000 <span class="cc">1</span></label></li>
+          </ul>
+          <div class="price-divider">Custom Range</div>
+          <div class="price-inputs">
+            <input type="number" class="price-input" placeholder="Min ₹" value="0" id="priceMin" min="0" max="10000" oninput="syncFromInputs()">
+            <input type="number" class="price-input" placeholder="Max ₹" value="10000" id="priceMax" min="0" max="10000" oninput="syncFromInputs()">
+          </div>
+          <div class="dual-range">
+            <div class="range-track"><div class="range-fill" id="rangeFill"></div></div>
+            <input type="range" class="range-slider" min="0" max="10000" value="0" id="sliderMin" oninput="syncFromSliders()">
+            <input type="range" class="range-slider" min="0" max="10000" value="10000" id="sliderMax" oninput="syncFromSliders()">
+          </div>
+          <div class="price-label"><span>₹0</span><span>₹10,000</span></div>
+        </div>
+
+        <!-- Rating -->
+        <div class="filter-section">
+          <div class="fs-title">Minimum Rating</div>
+          <div class="rating-filter">
+            <div class="rating-option"><input type="radio" name="rat" id="r4"><span class="rat-stars">★★★★★</span><span class="rat-label">4.5 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rat" id="r3"><span class="rat-stars">★★★★☆</span><span class="rat-label">4.0 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rat" id="r2"><span class="rat-stars">★★★☆☆</span><span class="rat-label">3.0 & above</span></div>
+            <div class="rating-option"><input type="radio" name="rat" id="r0" checked><span class="rat-stars">★☆☆☆☆</span><span class="rat-label">Any Rating</span></div>
+          </div>
+        </div>
+
+        <!-- Availability -->
+        <div class="filter-section">
+          <div class="fs-title">Availability</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="av1" checked><label for="av1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>In Stock <span class="cc">8,420</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av2"><label for="av2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>On Sale <span class="cc">1,240</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av3"><label for="av3"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>New Arrivals <span class="cc">320</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av4"><label for="av4"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Featured <span class="cc">480</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av5"><label for="av5"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>Verified Shop <span class="cc">3,180</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av6"><label for="av6"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Open Now <span class="cc">2,640</span></label></li>
+            <li class="check-item"><input type="checkbox" id="av7"><label for="av7"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><rect x="1" y="3" width="15" height="13" rx="2"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Home Delivery <span class="cc">4,920</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Discount -->
+        <div class="filter-section">
+          <div class="fs-title">Discount</div>
+          <ul class="check-list">
+            <li class="check-item"><input type="checkbox" id="dc1"><label for="dc1">10% or more <span class="cc">128</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc2"><label for="dc2">20% or more <span class="cc">96</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc3"><label for="dc3">30% or more <span class="cc">72</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc4"><label for="dc4">40% or more <span class="cc">48</span></label></li>
+            <li class="check-item"><input type="checkbox" id="dc5"><label for="dc5">50% or more <span class="cc">22</span></label></li>
+          </ul>
+        </div>
+
+        <!-- Area -->
+        <div class="filter-section">
+          <div class="fs-title">Shop Area</div>
+          <div class="area-tags">
+            <span class="area-tag active" onclick="toggleArea(this)">All</span>
+            <span class="area-tag" onclick="toggleArea(this)">Gandhi Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Vijay Nagar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Sarafa Bazaar</span>
+            <span class="area-tag" onclick="toggleArea(this)">Rajwada</span>
+            <span class="area-tag" onclick="toggleArea(this)">MG Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">Palasia</span>
+            <span class="area-tag" onclick="toggleArea(this)">Siyaganj</span>
+            <span class="area-tag" onclick="toggleArea(this)">South Tukoganj</span>
+            <span class="area-tag" onclick="toggleArea(this)">Malharganj</span>
+            <span class="area-tag" onclick="toggleArea(this)">Navlakha</span>
+            <span class="area-tag" onclick="toggleArea(this)">Khajrana</span>
+            <span class="area-tag" onclick="toggleArea(this)">Civil Lines</span>
+            <span class="area-tag" onclick="toggleArea(this)">Station Road</span>
+            <span class="area-tag" onclick="toggleArea(this)">Bengali Square</span>
+            <span class="area-tag" onclick="toggleArea(this)">New Market</span>
+          </div>
+        </div>
+
+        <button class="btn-apply" onclick="applyFilters();if(window.innerWidth<=860)collapseFilterMobile()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="13" height="13" style="vertical-align:-1px;margin-right:5px;"><polyline points="20 6 9 17 4 12"/></svg>Apply Filters</button>
+      </div>
+    </div>
+
+    <!-- Featured Shop Box -->
+    <div class="filter-card">
+      <div style="background:linear-gradient(135deg,#f97316,#ea580c);padding:20px;border-radius:var(--radius);text-align:center;">
+        <div style="margin-bottom:8px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="36" height="36" style="color:#fff;"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>
+        <div style="font-family:'Baloo 2',cursive;font-size:16px;font-weight:700;color:#fff;margin-bottom:6px;">List Your Shop</div>
+        <div style="font-size:12px;color:rgba(255,255,255,.8);margin-bottom:14px;">List up to 100 products for free</div>
+        <button class="btn-register-free">Register Now Free →</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <main class="main-content">
+
+    <!-- Category Tabs -->
+    <div class="cat-tabs">
+      <div class="cat-tab active" data-cat="" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>All <span class="cnt">(10K)</span></div>
+      <div class="cat-tab" data-cat="men-fashion" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion</div>
+      <div class="cat-tab" data-cat="women-fashion" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Women Fashion</div>
+      <div class="cat-tab" data-cat="kids-wear" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>Kids Wear</div>
+      <div class="cat-tab" data-cat="electronics" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>Electronics</div>
+      <div class="cat-tab" data-cat="mobile-accessories" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M3 18v-6a9 9 0 0118 0v6"/><path d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"/></svg>Accessories</div>
+      <div class="cat-tab" data-cat="footwear" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>Footwear</div>
+      <div class="cat-tab" data-cat="jewellery" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M6 3h12l4 6-10 13L2 9l4-6z"/><polyline points="2 9 12 9 22 9"/><line x1="12" y1="9" x2="12" y2="22"/></svg>Jewellery</div>
+      <div class="cat-tab" data-cat="home-decor" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Home Decor</div>
+      <div class="cat-tab" data-cat="ethnic-wear" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>Ethnic Wear</div>
+      <div class="cat-tab" data-cat="bags-wallets" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Bags & Wallets</div>
+      <div class="cat-tab" data-cat="watches" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="7"/><polyline points="12 9 12 12 13.5 13.5"/><path d="M16.51 17.35l-.35 3.83a2 2 0 01-2 1.82H9.83a2 2 0 01-2-1.82l-.35-3.83m.01-10.7l.35-3.83A2 2 0 019.83 1h4.35a2 2 0 012 1.82l.35 3.83"/></svg>Watches</div>
+      <div class="cat-tab" data-cat="beauty-care" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M5 21c.5-4.5 2.5-8 7-10"/><path d="M9 18c6.218 0 10.5-3.288 11-12v-2h-4.014c-9 0-11.986 4-12 9 0 1 0 3 2 5h3z"/></svg>Beauty & Care</div>
+      <div class="cat-tab" data-cat="sports-fitness" onclick="setCatPill(this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M6.5 6.5m-2.5 0a2.5 2.5 0 105 0 2.5 2.5 0 10-5 0"/><path d="M17.5 17.5m-2.5 0a2.5 2.5 0 105 0 2.5 2.5 0 10-5 0"/><path d="M6.5 9l4.5 3 4.5-3"/><path d="M6.5 15l4.5-3 4.5 3"/></svg>Sports & Fitness</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="toolbar">
+      <div class="toolbar-left">
+        <span class="result-count">Showing <strong>12</strong> products</span>
+        <div class="active-filters" id="activeFilters">
+          <span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>In Stock <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>
+          <span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>All Areas <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>
+        </div>
+      </div>
+      <div class="toolbar-right">
+        <select class="sort-select" id="sortSelect" onchange="applySort(this.value)">
+          <option value="featured">Sort: Featured First</option>
+          <option value="price-asc">Sort: Price Low → High</option>
+          <option value="price-desc">Sort: Price High → Low</option>
+          <option value="rating-desc">Sort: Rating High → Low</option>
+          <option value="newest">Sort: Newest First</option>
+          <option value="popular">Sort: Most Popular</option>
+        </select>
+        <div class="view-toggle">
+          <button class="vbtn active" id="gridBtn" onclick="setView('grid')" title="Grid View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg></button>
+          <button class="vbtn" id="listBtn" onclick="setView('list')" title="List View"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ PRODUCTS GRID ══ -->
+    <div class="products-grid" id="productsGrid">
+
+      <!-- Product 1 -->
+      <div class="product-card" onclick="openModal(1)" data-price="599" data-rating="4.8" data-reviews="124" data-order="1" data-cat="men-fashion" data-instock="1" data-tags="sale,featured" data-disc="40" data-area="Gandhi Nagar" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=300&h=300&fit=crop&auto=format" alt="Men Kurta">
+          <span class="prod-badge badge-hot"><svg viewBox="0 0 24 24" fill="currentColor" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0010 0C17 7.5 12 2 12 2z"/></svg>Hot</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Sharma Cloth House</div>
+          <div class="prod-title">Men's Premium Cotton Kurta Set – Festive Collection 2024</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹599</span>
+            <span class="prod-mrp">₹999</span>
+            <span class="prod-disc">40% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.8</span><span class="rating-cnt-sm">(124)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Men Cotton Kurta Set','599','Sharma Cloth House')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 2 -->
+      <div class="product-card" onclick="openModal(2)" data-price="2199" data-rating="4.9" data-reviews="210" data-order="2" data-cat="women-fashion" data-instock="1" data-tags="new" data-disc="37" data-area="Vijay Nagar" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=300&h=300&fit=crop&auto=format" alt="Saree">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Meera Saree Center</div>
+          <div class="prod-title">Banarasi Silk Saree – Heavy Zari Work, Wedding Special</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹2,199</span>
+            <span class="prod-mrp">₹3,500</span>
+            <span class="prod-disc">37% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.9</span><span class="rating-cnt-sm">(210)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Banarasi Silk Saree','2199','Meera Saree Center')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 3 -->
+      <div class="product-card" onclick="openModal(3)" data-price="849" data-rating="4.5" data-reviews="89" data-order="3" data-cat="electronics" data-instock="1" data-tags="sale" data-disc="35" data-area="MG Road" data-verified="0" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=300&h=300&fit=crop&auto=format" alt="Earphones">
+          <span class="prod-badge badge-sale">30% Off</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Digital Zone Electronics</div>
+          <div class="prod-title">Wireless Bluetooth Earphones – Noise Cancellation, 30Hr Battery</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹849</span>
+            <span class="prod-mrp">₹1,299</span>
+            <span class="prod-disc">35% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.5</span><span class="rating-cnt-sm">(89)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Bluetooth Earphones','849','Digital Zone')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 4 -->
+      <div class="product-card" onclick="openModal(4)" data-price="449" data-rating="4.3" data-reviews="56" data-order="4" data-cat="kids-wear" data-instock="1" data-tags="new" data-disc="40" data-area="Navlakha" data-verified="0" data-open="1" data-delivery="0">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=300&h=300&fit=crop&auto=format" alt="Kids Dress">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Little Star Kids Wear</div>
+          <div class="prod-title">Girls Party Wear Frock – Embroidery Work, Age 4–10 Years</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹449</span>
+            <span class="prod-mrp">₹750</span>
+            <span class="prod-disc">40% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.3</span><span class="rating-cnt-sm">(56)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Girls Party Wear Frock','449','Little Star Kids Wear')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 5 -->
+      <div class="product-card" onclick="openModal(5)" data-price="249" data-rating="4.7" data-reviews="98" data-order="5" data-cat="mobile-accessories" data-instock="1" data-tags="sale" data-disc="50" data-area="Vijay Nagar" data-verified="0" data-open="1" data-delivery="0">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=300&h=300&fit=crop&auto=format" alt="Phone Cover">
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Mobile Master</div>
+          <div class="prod-title">iPhone 15 Shockproof Back Cover – Transparent Premium Quality</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹249</span>
+            <span class="prod-mrp">₹499</span>
+            <span class="prod-disc">50% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.7</span><span class="rating-cnt-sm">(98)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('iPhone 15 Cover','249','Mobile Master')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 6 -->
+      <div class="product-card" onclick="openModal(6)" data-price="899" data-rating="4.2" data-reviews="73" data-order="6" data-cat="footwear" data-instock="1" data-tags="sale,featured" data-disc="40" data-area="Civil Lines" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop&auto=format" alt="Sports Shoes">
+          <span class="prod-badge badge-hot"><svg viewBox="0 0 24 24" fill="currentColor" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Top Pick</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Step In Footwear</div>
+          <div class="prod-title">Men's Running Sports Shoes – Lightweight EVA Sole, Size 6–11</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹899</span>
+            <span class="prod-mrp">₹1,499</span>
+            <span class="prod-disc">40% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.2</span><span class="rating-cnt-sm">(73)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Men Sports Shoes','899','Step In Footwear')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 7 -->
+      <div class="product-card" onclick="openModal(7)" data-price="1299" data-rating="4.9" data-reviews="187" data-order="7" data-cat="jewellery" data-instock="1" data-tags="sale" data-disc="41" data-area="Sarafa Bazaar" data-verified="1" data-open="0" data-delivery="0">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?w=300&h=300&fit=crop&auto=format" alt="Necklace">
+          <span class="prod-badge badge-sale">SALE</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Rani Jewellery House</div>
+          <div class="prod-title">Bridal Gold Plated Necklace Set – Kundan Stone Work, Antique Finish</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹1,299</span>
+            <span class="prod-mrp">₹2,200</span>
+            <span class="prod-disc">41% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.9</span><span class="rating-cnt-sm">(187)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Bridal Necklace Set','1299','Rani Jewellery House')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 8 -->
+      <div class="product-card" onclick="openModal(8)" data-price="1499" data-rating="4.4" data-reviews="64" data-order="8" data-cat="electronics" data-instock="1" data-tags="new,sale" data-disc="50" data-area="MG Road" data-verified="0" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop&auto=format" alt="Smart Watch">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Digital Zone Electronics</div>
+          <div class="prod-title">Smart Watch – Heart Rate, SpO2, 7 Days Battery, IP68 Waterproof</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹1,499</span>
+            <span class="prod-mrp">₹2,999</span>
+            <span class="prod-disc">50% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.4</span><span class="rating-cnt-sm">(64)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Smart Watch','1499','Digital Zone Electronics')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 9 -->
+      <div class="product-card" onclick="openModal(9)" data-price="399" data-rating="4.6" data-reviews="142" data-order="9" data-cat="men-fashion" data-instock="0" data-tags="sale" data-disc="43" data-area="Gandhi Nagar" data-verified="1" data-open="0" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=300&h=300&fit=crop&auto=format" alt="Formal Shirt">
+          <div class="prod-availability">Out of Stock</div>
+          <span class="prod-badge badge-sold">Sold Out</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot closed"></span>Sharma Cloth House</div>
+          <div class="prod-title">Men's Cotton Formal Shirt – Slim Fit, Office Wear, White/Blue</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹399</span>
+            <span class="prod-mrp">₹699</span>
+            <span class="prod-disc">43% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.6</span><span class="rating-cnt-sm">(142)</span></div>
+          <button class="btn-wa" style="background:#9ca3af;" onclick="event.stopPropagation();openWA('Formal Shirt','399','Sharma Cloth House')">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+            Notify When Available
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 10 -->
+      <div class="product-card" onclick="openModal(10)" data-price="4999" data-rating="4.9" data-reviews="96" data-order="10" data-cat="women-fashion" data-instock="1" data-tags="sale,featured" data-disc="41" data-area="Vijay Nagar" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=300&h=300&fit=crop&auto=format" alt="Lehenga">
+          <span class="prod-badge badge-hot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polygon points="6 3 18 3 22 9 12 22 2 9 6 3"/><polyline points="2 9 12 9 18 3"/><line x1="12" y1="9" x2="12" y2="22"/></svg>Premium</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Meera Saree Center</div>
+          <div class="prod-title">Bridal Lehenga Choli – Heavy Embroidery, Wedding Collection 2024</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹4,999</span>
+            <span class="prod-mrp">₹8,500</span>
+            <span class="prod-disc">41% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.9</span><span class="rating-cnt-sm">(96)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Bridal Lehenga Choli','4999','Meera Saree Center')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 11 -->
+      <div class="product-card" onclick="openModal(11)" data-price="699" data-rating="4.3" data-reviews="51" data-order="11" data-cat="electronics" data-instock="1" data-tags="new,sale" data-disc="46" data-area="MG Road" data-verified="0" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1609091839311-d5365f9ff1c5?w=300&h=300&fit=crop&auto=format" alt="Power Bank">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Digital Zone Electronics</div>
+          <div class="prod-title">20000mAh Fast Charging Power Bank – Dual USB + Type-C</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹699</span>
+            <span class="prod-mrp">₹1,299</span>
+            <span class="prod-disc">46% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★☆</span><span class="rating-val">4.3</span><span class="rating-cnt-sm">(51)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('20000mAh Power Bank','699','Digital Zone Electronics')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 12 -->
+      <div class="product-card" onclick="openModal(12)" data-price="349" data-rating="4.7" data-reviews="275" data-order="12" data-cat="women-fashion" data-instock="1" data-tags="sale,featured" data-disc="42" data-area="Vijay Nagar" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1614251056798-0a63eda2bb25?w=300&h=300&fit=crop&auto=format" alt="Kurti">
+          <span class="prod-badge badge-hot"><svg viewBox="0 0 24 24" fill="currentColor" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0010 0C17 7.5 12 2 12 2z"/></svg>Trending</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Meera Saree Center</div>
+          <div class="prod-title">Women's Printed Cotton Kurti – Casual Daily Wear, Size S–3XL</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹349</span>
+            <span class="prod-mrp">₹599</span>
+            <span class="prod-disc">42% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.7</span><span class="rating-cnt-sm">(275)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Printed Cotton Kurti','349','Meera Saree Center')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 13 — Home Decor -->
+      <div class="product-card" onclick="openModal(13)" data-price="799" data-rating="4.6" data-reviews="88" data-order="13" data-cat="home-decor" data-instock="1" data-tags="new" data-disc="38" data-area="MG Road" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=300&h=300&fit=crop&auto=format" alt="Home Decor">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Decor World Indore</div>
+          <div class="prod-title">Handcrafted Wooden Wall Art – Living Room Décor, 18×24 inch</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹799</span>
+            <span class="prod-mrp">₹1,299</span>
+            <span class="prod-disc">38% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.6</span><span class="rating-cnt-sm">(88)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Wooden Wall Art','799','Decor World Indore')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 14 — Ethnic Wear -->
+      <div class="product-card" onclick="openModal(14)" data-price="1799" data-rating="4.8" data-reviews="156" data-order="14" data-cat="ethnic-wear" data-instock="1" data-tags="sale,featured" data-disc="44" data-area="Sarafa Bazaar" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=300&h=300&fit=crop&auto=format" alt="Ethnic Wear">
+          <span class="prod-badge badge-hot"><svg viewBox="0 0 24 24" fill="currentColor" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0010 0C17 7.5 12 2 12 2z"/></svg>Hot</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Royal Ethnic Wear</div>
+          <div class="prod-title">Men's Embroidered Sherwani Set – Wedding & Party Wear 2024</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹1,799</span>
+            <span class="prod-mrp">₹3,199</span>
+            <span class="prod-disc">44% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.8</span><span class="rating-cnt-sm">(156)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Embroidered Sherwani Set','1799','Royal Ethnic Wear')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 15 — Bags & Wallets -->
+      <div class="product-card" onclick="openModal(15)" data-price="649" data-rating="4.5" data-reviews="112" data-order="15" data-cat="bags-wallets" data-instock="1" data-tags="sale" data-disc="45" data-area="Vijay Nagar" data-verified="0" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=300&h=300&fit=crop&auto=format" alt="Bag">
+          <span class="prod-badge badge-sale">45% Off</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Style Street</div>
+          <div class="prod-title">Women's Vegan Leather Tote Bag – Office & Casual, 3 Colors</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹649</span>
+            <span class="prod-mrp">₹1,199</span>
+            <span class="prod-disc">45% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.5</span><span class="rating-cnt-sm">(112)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Vegan Leather Tote Bag','649','Style Street')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 16 — Watches -->
+      <div class="product-card" onclick="openModal(16)" data-price="1299" data-rating="4.7" data-reviews="203" data-order="16" data-cat="watches" data-instock="1" data-tags="sale,featured" data-disc="48" data-area="Gandhi Nagar" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=300&h=300&fit=crop&auto=format" alt="Watch">
+          <span class="prod-badge badge-hot"><svg viewBox="0 0 24 24" fill="currentColor" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Top Pick</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Jewels of Indore</div>
+          <div class="prod-title">Premium Analog Men's Watch – Stainless Steel, Water Resistant</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹1,299</span>
+            <span class="prod-mrp">₹2,499</span>
+            <span class="prod-disc">48% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.7</span><span class="rating-cnt-sm">(203)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Premium Analog Watch','1299','Jewels of Indore')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 17 — Beauty & Care -->
+      <div class="product-card" onclick="openModal(17)" data-price="399" data-rating="4.6" data-reviews="318" data-order="17" data-cat="beauty-care" data-instock="1" data-tags="sale" data-disc="33" data-area="Vijay Nagar" data-verified="0" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1556228720-195a672e8a03?w=300&h=300&fit=crop&auto=format" alt="Beauty Products">
+          <span class="prod-badge badge-sale">33% Off</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Fashion Hub Indore</div>
+          <div class="prod-title">Herbal Skincare Combo Kit – Face Wash, Serum & Moisturiser (3-in-1)</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹399</span>
+            <span class="prod-mrp">₹599</span>
+            <span class="prod-disc">33% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.6</span><span class="rating-cnt-sm">(318)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Herbal Skincare Combo','399','Fashion Hub Indore')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+      <!-- Product 18 — Sports & Fitness -->
+      <div class="product-card" onclick="openModal(18)" data-price="1099" data-rating="4.7" data-reviews="174" data-order="18" data-cat="sports-fitness" data-instock="1" data-tags="sale,new" data-disc="42" data-area="Civil Lines" data-verified="1" data-open="1" data-delivery="1">
+        <div class="prod-img-wrap">
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=300&h=300&fit=crop&auto=format" alt="Sports Shoes">
+          <span class="prod-badge badge-new">NEW</span>
+          <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Wishlist"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+          <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
+        </div>
+        <div class="prod-body">
+          <div class="prod-shop-row"><span class="shop-dot"></span>Sports Zone Indore</div>
+          <div class="prod-title">Men's Lightweight Running Shoes – Breathable Mesh, Size 6–12</div>
+          <div class="prod-price-row">
+            <span class="prod-price">₹1,099</span>
+            <span class="prod-mrp">₹1,899</span>
+            <span class="prod-disc">42% Off</span>
+          </div>
+          <div class="prod-rating"><span class="stars-xs">★★★★★</span><span class="rating-val">4.7</span><span class="rating-cnt-sm">(174)</span></div>
+          <button class="btn-wa" onclick="event.stopPropagation();openWA('Lightweight Running Shoes','1099','Sports Zone Indore')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            WhatsApp
+          </button>
+        </div>
+      </div>
+
+    </div><!-- /products-grid -->
+
+    <!-- No Results -->
+    <div id="noResults" style="display:none;flex-direction:column;align-items:center;justify-content:center;padding:60px 20px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius);text-align:center;margin-bottom:18px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#cbd5e1" stroke-width="1.5" width="64" height="64" style="margin-bottom:16px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+      <div style="font-size:17px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">No Products Found</div>
+      <div style="font-size:13px;color:var(--text-light);max-width:280px;line-height:1.6;margin-bottom:20px;">No products match your selected filters. Try adjusting or clearing the filters.</div>
+      <button onclick="clearAllFilters()" style="background:var(--primary);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;" onmouseover="this.style.background='var(--primary-dark)'" onmouseout="this.style.background='var(--primary)'">Clear All Filters</button>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+      <button class="page-btn pn">← Prev</button>
+      <button class="page-btn active">1</button>
+      <button class="page-btn">2</button>
+      <button class="page-btn">3</button>
+      <button class="page-btn">4</button>
+      <button class="page-btn">5</button>
+      <span style="color:var(--text-light);padding:0 4px">...</span>
+      <button class="page-btn">50</button>
+      <button class="page-btn pn">Next →</button>
+    </div>
+
+  </main>
+</div>
+
+<!-- ══ QUICK VIEW MODAL ══ -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-box" id="modalBox">
+    <button class="modal-close" onclick="closeModalDirect()">✕</button>
+    <!-- Image Column -->
+    <div class="modal-img-col">
+      <div class="modal-main-img">
+        <img id="modalImg" src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=400&h=400&fit=crop&auto=format" alt="Product">
+      </div>
+      <div class="modal-thumbs">
+        <div class="thumb active"><img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=60&h=60&fit=crop&auto=format"></div>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=60&h=60&fit=crop&auto=format"></div>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1611510338559-2f463335092c?w=60&h=60&fit=crop&auto=format"></div>
+        <div class="thumb"><img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=60&h=60&fit=crop&auto=format"></div>
+      </div>
+    </div>
+    <!-- Body Column -->
+    <div class="modal-body-col">
+      <div>
+        <span class="modal-category" id="modalCat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:4px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion</span>
+      </div>
+      <h2 class="modal-title" id="modalTitle">Men's Premium Cotton Kurta Set</h2>
+      <div class="modal-shop-row">
+        <span class="modal-shop-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></span>
+        <div class="modal-shop-info">
+          <div class="modal-shop-name" id="modalShop">Sharma Cloth House</div>
+          <div class="modal-shop-sub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Gandhi Nagar · <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Open Now</div>
+        </div>
+      </div>
+      <div class="modal-price-row">
+        <span class="modal-price" id="modalPrice">₹599</span>
+        <span class="modal-mrp" id="modalMrp">₹999</span>
+        <span id="modalDisc" style="font-size:15px;color:#16a34a;font-weight:700;">40% Off</span>
+      </div>
+      <div class="modal-rating-row">
+        <span class="stars-md">★★★★★</span>
+        <span style="font-weight:700;font-size:14px;">4.8</span>
+        <span style="font-size:13px;color:var(--text-light)">(124 reviews)</span>
+        <span class="avail-tag in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="12" height="12" style="vertical-align:-1px;margin-right:4px;"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span>
+      </div>
+      <p class="modal-desc" id="modalDesc">Premium quality cotton kurta set, perfect for festive occasions and casual wear. Soft breathable fabric, easy to wash. Available in multiple colors and sizes (S to XXL).</p>
+      <div class="modal-details">
+        <div class="detail-item"><div class="detail-label">Category</div><div class="detail-value">Men Fashion</div></div>
+        <div class="detail-item"><div class="detail-label">Material</div><div class="detail-value">100% Cotton</div></div>
+        <div class="detail-item"><div class="detail-label">Sizes</div><div class="detail-value">S, M, L, XL, XXL</div></div>
+        <div class="detail-item"><div class="detail-label">Colors</div><div class="detail-value">5 Colors Available</div></div>
+      </div>
+      <button class="modal-wa-btn" id="modalWaBtn">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+        Chat on WhatsApp – Order Directly
+      </button>
+      <div class="modal-actions-row">
+        <button class="modal-call-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.1 12.72 19.79 19.79 0 012.03 4.1 2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Call Shop</button>
+        <button class="modal-share-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg></button>
+        <button class="modal-share-btn" onclick="toggleModalWish(this)"><svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="14" height="14"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg></button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SHARED FOOTER -->
+<div id="site-footer"></div>
+<script>
+// doSearch — navbar search
+function doSearch(){
+  var q = (document.getElementById('navSearchInput') || {}).value || '';
+  if(q.trim()) window.location.href = 'search-results.html?q=' + encodeURIComponent(q.trim());
+}
+
+// ── LOCATION SYSTEM ──
+const PINCODE_MAP = {
+  '452001':{area:'Gandhi Nagar / Old Palasia',city:'Indore',shopAreas:['gandhi','mg'],rank:1},
+  '452002':{area:'Vijay Nagar',city:'Indore',shopAreas:['vijay','palasia'],rank:2},
+  '452003':{area:'South Tukoganj / Sarafa',city:'Indore',shopAreas:['sarafa','south'],rank:3},
+  '452005':{area:'MG Road / Manik Bagh',city:'Indore',shopAreas:['mg'],rank:5},
+  '452008':{area:'Palasia / New Palasia',city:'Indore',shopAreas:['palasia','vijay'],rank:8},
+  '452010':{area:'Khajrana / Banganga',city:'Indore',shopAreas:['south'],rank:10},
+};
+
+function openPincodeModal(){
+  var m = document.getElementById('pincodeModal');
+  if(!m) return;
+  m.style.display = 'flex';
+  buildPopularPincodes();
+}
+function closePincodeModal(){
+  var m = document.getElementById('pincodeModal');
+  if(m) m.style.display = 'none';
+}
+function buildPopularPincodes(){
+  var el = document.getElementById('popularPincodes');
+  if(!el) return;
+  el.innerHTML = Object.entries(PINCODE_MAP).map(function(e){
+    return '<button onclick="document.getElementById(\'pincodeInput\').value=\''+e[0]+'\';applyPincode()" style="padding:5px 12px;border-radius:20px;border:1.5px solid #e5e7eb;background:#f8fafc;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;" onmouseover="this.style.borderColor=\'#1a56db\';this.style.color=\'#1a56db\'" onmouseout="this.style.borderColor=\'#e5e7eb\';this.style.color=\'\'">'+e[1].area+'</button>';
+  }).join('');
+}
+function applyPincode(){
+  var pin = (document.getElementById('pincodeInput') || {}).value || '';
+  var msg = document.getElementById('pincodeMsg');
+  if(pin.length !== 6){ if(msg) msg.innerHTML='<span style="color:#dc2626;">Valid 6-digit pincode enter karein</span>'; return; }
+  var data = PINCODE_MAP[pin];
+  if(!data){ if(msg) msg.innerHTML='<span style="color:#dc2626;">Pincode nahi mila. Dobara try karein.</span>'; return; }
+  localStorage.setItem('lbh_pincode', pin);
+  closePincodeModal();
+  applyLocationData({pincode:pin, area:data.area, city:data.city, shopAreas:data.shopAreas});
+}
+function requestLocation(showAlert){
+  if(!navigator.geolocation){ if(showAlert) alert('GPS is not supported by your browser.'); return; }
+  var btn = document.querySelector('#pincodeModal button');
+  if(btn){ btn.textContent = '📡 Locating...'; btn.disabled = true; }
+  navigator.geolocation.getCurrentPosition(function(pos){
+    var lat = pos.coords.latitude, lon = pos.coords.longitude;
+    fetch('https://nominatim.openstreetmap.org/reverse?format=json&lat='+lat+'&lon='+lon)
+      .then(function(r){ return r.json(); })
+      .then(function(d){
+        var pin = d.address && d.address.postcode ? d.address.postcode.replace(/\D/g,'').slice(0,6) : '';
+        var city = (d.address && (d.address.city || d.address.town || d.address.village)) || 'Your City';
+        var area = (d.address && (d.address.suburb || d.address.neighbourhood || d.address.county)) || city;
+        var pinData = PINCODE_MAP[pin];
+        var shopAreas = pinData ? pinData.shopAreas : [];
+        if(pin) localStorage.setItem('lbh_pincode', pin);
+        closePincodeModal();
+        applyLocationData({pincode:pin, area:area, city:city, shopAreas:shopAreas});
+      }).catch(function(){ closePincodeModal(); });
+  }, function(){ if(showAlert) alert('Location access denied.'); if(btn){ btn.textContent = 'Use My Current Location'; btn.disabled=false; } });
+}
+function showLocState(info){
+  var btn = document.getElementById('navLocBtn');
+  var name = document.getElementById('navLocName');
+  if(name) name.textContent = info.area ? info.area.split('/')[0].trim() : info.city;
+  if(btn) btn.title = info.area + (info.pincode ? ' – ' + info.pincode : '');
+}
+function applyLocationData(info){
+  showLocState(info);
+}
+function resetLocation(){
+  localStorage.removeItem('lbh_pincode');
+  var name = document.getElementById('navLocName');
+  if(name) name.textContent = 'Indore';
+}
+
+// Saved pincode restore on load
+document.addEventListener('DOMContentLoaded', function(){
+  var saved = localStorage.getItem('lbh_pincode');
+  if(saved && PINCODE_MAP[saved]){
+    var d = PINCODE_MAP[saved];
+    applyLocationData({pincode:saved, area:d.area, city:d.city, shopAreas:d.shopAreas});
+  }
+  // Close modal on backdrop click
+  var modal = document.getElementById('pincodeModal');
+  if(modal) modal.addEventListener('click', function(e){ if(e.target === modal) closePincodeModal(); });
+});
+
+injectComponents();
+</script>
+
+<script>
+// ── Product data ──
+const products = {
+  1:{title:"Men's Premium Cotton Kurta Set",shop:"Sharma Cloth House",price:"₹599",mrp:"₹999",disc:"40% Off",cat:"Men Fashion",desc:"Premium quality cotton kurta set, perfect for festive occasions and casual wear. Soft breathable fabric. Available in multiple colors and sizes S to XXL.",img:"https://via.placeholder.com/400x400/e8f0fe/1a56db?text=Kurta"},
+  2:{title:"Banarasi Silk Saree",shop:"Meera Saree Center",price:"₹2,199",mrp:"₹3,500",disc:"37% Off",cat:"Women Fashion",desc:"Pure Banarasi silk saree with heavy zari work. Perfect for weddings and special occasions. Comes with matching blouse piece. Dry clean recommended.",img:"https://via.placeholder.com/400x400/fce7f3/be185d?text=Saree"},
+  3:{title:"Wireless Bluetooth Earphones",shop:"Digital Zone Electronics",price:"₹849",mrp:"₹1,299",disc:"35% Off",cat:"Mobile Accessories",desc:"Advanced noise cancellation, 30-hour battery life, premium sound quality. Comfortable over-ear design. Compatible with all devices. 1 year warranty.",img:"https://via.placeholder.com/400x400/fff7ed/f97316?text=Earphones"},
+  4:{title:"Girls Party Wear Frock",shop:"Little Star Kids Wear",price:"₹449",mrp:"₹750",disc:"40% Off",cat:"Kids Wear",desc:"Beautiful embroidery work party frock for girls aged 4–10 years. Soft comfortable fabric, easy to wear. Available in pink, blue, and yellow colors.",img:"https://via.placeholder.com/400x400/d1fae5/059669?text=Kids+Dress"},
+  5:{title:"iPhone 15 Shockproof Back Cover",shop:"Mobile Master",price:"₹249",mrp:"₹499",disc:"50% Off",cat:"Mobile Accessories",desc:"Military grade shockproof transparent cover for iPhone 15. Precise cutouts, anti-yellowing technology. Protects against drops and scratches.",img:"https://via.placeholder.com/400x400/fef3c7/d97706?text=Cover"},
+  6:{title:"Men's Running Sports Shoes",shop:"Step In Footwear",price:"₹899",mrp:"₹1,499",disc:"40% Off",cat:"Footwear",desc:"Lightweight EVA sole sports shoes for running and gym. Breathable mesh upper, anti-slip outsole. Available in sizes 6 to 11.",img:"https://via.placeholder.com/400x400/ede9fe/7c3aed?text=Shoes"},
+  7:{title:"Bridal Gold Plated Necklace Set",shop:"Rani Jewellery House",price:"₹1,299",mrp:"₹2,200",disc:"41% Off",cat:"Jewellery",desc:"Stunning kundan stone work necklace set with antique finish. Includes necklace, earrings and maang tikka. Perfect for wedding and festive occasions.",img:"https://via.placeholder.com/400x400/cffafe/0891b2?text=Necklace"},
+  8:{title:"Smart Watch",shop:"Digital Zone Electronics",price:"₹1,499",mrp:"₹2,999",disc:"50% Off",cat:"Electronics",desc:"Feature-packed smart watch with heart rate monitor, SpO2 sensor, 7-day battery life. IP68 waterproof, 1.69 inch display. Multiple sport modes.",img:"https://via.placeholder.com/400x400/e0e7ff/4f46e5?text=Watch"},
+  9:{title:"Men's Cotton Formal Shirt",shop:"Sharma Cloth House",price:"₹399",mrp:"₹699",disc:"43% Off",cat:"Men Fashion",desc:"Slim fit cotton formal shirt, ideal for office and formal occasions. Available in white and blue. Easy to iron, wrinkle resistant fabric.",img:"https://via.placeholder.com/400x400/fef9c3/ca8a04?text=Shirt"},
+  10:{title:"Bridal Lehenga Choli",shop:"Meera Saree Center",price:"₹4,999",mrp:"₹8,500",disc:"41% Off",cat:"Women Fashion",desc:"Heavy embroidery bridal lehenga choli from the 2024 wedding collection. Comes with matching dupatta. Custom stitching available on request.",img:"https://via.placeholder.com/400x400/fce7f3/9d174d?text=Lehenga"},
+  11:{title:"20000mAh Fast Charging Power Bank",shop:"Digital Zone Electronics",price:"₹699",mrp:"₹1,299",disc:"46% Off",cat:"Electronics",desc:"20000mAh high capacity power bank with dual USB and Type-C ports. Supports 22.5W fast charging. Compact design, LED battery indicator.",img:"https://via.placeholder.com/400x400/dcfce7/15803d?text=Power+Bank"},
+  12:{title:"Women's Printed Cotton Kurti",shop:"Meera Saree Center",price:"₹349",mrp:"₹599",disc:"42% Off",cat:"Women Fashion",desc:"Trendy printed cotton kurti for daily casual wear. Breathable fabric, machine washable. Available in sizes S to 3XL. Multiple print options available.",img:"https://via.placeholder.com/400x400/fef3c7/b45309?text=Kurti"},
+};
+
+// Open modal
+function openModal(id){
+  const p = products[id];
+  if(!p) return;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalShop').textContent = p.shop;
+  document.getElementById('modalPrice').textContent = p.price;
+  document.getElementById('modalMrp').textContent = p.mrp;
+  document.getElementById('modalDisc').textContent = p.disc;
+  document.getElementById('modalCat').textContent = p.cat;
+  document.getElementById('modalDesc').textContent = p.desc;
+  document.getElementById('modalImg').src = p.img;
+  document.getElementById('modalWaBtn').onclick = () => {
+    const numPrice = p.price.replace('₹','').replace(',','');
+    openWA(p.title, numPrice, p.shop);
+  };
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e){
+  if(e.target === document.getElementById('modalOverlay')) closeModalDirect();
+}
+function closeModalDirect(){
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+document.addEventListener('keydown', e => { if(e.key==='Escape') closeModalDirect(); });
+
+// WhatsApp open
+function openWA(product, price, shop){
+  const msg = encodeURIComponent(`Hello!\n\nI found your product on *BahaBasket*:\n\n*Product:* ${product}\n*Price:* ₹${price}\n*Shop:* ${shop}\n\nIs this product available? Please share details about pricing and delivery.`);
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+}
+
+// Wishlist toggle
+function toggleWish(btn){
+  btn.innerHTML = btn.querySelector('svg[fill="none"]') ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+}
+function toggleModalWish(btn){
+  btn.innerHTML = btn.querySelector('svg[fill="none"]') ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+}
+
+// View toggle
+function setView(mode){
+  const grid = document.getElementById('productsGrid');
+  const gb = document.getElementById('gridBtn');
+  const lb = document.getElementById('listBtn');
+  if(mode==='list'){
+    grid.classList.add('list-view');
+    lb.classList.add('active'); gb.classList.remove('active');
+  } else {
+    grid.classList.remove('list-view');
+    gb.classList.add('active'); lb.classList.remove('active');
+  }
+}
+
+// Sort products
+function applySort(val){
+  const grid = document.getElementById('productsGrid');
+  const cards = [...grid.querySelectorAll('.product-card')];
+  cards.sort((a, b) => {
+    if(val === 'price-asc')   return +a.dataset.price   - +b.dataset.price;
+    if(val === 'price-desc')  return +b.dataset.price   - +a.dataset.price;
+    if(val === 'rating-desc') return +b.dataset.rating  - +a.dataset.rating;
+    if(val === 'newest')      return +b.dataset.order   - +a.dataset.order;
+    if(val === 'popular')     return +b.dataset.reviews - +a.dataset.reviews;
+    return +a.dataset.order - +b.dataset.order; // featured
+  });
+  cards.forEach(c => grid.appendChild(c));
+}
+
+// Category sidebar mutual exclusion
+function onCatChange(el){
+  const specific = ['fc2','fc3','fc4','fc5','fc6','fc7','fc8','fc9','fc10','fc11','fc12','fc13','fc14'];
+  if(el.id === 'fc1'){
+    if(el.checked) specific.forEach(id => document.getElementById(id).checked = false);
+  } else {
+    if(el.checked) document.getElementById('fc1').checked = false;
+    const anyChecked = specific.some(id => document.getElementById(id).checked);
+    if(!anyChecked) document.getElementById('fc1').checked = true;
+  }
+}
+
+// ── AD BANNER SLIDER ──
+(function(){
+  var track    = null;
+  var dotsEl   = null;
+  var slides   = [];
+  var total    = 0;
+  var current  = 0;
+  var autoTimer = null;
+  var INTERVAL = 4000;
+
+  function init(){
+    track  = document.getElementById('adTrack');
+    dotsEl = document.getElementById('adDots');
+    if(!track || !dotsEl) return;
+
+    slides = Array.from(track.querySelectorAll('.ad-slide'));
+    total  = slides.length;
+
+    // Build dots
+    dotsEl.innerHTML = '';
+    for(var i = 0; i < total; i++){
+      var d = document.createElement('button');
+      d.className = 'ad-dot' + (i === 0 ? ' active' : '');
+      d.setAttribute('aria-label', 'Slide ' + (i+1));
+      d.onclick = (function(idx){ return function(){ goTo(idx); }; })(i);
+      dotsEl.appendChild(d);
+    }
+
+    updateCounter();
+    startAuto();
+
+    // Pause on hover
+    track.parentElement.addEventListener('mouseenter', pauseAuto);
+    track.parentElement.addEventListener('mouseleave', startAuto);
+
+    // Touch swipe support
+    var startX = 0;
+    track.addEventListener('touchstart', function(e){ startX = e.touches[0].clientX; }, {passive:true});
+    track.addEventListener('touchend', function(e){
+      var diff = startX - e.changedTouches[0].clientX;
+      if(Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+    });
+  }
+
+  function goTo(idx){
+    // Infinite loop
+    if(idx >= total) idx = 0;
+    if(idx < 0) idx = total - 1;
+    current = idx;
+
+    // Move track
+    track.style.transform = 'translateX(-' + (current * track.parentElement.offsetWidth) + 'px)';
+
+    // Active slide image zoom
+    slides.forEach(function(s, i){ s.classList.toggle('active', i === current); });
+
+    updateDots();
+    updateCounter();
+  }
+
+  function updateDots(){
+    var allDots = dotsEl.querySelectorAll('.ad-dot');
+    allDots.forEach(function(d, i){ d.classList.toggle('active', i === current); });
+  }
+
+  function updateCounter(){
+    var c = document.getElementById('adCounter');
+    if(c) c.textContent = (current + 1) + ' / ' + total;
+  }
+
+  function startAuto(){
+    pauseAuto();
+    autoTimer = setInterval(function(){ goTo(current + 1); }, INTERVAL);
+  }
+
+  function pauseAuto(){
+    if(autoTimer){ clearInterval(autoTimer); autoTimer = null; }
+  }
+
+  window.adSlide = function(dir){ goTo(current + dir); };
+
+  if(document.readyState === 'loading'){
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+// Banner click — filter products + scroll
+function filterByCatSlide(slug){
+  var tab = document.querySelector('.cat-tab[data-cat="' + slug + '"]');
+  if(tab){
+    setCatPill(tab);
+    var grid = document.getElementById('productsGrid');
+    if(grid){ setTimeout(function(){ grid.scrollIntoView({ behavior:'smooth', block:'start' }); }, 100); }
+  }
+}
+
+// Category pill
+function setCatPill(el){
+  document.querySelectorAll('.cat-tab').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const cat = el.dataset.cat || '';
+  let visible = 0;
+  document.querySelectorAll('.product-card').forEach(card => {
+    const match = !cat || card.dataset.cat === cat;
+    card.style.display = match ? '' : 'none';
+    if(match) visible++;
+  });
+  document.querySelector('.result-count').innerHTML = `Showing <strong>${visible}</strong> products`;
+  document.getElementById('noResults').style.display = visible === 0 ? 'flex' : 'none';
+}
+
+
+// Dual price range slider
+function updateRangeFill(){
+  const min = +document.getElementById('sliderMin').value;
+  const max = +document.getElementById('sliderMax').value;
+  const fill = document.getElementById('rangeFill');
+  fill.style.left  = (min / 10000 * 100) + '%';
+  fill.style.width = ((max - min) / 10000 * 100) + '%';
+}
+function syncFromSliders(){
+  let min = +document.getElementById('sliderMin').value;
+  let max = +document.getElementById('sliderMax').value;
+  if(min > max){ const t=min; min=max; max=t;
+    document.getElementById('sliderMin').value = min;
+    document.getElementById('sliderMax').value = max; }
+  document.getElementById('priceMin').value = min;
+  document.getElementById('priceMax').value = max;
+  updateRangeFill();
+}
+function syncFromInputs(){
+  let min = Math.min(10000, Math.max(0, +document.getElementById('priceMin').value || 0));
+  let max = Math.min(10000, Math.max(0, +document.getElementById('priceMax').value || 10000));
+  if(min > max) min = max;
+  document.getElementById('sliderMin').value = min;
+  document.getElementById('sliderMax').value = max;
+  updateRangeFill();
+}
+document.addEventListener('DOMContentLoaded', function(){
+  updateRangeFill();
+
+  // URL se ?cat= param padho aur matching category tab activate karo
+  // (jab koi category bar pill click karke aata hai)
+  var urlCat = new URLSearchParams(window.location.search).get('cat');
+  if(urlCat){
+    var tab = document.querySelector('.cat-tab[data-cat="' + urlCat + '"]');
+    if(tab){
+      setCatPill(tab);
+      // Tab ko viewport mein scroll karo
+      tab.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+    }
+  }
+});
+
+function toggleFilterMobile(){
+  if(window.innerWidth > 860) return;
+  document.querySelector('.filter-card').classList.toggle('expanded');
+}
+function collapseFilterMobile(){
+  document.querySelector('.filter-card').classList.remove('expanded');
+}
+
+// Area tag
+function toggleArea(el){
+  document.querySelectorAll('.area-tag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Apply filters
+function applyFilters(){
+  const allCat = document.getElementById('fc1').checked;
+  const catMap = {fc2:'men-fashion',fc3:'women-fashion',fc4:'kids-wear',fc5:'electronics',fc6:'mobile-accessories',fc7:'footwear',fc8:'jewellery',fc9:'home-decor',fc10:'ethnic-wear',fc11:'bags-wallets',fc12:'watches',fc13:'beauty-care',fc14:'sports-fitness'};
+  const selCats = [];
+  if(!allCat) Object.entries(catMap).forEach(([id,cat])=>{ if(document.getElementById(id).checked) selCats.push(cat); });
+
+  const priceRanges = [
+    {id:'pr0a',min:0,   max:98,   label:'Under ₹99'},
+    {id:'pr0b',min:0,   max:198,  label:'Under ₹199'},
+    {id:'pr0c',min:0,   max:498,  label:'Under ₹499'},
+    {id:'pr0d',min:0,   max:998,  label:'Under ₹999'},
+    {id:'pr3', min:1000,max:2499, label:'₹1,000 – ₹2,500'},
+    {id:'pr4', min:2500,max:4999, label:'₹2,500 – ₹5,000'},
+    {id:'pr5', min:5000,max:Infinity,label:'Above ₹5,000'},
+  ];
+  const selPrices = priceRanges.filter(r=>document.getElementById(r.id).checked);
+  const sliderMin = +document.getElementById('priceMin').value || 0;
+  const sliderMax = +document.getElementById('priceMax').value || 10000;
+  const sliderActive = sliderMin > 0 || sliderMax < 10000;
+
+  const minRating = document.getElementById('r4').checked ? 4.5
+    : document.getElementById('r3').checked ? 4.0
+    : document.getElementById('r2').checked ? 3.0 : 0;
+
+  const needInStock  = document.getElementById('av1').checked;
+  const needSale     = document.getElementById('av2').checked;
+  const needNew      = document.getElementById('av3').checked;
+  const needFeatured = document.getElementById('av4').checked;
+  const needVerified = document.getElementById('av5').checked;
+  const needOpen     = document.getElementById('av6').checked;
+  const needDelivery = document.getElementById('av7').checked;
+  const selArea = (document.querySelector('.area-tag.active')?.textContent?.trim() || 'All');
+
+  const discLevels = [
+    {id:'dc1', min:10}, {id:'dc2', min:20}, {id:'dc3', min:30},
+    {id:'dc4', min:40}, {id:'dc5', min:50},
+  ];
+  const selDiscs = discLevels.filter(d => document.getElementById(d.id).checked);
+  const minDisc  = selDiscs.length ? Math.min(...selDiscs.map(d => d.min)) : 0;
+
+  let visible = 0;
+  document.querySelectorAll('.product-card').forEach(card => {
+    const cat      = card.dataset.cat      || '';
+    const price    = +card.dataset.price;
+    const rating   = +card.dataset.rating;
+    const instock  = card.dataset.instock  === '1';
+    const tags     = (card.dataset.tags    || '').split(',');
+    const disc     = +card.dataset.disc    || 0;
+    const verified = card.dataset.verified === '1';
+    const open     = card.dataset.open     === '1';
+    const delivery = card.dataset.delivery === '1';
+    const area     = card.dataset.area     || '';
+
+    let show = true;
+    if(!allCat && selCats.length && !selCats.includes(cat)) show = false;
+    if(selPrices.length && sliderActive){
+      const inChk    = selPrices.some(r=>price>=r.min && price<=r.max);
+      const inSlider = price>=sliderMin && price<=sliderMax;
+      if(!inChk && !inSlider) show = false;
+    } else if(selPrices.length && !selPrices.some(r=>price>=r.min && price<=r.max)) show = false;
+    else if(sliderActive && (price<sliderMin || price>sliderMax)) show = false;
+    if(rating   < minRating)                                 show = false;
+    if(needInStock  && !instock)                             show = false;
+    if(needSale     && !tags.includes('sale'))               show = false;
+    if(needNew      && !tags.includes('new'))                show = false;
+    if(needFeatured && !tags.includes('featured'))           show = false;
+    if(needVerified && !verified)                            show = false;
+    if(needOpen     && !open)                                show = false;
+    if(needDelivery && !delivery)                            show = false;
+    if(minDisc > 0  && disc < minDisc)                       show = false;
+    if(selArea !== 'All' && area !== selArea)                show = false;
+
+    card.style.display = show ? '' : 'none';
+    if(show) visible++;
+  });
+
+  const noResults = document.getElementById('noResults');
+  if(visible === 0){
+    noResults.style.display = 'flex';
+  } else {
+    noResults.style.display = 'none';
+  }
+  document.querySelector('.result-count').innerHTML =
+    `Showing <strong>${visible}</strong> products`;
+
+  // Active filter chips
+  const chips = [];
+  if(!allCat && selCats.length){
+    const labels = {
+      'men-fashion':'Men Fashion','women-fashion':'Women Fashion',
+      'kids-wear':'Kids Wear','electronics':'Electronics',
+      'mobile-accessories':'Mobile Accessories','footwear':'Footwear','jewellery':'Jewellery'
+    };
+    selCats.forEach(c => chips.push(labels[c] || c));
+  }
+  selPrices.forEach(r => chips.push(r.label));
+  if(minRating > 0) chips.push(`${minRating}★ & above`);
+  if(needInStock)  chips.push('In Stock');
+  if(needSale)     chips.push('On Sale');
+  if(needNew)      chips.push('New Arrivals');
+  if(needFeatured) chips.push('Featured');
+  if(needVerified) chips.push('Verified Shop');
+  if(needOpen)     chips.push('Open Now');
+  if(needDelivery) chips.push('Home Delivery');
+  if(minDisc > 0)  chips.push(`${minDisc}%+ Discount`);
+  if(selArea !== 'All') chips.push(selArea);
+
+  const af = document.getElementById('activeFilters');
+  af.innerHTML = chips.map(ch =>
+    `<span class="af-tag">${ch} <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>`
+  ).join('');
+}
+
+// Clear filters
+function clearAllFilters(){
+  document.querySelectorAll('.filter-body input[type="checkbox"]').forEach(c=>c.checked=false);
+  document.getElementById('fc1').checked=true;
+  document.getElementById('av1').checked=true;
+  document.querySelectorAll('input[name="rat"]').forEach(r=>r.checked=false);
+  document.getElementById('r0').checked=true;
+  document.querySelectorAll('.area-tag').forEach(t=>t.classList.remove('active'));
+  document.querySelector('.area-tag').classList.add('active');
+  ['pr0a','pr0b','pr0c','pr0d','pr3','pr4','pr5'].forEach(id=>document.getElementById(id).checked=false);
+  document.getElementById('priceMin').value=0;
+  document.getElementById('priceMax').value=10000;
+  document.getElementById('sliderMin').value=0;
+  document.getElementById('sliderMax').value=10000;
+  updateRangeFill();
+  document.querySelectorAll('.product-card').forEach(c=>c.style.display='');
+  document.getElementById('noResults').style.display='none';
+  document.querySelector('.result-count').innerHTML='Showing <strong>12</strong> products';
+  document.getElementById('activeFilters').innerHTML='';
+}
+
+// Pagination
+document.querySelectorAll('.page-btn').forEach(btn=>{
+  btn.addEventListener('click',function(){
+    if(this.classList.contains('pn')) return;
+    document.querySelectorAll('.page-btn:not(.pn)').forEach(b=>b.classList.remove('active'));
+    this.classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+// Thumb click in modal
+document.querySelectorAll('.thumb').forEach(t=>{
+  t.addEventListener('click',function(){
+    document.querySelectorAll('.thumb').forEach(th=>th.classList.remove('active'));
+    this.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>

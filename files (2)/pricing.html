@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pricing & Plans – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800;900&family=Noto+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#0f172a;--text-mid:#334155;--text-light:#64748b;
+  --border:#e2e8f0;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--success-bg:#dcfce7;
+  --danger:#dc2626;--danger-bg:#fee2e2;
+  --warning:#d97706;--warning-bg:#fef3c7;
+  --purple:#7c3aed;--purple-bg:#f3e8ff;--purple-dark:#6d28d9;
+  --gold:#f59e0b;--gold-bg:#fef3c7;
+  --radius:16px;--radius-sm:9px;
+  --font-display:'Sora',sans-serif;--font-body:'Noto Sans',sans-serif;--font-mono:'JetBrains Mono',monospace;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 20px rgba(0,0,0,.06);
+  --shadow-hover:0 12px 40px rgba(26,86,219,.16);
+  --shadow-purple:0 12px 40px rgba(124,58,237,.22);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* TOPBAR */
+.topbar{background:var(--primary-dark);color:rgba(255,255,255,.75);font-size:12px;padding:5px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.topbar a{color:#c7d9ff;transition:color .2s;}
+.topbar a:hover{color:#fff;}
+.topbar .tb-pill{background:var(--accent);color:#fff;padding:2px 9px;border-radius:10px;font-weight:700;font-size:11px;}
+
+/* NAVBAR */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 22px;display:flex;align-items:center;gap:14px;height:66px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.logo{display:flex;align-items:center;gap:9px;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:18px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:10px;display:block;line-height:1;margin-top:-3px;}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:8px;}
+.nav-link{padding:7px 12px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text-mid);transition:background .18s,color .18s;white-space:nowrap;}
+.nav-link:hover{background:var(--primary-light);color:var(--primary);}
+.nav-btn{background:var(--accent);color:#fff!important;font-weight:700!important;padding:8px 16px;border-radius:8px;}
+.nav-btn:hover{background:#ea6c04!important;}
+
+/* BREADCRUMB */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:9px 22px;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-light);flex-wrap:wrap;}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ═══════════════════════════════
+   HERO
+═══════════════════════════════ */
+.pricing-hero{background:linear-gradient(135deg,#0f3460 0%,#1a56db 55%,#2563eb 100%);padding:60px 22px 80px;text-align:center;position:relative;overflow:hidden;}
+.pricing-hero::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:30px 30px;}
+.ph-deco{position:absolute;border-radius:50%;opacity:.07;}
+.phd1{width:320px;height:320px;background:#fff;top:-100px;left:-80px;}
+.phd2{width:260px;height:260px;background:var(--accent);bottom:-60px;right:-60px;}
+.phd3{width:180px;height:180px;background:var(--purple);top:20%;right:8%;}
+.hero-inner{position:relative;z-index:1;}
+.hero-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.22);color:#fff;font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;margin-bottom:18px;}
+.hero-title{font-size:clamp(28px,4.5vw,52px);font-weight:900;color:#fff;margin-bottom:14px;line-height:1.15;}
+.hero-title span{color:#fbbf24;}
+.hero-sub{font-size:16px;color:rgba(255,255,255,.8);max-width:560px;margin:0 auto 32px;line-height:1.75;}
+
+/* Billing toggle */
+.billing-toggle-wrap{display:flex;align-items:center;justify-content:center;gap:14px;margin-bottom:0;}
+.bt-label{font-size:14px;font-weight:600;color:rgba(255,255,255,.7);}
+.bt-label.active{color:#fff;}
+.bt-switch{width:52px;height:28px;background:rgba(255,255,255,.2);border-radius:14px;position:relative;cursor:pointer;border:1.5px solid rgba(255,255,255,.3);transition:background .2s;}
+.bt-switch.annual{background:rgba(251,191,36,.35);border-color:rgba(251,191,36,.5);}
+.bt-knob{position:absolute;top:3px;left:4px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .2s;box-shadow:0 2px 5px rgba(0,0,0,.2);}
+.bt-switch.annual .bt-knob{transform:translateX(22px);}
+.bt-save-tag{background:var(--gold);color:var(--text-dark);font-size:11px;font-weight:800;padding:2px 8px;border-radius:8px;}
+
+/* ═══════════════════════════════
+   PLANS GRID (floats above hero)
+═══════════════════════════════ */
+.plans-section{max-width:1120px;margin:-60px auto 0;padding:0 22px;}
+.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;position:relative;z-index:5;}
+
+/* PLAN CARD */
+.plan-card{background:var(--white);border:2px solid var(--border);border-radius:20px;padding:32px 28px 28px;transition:all .28s;position:relative;overflow:hidden;}
+.plan-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-4px);}
+
+/* Popular badge */
+.popular-tag{position:absolute;top:0;left:50%;transform:translateX(-50%);background:linear-gradient(90deg,var(--purple),var(--purple-dark));color:#fff;font-size:12px;font-weight:800;padding:5px 18px;border-radius:0 0 12px 12px;white-space:nowrap;box-shadow:0 4px 12px rgba(124,58,237,.35);}
+
+/* Plan card – premium highlighted */
+.plan-card.featured{border-color:var(--purple);box-shadow:var(--shadow-purple);transform:translateY(-8px);}
+.plan-card.featured:hover{transform:translateY(-12px);}
+
+/* Plan card – gradient bg for premium */
+.plan-card.featured::before{content:'';position:absolute;inset:0;background:linear-gradient(145deg,rgba(124,58,237,.04),rgba(139,92,246,.02));pointer-events:none;}
+
+.plan-icon{font-size:38px;margin-bottom:14px;}
+.plan-name{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text-dark);margin-bottom:6px;}
+.plan-tagline{font-size:13.5px;color:var(--text-light);margin-bottom:20px;line-height:1.5;}
+
+/* Price display */
+.price-display{margin-bottom:6px;}
+.price-main{display:flex;align-items:flex-end;gap:4px;line-height:1;}
+.price-currency{font-family:var(--font-mono);font-size:22px;font-weight:700;color:var(--text-mid);margin-bottom:6px;}
+.price-amount{font-family:var(--font-mono);font-size:52px;font-weight:800;color:var(--text-dark);line-height:1;}
+.plan-card.featured .price-amount{color:var(--purple);}
+.price-period{font-size:14px;color:var(--text-light);margin-bottom:6px;}
+.price-annual{font-size:12.5px;color:var(--success);font-weight:700;min-height:18px;}
+.price-strike{font-size:13px;color:var(--text-light);text-decoration:line-through;margin-left:4px;font-weight:400;}
+.save-badge{display:inline-flex;align-items:center;background:var(--gold-bg);color:var(--gold);border:1px solid rgba(245,158,11,.25);font-size:11px;font-weight:800;padding:2px 8px;border-radius:8px;margin-top:6px;}
+
+/* CTA button */
+.plan-cta{width:100%;padding:14px;border-radius:11px;font-size:15px;font-weight:800;border:none;transition:all .22s;margin:20px 0 22px;letter-spacing:.2px;}
+.plan-cta.free{background:var(--bg);border:2px solid var(--border);color:var(--text-mid);}
+.plan-cta.free:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
+.plan-cta.growth{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;box-shadow:0 4px 16px rgba(26,86,219,.3);}
+.plan-cta.growth:hover{transform:translateY(-1px);box-shadow:0 6px 24px rgba(26,86,219,.4);}
+.plan-cta.premium{background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;box-shadow:0 4px 16px rgba(124,58,237,.35);}
+.plan-cta.premium:hover{transform:translateY(-1px);box-shadow:0 7px 26px rgba(124,58,237,.45);}
+
+/* Feature list */
+.feature-divider{height:1px;background:var(--border);margin-bottom:18px;}
+.feature-label{font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.6px;margin-bottom:12px;}
+.feature-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
+.feature-list li{display:flex;align-items:flex-start;gap:10px;font-size:13.5px;color:var(--text-mid);line-height:1.45;}
+.fi-check{width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0;margin-top:1px;}
+.fi-check.yes{background:var(--success-bg);color:var(--success);}
+.fi-check.no{background:var(--bg);color:var(--text-light);border:1px solid var(--border);}
+.fi-check.partial{background:var(--warning-bg);color:var(--warning);}
+.fi-text{}
+.fi-badge{display:inline-flex;align-items:center;background:var(--purple-bg);color:var(--purple);font-size:10px;font-weight:700;padding:1px 6px;border-radius:5px;margin-left:4px;}
+
+/* ═══════════════════════════════
+   TRUST BAR
+═══════════════════════════════ */
+.trust-bar{max-width:1120px;margin:40px auto;padding:0 22px;}
+.trust-bar-inner{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px 32px;display:flex;align-items:center;justify-content:center;gap:0;flex-wrap:wrap;box-shadow:var(--shadow);}
+.trust-item{display:flex;align-items:center;gap:10px;padding:12px 24px;border-right:1px solid var(--border);flex-shrink:0;}
+.trust-item:last-child{border-right:none;}
+.ti-icon{font-size:24px;}
+.ti-text strong{display:block;font-size:14px;font-weight:700;color:var(--text-dark);}
+.ti-text span{font-size:12px;color:var(--text-light);}
+
+/* ═══════════════════════════════
+   FEATURE COMPARISON TABLE
+═══════════════════════════════ */
+.compare-section{max-width:1120px;margin:0 auto 56px;padding:0 22px;}
+.section-heading{font-family:var(--font-display);font-size:clamp(22px,3vw,32px);font-weight:800;color:var(--text-dark);text-align:center;margin-bottom:8px;}
+.section-subheading{font-size:15px;color:var(--text-light);text-align:center;margin-bottom:32px;line-height:1.6;}
+.section-subheading span{color:var(--primary);font-weight:600;}
+
+.compare-table-wrap{overflow-x:auto;border-radius:var(--radius);box-shadow:var(--shadow);border:1px solid var(--border);}
+.compare-table{width:100%;border-collapse:collapse;background:var(--white);}
+.compare-table thead tr{background:var(--bg);}
+.compare-table th{padding:16px 20px;font-size:13px;font-weight:700;color:var(--text-light);text-align:left;border-bottom:2px solid var(--border);}
+.compare-table th:first-child{width:35%;}
+.compare-table th.th-free{color:var(--text-mid);}
+.compare-table th.th-growth{color:var(--primary);}
+.compare-table th.th-premium{color:var(--purple);background:linear-gradient(135deg,rgba(124,58,237,.04),transparent);}
+.compare-table th .th-price{font-family:var(--font-mono);font-size:18px;font-weight:800;display:block;margin-top:3px;}
+.compare-table td{padding:13px 20px;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--text-mid);vertical-align:middle;}
+.compare-table tr:last-child td{border-bottom:none;}
+.compare-table tr:hover td{background:#fafbff;}
+.compare-table .cat-row td{background:var(--bg);font-family:var(--font-display);font-size:12px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;padding:10px 20px;}
+.compare-table td:first-child{font-weight:600;color:var(--text-dark);}
+.compare-table td.premium-col{background:linear-gradient(135deg,rgba(124,58,237,.03),transparent);}
+.ct-check{font-size:16px;}
+.ct-limit{font-size:13px;font-weight:700;color:var(--text-dark);font-family:var(--font-mono);}
+.ct-badge{display:inline-flex;align-items:center;background:var(--primary-light);color:var(--primary);font-size:11px;font-weight:700;padding:2px 7px;border-radius:5px;}
+.ct-badge.purple{background:var(--purple-bg);color:var(--purple);}
+.ct-badge.green{background:var(--success-bg);color:var(--success);}
+.ct-badge.gray{background:var(--bg);color:var(--text-light);border:1px solid var(--border);}
+
+/* ═══════════════════════════════
+   ROI CALCULATOR
+═══════════════════════════════ */
+.roi-section{max-width:1120px;margin:0 auto 56px;padding:0 22px;}
+.roi-card{background:linear-gradient(135deg,#0f3460,#1a56db);border-radius:20px;padding:40px 36px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center;position:relative;overflow:hidden;}
+.roi-card::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;}
+.roi-left{position:relative;z-index:1;}
+.roi-title{font-family:var(--font-display);font-size:clamp(20px,2.5vw,28px);font-weight:800;color:#fff;margin-bottom:10px;line-height:1.3;}
+.roi-sub{font-size:14px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:20px;}
+.roi-input-group{margin-bottom:14px;}
+.roi-label{font-size:13px;font-weight:600;color:rgba(255,255,255,.8);margin-bottom:6px;display:block;}
+.roi-input{width:100%;background:rgba(255,255,255,.12);border:1.5px solid rgba(255,255,255,.25);border-radius:9px;padding:10px 14px;font-size:15px;color:#fff;outline:none;font-family:var(--font-body);transition:border-color .2s;}
+.roi-input:focus{border-color:rgba(255,255,255,.55);}
+.roi-input::placeholder{color:rgba(255,255,255,.45);}
+.roi-input option{background:#1a56db;color:#fff;}
+.roi-right{position:relative;z-index:1;background:rgba(255,255,255,.1);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:16px;padding:28px;}
+.roi-result-title{font-size:13px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:.6px;margin-bottom:18px;}
+.roi-metric{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.12);}
+.roi-metric:last-of-type{border-bottom:none;}
+.rm-label{font-size:13.5px;color:rgba(255,255,255,.75);}
+.rm-val{font-family:var(--font-mono);font-size:18px;font-weight:700;color:#fff;}
+.rm-val.highlight{color:#fbbf24;font-size:22px;}
+.roi-note{font-size:12px;color:rgba(255,255,255,.55);margin-top:14px;line-height:1.6;}
+
+/* ═══════════════════════════════
+   TESTIMONIALS
+═══════════════════════════════ */
+.testimonials-section{max-width:1120px;margin:0 auto 56px;padding:0 22px;}
+.testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
+.testi-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:24px;transition:all .22s;}
+.testi-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.testi-plan-tag{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:800;padding:3px 9px;border-radius:7px;margin-bottom:14px;}
+.testi-plan-tag.growth{background:var(--primary-light);color:var(--primary);}
+.testi-plan-tag.premium{background:var(--purple-bg);color:var(--purple);}
+.testi-quote{font-size:14px;color:var(--text-mid);line-height:1.75;margin-bottom:16px;font-style:italic;}
+.testi-quote::before{content:'"';font-size:32px;color:var(--border);font-family:serif;line-height:0.5;margin-right:4px;vertical-align:-10px;}
+.testi-author{display:flex;align-items:center;gap:10px;}
+.testi-av{width:40px;height:40px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;}
+.testi-name{font-weight:700;font-size:14px;color:var(--text-dark);}
+.testi-role{font-size:12px;color:var(--text-light);}
+.testi-stars{color:#fbbf24;font-size:13px;margin-top:2px;}
+.testi-result{display:flex;align-items:center;gap:5px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);font-size:13px;font-weight:700;color:var(--success);}
+
+/* ═══════════════════════════════
+   FAQ MINI
+═══════════════════════════════ */
+.pricing-faq{max-width:780px;margin:0 auto 56px;padding:0 22px;}
+.pf-item{background:var(--white);border:1px solid var(--border);border-radius:var(--radius-sm);margin-bottom:8px;overflow:hidden;transition:box-shadow .2s;}
+.pf-item:hover{box-shadow:var(--shadow-hover);}
+.pf-item.open{border-color:var(--primary);}
+.pf-question{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;font-size:14.5px;font-weight:700;color:var(--text-dark);transition:background .15s;}
+.pf-question:hover{background:var(--bg);}
+.pf-item.open .pf-question{background:var(--primary-light);color:var(--primary);}
+.pf-icon{margin-left:auto;font-size:16px;transition:transform .25s;color:var(--text-light);}
+.pf-item.open .pf-icon{transform:rotate(45deg);color:var(--primary);}
+.pf-answer{display:none;padding:4px 18px 16px;font-size:14px;color:var(--text-mid);line-height:1.8;}
+.pf-item.open .pf-answer{display:block;animation:pfa .2s ease;}
+@keyframes pfa{from{opacity:0;}to{opacity:1;}}
+
+/* ═══════════════════════════════
+   BOTTOM CTA
+═══════════════════════════════ */
+.bottom-cta{background:linear-gradient(135deg,#0f3460,#1a56db 50%,#2563eb);padding:64px 22px;text-align:center;position:relative;overflow:hidden;}
+.bottom-cta::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(255,255,255,.04) 1px,transparent 1px);background-size:28px 28px;}
+.bc-inner{position:relative;z-index:1;max-width:640px;margin:0 auto;}
+.bc-title{font-family:var(--font-display);font-size:clamp(24px,3.5vw,38px);font-weight:800;color:#fff;margin-bottom:12px;line-height:1.2;}
+.bc-title span{color:#fbbf24;}
+.bc-sub{font-size:15px;color:rgba(255,255,255,.78);margin-bottom:32px;line-height:1.7;}
+.bc-btns{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;}
+.bc-btn-primary{background:#fff;color:var(--primary);border:none;padding:15px 32px;border-radius:12px;font-size:15px;font-weight:800;transition:all .22s;box-shadow:0 4px 16px rgba(0,0,0,.18);}
+.bc-btn-primary:hover{transform:translateY(-2px);box-shadow:0 7px 24px rgba(0,0,0,.22);}
+.bc-btn-secondary{background:rgba(255,255,255,.15);border:1.5px solid rgba(255,255,255,.3);color:#fff;padding:15px 28px;border-radius:12px;font-size:15px;font-weight:700;transition:all .22s;backdrop-filter:blur(6px);}
+.bc-btn-secondary:hover{background:rgba(255,255,255,.25);}
+.bc-no-credit{font-size:13px;color:rgba(255,255,255,.6);margin-top:14px;}
+.bc-no-credit span{color:#fbbf24;font-weight:700;}
+
+/* FOOTER MINI */
+.footer-mini{background:#0f172a;color:rgba(255,255,255,.4);text-align:center;padding:18px 22px;font-size:13px;}
+.footer-mini a{color:rgba(255,255,255,.55);}
+.footer-mini a:hover{color:#60a5fa;}
+.footer-links-row{display:flex;justify-content:center;gap:16px;margin-top:6px;flex-wrap:wrap;}
+
+/* FLOAT WA */
+.float-wa{position:fixed;bottom:26px;right:26px;z-index:999;}
+.float-wa-btn{width:52px;height:52px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.4);animation:fwaBounce 3s ease-in-out infinite;}
+@keyframes fwaBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.plans-grid{grid-template-columns:1fr 1fr;}.testimonials-grid{grid-template-columns:1fr 1fr;}.roi-card{grid-template-columns:1fr;gap:24px;}}
+@media(max-width:768px){.plans-grid{grid-template-columns:1fr;max-width:420px;margin-left:auto;margin-right:auto;}.trust-bar-inner{flex-direction:column;gap:0;}.trust-item{border-right:none;border-bottom:1px solid var(--border);width:100%;padding:14px 16px;}.trust-item:last-child{border-bottom:none;}.testimonials-grid{grid-template-columns:1fr;}.plan-card.featured{transform:translateY(0);}.nav-right .nav-link{display:none;}}
+@media(max-width:480px){.roi-card{padding:24px 18px;}.compare-section,.roi-section,.trust-bar,.plans-section,.testimonials-section,.pricing-faq{padding:0 14px;}.pricing-hero{padding:48px 14px 72px;}.bc-btns{flex-direction:column;}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;}}
+.plan-card{animation:fadeUp .4s ease both;}
+.plan-card:nth-child(1){animation-delay:.05s;}
+.plan-card:nth-child(2){animation-delay:.12s;}
+.plan-card:nth-child(3){animation-delay:.19s;}
+.testi-card{animation:fadeUp .4s ease both;}
+.testi-card:nth-child(1){animation-delay:.06s;}
+.testi-card:nth-child(2){animation-delay:.12s;}
+.testi-card:nth-child(3){animation-delay:.18s;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:12px;">
+    <span>📍 Local Bazaar Hub — Indore, MP</span>
+    <span class="tb-pill">🎉 First Month 50% Off — Code: START50</span>
+  </div>
+  <div style="display:flex;gap:14px;"><a href="faq.html">FAQ</a><a href="login-register.html">Login</a></div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text"><div>Local <span>Bazaar</span> Hub</div><small>Apna Dukaan, Digital Duniya</small></div>
+  </a>
+  <div class="nav-right">
+    <a href="local-bazaar-hub.html" class="nav-link">🏠 Home</a>
+    <a href="shop-directory.html" class="nav-link">🏪 Shops</a>
+    <a href="faq.html" class="nav-link">❓ FAQ</a>
+    <a href="contact-us.html" class="nav-link">📞 Contact</a>
+    <a href="shopkeeper-registration.html" class="nav-link nav-btn">+ List Your Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a><span class="sep">›</span>
+  <a href="shopkeeper-registration.html">For Sellers</a><span class="sep">›</span>
+  <span class="current">Pricing & Plans</span>
+</div>
+
+<!-- HERO -->
+<div class="pricing-hero">
+  <div class="ph-deco phd1"></div>
+  <div class="ph-deco phd2"></div>
+  <div class="ph-deco phd3"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">💎 Seller Membership Plans</div>
+    <h1 class="hero-title">Simple, Transparent<br><span>Pricing for Every Shop</span></h1>
+    <p class="hero-sub">Start free, grow at your own pace. No hidden fees, no commissions, no surprises. Choose the plan that fits your shop size and ambition.</p>
+
+    <!-- Billing toggle -->
+    <div class="billing-toggle-wrap">
+      <span class="bt-label active" id="monthlyLabel">Monthly</span>
+      <div class="bt-switch" id="billingSwitch" onclick="toggleBilling()">
+        <div class="bt-knob" id="switchKnob"></div>
+      </div>
+      <span class="bt-label" id="annualLabel">Annual</span>
+      <span class="bt-save-tag" id="saveBadge">Save up to 20%</span>
+    </div>
+  </div>
+</div>
+
+<!-- PLANS GRID -->
+<div class="plans-section">
+  <div class="plans-grid" id="plansGrid">
+
+    <!-- FREE PLAN -->
+    <div class="plan-card">
+      <div class="plan-icon">🆓</div>
+      <div class="plan-name">Basic</div>
+      <div class="plan-tagline">Perfect to get started. No credit card needed.</div>
+      <div class="price-display">
+        <div class="price-main">
+          <span class="price-currency">₹</span>
+          <span class="price-amount" id="freePrice">0</span>
+        </div>
+        <div class="price-period">/month · forever free</div>
+        <div class="price-annual" id="freeAnnual">&nbsp;</div>
+      </div>
+      <button class="plan-cta free" onclick="window.location='shopkeeper-registration.html'">Get Started Free →</button>
+      <div class="feature-divider"></div>
+      <div class="feature-label">What's Included</div>
+      <ul class="feature-list">
+        <li><div class="fi-check yes">✓</div><span class="fi-text">List up to <strong>10 products</strong></span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Basic shop profile page</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">WhatsApp inquiry button</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Standard search listing</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Customer reviews (receive)</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Shop photo gallery (3 photos)</span></li>
+        <li><div class="fi-check no">—</div><span class="fi-text" style="color:var(--text-light);">Analytics dashboard</span></li>
+        <li><div class="fi-check no">—</div><span class="fi-text" style="color:var(--text-light);">Featured in search results</span></li>
+        <li><div class="fi-check no">—</div><span class="fi-text" style="color:var(--text-light);">Offer & deal banners</span></li>
+        <li><div class="fi-check no">—</div><span class="fi-text" style="color:var(--text-light);">Priority customer support</span></li>
+      </ul>
+    </div>
+
+    <!-- GROWTH PLAN -->
+    <div class="plan-card" style="border-color:var(--primary);">
+      <div class="plan-icon">🚀</div>
+      <div class="plan-name">Growth</div>
+      <div class="plan-tagline">For growing shops wanting more visibility and tools.</div>
+      <div class="price-display">
+        <div class="price-main">
+          <span class="price-currency">₹</span>
+          <span class="price-amount" id="growthPrice" style="color:var(--primary);">499</span>
+        </div>
+        <div class="price-period" id="growthPeriod">/month · billed monthly</div>
+        <div class="price-annual" id="growthAnnual">&nbsp;</div>
+      </div>
+      <button class="plan-cta growth" onclick="startPlan('growth')">🚀 Start Growth Plan</button>
+      <div class="feature-divider"></div>
+      <div class="feature-label">Everything in Basic, plus</div>
+      <ul class="feature-list">
+        <li><div class="fi-check yes">✓</div><span class="fi-text">List up to <strong>100 products</strong></span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Featured in search results</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Analytics dashboard</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">2 offer/deal banners/month</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Shop photo gallery (6 photos)</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">WhatsApp inquiry reports</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Email + WhatsApp support</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Weekly performance report</span></li>
+        <li><div class="fi-check no">—</div><span class="fi-text" style="color:var(--text-light);">Homepage feature slot</span></li>
+        <li><div class="fi-check no">—</div><span class="fi-text" style="color:var(--text-light);">Top search ranking</span></li>
+      </ul>
+    </div>
+
+    <!-- PREMIUM PLAN -->
+    <div class="plan-card featured">
+      <div class="popular-tag">⭐ Most Popular</div>
+      <div class="plan-icon">👑</div>
+      <div class="plan-name">Premium</div>
+      <div class="plan-tagline">For serious sellers who want maximum reach and customers.</div>
+      <div class="price-display">
+        <div class="price-main">
+          <span class="price-currency">₹</span>
+          <span class="price-amount" id="premiumPrice">999</span>
+        </div>
+        <div class="price-period" id="premiumPeriod">/month · billed monthly</div>
+        <div class="price-annual" id="premiumAnnual">&nbsp;</div>
+      </div>
+      <button class="plan-cta premium" onclick="startPlan('premium')">👑 Start Premium Plan</button>
+      <div class="feature-divider"></div>
+      <div class="feature-label">Everything in Growth, plus</div>
+      <ul class="feature-list">
+        <li><div class="fi-check yes">✓</div><span class="fi-text"><strong>Unlimited products</strong><span class="fi-badge">New</span></span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Top search ranking priority</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Homepage feature slot (rotating)</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Unlimited offer/deal banners</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Full analytics + insights</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Shop photo gallery (8 photos)</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Priority WhatsApp support</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Dedicated account manager</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Verified Premium badge 👑</span></li>
+        <li><div class="fi-check yes">✓</div><span class="fi-text">Monthly growth consultation</span></li>
+      </ul>
+    </div>
+
+  </div>
+
+  <!-- No credit card note -->
+  <div style="text-align:center;margin-top:20px;font-size:13px;color:var(--text-light);">
+    🔒 No credit card required for Free Plan · Cancel anytime · GST invoice provided
+  </div>
+</div>
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item"><div class="ti-icon">🏪</div><div class="ti-text"><strong>500+ Active Shops</strong><span>Already on Local Bazaar Hub</span></div></div>
+    <div class="trust-item"><div class="ti-icon">💬</div><div class="ti-text"><strong>28,000+ WA Inquiries</strong><span>Generated for sellers this year</span></div></div>
+    <div class="trust-item"><div class="ti-icon">💳</div><div class="ti-text"><strong>Zero Commission</strong><span>Keep 100% of your earnings</span></div></div>
+    <div class="trust-item"><div class="ti-icon">🔒</div><div class="ti-text"><strong>Cancel Anytime</strong><span>No lock-in contracts</span></div></div>
+    <div class="trust-item"><div class="ti-icon">📄</div><div class="ti-text"><strong>GST Invoice</strong><span>Provided for every payment</span></div></div>
+  </div>
+</div>
+
+<!-- FEATURE COMPARISON TABLE -->
+<div class="compare-section">
+  <h2 class="section-heading">Complete Feature Comparison</h2>
+  <p class="section-subheading">Every feature, side by side. <span>No surprises, no fine print.</span></p>
+
+  <div class="compare-table-wrap">
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th class="th-free">🆓 Basic<span class="th-price">₹0</span></th>
+          <th class="th-growth">🚀 Growth<span class="th-price">₹499<small style="font-size:11px;font-weight:500;">/mo</small></span></th>
+          <th class="th-premium">👑 Premium<span class="th-price">₹999<small style="font-size:11px;font-weight:500;">/mo</small></span></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="cat-row"><td colspan="4">📦 Products & Listing</td></tr>
+        <tr><td>Products Listed</td><td><span class="ct-limit">10</span></td><td><span class="ct-limit">100</span></td><td class="premium-col"><span class="ct-limit">Unlimited</span></td></tr>
+        <tr><td>Photos per Product</td><td><span class="ct-limit">3</span></td><td><span class="ct-limit">5</span></td><td class="premium-col"><span class="ct-limit">5</span></td></tr>
+        <tr><td>Shop Gallery Photos</td><td><span class="ct-limit">3</span></td><td><span class="ct-limit">6</span></td><td class="premium-col"><span class="ct-limit">8</span></td></tr>
+        <tr><td>Product Variants (Size/Color)</td><td><span class="ct-check">✅</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>Draft Products</td><td><span class="ct-check">✅</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+
+        <tr class="cat-row"><td colspan="4">🔍 Search & Visibility</td></tr>
+        <tr><td>Search Listing</td><td><span class="ct-badge gray">Standard</span></td><td><span class="ct-badge">Featured</span></td><td class="premium-col"><span class="ct-badge purple">Top Priority</span></td></tr>
+        <tr><td>Homepage Feature Slot</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">❌</span></td><td class="premium-col"><span class="ct-badge purple">✓ Rotating</span></td></tr>
+        <tr><td>Category Page Highlight</td><td><span class="ct-check">❌</span></td><td><span class="ct-badge">✓ Yes</span></td><td class="premium-col"><span class="ct-badge purple">✓ Priority</span></td></tr>
+        <tr><td>Verified Badge</td><td><span class="ct-badge gray">Basic ✔</span></td><td><span class="ct-badge">✔ Verified</span></td><td class="premium-col"><span class="ct-badge purple">👑 Premium</span></td></tr>
+        <tr><td>Shop Profile URL</td><td><span class="ct-check">✅</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+
+        <tr class="cat-row"><td colspan="4">💬 WhatsApp & Inquiries</td></tr>
+        <tr><td>WhatsApp Inquiry Button</td><td><span class="ct-check">✅</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>Custom Pre-filled Message</td><td><span class="ct-check">✅</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>Inquiry Count Tracking</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>Inquiry Reports (Weekly)</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+
+        <tr class="cat-row"><td colspan="4">📊 Analytics & Insights</td></tr>
+        <tr><td>Analytics Dashboard</td><td><span class="ct-check">❌</span></td><td><span class="ct-badge">Basic</span></td><td class="premium-col"><span class="ct-badge purple">Full</span></td></tr>
+        <tr><td>Traffic Sources Report</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">❌</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>Product Performance Report</td><td><span class="ct-check">❌</span></td><td><span class="ct-badge">Basic</span></td><td class="premium-col"><span class="ct-badge green">✓ Detailed</span></td></tr>
+        <tr><td>Monthly Growth Consultation</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">❌</span></td><td class="premium-col"><span class="ct-badge green">✓ 1 hr/month</span></td></tr>
+
+        <tr class="cat-row"><td colspan="4">🔥 Marketing Tools</td></tr>
+        <tr><td>Offer & Deal Banners</td><td><span class="ct-check">❌</span></td><td><span class="ct-limit">2/month</span></td><td class="premium-col"><span class="ct-limit">Unlimited</span></td></tr>
+        <tr><td>Deals Page Feature</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">❌</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>Seasonal Campaign Banner</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">❌</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+
+        <tr class="cat-row"><td colspan="4">🎧 Support</td></tr>
+        <tr><td>Email Support</td><td><span class="ct-check">✅</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>WhatsApp Support</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-badge purple">Priority</span></td></tr>
+        <tr><td>Dedicated Account Manager</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">❌</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+        <tr><td>Onboarding Assistance</td><td><span class="ct-check">❌</span></td><td><span class="ct-check">✅</span></td><td class="premium-col"><span class="ct-check">✅</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ROI CALCULATOR -->
+<div class="roi-section">
+  <h2 class="section-heading" style="margin-bottom:8px;">📊 Calculate Your Return on Investment</h2>
+  <p class="section-subheading">See how quickly Local Bazaar Hub pays for itself.</p>
+
+  <div class="roi-card">
+    <div class="roi-left">
+      <div class="roi-title">How much can your shop earn?</div>
+      <div class="roi-sub">Enter your shop details and we'll estimate how many additional customers and revenue Local Bazaar Hub can bring you each month.</div>
+      <div class="roi-input-group">
+        <label class="roi-label">Your product category</label>
+        <select class="roi-input" id="roiCat" onchange="calcROI()">
+          <option value="fashion">Men/Women Fashion</option>
+          <option value="electronics">Electronics</option>
+          <option value="jewellery">Jewellery</option>
+          <option value="kids">Kids Wear</option>
+          <option value="footwear">Footwear</option>
+        </select>
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Average order value (₹)</label>
+        <input type="number" class="roi-input" id="roiAOV" value="800" placeholder="e.g. 800" onkeyup="calcROI()" oninput="calcROI()">
+      </div>
+      <div class="roi-input-group">
+        <label class="roi-label">Your selected plan</label>
+        <select class="roi-input" id="roiPlan" onchange="calcROI()">
+          <option value="0">Basic (Free)</option>
+          <option value="499" selected>Growth (₹499/month)</option>
+          <option value="999">Premium (₹999/month)</option>
+        </select>
+      </div>
+    </div>
+    <div class="roi-right">
+      <div class="roi-result-title">📈 Your Estimated Monthly Results</div>
+      <div class="roi-metric"><span class="rm-label">Extra Inquiries/Month</span><span class="rm-val" id="roiInquiries">—</span></div>
+      <div class="roi-metric"><span class="rm-label">Estimated Conversions</span><span class="rm-val" id="roiConversions">—</span></div>
+      <div class="roi-metric"><span class="rm-label">Estimated Extra Revenue</span><span class="rm-val" id="roiRevenue">—</span></div>
+      <div class="roi-metric"><span class="rm-label">Plan Cost</span><span class="rm-val" id="roiCost">—</span></div>
+      <div class="roi-metric"><span class="rm-label">💰 Net Profit from Platform</span><span class="rm-val highlight" id="roiProfit">—</span></div>
+      <div class="roi-note">* Estimates based on average performance data from existing shops in each category. Actual results may vary.</div>
+    </div>
+  </div>
+</div>
+
+<!-- TESTIMONIALS -->
+<div class="testimonials-section">
+  <h2 class="section-heading">What Sellers Are Saying</h2>
+  <p class="section-subheading">Real results from <span>real local shop owners</span> across Madhya Pradesh.</p>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <span class="testi-plan-tag premium">👑 Premium Plan</span>
+      <div class="testi-quote">Local Bazaar Hub ne meri dukaan ka business completely badal diya. Pehle din mein 5-6 customers aate the, ab WhatsApp pe 20-25 inquiries aati hain! Premium plan ka ROI maine 1st week mein hi recover kar liya.</div>
+      <div class="testi-author">
+        <div class="testi-av" style="background:linear-gradient(135deg,#1a56db,#3b82f6);">R</div>
+        <div><div class="testi-name">Ramesh Sharma</div><div class="testi-role">Sharma Cloth House · Gandhi Nagar, Indore</div><div class="testi-stars">★★★★★</div></div>
+      </div>
+      <div class="testi-result">📈 3x more customers in 2 months</div>
+    </div>
+    <div class="testi-card">
+      <span class="testi-plan-tag growth">🚀 Growth Plan</span>
+      <div class="testi-quote">Growth plan ekdum value for money hai. ₹499 mein jo visibility milti hai, usske liye hum pehle newspapers mein ₹3,000-₹4,000 ke ads dete the. WhatsApp inquiries bhi bahut quality wali aati hain — serious buyers hote hain.</div>
+      <div class="testi-author">
+        <div class="testi-av" style="background:linear-gradient(135deg,#ec4899,#f472b6);">M</div>
+        <div><div class="testi-name">Meera Patel</div><div class="testi-role">Meera Saree Center · Vijay Nagar, Indore</div><div class="testi-stars">★★★★★</div></div>
+      </div>
+      <div class="testi-result">💰 Saved ₹3,000/month on newspaper ads</div>
+    </div>
+    <div class="testi-card">
+      <span class="testi-plan-tag premium">👑 Premium Plan</span>
+      <div class="testi-quote">Bhopal se customers aane lage! Homepage feature slot ne mujhe itni reach di jo maine socha bhi nahi tha. October-November mein Diwali season mein toh WhatsApp band hi nahi hua. Premium plan absolutely worth it hai.</div>
+      <div class="testi-author">
+        <div class="testi-av" style="background:linear-gradient(135deg,#059669,#34d399);">V</div>
+        <div><div class="testi-name">Vikram Joshi</div><div class="testi-role">Digital Zone · MG Road, Indore</div><div class="testi-stars">★★★★★</div></div>
+      </div>
+      <div class="testi-result">🌐 Customers from 3 new cities</div>
+    </div>
+  </div>
+</div>
+
+<!-- FAQ MINI -->
+<div class="pricing-faq">
+  <h2 class="section-heading" style="margin-bottom:8px;">Frequently Asked Questions</h2>
+  <p class="section-subheading">Quick answers about our plans. <a href="faq.html" style="color:var(--primary);">See all FAQs →</a></p>
+  <div id="pricingFAQList"></div>
+</div>
+
+<!-- BOTTOM CTA -->
+<div class="bottom-cta">
+  <div class="bc-inner">
+    <div class="bc-title">Ready to grow your<br><span>local business digitally?</span></div>
+    <div class="bc-sub">Join 500+ local shops already getting WhatsApp customers from Local Bazaar Hub. Start free today — no credit card, no commitment.</div>
+    <div class="bc-btns">
+      <button class="bc-btn-primary" onclick="window.location='shopkeeper-registration.html'">🏪 Start Free Today</button>
+      <button class="bc-btn-secondary" onclick="window.open('https://wa.me/919876543210?text=Hello! I want to list my shop on Local Bazaar Hub. Please help me.','_blank')">💬 Talk to Us First</button>
+    </div>
+    <div class="bc-no-credit">No credit card required · <span>500+ shops</span> already joined · Cancel anytime</div>
+  </div>
+</div>
+
+<!-- FOOTER MINI -->
+<div class="footer-mini">
+  <div>© 2024 Local Bazaar Hub · Apna Dukaan, Digital Duniya · All Rights Reserved</div>
+  <div class="footer-links-row">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html">Shops</a>
+    <a href="faq.html">FAQ</a>
+    <a href="privacy-policy.html">Terms & Privacy</a>
+    <a href="contact-us.html">Contact</a>
+  </div>
+</div>
+
+<!-- FLOAT WA -->
+<div class="float-wa">
+  <div class="float-wa-btn" onclick="window.open('https://wa.me/919876543210?text=Hello! I want to know more about Local Bazaar Hub seller plans.','_blank')">💬</div>
+</div>
+
+<script>
+// ── BILLING TOGGLE ──
+let isAnnual = false;
+const prices = {
+  monthly:  { growth:499,  premium:999  },
+  annual:   { growth:399,  premium:799  },  // ~20% off
+};
+
+function toggleBilling(){
+  isAnnual = !isAnnual;
+  const sw = document.getElementById('billingSwitch');
+  sw.classList.toggle('annual', isAnnual);
+  document.getElementById('monthlyLabel').classList.toggle('active', !isAnnual);
+  document.getElementById('annualLabel').classList.toggle('active', isAnnual);
+  updatePrices();
+}
+
+function updatePrices(){
+  const p = isAnnual ? prices.annual : prices.monthly;
+  // Growth
+  document.getElementById('growthPrice').textContent = p.growth;
+  document.getElementById('growthPeriod').textContent = isAnnual ? '/month · billed annually' : '/month · billed monthly';
+  document.getElementById('growthAnnual').innerHTML = isAnnual
+    ? `<span style="text-decoration:line-through;color:var(--text-light);">₹499</span> &nbsp;<span style="color:var(--success);font-weight:700;">Save ₹1,200/year</span>`
+    : '&nbsp;';
+  // Premium
+  document.getElementById('premiumPrice').textContent = p.premium;
+  document.getElementById('premiumPeriod').textContent = isAnnual ? '/month · billed annually' : '/month · billed monthly';
+  document.getElementById('premiumAnnual').innerHTML = isAnnual
+    ? `<span style="text-decoration:line-through;color:var(--text-light);">₹999</span> &nbsp;<span style="color:var(--success);font-weight:700;">Save ₹2,400/year</span>`
+    : '&nbsp;';
+  // Free
+  document.getElementById('freeAnnual').innerHTML = isAnnual ? '<span style="color:var(--success);font-weight:700;">Still completely free!</span>' : '&nbsp;';
+  // Update ROI calculator plan selector
+  const roiPlan = document.getElementById('roiPlan');
+  if(roiPlan){
+    roiPlan.options[1].value = p.growth;
+    roiPlan.options[2].value = p.premium;
+    calcROI();
+  }
+}
+
+// ── PLAN CTA ──
+function startPlan(plan){
+  const p = isAnnual ? prices.annual : prices.monthly;
+  const cost = plan === 'growth' ? p.growth : p.premium;
+  const billing = isAnnual ? 'annually' : 'monthly';
+  window.location = `shopkeeper-registration.html?plan=${plan}&cost=${cost}&billing=${billing}`;
+}
+
+// ── ROI CALCULATOR ──
+const roiData = {
+  fashion:     { inquiries:28, convRate:.30 },
+  electronics: { inquiries:22, convRate:.25 },
+  jewellery:   { inquiries:18, convRate:.35 },
+  kids:        { inquiries:20, convRate:.32 },
+  footwear:    { inquiries:16, convRate:.28 },
+};
+const planMultiplier = { '0':1.0, '499':2.2, '999':3.8 };
+
+function calcROI(){
+  const cat   = document.getElementById('roiCat')?.value || 'fashion';
+  const aov   = parseInt(document.getElementById('roiAOV')?.value) || 800;
+  const plan  = document.getElementById('roiPlan')?.value || '499';
+  const cost  = parseInt(plan) || 0;
+  const base  = roiData[cat] || roiData.fashion;
+  const mult  = planMultiplier[plan] || 2.2;
+  const inq   = Math.round(base.inquiries * mult);
+  const conv  = Math.round(inq * base.convRate);
+  const rev   = conv * aov;
+  const profit = rev - cost;
+  document.getElementById('roiInquiries').textContent  = `~${inq} inquiries`;
+  document.getElementById('roiConversions').textContent = `~${conv} sales`;
+  document.getElementById('roiRevenue').textContent     = `₹${rev.toLocaleString('en-IN')}`;
+  document.getElementById('roiCost').textContent        = cost ? `₹${cost}/month` : 'Free';
+  document.getElementById('roiProfit').textContent      = `₹${profit.toLocaleString('en-IN')}/month`;
+  document.getElementById('roiProfit').style.color      = profit > 0 ? '#fbbf24' : '#f87171';
+}
+
+// ── PRICING FAQ ──
+const pricingFAQs = [
+  { q:'Can I switch between plans at any time?', a:'Yes — upgrade or downgrade any time from your Seller Dashboard. Upgrades apply immediately. Downgrades take effect at the next billing cycle.' },
+  { q:'Is there a free trial for Growth or Premium?', a:'We offer a 7-day free trial for new sellers on the Growth plan. Use code START50 for 50% off your first month of any paid plan.' },
+  { q:'What payment methods are accepted for plans?', a:'UPI (GPay, PhonePe, Paytm), Debit/Credit Cards (Visa, Mastercard, RuPay), Net Banking, and EMI for annual plans — all processed securely via Razorpay.' },
+  { q:'Will I get an invoice for tax purposes?', a:'Yes — every payment generates a GST-compliant invoice via email and WhatsApp. All invoices are downloadable from your Seller Dashboard.' },
+  { q:'What happens when my plan expires?', a:"Your shop automatically drops to the Basic (Free) plan. Products above the 10-product limit become drafts but are not deleted. Upgrade anytime to restore them." },
+  { q:'Do you offer special pricing for NGOs or rural artisans?', a:"Yes! We offer a 50% discount on paid plans for registered NGOs, government-recognised artisans, and rural self-help groups (SHGs). Email us at pricing@localbazaarhub.in with proof." },
+  { q:'Is there a referral program for sellers?', a:"Yes — refer a friend who registers a shop and you both get ₹500 credit. Use your referral code from your Seller Dashboard to track referrals." },
+  { q:'Can I use Local Bazaar Hub from outside India?', a:"Currently the platform serves shops located in India only. International buyers can browse and contact Indian sellers, but shop registration requires an Indian address and phone number." },
+];
+
+const faqList = document.getElementById('pricingFAQList');
+pricingFAQs.forEach((item, i) => {
+  const div = document.createElement('div');
+  div.className = 'pf-item';
+  div.innerHTML = `
+    <div class="pf-question" onclick="togglePF(this.parentElement)">
+      ${item.q}
+      <span class="pf-icon">+</span>
+    </div>
+    <div class="pf-answer">${item.a}</div>`;
+  faqList.appendChild(div);
+});
+
+function togglePF(el){
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.pf-item.open').forEach(e=>e.classList.remove('open'));
+  if(!wasOpen) el.classList.add('open');
+}
+
+// ── INIT ──
+calcROI();
+</script>
+</body>
+</html>

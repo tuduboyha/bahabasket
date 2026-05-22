@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Today's Offers & Deals – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#111827;--text-mid:#374151;--text-light:#6b7280;
+  --border:#e5e7eb;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--danger:#dc2626;
+  --card-shadow:0 2px 12px rgba(26,86,219,0.07);
+  --card-shadow-hover:0 10px 36px rgba(26,86,219,0.16);
+  --radius:14px;--radius-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4,h5{font-family:'Baloo 2',cursive;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Noto Sans',sans-serif;}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ── TOP BAR ── */
+.topbar{background:var(--primary-dark);color:#fff;font-size:12px;padding:6px 20px;display:flex;justify-content:space-between;align-items:center;gap:10px;}
+.topbar-left{display:flex;align-items:center;gap:16px;}
+.topbar-right{display:flex;align-items:center;gap:16px;}
+.topbar a{color:#c7d9ff;transition:color .2s;}
+.topbar a:hover{color:#fff;}
+.topbar .pill{background:var(--accent);color:#fff;padding:2px 10px;border-radius:20px;font-weight:600;font-size:11px;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:.7;}}
+
+/* ── NAVBAR ── */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:20px;height:68px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 16px rgba(0,0,0,0.06);}
+.logo{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.logo-icon{width:40px;height:40px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;}
+.logo-text{font-family:'Baloo 2',cursive;font-weight:800;font-size:20px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:11px;display:block;line-height:1;margin-top:-4px;font-weight:500;}
+.nav-search{flex:1;max-width:520px;display:flex;background:var(--bg);border:2px solid var(--border);border-radius:10px;overflow:hidden;transition:border-color .2s,box-shadow .2s;}
+.nav-search:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,0.1);}
+.nav-search select{background:var(--primary-light);border:none;outline:none;padding:0 12px;font-size:13px;color:var(--primary-dark);font-weight:600;cursor:pointer;min-width:120px;}
+.nav-search input{flex:1;border:none;outline:none;background:transparent;padding:0 14px;font-size:14px;color:var(--text-dark);}
+.nav-search input::placeholder{color:var(--text-light);}
+.nav-search-btn{background:var(--primary);border:none;color:#fff;padding:0 18px;font-size:16px;transition:background .2s;}
+.nav-search-btn:hover{background:var(--primary-dark);}
+.nav-links{display:flex;align-items:center;gap:4px;margin-left:auto;}
+.nav-links a{padding:8px 14px;border-radius:8px;font-size:13.5px;font-weight:500;color:var(--text-mid);transition:background .2s,color .2s;white-space:nowrap;}
+.nav-links a:hover{background:var(--primary-light);color:var(--primary);}
+.nav-links a.active{background:var(--primary-light);color:var(--primary);font-weight:700;}
+.nav-btn-register{background:var(--accent);color:#fff !important;padding:8px 16px;border-radius:8px;font-weight:600;font-size:13px;transition:background .2s !important;}
+.nav-btn-register:hover{background:#ea6c04 !important;}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-light);}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ══════════════════════════════
+   OFFERS HERO
+══════════════════════════════ */
+.offers-hero{
+  background:linear-gradient(135deg,#7c0a02 0%,#dc2626 40%,#f97316 100%);
+  padding:52px 24px 68px;position:relative;overflow:hidden;text-align:center;
+}
+.offers-hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20c0 11.046-8.954 20-20 20V0c11.046 0 20 8.954 20 20zM40 20c0 11.046-8.954 20-20 20V0c11.046 0 20 8.954 20 20z'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* Floating confetti dots */
+.offers-hero::after{
+  content:'🔥';font-size:80px;opacity:.07;
+  position:absolute;right:5%;top:50%;transform:translateY(-50%);
+}
+.hero-inner{max-width:720px;margin:0 auto;position:relative;}
+.offers-hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.3);
+  color:#fff;padding:7px 20px;border-radius:24px;
+  font-size:13px;font-weight:700;margin-bottom:22px;
+  animation:badge-glow 2s infinite;
+}
+@keyframes badge-glow{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.2);}50%{box-shadow:0 0 0 8px rgba(255,255,255,0);}}
+.offers-hero h1{font-size:clamp(28px,5vw,52px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:14px;}
+.offers-hero h1 .highlight{
+  background:linear-gradient(90deg,#fbbf24,#fde68a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.offers-hero p{color:rgba(255,255,255,.85);font-size:15px;margin-bottom:32px;line-height:1.7;}
+
+/* ── COUNTDOWN TIMER ── */
+.countdown-wrap{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,0,0,.3);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:16px;padding:14px 24px;margin-bottom:28px;
+}
+.cd-label{font-size:12px;color:rgba(255,255,255,.7);font-weight:600;margin-right:8px;text-transform:uppercase;letter-spacing:1px;}
+.cd-block{text-align:center;}
+.cd-num{
+  font-family:'Baloo 2',cursive;font-size:32px;font-weight:800;color:#fff;
+  background:rgba(255,255,255,.15);border-radius:8px;
+  padding:4px 12px;min-width:52px;display:block;
+  border:1px solid rgba(255,255,255,.2);
+  transition:transform .1s;
+}
+.cd-block.flip .cd-num{transform:scaleY(.9);}
+.cd-unit{font-size:10px;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;}
+.cd-sep{font-size:28px;font-weight:800;color:rgba(255,255,255,.5);margin:0 2px;align-self:flex-start;padding-top:6px;}
+
+.hero-stats-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.hs{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 20px;text-align:center;}
+.hs .num{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#fff;}
+.hs .lbl{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;}
+
+/* Wave */
+.wave-sep{display:block;line-height:0;}
+.wave-sep svg{display:block;}
+
+/* ══════════════════════════════
+   SECTION COMMONS
+══════════════════════════════ */
+.section{padding:52px 24px;}
+.section-alt{background:var(--white);}
+.max-w{max-width:1280px;margin:0 auto;}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap;}
+.section-title{font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--text-dark);}
+.section-title span{color:var(--danger);}
+.section-sub{font-size:13px;color:var(--text-light);margin-top:4px;}
+.view-all-btn{display:flex;align-items:center;gap:6px;color:var(--primary);font-weight:600;font-size:13px;padding:7px 14px;border:2px solid var(--primary);border-radius:8px;transition:all .2s;white-space:nowrap;}
+.view-all-btn:hover{background:var(--primary);color:#fff;}
+
+/* ══════════════════════════════
+   DEAL TYPE TABS
+══════════════════════════════ */
+.deal-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+.dtab{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 18px;border-radius:24px;font-size:13.5px;font-weight:600;
+  border:2px solid var(--border);background:var(--white);color:var(--text-mid);
+  cursor:pointer;transition:all .22s;
+}
+.dtab:hover{border-color:var(--danger);color:var(--danger);}
+.dtab.active{background:var(--danger);border-color:var(--danger);color:#fff;}
+.dtab .cnt{font-size:11px;opacity:.75;}
+
+/* ══════════════════════════════
+   FLASH DEAL BANNER (full width)
+══════════════════════════════ */
+.flash-banner{
+  background:linear-gradient(135deg,#dc2626,#f97316);
+  border-radius:var(--radius);padding:28px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;margin-bottom:28px;
+  position:relative;overflow:hidden;
+}
+.flash-banner::before{
+  content:'⚡';font-size:120px;opacity:.08;
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+}
+.flash-banner-left{position:relative;}
+.flash-banner-left .sub{font-size:12px;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.flash-banner-left h2{font-size:clamp(20px,3vw,30px);font-weight:800;color:#fff;margin-bottom:6px;}
+.flash-banner-left p{font-size:13px;color:rgba(255,255,255,.8);}
+.flash-banner-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.flash-cd{display:flex;gap:8px;align-items:center;}
+.fcd-blk{text-align:center;background:rgba(0,0,0,.25);border-radius:8px;padding:8px 12px;min-width:52px;}
+.fcd-num{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:#fff;line-height:1;}
+.fcd-lbl{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.fcd-sep{font-size:22px;font-weight:800;color:rgba(255,255,255,.5);}
+.flash-btn{background:#fff;color:var(--danger);border:none;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:800;transition:all .2s;white-space:nowrap;}
+.flash-btn:hover{background:#fef2f2;transform:scale(1.04);}
+
+/* ══════════════════════════════
+   BIG OFFER CARDS (Hero Deals)
+══════════════════════════════ */
+.hero-deals-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:18px;
+  margin-bottom:28px;
+}
+.hero-deal-card{
+  border-radius:var(--radius);padding:28px 24px;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:transform .25s,box-shadow .25s;
+  min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+.hero-deal-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.18);}
+.hd-pattern{position:absolute;inset:0;opacity:.1;background-image:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.5) 10px,rgba(255,255,255,.5) 11px);}
+.hd-emoji{position:absolute;top:16px;right:16px;font-size:56px;opacity:.2;transition:opacity .3s,transform .3s;}
+.hero-deal-card:hover .hd-emoji{opacity:.35;transform:scale(1.1) rotate(-5deg);}
+.hd-badge{
+  position:absolute;top:14px;left:14px;
+  background:rgba(255,255,255,.25);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+}
+.hd-content{position:relative;z-index:1;}
+.hd-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.hd-title{font-family:'Baloo 2',cursive;font-size:clamp(16px,2vw,22px);font-weight:800;color:#fff;margin-bottom:6px;line-height:1.2;}
+.hd-discount{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,0,0,.25);
+  color:#fff;font-size:14px;font-weight:700;
+  padding:4px 12px;border-radius:6px;margin-bottom:14px;
+}
+.hd-discount .big-pct{font-size:22px;font-family:'Baloo 2',cursive;}
+.hd-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);
+  color:#fff;padding:9px 18px;border-radius:8px;
+  font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;
+}
+.hd-btn:hover{background:rgba(255,255,255,.35);}
+.hdc-blue{background:linear-gradient(135deg,#1a56db,#1e88e5);}
+.hdc-red{background:linear-gradient(135deg,#dc2626,#f87171);}
+.hdc-purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);}
+.hdc-green{background:linear-gradient(135deg,#059669,#34d399);}
+.hdc-orange{background:linear-gradient(135deg,#f97316,#fb923c);}
+.hdc-teal{background:linear-gradient(135deg,#0891b2,#22d3ee);}
+
+/* ══════════════════════════════
+   DEAL PRODUCT CARDS
+══════════════════════════════ */
+.deals-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:18px;
+}
+.deal-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);overflow:hidden;
+  transition:all .25s;cursor:pointer;position:relative;
+}
+.deal-card:hover{box-shadow:var(--card-shadow-hover);transform:translateY(-4px);border-color:transparent;}
+.deal-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:var(--bg);}
+.deal-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.deal-card:hover .deal-img-wrap img{transform:scale(1.06);}
+
+/* Discount ribbon */
+.disc-ribbon{
+  position:absolute;top:0;left:0;
+  background:var(--danger);color:#fff;
+  font-size:11px;font-weight:800;
+  padding:4px 10px 4px 8px;
+  clip-path:polygon(0 0,100% 0,88% 100%,0 100%);
+}
+.disc-ribbon.green-rib{background:var(--success);}
+.disc-ribbon.orange-rib{background:var(--accent);}
+.disc-ribbon.purple-rib{background:#7c3aed;}
+
+/* Timer pill on card */
+.card-timer{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:4px;
+  background:rgba(0,0,0,.7);color:#fff;
+  font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+  white-space:nowrap;
+}
+.card-timer span{color:#fbbf24;}
+
+.wish-btn{
+  position:absolute;top:8px;right:8px;
+  width:30px;height:30px;
+  background:rgba(255,255,255,.92);border:none;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;opacity:0;transition:opacity .2s;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.deal-card:hover .wish-btn{opacity:1;}
+
+.deal-body{padding:12px 14px 14px;}
+.deal-shop{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-light);margin-bottom:5px;}
+.shop-dot{width:6px;height:6px;border-radius:50%;background:var(--whatsapp);flex-shrink:0;}
+.deal-title{font-weight:600;font-size:13.5px;color:var(--text-dark);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.deal-price-row{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
+.deal-price{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--primary);}
+.deal-mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;}
+.deal-saving{font-size:12px;color:var(--success);font-weight:700;}
+.deal-rating{display:flex;align-items:center;gap:4px;margin-bottom:10px;}
+.stars-xs{color:#fbbf24;font-size:11px;}
+.rv{font-size:11.5px;font-weight:600;color:var(--text-dark);}
+.rc{font-size:11px;color:var(--text-light);}
+
+/* Sold bar */
+.sold-bar-wrap{margin-bottom:10px;}
+.sold-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:4px;}
+.sold-bar-label .sold-hot{color:var(--danger);font-weight:700;}
+.sold-bar-bg{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.sold-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--danger));transition:width .6s ease;}
+
+.btn-wa-deal{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;background:var(--whatsapp);color:#fff;border:none;
+  padding:10px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:700;transition:background .2s,transform .1s;
+}
+.btn-wa-deal:hover{background:var(--whatsapp-dark);}
+.btn-wa-deal:active{transform:scale(.97);}
+.btn-wa-deal svg{width:15px;height:15px;flex-shrink:0;}
+
+/* ══════════════════════════════
+   COUPON SECTION
+══════════════════════════════ */
+.coupons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.coupon-card{
+  background:var(--white);border-radius:var(--radius);
+  border:2px dashed var(--border);
+  display:flex;overflow:hidden;
+  transition:all .22s;cursor:pointer;
+  position:relative;
+}
+.coupon-card:hover{border-color:var(--primary);box-shadow:var(--card-shadow-hover);transform:translateY(-2px);}
+.coupon-left{
+  padding:20px 16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:90px;gap:6px;
+}
+.coupon-icon{font-size:32px;}
+.coupon-code{
+  font-family:'Baloo 2',cursive;font-size:14px;font-weight:800;
+  color:var(--primary);background:var(--primary-light);
+  padding:3px 8px;border-radius:5px;letter-spacing:1px;
+  border:1.5px dashed var(--primary);text-align:center;
+}
+.coupon-divider{
+  width:1px;background:repeating-linear-gradient(to bottom,var(--border) 0,var(--border) 6px,transparent 6px,transparent 12px);
+  margin:0;flex-shrink:0;
+}
+/* Notches */
+.coupon-card::before,.coupon-card::after{
+  content:'';position:absolute;
+  width:16px;height:16px;background:var(--bg);
+  border-radius:50%;top:50%;transform:translateY(-50%);
+  border:2px solid var(--border);
+}
+.coupon-card::before{left:82px;}
+.coupon-card::after{left:82px;}
+.coupon-card:hover::before,.coupon-card:hover::after{border-color:var(--primary);}
+.coupon-right{padding:18px 16px 18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:6px;}
+.coupon-title{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--text-dark);}
+.coupon-desc{font-size:12.5px;color:var(--text-mid);line-height:1.5;}
+.coupon-validity{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px;}
+.coupon-exp{font-size:11px;color:var(--text-light);}
+.coupon-copy-btn{
+  background:var(--primary-light);color:var(--primary);border:none;
+  padding:5px 12px;border-radius:6px;font-size:12px;font-weight:700;
+  transition:all .2s;
+}
+.coupon-copy-btn:hover{background:var(--primary);color:#fff;}
+.coupon-badge{
+  position:absolute;top:10px;right:10px;
+  font-size:10px;font-weight:700;padding:2px 7px;
+  border-radius:4px;color:#fff;
+}
+.cb-hot{background:var(--danger);}
+.cb-new{background:var(--success);}
+.cb-exp{background:var(--accent);}
+
+/* ══════════════════════════════
+   CATEGORY OFFERS
+══════════════════════════════ */
+.cat-offers-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:16px;
+}
+.cat-offer-card{
+  background:var(--white);border-radius:var(--radius);
+  border:2px solid var(--border);padding:24px 18px;
+  text-align:center;cursor:pointer;
+  transition:all .22s;position:relative;overflow:hidden;
+}
+.cat-offer-card:hover{border-color:var(--primary);box-shadow:var(--card-shadow-hover);transform:translateY(-3px);}
+.cat-offer-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));
+  transform:scaleX(0);transition:transform .22s;
+}
+.cat-offer-card:hover::after{transform:scaleX(1);}
+.coc-icon{font-size:40px;margin-bottom:10px;}
+.coc-name{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.coc-disc{
+  display:inline-block;
+  background:var(--accent-light);color:var(--accent);
+  font-size:13px;font-weight:800;padding:3px 10px;border-radius:6px;
+  margin-bottom:6px;
+}
+.coc-count{font-size:12px;color:var(--text-light);}
+
+/* ══════════════════════════════
+   BRAND OFFERS SCROLL
+══════════════════════════════ */
+.brand-scroll{
+  display:flex;gap:14px;overflow-x:auto;
+  scrollbar-width:none;padding-bottom:8px;
+}
+.brand-scroll::-webkit-scrollbar{display:none;}
+.brand-card{
+  background:var(--white);border:2px solid var(--border);
+  border-radius:var(--radius);padding:18px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  min-width:120px;cursor:pointer;transition:all .22s;flex-shrink:0;
+}
+.brand-card:hover{border-color:var(--primary);box-shadow:var(--card-shadow-hover);transform:translateY(-2px);}
+.brand-icon{font-size:32px;}
+.brand-name{font-size:12px;font-weight:700;color:var(--text-dark);}
+.brand-offer{font-size:11px;color:var(--danger);font-weight:700;background:#fee2e2;padding:2px 8px;border-radius:4px;}
+
+/* ══════════════════════════════
+   NEWSLETTER OFFER BAR
+══════════════════════════════ */
+.newsletter-bar{
+  background:linear-gradient(135deg,#1a56db,#1e88e5);
+  border-radius:var(--radius);padding:32px 36px;
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.newsletter-bar::before{
+  content:'🎁';font-size:100px;opacity:.1;
+  position:absolute;right:20px;top:50%;transform:translateY(-50%);
+}
+.nl-content{flex:1;min-width:200px;position:relative;}
+.nl-content h3{font-size:clamp(18px,2.5vw,24px);font-weight:800;color:#fff;margin-bottom:6px;}
+.nl-content p{font-size:13.5px;color:rgba(255,255,255,.8);}
+.nl-form{display:flex;gap:8px;flex-wrap:wrap;position:relative;}
+.nl-input{
+  flex:1;min-width:200px;
+  border:2px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.15);
+  color:#fff;padding:12px 16px;border-radius:10px;
+  font-size:14px;outline:none;transition:border-color .2s;
+  font-family:'Noto Sans',sans-serif;
+}
+.nl-input::placeholder{color:rgba(255,255,255,.6);}
+.nl-input:focus{border-color:rgba(255,255,255,.6);}
+.nl-btn{
+  background:#fff;color:var(--primary);border:none;
+  padding:12px 24px;border-radius:10px;
+  font-size:14px;font-weight:800;transition:all .2s;white-space:nowrap;
+}
+.nl-btn:hover{background:#f0f7ff;transform:scale(1.03);}
+
+/* ══════════════════════════════
+   FLOATING WA
+══════════════════════════════ */
+.float-wa{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;gap:8px;}
+.float-wa-btn{width:56px;height:56px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 20px rgba(37,211,102,.4);cursor:pointer;animation:float-bounce 3s infinite;}
+@keyframes float-bounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-6px);}}
+.float-tooltip{background:#fff;border-radius:8px;padding:7px 13px;font-size:12px;font-weight:600;color:var(--text-dark);box-shadow:0 4px 16px rgba(0,0,0,.1);white-space:nowrap;border:1px solid var(--border);}
+
+/* ── FOOTER MINI ── */
+.footer-mini{background:#0f172a;color:rgba(255,255,255,.5);text-align:center;padding:18px 24px;font-size:13px;margin-top:48px;}
+.footer-mini a{color:var(--primary);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.hero-deals-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:860px){.nav-links{display:none;}.hero-deals-grid{grid-template-columns:1fr 1fr;}.flash-banner{flex-direction:column;}.newsletter-bar{flex-direction:column;}}
+@media(max-width:600px){
+  .offers-hero{padding:36px 16px 52px;}
+  .hero-deals-grid{grid-template-columns:1fr;}
+  .deals-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .section{padding:36px 14px;}
+  .countdown-wrap{flex-wrap:wrap;justify-content:center;}
+  .flash-banner{padding:20px 18px;}
+  .topbar-left span:not(:first-child){display:none;}
+}
+@media(max-width:400px){.deals-grid{grid-template-columns:1fr;}}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.deal-card{animation:fadeUp .4s ease both;}
+.deal-card:nth-child(1){animation-delay:.04s;}
+.deal-card:nth-child(2){animation-delay:.08s;}
+.deal-card:nth-child(3){animation-delay:.12s;}
+.deal-card:nth-child(4){animation-delay:.16s;}
+.deal-card:nth-child(5){animation-delay:.20s;}
+.deal-card:nth-child(6){animation-delay:.24s;}
+.deal-card:nth-child(7){animation-delay:.28s;}
+.deal-card:nth-child(8){animation-delay:.32s;}
+.hero-deal-card{animation:fadeUp .45s ease both;}
+.hero-deal-card:nth-child(1){animation-delay:.05s;}
+.hero-deal-card:nth-child(2){animation-delay:.12s;}
+.hero-deal-card:nth-child(3){animation-delay:.19s;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <span>📍 Apne Shehar ka Online Bazaar</span>
+    <span class="pill">🔥 120+ Live Deals Today!</span>
+  </div>
+  <div class="topbar-right">
+    <a href="#">📞 +91 98765 43210</a>
+    <a href="#">Seller Login</a>
+    <a href="#">हिंदी</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </div>
+  <div class="nav-search">
+    <select>
+      <option>All Categories</option>
+      <option>Men Fashion</option>
+      <option>Women Fashion</option>
+      <option>Kids Wear</option>
+      <option>Electronics</option>
+      <option>Mobile Accessories</option>
+    </select>
+    <input type="text" placeholder="Search offers, products, shops...">
+    <button class="nav-search-btn">🔍</button>
+  </div>
+  <div class="nav-links">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="shop-directory.html">Shops</a>
+    <a href="offers.html" class="active">Offers 🔥</a>
+    <a href="categories.html">Categories</a>
+    <a href="product-listings.html">Products</a>
+    <a href="#" class="nav-btn-register">+ List Your Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a>
+  <span class="sep">›</span>
+  <span class="current">🔥 Today's Offers & Deals</span>
+</div>
+
+<!-- ══ OFFERS HERO ══ -->
+<section class="offers-hero">
+  <div class="hero-inner">
+    <div class="offers-hero-badge">🔥 Live Deals — Sirf Aaj Ke Liye!</div>
+    <h1>Aaj Ki <span class="highlight">Dhamakedar</span><br>Offers!</h1>
+    <p>Local shops ke sabse bade discounts — WhatsApp pe seedha seller se order karein.<br>Har pal naye deals aa rahe hain, jaldi karein!</p>
+
+    <!-- COUNTDOWN TIMER -->
+    <div class="countdown-wrap">
+      <span class="cd-label">⏳ Deals Band Honge:</span>
+      <div class="cd-block" id="cdHours">
+        <span class="cd-num" id="hoursNum">08</span>
+        <div class="cd-unit">Ghante</div>
+      </div>
+      <span class="cd-sep">:</span>
+      <div class="cd-block" id="cdMins">
+        <span class="cd-num" id="minsNum">34</span>
+        <div class="cd-unit">Minute</div>
+      </div>
+      <span class="cd-sep">:</span>
+      <div class="cd-block" id="cdSecs">
+        <span class="cd-num" id="secsNum">22</span>
+        <div class="cd-unit">Second</div>
+      </div>
+    </div>
+
+    <div class="hero-stats-row">
+      <div class="hs"><div class="num">120+</div><div class="lbl">Live Deals</div></div>
+      <div class="hs"><div class="num">Up to 70%</div><div class="lbl">Max Discount</div></div>
+      <div class="hs"><div class="num">500+</div><div class="lbl">Shops</div></div>
+      <div class="hs"><div class="num">₹0</div><div class="lbl">Platform Charge</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<svg class="wave-sep" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 40" preserveAspectRatio="none" style="background:#f97316;">
+  <path fill="#f8fafc" d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z"/>
+</svg>
+
+<!-- ══ MAIN CONTENT ══ -->
+<div class="section max-w">
+
+  <!-- Deal Type Tabs -->
+  <div class="deal-tabs">
+    <div class="dtab active" onclick="setTab(this)">🔥 All Deals <span class="cnt">(120)</span></div>
+    <div class="dtab" onclick="setTab(this)">⚡ Flash Sale</div>
+    <div class="dtab" onclick="setTab(this)">👗 Fashion</div>
+    <div class="dtab" onclick="setTab(this)">📱 Electronics</div>
+    <div class="dtab" onclick="setTab(this)">🧒 Kids</div>
+    <div class="dtab" onclick="setTab(this)">💍 Jewellery</div>
+    <div class="dtab" onclick="setTab(this)">🏠 Home</div>
+    <div class="dtab" onclick="setTab(this)">🆕 New Arrivals</div>
+  </div>
+
+  <!-- FLASH BANNER -->
+  <div class="flash-banner">
+    <div class="flash-banner-left">
+      <div class="sub">⚡ Flash Sale — Sirf 8 Ghante!</div>
+      <h2>Electronics Mega Sale</h2>
+      <p>Earphones, Smartwatch, Power Bank — sab pe flat 50% Off</p>
+    </div>
+    <div class="flash-banner-right">
+      <div class="flash-cd">
+        <div class="fcd-blk"><div class="fcd-num" id="fh">08</div><div class="fcd-lbl">Hr</div></div>
+        <span class="fcd-sep">:</span>
+        <div class="fcd-blk"><div class="fcd-num" id="fm">34</div><div class="fcd-lbl">Min</div></div>
+        <span class="fcd-sep">:</span>
+        <div class="fcd-blk"><div class="fcd-num" id="fs">22</div><div class="fcd-lbl">Sec</div></div>
+      </div>
+      <button class="flash-btn" onclick="openWA('Electronics Flash Sale','All Products','Digital Zone')">⚡ Shop Flash Deals</button>
+    </div>
+  </div>
+
+  <!-- HERO DEAL CARDS (Big 3) -->
+  <div class="section-header">
+    <div>
+      <div class="section-title">🎯 Featured <span>Deals</span></div>
+      <div class="section-sub">Aaj ke top 3 dhamakedar offers</div>
+    </div>
+  </div>
+  <div class="hero-deals-grid">
+    <div class="hero-deal-card hdc-red">
+      <div class="hd-pattern"></div>
+      <div class="hd-emoji">👗</div>
+      <span class="hd-badge">🔥 Bestseller</span>
+      <div class="hd-content">
+        <div class="hd-label">Women Fashion Sale</div>
+        <div class="hd-title">Saree & Lehenga Festival</div>
+        <div class="hd-discount"><span class="big-pct">UP TO 60%</span> Off</div>
+        <button class="hd-btn" onclick="openWA('Saree Festival','60% Off','Meera Saree Center')">💬 WhatsApp Order →</button>
+      </div>
+    </div>
+    <div class="hero-deal-card hdc-blue">
+      <div class="hd-pattern"></div>
+      <div class="hd-emoji">🎧</div>
+      <span class="hd-badge">⚡ Flash Sale</span>
+      <div class="hd-content">
+        <div class="hd-label">Electronics Flash</div>
+        <div class="hd-title">Gadgets at Half Price</div>
+        <div class="hd-discount"><span class="big-pct">FLAT 50%</span> Off</div>
+        <button class="hd-btn" onclick="openWA('Electronics Flash','50% Off','Digital Zone')">💬 WhatsApp Order →</button>
+      </div>
+    </div>
+    <div class="hero-deal-card hdc-purple">
+      <div class="hd-pattern"></div>
+      <div class="hd-emoji">👔</div>
+      <span class="hd-badge">🎉 Festival</span>
+      <div class="hd-content">
+        <div class="hd-label">Men's Fashion Festive</div>
+        <div class="hd-title">Kurta & Ethnic Wear</div>
+        <div class="hd-discount"><span class="big-pct">UP TO 45%</span> Off</div>
+        <button class="hd-btn" onclick="openWA('Kurta Sale','45% Off','Sharma Cloth')">💬 WhatsApp Order →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: Today's Hot Deals (Products) -->
+  <div class="section-header" style="margin-top:40px;">
+    <div>
+      <div class="section-title">🔥 Aaj Ke <span>Hot Deals</span></div>
+      <div class="section-sub">Limited stock — pehle aao, pehle paao!</div>
+    </div>
+    <a href="product-listings.html" class="view-all-btn">Sab Dekhein →</a>
+  </div>
+  <div class="deals-grid" id="dealsGrid">
+
+    <!-- Deal 1 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/fce7f3/be185d?text=👗+Saree" alt="Saree">
+        <div class="disc-ribbon">60% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span id="ct1">07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Meera Saree Center</div>
+        <div class="deal-title">Kanjivaram Pure Silk Saree – Temple Border, Wedding Special</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹1,599</span>
+          <span class="deal-mrp">₹3,999</span>
+          <span class="deal-saving">Save ₹2,400</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★★</span><span class="rv">4.9</span><span class="rc">(210)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 72% Sold</span><span class="sold-hot">28% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:72%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Kanjivaram Saree','1599','Meera Saree Center')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 2 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/fff7ed/f97316?text=🎧+Earphones" alt="Earphones">
+        <div class="disc-ribbon orange-rib">50% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span>07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Digital Zone Electronics</div>
+        <div class="deal-title">TWS Bluetooth Earbuds – ANC, 40Hr Battery, Fast Charge</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹749</span>
+          <span class="deal-mrp">₹1,499</span>
+          <span class="deal-saving">Save ₹750</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.5</span><span class="rc">(89)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 85% Sold</span><span class="sold-hot">15% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:85%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('TWS Earbuds','749','Digital Zone Electronics')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 3 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/e8f0fe/1a56db?text=👔+Kurta" alt="Kurta">
+        <div class="disc-ribbon purple-rib">45% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span>07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Sharma Cloth House</div>
+        <div class="deal-title">Men's Ethnic Kurta Pajama Set – Festive Embroidery Work</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹549</span>
+          <span class="deal-mrp">₹999</span>
+          <span class="deal-saving">Save ₹450</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★★</span><span class="rv">4.8</span><span class="rc">(124)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 60% Sold</span><span class="sold-hot">40% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:60%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Kurta Pajama Set','549','Sharma Cloth House')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 4 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/d1fae5/059669?text=🧒+Kids" alt="Kids">
+        <div class="disc-ribbon green-rib">40% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span>07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Little Star Kids Wear</div>
+        <div class="deal-title">Kids Party Dress Combo – Buy 2 Get 1 Free, Age 3–10yr</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹599</span>
+          <span class="deal-mrp">₹999</span>
+          <span class="deal-saving">Save ₹400</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.3</span><span class="rc">(56)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 55% Sold</span><span class="sold-hot">45% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:55%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Kids Dress Combo','599','Little Star Kids')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 5 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/cffafe/0891b2?text=💍+Jewellery" alt="Jewellery">
+        <div class="disc-ribbon">55% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span>07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Rani Jewellery House</div>
+        <div class="deal-title">Bridal Necklace + Earring + Maang Tikka Combo Set</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹899</span>
+          <span class="deal-mrp">₹1,999</span>
+          <span class="deal-saving">Save ₹1,100</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★★</span><span class="rv">4.9</span><span class="rc">(187)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 90% Sold</span><span class="sold-hot">10% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:90%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Bridal Combo Set','899','Rani Jewellery')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 6 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/fef3c7/d97706?text=📱+Mobile+Cover" alt="Mobile Cover">
+        <div class="disc-ribbon orange-rib">70% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span>07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Mobile Master</div>
+        <div class="deal-title">Premium Mobile Cover Combo – Pack of 3, Any Model</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹149</span>
+          <span class="deal-mrp">₹499</span>
+          <span class="deal-saving">Save ₹350</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.6</span><span class="rc">(98)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 65% Sold</span><span class="sold-hot">35% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:65%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Mobile Cover Combo 3pcs','149','Mobile Master')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 7 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/ede9fe/7c3aed?text=👟+Shoes" alt="Shoes">
+        <div class="disc-ribbon purple-rib">40% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span>07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Step In Footwear</div>
+        <div class="deal-title">Men's Casual Loafer Shoes – Office & Party Wear, Sizes 6–11</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹699</span>
+          <span class="deal-mrp">₹1,199</span>
+          <span class="deal-saving">Save ₹500</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.2</span><span class="rc">(73)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 48% Sold</span><span class="sold-hot">52% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:48%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Casual Loafer Shoes','699','Step In Footwear')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 8 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/e0e7ff/4f46e5?text=⌚+Watch" alt="Smart Watch">
+        <div class="disc-ribbon">50% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)">🤍</button>
+        <div class="card-timer">⏳ <span>07:34:22</span> baki</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Digital Zone Electronics</div>
+        <div class="deal-title">Smart Watch Pro – AMOLED Display, Health Monitor, IP68</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹1,299</span>
+          <span class="deal-mrp">₹2,599</span>
+          <span class="deal-saving">Save ₹1,300</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.4</span><span class="rc">(64)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span>🔥 78% Sold</span><span class="sold-hot">22% baki!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:78%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Smart Watch Pro','1299','Digital Zone Electronics')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /deals-grid -->
+</div>
+
+<!-- ══ COUPON SECTION ══ -->
+<section class="section section-alt">
+  <div class="max-w">
+    <div class="section-header">
+      <div>
+        <div class="section-title">🎟️ Exclusive <span>Coupons</span></div>
+        <div class="section-sub">Seller se WhatsApp pe ye code share karein aur extra discount paein</div>
+      </div>
+    </div>
+    <div class="coupons-grid">
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-hot">🔥 HOT</span>
+        <div class="coupon-left">
+          <div class="coupon-icon">🎉</div>
+          <div class="coupon-code">SAVE20</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">Flat 20% Extra Off</div>
+          <div class="coupon-desc">Kisi bhi fashion product pe ₹500 se upar order karne par 20% extra discount.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp">⏰ Valid till 31 Dec</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('SAVE20',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-new">🆕 NEW</span>
+        <div class="coupon-left">
+          <div class="coupon-icon">📱</div>
+          <div class="coupon-code">TECH50</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">Electronics pe ₹200 Off</div>
+          <div class="coupon-desc">Earphones, smartwatch ya koi bhi gadget ₹800 se upar kharidne par ₹200 seedha bachein.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp">⏰ Valid till 25 Dec</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('TECH50',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-exp">⚡ FLASH</span>
+        <div class="coupon-left">
+          <div class="coupon-icon">👗</div>
+          <div class="coupon-code">SAREE30</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">Saree pe 30% Off</div>
+          <div class="coupon-desc">Meera Saree Center se kisi bhi saree ya lehenga par 30% extra discount. Limited time!</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp">⏰ Aaj raat tak only</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('SAREE30',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-icon">🧒</div>
+          <div class="coupon-code">KIDS15</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">Kids Wear pe 15% Off</div>
+          <div class="coupon-desc">Bacchon ke kisi bhi product pe flat 15% discount. School uniform, party wear sab pe valid.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp">⏰ Valid till 31 Jan</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('KIDS15',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-icon">👟</div>
+          <div class="coupon-code">SHOES25</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">Footwear pe ₹150 Off</div>
+          <div class="coupon-desc">Step In Footwear pe ₹600 se upar kisi bhi order par ₹150 ki extra saving.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp">⏰ Valid till 15 Jan</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('SHOES25',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-hot">🥇 BEST</span>
+        <div class="coupon-left">
+          <div class="coupon-icon">🌟</div>
+          <div class="coupon-code">FIRST10</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">Pehli Order pe 10% Off</div>
+          <div class="coupon-desc">Naaye customers ke liye! Pehli baar kisi bhi shop se order karne par 10% extra discount.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp">⏰ New Users Only</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('FIRST10',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ CATEGORY OFFERS ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title">🗂️ Category <span>Wise Offers</span></div>
+      <div class="section-sub">Har category mein bade discounts</div>
+    </div>
+  </div>
+  <div class="cat-offers-grid">
+    <div class="cat-offer-card"><div class="coc-icon">👗</div><div class="coc-name">Women Fashion</div><div class="coc-disc">Up to 60% Off</div><div class="coc-count">420+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon">🎧</div><div class="coc-name">Electronics</div><div class="coc-disc">Up to 50% Off</div><div class="coc-count">180+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon">👔</div><div class="coc-name">Men Fashion</div><div class="coc-disc">Up to 45% Off</div><div class="coc-count">310+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon">🧒</div><div class="coc-name">Kids Wear</div><div class="coc-disc">Up to 40% Off</div><div class="coc-count">240+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon">💍</div><div class="coc-name">Jewellery</div><div class="coc-disc">Up to 55% Off</div><div class="coc-count">120+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon">📱</div><div class="coc-name">Mobile Access.</div><div class="coc-disc">Up to 70% Off</div><div class="coc-count">198+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon">👟</div><div class="coc-name">Footwear</div><div class="coc-disc">Up to 40% Off</div><div class="coc-count">165+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon">🏠</div><div class="coc-name">Home Decor</div><div class="coc-disc">Up to 35% Off</div><div class="coc-count">90+ products</div></div>
+  </div>
+</section>
+
+<!-- ══ BRAND OFFERS ══ -->
+<section class="section section-alt">
+  <div class="max-w">
+    <div class="section-header">
+      <div>
+        <div class="section-title">🏪 Shop <span>Special Offers</span></div>
+        <div class="section-sub">Hamare featured shops ke exclusive deals</div>
+      </div>
+    </div>
+    <div class="brand-scroll">
+      <div class="brand-card"><div class="brand-icon">👔</div><div class="brand-name">Sharma Cloth</div><div class="brand-offer">Upto 45% Off</div></div>
+      <div class="brand-card"><div class="brand-icon">🎧</div><div class="brand-name">Digital Zone</div><div class="brand-offer">Upto 50% Off</div></div>
+      <div class="brand-card"><div class="brand-icon">👗</div><div class="brand-name">Meera Saree</div><div class="brand-offer">Upto 60% Off</div></div>
+      <div class="brand-card"><div class="brand-icon">🧒</div><div class="brand-name">Little Star</div><div class="brand-offer">Upto 40% Off</div></div>
+      <div class="brand-card"><div class="brand-icon">📱</div><div class="brand-name">Mobile Master</div><div class="brand-offer">Upto 70% Off</div></div>
+      <div class="brand-card"><div class="brand-icon">👟</div><div class="brand-name">Step In</div><div class="brand-offer">Upto 40% Off</div></div>
+      <div class="brand-card"><div class="brand-icon">💍</div><div class="brand-name">Rani Jewels</div><div class="brand-offer">Upto 55% Off</div></div>
+      <div class="brand-card"><div class="brand-icon">🏠</div><div class="brand-name">Home Decor</div><div class="brand-offer">Upto 35% Off</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<section class="section max-w">
+  <div class="newsletter-bar">
+    <div class="nl-content">
+      <h3>🔔 Deals Miss Mat Karo!</h3>
+      <p>WhatsApp number dijiye — daily best deals seedha aapke phone pe aayenge. Free subscribe, kabhi bhi unsubscribe kar sakte hain.</p>
+    </div>
+    <div class="nl-form">
+      <input type="text" class="nl-input" placeholder="📱 WhatsApp Number (e.g. 98765 43210)">
+      <button class="nl-btn" onclick="subscribeDeals()">🔔 Subscribe FREE</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER MINI -->
+<div class="footer-mini">
+  © 2024 <a href="local-bazaar-hub.html">Local Bazaar Hub</a> · Apna Dukaan, Digital Duniya · All Rights Reserved
+</div>
+
+<!-- FLOATING WA -->
+<div class="float-wa">
+  <div class="float-wa-btn" title="WhatsApp Support">💬</div>
+</div>
+
+<script>
+// ── LIVE COUNTDOWN ──
+function startCountdown(){
+  // Set end time: today midnight
+  const now = new Date();
+  const end = new Date(now);
+  end.setHours(23,59,59,0);
+
+  function tick(){
+    const diff = end - new Date();
+    if(diff <= 0){ clearInterval(timer); return; }
+    const h = String(Math.floor(diff/3600000)).padStart(2,'0');
+    const m = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    const s = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    // Hero countdown
+    document.getElementById('hoursNum').textContent = h;
+    document.getElementById('minsNum').textContent = m;
+    document.getElementById('secsNum').textContent = s;
+    // Flash banner countdown
+    document.getElementById('fh').textContent = h;
+    document.getElementById('fm').textContent = m;
+    document.getElementById('fs').textContent = s;
+    // Card timers
+    const ct = `${h}:${m}:${s}`;
+    document.querySelectorAll('.card-timer span').forEach(el => el.textContent = ct);
+  }
+  tick();
+  const timer = setInterval(tick, 1000);
+}
+startCountdown();
+
+// ── WHATSAPP ──
+function openWA(product, price, shop){
+  const msg = encodeURIComponent(`Hello! 🙏\n\nMaine *Local Bazaar Hub* pe aaj ka offer dekha:\n\n*Product:* ${product}\n*Offer Price:* ₹${price}\n*Shop:* ${shop}\n\nKya ye deal abhi bhi available hai? Order karna hai!`);
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+}
+
+// ── COUPON COPY ──
+function copyCoupon(code, btn){
+  navigator.clipboard?.writeText(code).then(()=>{
+    btn.textContent = '✅ Copied!';
+    btn.style.background = 'var(--success)';
+    btn.style.color = '#fff';
+    setTimeout(()=>{ btn.textContent='Copy Code'; btn.style.background=''; btn.style.color=''; }, 2000);
+  }).catch(()=>{
+    btn.textContent = '✅ ' + code;
+    setTimeout(()=>{ btn.textContent='Copy Code'; }, 2000);
+  });
+}
+
+// ── WISHLIST ──
+function toggleWish(btn){
+  btn.textContent = btn.textContent==='🤍' ? '❤️' : '🤍';
+}
+
+// ── DEAL TABS ──
+function setTab(el){
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── SUBSCRIBE ──
+function subscribeDeals(){
+  const input = document.querySelector('.nl-input');
+  if(input.value.trim().length < 8){
+    alert('Sahi WhatsApp number daalo!');
+    return;
+  }
+  const msg = encodeURIComponent(`Hello! Mujhe Local Bazaar Hub ke daily deals subscribe karne hain. Mera number: ${input.value}`);
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+  input.value='';
+}
+
+// ── SOLD BAR ANIMATION ──
+window.addEventListener('load', ()=>{
+  document.querySelectorAll('.sold-bar-fill').forEach(bar=>{
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(()=>{ bar.style.width = w; }, 400);
+  });
+});
+</script>
+</body>
+</html>

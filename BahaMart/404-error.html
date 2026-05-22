@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 – Page Not Found | BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #1a56db;
+  --primary-dark: #1042b0;
+  --primary-light: #e8f0fe;
+  --accent: #f97316;
+  --accent-light: #fff7ed;
+  --whatsapp: #25D366;
+  --whatsapp-dark: #128C7E;
+  --text-dark: #0f172a;
+  --text-mid: #334155;
+  --text-light: #64748b;
+  --border: #e2e8f0;
+  --bg: #f8fafc;
+  --white: #ffffff;
+  --success: #16a34a;
+  --radius: 14px;
+  --radius-sm: 8px;
+  --font-display: 'Baloo 2', cursive;
+  --font-body: 'Noto Sans', sans-serif;
+  --shadow: 0 4px 24px rgba(26,86,219,0.10);
+  --shadow-hover: 0 12px 40px rgba(26,86,219,0.16);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { height: 100%; scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text-dark);
+  min-height: 100vh;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+}
+h1,h2,h3,h4 { font-family: var(--font-display); }
+a { text-decoration: none; color: inherit; }
+button { cursor: pointer; font-family: var(--font-body); }
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 3px; }
+
+/* ══════════════════════════════
+   MAIN 404 SECTION
+══════════════════════════════ */
+.error-page {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 24px 60px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated background blobs */
+.bg-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: .45;
+  animation: blobFloat 8s ease-in-out infinite;
+  pointer-events: none;
+}
+.blob-1 { width: 400px; height: 400px; background: rgba(26,86,219,.12); top: -80px; left: -100px; animation-delay: 0s; }
+.blob-2 { width: 300px; height: 300px; background: rgba(249,115,22,.10); bottom: -60px; right: -60px; animation-delay: 2.5s; }
+.blob-3 { width: 250px; height: 250px; background: rgba(37,211,102,.08); top: 40%; left: 60%; animation-delay: 5s; }
+@keyframes blobFloat {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(20px,-20px) scale(1.05); }
+  66%      { transform: translate(-15px,15px) scale(.95); }
+}
+
+/* Grid dot pattern */
+.bg-grid {
+  position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(26,86,219,.07) 1px, transparent 1px);
+  background-size: 32px 32px;
+  pointer-events: none;
+}
+
+/* ── MAIN CARD ── */
+.error-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 24px;
+  padding: 52px 48px 44px;
+  max-width: 680px;
+  width: 100%;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  z-index: 1;
+  animation: cardPop .5s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes cardPop {
+  from { opacity: 0; transform: scale(.92) translateY(24px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+/* ── 404 ILLUSTRATION ── */
+.error-illustration {
+  margin-bottom: 28px;
+  position: relative;
+  display: inline-block;
+}
+.num-404 {
+  font-family: var(--font-display);
+  font-size: clamp(90px, 16vw, 140px);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -4px;
+  background: linear-gradient(135deg, var(--primary) 0%, #60a5fa 50%, var(--primary-dark) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  position: relative;
+  user-select: none;
+  animation: numFloat 4s ease-in-out infinite;
+}
+@keyframes numFloat {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+.num-404 .sticker {
+  position: absolute;
+  top: -10px; right: -28px;
+  -webkit-text-fill-color: initial;
+  animation: stickerWiggle 2s ease-in-out infinite;
+  transform-origin: bottom center;
+  line-height: 0;
+}
+@keyframes stickerWiggle {
+  0%,100% { transform: rotate(-8deg); }
+  50%      { transform: rotate(8deg); }
+}
+.num-shadow {
+  width: 180px; height: 16px;
+  background: radial-gradient(ellipse, rgba(26,86,219,.18) 0%, transparent 70%);
+  margin: -8px auto 0;
+  animation: shadowPulse 4s ease-in-out infinite;
+}
+@keyframes shadowPulse {
+  0%,100% { transform: scaleX(1); opacity: .6; }
+  50%      { transform: scaleX(.75); opacity: .3; }
+}
+
+/* ── TEXT ── */
+.error-title {
+  font-size: clamp(22px, 3.5vw, 30px);
+  font-weight: 800;
+  color: var(--text-dark);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+.error-title span { color: var(--primary); }
+.error-subtitle {
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.75;
+  max-width: 460px;
+  margin: 0 auto 28px;
+}
+
+/* ── SEARCH BAR ── */
+.error-search {
+  display: flex;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.error-search:focus-within {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(26,86,219,.09);
+}
+.error-search input {
+  flex: 1;
+  border: none; outline: none; background: transparent;
+  padding: 12px 16px;
+  font-size: 14px; color: var(--text-dark);
+  font-family: var(--font-body);
+}
+.error-search input::placeholder { color: var(--text-light); }
+.error-search button {
+  background: var(--primary); color: #fff;
+  border: none; padding: 0 20px;
+  font-weight: 700;
+  transition: background .2s;
+  display: flex; align-items: center; gap: 6px;
+  font-family: var(--font-display); font-size: 13px;
+}
+.error-search button:hover { background: var(--primary-dark); }
+
+/* ── ACTION BUTTONS ── */
+.error-actions {
+  display: flex; gap: 12px; justify-content: center;
+  flex-wrap: wrap; margin-bottom: 36px;
+}
+.btn-home {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff; border: none;
+  padding: 13px 26px; border-radius: 12px;
+  font-size: 14px; font-weight: 700;
+  transition: all .22s;
+  box-shadow: 0 4px 16px rgba(26,86,219,.28);
+}
+.btn-home:hover { transform: translateY(-2px); box-shadow: 0 7px 24px rgba(26,86,219,.35); }
+.btn-shops {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--white); color: var(--primary);
+  border: 2px solid var(--primary);
+  padding: 13px 24px; border-radius: 12px;
+  font-size: 14px; font-weight: 700;
+  transition: all .22s;
+}
+.btn-shops:hover { background: var(--primary-light); transform: translateY(-2px); }
+.btn-wa {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--whatsapp); color: #fff;
+  border: none;
+  padding: 13px 24px; border-radius: 12px;
+  font-size: 14px; font-weight: 700;
+  transition: all .22s;
+  box-shadow: 0 4px 16px rgba(37,211,102,.25);
+}
+.btn-wa:hover { background: var(--whatsapp-dark); transform: translateY(-2px); }
+
+/* ── QUICK LINKS ── */
+.quick-links-label {
+  font-size: 12px; font-weight: 700;
+  color: var(--text-light);
+  text-transform: uppercase; letter-spacing: .6px;
+  margin-bottom: 12px;
+}
+.quick-links {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  justify-content: center;
+}
+.quick-link {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  color: var(--text-mid); padding: 7px 14px;
+  border-radius: 20px; font-size: 13px; font-weight: 500;
+  transition: all .18s;
+}
+.quick-link:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* ══════════════════════════════
+   SUGGESTIONS SECTION
+══════════════════════════════ */
+.suggestions-section {
+  max-width: 880px; width: 100%;
+  margin: 32px auto 0;
+  padding: 0 24px;
+  position: relative; z-index: 1;
+  animation: fadeUp .5s .2s ease both;
+}
+@keyframes fadeUp { from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:none;} }
+
+.sugg-title {
+  font-family: var(--font-display);
+  font-size: 18px; font-weight: 800;
+  color: var(--text-dark);
+  text-align: center; margin-bottom: 20px;
+}
+.sugg-title span { color: var(--primary); }
+
+.sugg-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px,1fr));
+  gap: 14px;
+}
+.sugg-card {
+  background: var(--white);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 16px;
+  text-align: center;
+  transition: all .22s;
+  position: relative;
+  overflow: hidden;
+  display: block;
+  color: var(--text-dark);
+}
+.sugg-card::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, var(--primary-light), transparent);
+  opacity: 0; transition: opacity .22s;
+}
+.sugg-card:hover { border-color: var(--primary); transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.sugg-card:hover::before { opacity: 1; }
+.sugg-icon { width: 44px; height: 44px; margin: 0 auto 10px; position: relative; display: flex; align-items: center; justify-content: center; }
+.sugg-name { font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--text-dark); margin-bottom: 3px; position: relative; }
+.sugg-desc { font-size: 12px; color: var(--text-light); position: relative; }
+
+
+/* ── RESPONSIVE ── */
+@media(max-width:680px) {
+  .error-card { padding: 36px 22px 32px; }
+  .error-actions { flex-direction: column; align-items: center; }
+  .btn-home, .btn-shops, .btn-wa { width: 100%; justify-content: center; }
+  .sugg-grid { grid-template-columns: repeat(2,1fr); }
+  .num-404 { font-size: 90px; }
+}
+@media(max-width:380px) {
+  .sugg-grid { grid-template-columns: 1fr 1fr; }
+  .quick-links { gap: 6px; }
+  .quick-link { font-size: 12px; padding: 6px 10px; }
+}
+</style>
+</head>
+<body>
+
+<!-- SHARED HEADER -->
+<div id="site-header"></div>
+
+<!-- MAIN ERROR PAGE -->
+<div class="error-page">
+
+  <!-- Background effects -->
+  <div class="bg-grid"></div>
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <!-- MAIN CARD -->
+  <div class="error-card">
+
+    <!-- Illustration -->
+    <div class="error-illustration">
+      <div class="num-404">4<span class="sticker"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2.5" width="40" height="40"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16" stroke-linecap="round" stroke-width="3"/></svg></span>04</div>
+      <div class="num-shadow"></div>
+    </div>
+
+    <!-- Title & subtitle -->
+    <h1 class="error-title">Oops! This page has <span>gone missing</span> from the bazaar!</h1>
+    <p class="error-subtitle">The page you are looking for may have been moved, renamed, deleted, or never existed. Don't worry — our bazaar is full of amazing shops and products waiting for you!</p>
+
+    <!-- Search bar -->
+    <div class="error-search">
+      <input type="text" id="searchInput" placeholder="Search shops, products, categories..." onkeydown="if(event.key==='Enter') doSearch()">
+      <button onclick="doSearch()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="15" height="15"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        Search
+      </button>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="error-actions">
+      <button class="btn-home" onclick="window.location='local-bazaar-hub.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Go to Homepage
+      </button>
+      <button class="btn-shops" onclick="window.location='shop-directory.html'">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M3 9l3-6h12l3 6"/><path d="M9 9v2a3 3 0 006 0V9"/></svg>
+        Browse Shops
+      </button>
+      <button class="btn-wa" onclick="openWA()">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="17" height="17"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.532 5.858L.057 23.571a.5.5 0 00.611.611l5.713-1.475A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.947 0-3.76-.527-5.31-1.438l-.38-.225-3.939 1.016 1.016-3.939-.225-.38A9.965 9.965 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        WhatsApp Help
+      </button>
+    </div>
+
+    <!-- Quick links -->
+    <div class="quick-links-label">Or jump to a popular page:</div>
+    <div class="quick-links">
+      <a href="product-listings.html" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        Products
+      </a>
+      <a href="categories.html" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+        Categories
+      </a>
+      <a href="offers.html" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-linecap="round" stroke-width="3"/></svg>
+        Offers
+      </a>
+      <a href="about-us.html" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8" stroke-linecap="round" stroke-width="3"/></svg>
+        About Us
+      </a>
+      <a href="contact-us.html" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.34 1.85.574 2.81.7A2 2 0 0122 16.92z"/></svg>
+        Contact
+      </a>
+      <a href="login-register.html" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+        Login
+      </a>
+      <a href="shopkeeper-registration.html" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M3 9l3-6h12l3 6"/></svg>
+        Register Shop
+      </a>
+      <a href="javascript:history.back()" class="quick-link">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="15 18 9 12 15 6"/></svg>
+        Go Back
+      </a>
+    </div>
+
+  </div>
+
+  <!-- SUGGESTIONS GRID -->
+  <div class="suggestions-section">
+    <div class="sugg-title">Explore our <span>Popular Sections</span></div>
+    <div class="sugg-grid">
+
+      <a href="shop-directory.html?cat=men-fashion" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="1.5" width="38" height="38"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>
+        </div>
+        <div class="sugg-name">Men Fashion</div>
+        <div class="sugg-desc">120+ shops</div>
+      </a>
+
+      <a href="shop-directory.html?cat=women-fashion" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="38" height="38"><path d="M12 2l-4 6v13h8V8l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/><path d="M9 21v-5h6v5"/></svg>
+        </div>
+        <div class="sugg-name">Women Fashion</div>
+        <div class="sugg-desc">145+ shops</div>
+      </a>
+
+      <a href="shop-directory.html?cat=electronics" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="1.5" width="38" height="38"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-linecap="round" stroke-width="3"/></svg>
+        </div>
+        <div class="sugg-name">Electronics</div>
+        <div class="sugg-desc">92+ shops</div>
+      </a>
+
+      <a href="shop-directory.html?cat=kids" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="1.5" width="38" height="38"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>
+        </div>
+        <div class="sugg-name">Kids Wear</div>
+        <div class="sugg-desc">68+ shops</div>
+      </a>
+
+      <a href="offers.html" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="38" height="38"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><circle cx="7" cy="7" r="1.5" fill="#f97316" stroke="none"/></svg>
+        </div>
+        <div class="sugg-name">Today's Offers</div>
+        <div class="sugg-desc">Up to 60% Off</div>
+      </a>
+
+      <a href="shop-directory.html?cat=jewellery" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#db2777" stroke-width="1.5" width="38" height="38"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="sugg-name">Jewellery</div>
+        <div class="sugg-desc">46+ shops</div>
+      </a>
+
+      <a href="shop-directory.html?cat=footwear" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="1.5" width="38" height="38"><path d="M2 16h20v3a1 1 0 01-1 1H3a1 1 0 01-1-1v-3z"/><path d="M4 16V9a2 2 0 012-2h3l3 4h6a2 2 0 012 2v3"/></svg>
+        </div>
+        <div class="sugg-name">Footwear</div>
+        <div class="sugg-desc">54+ shops</div>
+      </a>
+
+      <a href="shopkeeper-registration.html" class="sugg-card">
+        <div class="sugg-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="1.5" width="38" height="38"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+        </div>
+        <div class="sugg-name">List Your Shop</div>
+        <div class="sugg-desc">Free to start</div>
+      </a>
+
+    </div>
+  </div>
+
+
+</div><!-- /error-page -->
+
+<!-- SHARED FOOTER -->
+<div id="site-footer"></div>
+
+<script>
+// ── WHATSAPP ──
+function openWA(){
+  const msg = encodeURIComponent("Hello! I visited BahaBasket and got a 404 error. Can you help me find what I'm looking for?");
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+
+// ── AUTO REDIRECT COUNTDOWN ──
+let countdown = 60;
+const countEl = document.createElement('div');
+countEl.style.cssText = 'text-align:center;font-size:12px;color:var(--text-light);margin-top:16px;padding-bottom:4px;';
+document.querySelector('.error-card').appendChild(countEl);
+
+const timer = setInterval(()=>{
+  countdown--;
+  if(countdown <= 0){
+    clearInterval(timer);
+    window.location = 'local-bazaar-hub.html';
+  } else {
+    countEl.textContent = 'Auto-redirecting to homepage in ' + countdown + 's... (or click above to navigate now)';
+  }
+}, 1000);
+
+// ── SEARCH ──
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim();
+  if(!q){ document.getElementById('searchInput').focus(); return; }
+  window.location = 'product-listings.html?search=' + encodeURIComponent(q);
+}
+
+
+</script>
+<script src="components.js"></script>
+</body>
+</html>

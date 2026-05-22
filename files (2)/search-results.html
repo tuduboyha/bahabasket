@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Search Results for "kurta" – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#1a56db; --primary-dark:#1042b0; --primary-light:#e8f0fe;
+  --accent:#f97316; --accent-light:#fff7ed;
+  --whatsapp:#25D366; --whatsapp-dark:#128C7E;
+  --text-dark:#0f172a; --text-mid:#334155; --text-light:#64748b;
+  --border:#e2e8f0; --bg:#f8fafc; --white:#ffffff;
+  --success:#16a34a; --success-bg:#dcfce7;
+  --danger:#dc2626; --danger-bg:#fee2e2;
+  --warning:#d97706; --warning-bg:#fef3c7;
+  --purple:#7c3aed; --purple-bg:#f3e8ff;
+  --radius:14px; --radius-sm:8px;
+  --font-display:'Sora',sans-serif; --font-body:'Noto Sans',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-hover:0 8px 32px rgba(26,86,219,.13);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--primary-dark);color:rgba(255,255,255,.75);font-size:12px;padding:5px 22px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;}
+.topbar a{color:#c7d9ff;transition:color .2s;}
+.topbar a:hover{color:#fff;}
+.topbar .tb-pill{background:var(--accent);color:#fff;padding:2px 9px;border-radius:10px;font-weight:700;font-size:11px;}
+
+/* ── NAVBAR ── */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 22px;display:flex;align-items:center;gap:14px;height:66px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.logo{display:flex;align-items:center;gap:9px;flex-shrink:0;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:18px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:10px;display:block;line-height:1;margin-top:-3px;}
+
+/* Big search bar in navbar */
+.navbar-search{flex:1;max-width:640px;display:flex;background:var(--bg);border:2px solid var(--border);border-radius:11px;overflow:hidden;transition:border-color .2s,box-shadow .2s;}
+.navbar-search:focus-within{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.ns-cat{background:var(--primary-light);border:none;border-right:2px solid var(--border);outline:none;padding:0 13px;font-size:13px;color:var(--primary-dark);font-weight:600;cursor:pointer;font-family:var(--font-body);min-width:130px;}
+.ns-input{flex:1;border:none;outline:none;background:transparent;padding:0 14px;font-size:14px;color:var(--text-dark);font-family:var(--font-body);}
+.ns-input::placeholder{color:var(--text-light);}
+.ns-clear{background:transparent;border:none;color:var(--text-light);padding:0 8px;font-size:15px;transition:color .2s;}
+.ns-clear:hover{color:var(--danger);}
+.ns-btn{background:var(--primary);border:none;color:#fff;padding:0 20px;font-size:15px;font-weight:700;transition:background .2s;display:flex;align-items:center;gap:6px;font-family:var(--font-display);font-size:13.5px;}
+.ns-btn:hover{background:var(--primary-dark);}
+.nav-right{display:flex;align-items:center;gap:8px;margin-left:auto;}
+.nav-link{padding:7px 12px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text-mid);transition:background .18s,color .18s;white-space:nowrap;}
+.nav-link:hover{background:var(--primary-light);color:var(--primary);}
+.nav-register{background:var(--accent);color:#fff !important;font-weight:700 !important;padding:8px 16px;border-radius:8px;}
+.nav-register:hover{background:#ea6c04 !important;}
+.menu-toggle{display:none;width:36px;height:36px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);align-items:center;justify-content:center;font-size:18px;}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:9px 22px;display:flex;align-items:center;gap:7px;font-size:12.5px;color:var(--text-light);flex-wrap:wrap;}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ── SEARCH RESULTS HEADER ── */
+.results-header{background:var(--white);border-bottom:1px solid var(--border);padding:16px 22px;}
+.rh-top{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:12px;}
+.rh-query{font-family:var(--font-display);font-size:20px;font-weight:800;color:var(--text-dark);}
+.rh-query span{color:var(--primary);}
+.rh-count{font-size:13px;color:var(--text-light);margin-top:2px;}
+.rh-count strong{color:var(--text-dark);}
+.rh-sort{display:flex;align-items:center;gap:10px;}
+.rh-sort-label{font-size:13px;color:var(--text-light);white-space:nowrap;}
+.sort-select{border:1.5px solid var(--border);border-radius:8px;padding:7px 12px;font-size:13px;background:var(--white);color:var(--text-mid);outline:none;cursor:pointer;font-family:var(--font-body);transition:border-color .2s;}
+.sort-select:focus{border-color:var(--primary);}
+/* View toggles */
+.view-toggles{display:flex;border:1.5px solid var(--border);border-radius:8px;overflow:hidden;}
+.view-btn{width:34px;height:34px;border:none;background:var(--white);display:flex;align-items:center;justify-content:center;font-size:15px;cursor:pointer;transition:background .18s,color .18s;color:var(--text-light);}
+.view-btn:hover{background:var(--primary-light);color:var(--primary);}
+.view-btn.active{background:var(--primary);color:#fff;}
+/* Related searches */
+.related-searches{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+.rs-label{font-size:12.5px;color:var(--text-light);font-weight:600;flex-shrink:0;}
+.rs-chip{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:4px 12px;border-radius:16px;font-size:12.5px;font-weight:500;cursor:pointer;transition:all .18s;}
+.rs-chip:hover{border-color:var(--primary);background:var(--primary-light);color:var(--primary);}
+
+/* ══════════════════════════════
+   MAIN LAYOUT
+══════════════════════════════ */
+.search-layout{max-width:1280px;margin:0 auto;padding:22px 22px 56px;display:grid;grid-template-columns:260px 1fr;gap:22px;align-items:start;}
+
+/* ══════════════════════════════
+   FILTER SIDEBAR
+══════════════════════════════ */
+.filter-sidebar{position:sticky;top:76px;}
+.filter-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:14px;}
+.fc-header{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);cursor:pointer;user-select:none;transition:background .18s;}
+.fc-header:hover{background:var(--bg);}
+.fc-title{font-family:var(--font-display);font-size:13.5px;font-weight:700;color:var(--text-dark);display:flex;align-items:center;gap:7px;}
+.fc-toggle{font-size:12px;color:var(--text-light);transition:transform .2s;}
+.fc-toggle.open{transform:rotate(180deg);}
+.fc-body{padding:14px 16px;}
+/* Filter options */
+.filter-option{display:flex;align-items:center;gap:9px;padding:7px 0;cursor:pointer;transition:background .15s;}
+.filter-option:hover .fo-label{color:var(--primary);}
+.filter-option input[type="checkbox"]{width:15px;height:15px;accent-color:var(--primary);cursor:pointer;flex-shrink:0;}
+.fo-label{font-size:13.5px;color:var(--text-mid);flex:1;line-height:1.4;}
+.fo-count{font-size:11px;color:var(--text-light);background:var(--bg);padding:1px 7px;border-radius:10px;}
+/* Price range */
+.price-inputs{display:flex;gap:8px;align-items:center;}
+.price-input{flex:1;border:1.5px solid var(--border);border-radius:7px;padding:8px 10px;font-size:13px;color:var(--text-dark);outline:none;transition:border-color .2s;font-family:var(--font-body);}
+.price-input:focus{border-color:var(--primary);}
+.price-sep{color:var(--text-light);font-size:13px;flex-shrink:0;}
+.btn-apply{margin-top:10px;width:100%;background:var(--primary);color:#fff;border:none;padding:9px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;}
+.btn-apply:hover{background:var(--primary-dark);}
+/* Rating filter */
+.rating-option{display:flex;align-items:center;gap:8px;padding:6px 0;cursor:pointer;}
+.rating-option input{accent-color:var(--primary);}
+.rat-stars{color:#fbbf24;font-size:13px;}
+.rat-label{font-size:13px;color:var(--text-mid);}
+/* Range slider */
+.range-slider{width:100%;accent-color:var(--primary);margin:8px 0;}
+/* Active filters strip */
+.active-filters{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:12px 0 0;}
+.af-label{font-size:12px;font-weight:700;color:var(--text-light);}
+.af-chip{display:flex;align-items:center;gap:5px;background:var(--primary-light);border:1px solid rgba(26,86,219,.2);color:var(--primary);padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;}
+.af-chip button{background:none;border:none;color:var(--primary);font-size:13px;line-height:1;cursor:pointer;padding:0;margin-left:2px;}
+.af-clear{font-size:12px;color:var(--danger);font-weight:700;cursor:pointer;margin-left:auto;}
+.af-clear:hover{text-decoration:underline;}
+/* Filter clear all */
+.filter-reset{width:100%;padding:9px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:13px;font-weight:600;margin-top:14px;transition:all .2s;}
+.filter-reset:hover{border-color:var(--danger);color:var(--danger);}
+
+/* ══════════════════════════════
+   RESULTS AREA
+══════════════════════════════ */
+.results-area{}
+
+/* Result tabs (Products / Shops / All) */
+.result-tabs{display:flex;gap:4px;margin-bottom:18px;background:var(--white);border:1px solid var(--border);border-radius:11px;padding:4px;}
+.rt-btn{flex:1;padding:10px 14px;border-radius:8px;border:none;background:transparent;font-size:13.5px;font-weight:600;color:var(--text-light);cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:6px;}
+.rt-btn:hover{background:var(--bg);color:var(--text-dark);}
+.rt-btn.active{background:var(--primary);color:#fff;box-shadow:0 2px 10px rgba(26,86,219,.25);}
+.rt-count{background:rgba(255,255,255,.22);padding:1px 7px;border-radius:8px;font-size:11px;font-weight:800;}
+.rt-btn:not(.active) .rt-count{background:var(--bg);color:var(--text-light);}
+
+/* Sponsored banner */
+.sponsored-banner{background:linear-gradient(135deg,var(--accent-light),#fff7ed);border:1.5px solid #fed7aa;border-radius:var(--radius);padding:14px 18px;margin-bottom:16px;display:flex;align-items:center;gap:14px;}
+.sb-badge{background:var(--accent);color:#fff;font-size:10px;font-weight:800;padding:2px 8px;border-radius:5px;flex-shrink:0;white-space:nowrap;}
+.sb-content{flex:1;}
+.sb-title{font-weight:700;font-size:14px;color:var(--text-dark);margin-bottom:2px;}
+.sb-sub{font-size:12.5px;color:var(--text-light);}
+.sb-btn{background:var(--accent);color:#fff;border:none;padding:8px 16px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;flex-shrink:0;}
+.sb-btn:hover{background:#ea6c04;}
+
+/* ── PRODUCTS GRID ── */
+.products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}
+.products-grid.list-view{grid-template-columns:1fr;}
+
+/* Product card — grid mode */
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:all .25s;position:relative;}
+.product-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-3px);border-color:transparent;}
+.pc-img{aspect-ratio:1;overflow:hidden;background:var(--bg);position:relative;display:flex;align-items:center;justify-content:center;}
+.pc-img .pc-emoji{font-size:56px;transition:transform .4s;}
+.product-card:hover .pc-img .pc-emoji{transform:scale(1.1);}
+.pc-badge{position:absolute;top:8px;left:8px;font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;color:#fff;}
+.pc-badge.sale{background:var(--danger);}
+.pc-badge.new{background:var(--primary);}
+.pc-badge.hot{background:var(--accent);}
+.pc-badge.bestseller{background:var(--success);}
+.pc-wish{position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.92);border:none;display:flex;align-items:center;justify-content:center;font-size:13px;opacity:0;transition:opacity .2s;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.08);}
+.product-card:hover .pc-wish{opacity:1;}
+.pc-body{padding:12px 13px;}
+.pc-shop-tag{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--text-light);margin-bottom:5px;}
+.pc-title{font-weight:600;font-size:13.5px;color:var(--text-dark);margin-bottom:7px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.pc-price-row{display:flex;align-items:center;gap:6px;margin-bottom:5px;flex-wrap:wrap;}
+.pc-price{font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--primary);}
+.pc-mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;}
+.pc-disc{font-size:11px;font-weight:700;color:var(--success);}
+.pc-meta-row{display:flex;align-items:center;gap:8px;margin-bottom:9px;flex-wrap:wrap;}
+.pc-stars{color:#fbbf24;font-size:11px;}
+.pc-rating{font-size:12px;font-weight:600;color:var(--text-dark);}
+.pc-reviews{font-size:11px;color:var(--text-light);}
+.pc-inq{font-size:11px;color:var(--text-light);}
+.btn-wa-card{width:100%;display:flex;align-items:center;justify-content:center;gap:6px;background:var(--whatsapp);color:#fff;border:none;padding:9px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;}
+.btn-wa-card:hover{background:var(--whatsapp-dark);}
+
+/* Product card — list mode */
+.products-grid.list-view .product-card{display:grid;grid-template-columns:140px 1fr auto;}
+.products-grid.list-view .pc-img{aspect-ratio:unset;height:140px;}
+.products-grid.list-view .pc-body{padding:16px;}
+.products-grid.list-view .btn-wa-card{width:auto;padding:9px 18px;}
+.products-grid.list-view .pc-list-actions{display:flex;flex-direction:column;justify-content:center;gap:8px;padding:14px;}
+
+/* ── SHOPS SECTION ── */
+.shops-section{display:none;}
+.shops-section.active{display:block;}
+.shops-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.shop-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;cursor:pointer;transition:all .25s;display:flex;gap:14px;align-items:flex-start;}
+.shop-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);border-color:transparent;}
+.sc-logo{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;border:1px solid var(--border);}
+.sc-body{flex:1;min-width:0;}
+.sc-name-row{display:flex;align-items:center;gap:7px;margin-bottom:3px;flex-wrap:wrap;}
+.sc-name{font-family:var(--font-display);font-size:15px;font-weight:800;color:var(--text-dark);}
+.sc-verified{background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;}
+.sc-open{background:var(--success-bg);color:var(--success);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;}
+.sc-meta{font-size:12px;color:var(--text-light);margin-bottom:7px;}
+.sc-stats{display:flex;gap:12px;margin-bottom:10px;flex-wrap:wrap;}
+.sc-stat{font-size:12px;color:var(--text-mid);display:flex;align-items:center;gap:3px;}
+.sc-stat strong{color:var(--text-dark);}
+.sc-actions{display:flex;gap:7px;}
+.btn-wa-shop{display:flex;align-items:center;gap:5px;background:var(--whatsapp);color:#fff;border:none;padding:7px 14px;border-radius:7px;font-size:12.5px;font-weight:700;transition:background .2s;}
+.btn-wa-shop:hover{background:var(--whatsapp-dark);}
+.btn-view-shop{display:flex;align-items:center;gap:5px;background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:7px 12px;border-radius:7px;font-size:12.5px;font-weight:600;transition:all .2s;}
+.btn-view-shop:hover{border-color:var(--primary);color:var(--primary);}
+
+/* No results */
+.no-results{text-align:center;padding:60px 20px;}
+.nr-icon{font-size:72px;margin-bottom:16px;}
+.nr-title{font-family:var(--font-display);font-size:22px;font-weight:800;color:var(--text-dark);margin-bottom:8px;}
+.nr-sub{font-size:14px;color:var(--text-light);max-width:380px;margin:0 auto 24px;line-height:1.75;}
+
+/* Pagination */
+.pagination{display:flex;align-items:center;justify-content:space-between;margin-top:28px;flex-wrap:wrap;gap:12px;}
+.pg-info{font-size:13px;color:var(--text-light);}
+.pg-btns{display:flex;gap:6px;align-items:center;}
+.pg-btn{width:36px;height:36px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:13.5px;font-weight:600;color:var(--text-mid);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .18s;}
+.pg-btn:hover{border-color:var(--primary);color:var(--primary);}
+.pg-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+.pg-btn.arrow{font-size:15px;}
+.pg-btn:disabled{opacity:.4;pointer-events:none;}
+
+/* Mobile filter drawer */
+.mobile-filter-btn{display:none;align-items:center;gap:7px;background:var(--white);border:1.5px solid var(--border);color:var(--text-mid);padding:9px 16px;border-radius:9px;font-size:13.5px;font-weight:600;transition:all .2s;position:relative;}
+.mobile-filter-btn:hover{border-color:var(--primary);color:var(--primary);}
+.mobile-filter-badge{position:absolute;top:-6px;right:-6px;width:18px;height:18px;background:var(--primary);color:#fff;border-radius:50%;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;}
+.filter-drawer{position:fixed;inset:0;z-index:300;display:none;}
+.filter-drawer.open{display:flex;}
+.fd-overlay{position:absolute;inset:0;background:rgba(0,0,0,.5);}
+.fd-panel{position:absolute;left:0;top:0;bottom:0;width:min(320px,90vw);background:var(--white);overflow-y:auto;padding:20px;animation:slideIn .28s ease;}
+@keyframes slideIn{from{transform:translateX(-100%);}to{transform:none;}}
+.fd-close{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:50%;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;}
+
+/* Recently searched */
+.recent-searches{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;margin-bottom:16px;box-shadow:var(--shadow);}
+.recent-title{font-size:12px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;}
+.recent-list{display:flex;flex-wrap:wrap;gap:7px;}
+.recent-item{display:flex;align-items:center;gap:5px;background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);padding:5px 11px;border-radius:16px;font-size:12.5px;cursor:pointer;transition:all .18s;}
+.recent-item:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
+
+/* Float WA */
+.float-wa{position:fixed;bottom:26px;right:26px;z-index:999;}
+.float-wa-btn{width:52px;height:52px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 18px rgba(37,211,102,.4);animation:fwaBounce 3s ease-in-out infinite;}
+@keyframes fwaBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.search-layout{grid-template-columns:240px 1fr;}}
+@media(max-width:860px){
+  .search-layout{grid-template-columns:1fr;}
+  .filter-sidebar{display:none;}
+  .mobile-filter-btn{display:flex;}
+  .nav-right .nav-link{display:none;}
+  .shops-grid{grid-template-columns:1fr;}
+}
+@media(max-width:640px){
+  .products-grid{grid-template-columns:1fr 1fr;}
+  .search-layout{padding:14px 14px 48px;}
+  .results-header{padding:12px 14px;}
+  .navbar{padding:0 14px;}
+  .products-grid.list-view{grid-template-columns:1fr;}
+  .products-grid.list-view .product-card{grid-template-columns:100px 1fr;}
+  .products-grid.list-view .pc-list-actions{display:none;}
+  .products-grid.list-view .pc-img{height:100px;}
+}
+@media(max-width:380px){.products-grid{grid-template-columns:1fr;}}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
+.product-card{animation:fadeUp .3s ease both;}
+.product-card:nth-child(1){animation-delay:.04s;}
+.product-card:nth-child(2){animation-delay:.08s;}
+.product-card:nth-child(3){animation-delay:.12s;}
+.product-card:nth-child(4){animation-delay:.16s;}
+.product-card:nth-child(5){animation-delay:.20s;}
+.product-card:nth-child(6){animation-delay:.24s;}
+.product-card:nth-child(7){animation-delay:.28s;}
+.product-card:nth-child(8){animation-delay:.32s;}
+.product-card:nth-child(9){animation-delay:.36s;}
+.product-card:nth-child(10){animation-delay:.40s;}
+.product-card:nth-child(11){animation-delay:.44s;}
+.product-card:nth-child(12){animation-delay:.48s;}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div style="display:flex;align-items:center;gap:14px;">
+    <span>📍 Indore, MP</span>
+    <span class="tb-pill">🔥 Up to 60% Off Today</span>
+  </div>
+  <div style="display:flex;gap:16px;">
+    <a href="local-bazaar-hub.html">Home</a>
+    <a href="login-register.html">Login</a>
+    <a href="shopkeeper-registration.html">List Your Shop</a>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <button class="menu-toggle" id="menuToggle" onclick="toggleMobileFilter()">☰</button>
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </a>
+  <div class="navbar-search">
+    <select class="ns-cat" id="searchCat">
+      <option value="all">All Categories</option>
+      <option value="men" selected>Men Fashion</option>
+      <option value="women">Women Fashion</option>
+      <option value="electronics">Electronics</option>
+      <option value="kids">Kids Wear</option>
+      <option value="jewellery">Jewellery</option>
+      <option value="footwear">Footwear</option>
+    </select>
+    <input type="text" class="ns-input" id="searchInput" value="kurta" placeholder="Search products, shops, brands..." onkeydown="if(event.key==='Enter') doSearch()">
+    <button class="ns-clear" onclick="clearSearch()" title="Clear">✕</button>
+    <button class="ns-btn" onclick="doSearch()">🔍 Search</button>
+  </div>
+  <div class="nav-right">
+    <a href="shop-directory.html" class="nav-link">Shops</a>
+    <a href="offers.html" class="nav-link">Offers 🔥</a>
+    <a href="login-register.html" class="nav-link">Login</a>
+    <a href="shopkeeper-registration.html" class="nav-link nav-register">+ List Shop</a>
+  </div>
+</nav>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html">🏠 Home</a>
+  <span class="sep">›</span>
+  <a href="shop-directory.html">Search</a>
+  <span class="sep">›</span>
+  <span class="current">Results for "kurta"</span>
+</div>
+
+<!-- SEARCH RESULTS HEADER -->
+<div class="results-header">
+  <div class="rh-top">
+    <div>
+      <div class="rh-query">Search results for <span>"kurta"</span></div>
+      <div class="rh-count"><strong>148 products</strong> and <strong>24 shops</strong> found in <strong>Indore</strong></div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <button class="mobile-filter-btn" onclick="toggleMobileFilter()">
+        🎛️ Filters
+        <div class="mobile-filter-badge">3</div>
+      </button>
+      <div class="rh-sort">
+        <span class="rh-sort-label">Sort by:</span>
+        <select class="sort-select" id="sortSelect" onchange="sortResults(this.value)">
+          <option value="relevance">Most Relevant</option>
+          <option value="inquiries">Most Inquiries</option>
+          <option value="rating">Highest Rated</option>
+          <option value="price_asc">Price: Low to High</option>
+          <option value="price_desc">Price: High to Low</option>
+          <option value="newest">Newest First</option>
+        </select>
+      </div>
+      <div class="view-toggles">
+        <button class="view-btn active" id="gridViewBtn" onclick="setView('grid')" title="Grid View">⊞</button>
+        <button class="view-btn" id="listViewBtn" onclick="setView('list')" title="List View">☰</button>
+      </div>
+    </div>
+  </div>
+  <!-- Related searches -->
+  <div class="related-searches">
+    <span class="rs-label">Related:</span>
+    <span class="rs-chip" onclick="setSearch('cotton kurta')">cotton kurta</span>
+    <span class="rs-chip" onclick="setSearch('kurta set')">kurta set</span>
+    <span class="rs-chip" onclick="setSearch('wedding kurta')">wedding kurta</span>
+    <span class="rs-chip" onclick="setSearch('pathani suit')">pathani suit</span>
+    <span class="rs-chip" onclick="setSearch('ethnic wear')">ethnic wear</span>
+    <span class="rs-chip" onclick="setSearch('sherwani')">sherwani</span>
+    <span class="rs-chip" onclick="setSearch('kurta pajama')">kurta pajama</span>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="search-layout">
+
+  <!-- ══ FILTER SIDEBAR ══ -->
+  <div class="filter-sidebar" id="filterSidebar">
+
+    <!-- Active filters -->
+    <div class="filter-card">
+      <div class="fc-header" style="cursor:default;">
+        <div class="fc-title">🎛️ Active Filters</div>
+        <span class="af-clear" onclick="clearAllFilters()">Clear All</span>
+      </div>
+      <div class="fc-body" style="padding-top:10px;">
+        <div class="active-filters" id="activeFilters">
+          <span class="af-chip">Men Fashion <button onclick="removeFilter(this)">✕</button></span>
+          <span class="af-chip">Under ₹1,000 <button onclick="removeFilter(this)">✕</button></span>
+          <span class="af-chip">4★ & Above <button onclick="removeFilter(this)">✕</button></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Category -->
+    <div class="filter-card" id="fc-category">
+      <div class="fc-header" onclick="toggleFilter('category')">
+        <div class="fc-title">🗂️ Category</div>
+        <span class="fc-toggle open" id="ft-category">▼</span>
+      </div>
+      <div class="fc-body" id="fb-category">
+        <div class="filter-option"><input type="checkbox" checked onchange="updateFilters()"><span class="fo-label">Men Fashion</span><span class="fo-count">86</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Kurta Sets</span><span class="fo-count">42</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Ethnic Wear</span><span class="fo-count">28</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Sherwani</span><span class="fo-count">18</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Women Fashion</span><span class="fo-count">12</span></div>
+      </div>
+    </div>
+
+    <!-- Price Range -->
+    <div class="filter-card" id="fc-price">
+      <div class="fc-header" onclick="toggleFilter('price')">
+        <div class="fc-title">💰 Price Range</div>
+        <span class="fc-toggle open" id="ft-price">▼</span>
+      </div>
+      <div class="fc-body" id="fb-price">
+        <div class="filter-option"><input type="checkbox" checked onchange="updateFilters()"><span class="fo-label">Under ₹500</span><span class="fo-count">34</span></div>
+        <div class="filter-option"><input type="checkbox" checked onchange="updateFilters()"><span class="fo-label">₹500 – ₹1,000</span><span class="fo-count">52</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">₹1,000 – ₹2,500</span><span class="fo-count">38</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">₹2,500 – ₹5,000</span><span class="fo-count">18</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Above ₹5,000</span><span class="fo-count">6</span></div>
+        <div style="margin-top:12px;font-size:12.5px;font-weight:600;color:var(--text-mid);margin-bottom:8px;">Custom Range:</div>
+        <div class="price-inputs">
+          <input type="number" class="price-input" placeholder="Min ₹" id="priceMin">
+          <span class="price-sep">–</span>
+          <input type="number" class="price-input" placeholder="Max ₹" id="priceMax">
+        </div>
+        <button class="btn-apply" onclick="applyPriceFilter()">Apply Price Filter</button>
+      </div>
+    </div>
+
+    <!-- Rating -->
+    <div class="filter-card" id="fc-rating">
+      <div class="fc-header" onclick="toggleFilter('rating')">
+        <div class="fc-title">⭐ Customer Rating</div>
+        <span class="fc-toggle open" id="ft-rating">▼</span>
+      </div>
+      <div class="fc-body" id="fb-rating">
+        <div class="rating-option"><input type="radio" name="rating" checked onchange="updateFilters()"><span class="rat-stars">★★★★★</span><span class="rat-label">4.5 & above</span></div>
+        <div class="rating-option"><input type="radio" name="rating" onchange="updateFilters()"><span class="rat-stars">★★★★☆</span><span class="rat-label">4.0 & above</span></div>
+        <div class="rating-option"><input type="radio" name="rating" onchange="updateFilters()"><span class="rat-stars">★★★☆☆</span><span class="rat-label">3.0 & above</span></div>
+        <div class="rating-option"><input type="radio" name="rating" onchange="updateFilters()"><span class="rat-stars">★☆☆☆☆</span><span class="rat-label">Any Rating</span></div>
+      </div>
+    </div>
+
+    <!-- City / Area -->
+    <div class="filter-card" id="fc-location">
+      <div class="fc-header" onclick="toggleFilter('location')">
+        <div class="fc-title">📍 Shop Location</div>
+        <span class="fc-toggle open" id="ft-location">▼</span>
+      </div>
+      <div class="fc-body" id="fb-location">
+        <div class="filter-option"><input type="checkbox" checked onchange="updateFilters()"><span class="fo-label">Gandhi Nagar</span><span class="fo-count">22</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Vijay Nagar</span><span class="fo-count">18</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">MG Road</span><span class="fo-count">14</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Sarafa Bazaar</span><span class="fo-count">10</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">South Tukoganj</span><span class="fo-count">8</span></div>
+      </div>
+    </div>
+
+    <!-- Availability -->
+    <div class="filter-card" id="fc-availability">
+      <div class="fc-header" onclick="toggleFilter('availability')">
+        <div class="fc-title">✅ Availability</div>
+        <span class="fc-toggle open" id="ft-availability">▼</span>
+      </div>
+      <div class="fc-body" id="fb-availability">
+        <div class="filter-option"><input type="checkbox" checked onchange="updateFilters()"><span class="fo-label">In Stock Only</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Verified Shops Only</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Open Right Now</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Home Delivery Available</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">Custom Stitching</span></div>
+      </div>
+    </div>
+
+    <!-- Discount -->
+    <div class="filter-card" id="fc-discount">
+      <div class="fc-header" onclick="toggleFilter('discount')">
+        <div class="fc-title">🔥 Discount</div>
+        <span class="fc-toggle open" id="ft-discount">▼</span>
+      </div>
+      <div class="fc-body" id="fb-discount">
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">10% or more</span><span class="fo-count">128</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">20% or more</span><span class="fo-count">96</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">30% or more</span><span class="fo-count">72</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">40% or more</span><span class="fo-count">48</span></div>
+        <div class="filter-option"><input type="checkbox" onchange="updateFilters()"><span class="fo-label">50% or more</span><span class="fo-count">22</span></div>
+      </div>
+    </div>
+
+    <button class="filter-reset" onclick="clearAllFilters()">🔄 Reset All Filters</button>
+  </div>
+
+  <!-- ══ RESULTS AREA ══ -->
+  <div class="results-area">
+
+    <!-- Recently searched -->
+    <div class="recent-searches">
+      <div class="recent-title">🕐 Your Recent Searches</div>
+      <div class="recent-list">
+        <span class="recent-item" onclick="setSearch('cotton kurta set')">🔍 cotton kurta set</span>
+        <span class="recent-item" onclick="setSearch('blue kurta')">🔍 blue kurta</span>
+        <span class="recent-item" onclick="setSearch('saree')">🔍 saree</span>
+        <span class="recent-item" onclick="setSearch('bluetooth earphones')">🔍 bluetooth earphones</span>
+        <span class="recent-item" onclick="setSearch('party dress')">🔍 party dress</span>
+      </div>
+    </div>
+
+    <!-- Result tabs -->
+    <div class="result-tabs">
+      <button class="rt-btn active" id="tabAll" onclick="setTab('all',this)">
+        🔍 All Results <span class="rt-count">172</span>
+      </button>
+      <button class="rt-btn" id="tabProducts" onclick="setTab('products',this)">
+        📦 Products <span class="rt-count">148</span>
+      </button>
+      <button class="rt-btn" id="tabShops" onclick="setTab('shops',this)">
+        🏪 Shops <span class="rt-count">24</span>
+      </button>
+    </div>
+
+    <!-- Sponsored banner -->
+    <div class="sponsored-banner">
+      <span class="sb-badge">⭐ Sponsored</span>
+      <div class="sb-content">
+        <div class="sb-title">Sharma Cloth House — Premium Kurta Collection 2024</div>
+        <div class="sb-sub">📍 Gandhi Nagar, Indore · 240 products · ★ 4.8 · Open Now</div>
+      </div>
+      <button class="sb-btn" onclick="window.location='shop-profile.html'">Visit Shop →</button>
+    </div>
+
+    <!-- Products grid -->
+    <div id="productsSection">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:14px;font-weight:600;color:var(--text-mid);">
+          Showing <strong style="color:var(--text-dark);">1–12</strong> of <strong style="color:var(--text-dark);">148</strong> products
+        </div>
+        <div style="font-size:12.5px;color:var(--text-light);">Page 1 of 13</div>
+      </div>
+      <div class="products-grid" id="productsGrid"></div>
+    </div>
+
+    <!-- Shops section -->
+    <div class="shops-section" id="shopsSection">
+      <div style="margin-bottom:14px;font-size:14px;font-weight:600;color:var(--text-mid);">
+        Found <strong style="color:var(--text-dark);">24 shops</strong> matching "kurta" in Indore
+      </div>
+      <div class="shops-grid" id="shopsGrid"></div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="paginationWrap">
+      <div class="pg-info">Showing 1–12 of 148 products</div>
+      <div class="pg-btns">
+        <button class="pg-btn arrow" disabled>←</button>
+        <button class="pg-btn active">1</button>
+        <button class="pg-btn" onclick="goPage(2)">2</button>
+        <button class="pg-btn" onclick="goPage(3)">3</button>
+        <button class="pg-btn" onclick="goPage(4)">4</button>
+        <span style="color:var(--text-light);font-size:14px;padding:0 4px;">…</span>
+        <button class="pg-btn" onclick="goPage(13)">13</button>
+        <button class="pg-btn arrow" onclick="goPage(2)">→</button>
+      </div>
+    </div>
+
+  </div><!-- /results-area -->
+</div><!-- /search-layout -->
+
+<!-- MOBILE FILTER DRAWER -->
+<div class="filter-drawer" id="filterDrawer">
+  <div class="fd-overlay" onclick="closeMobileFilter()"></div>
+  <div class="fd-panel">
+    <button class="fd-close" onclick="closeMobileFilter()">✕</button>
+    <h3 style="font-family:var(--font-display);font-size:17px;font-weight:800;margin-bottom:16px;padding-top:4px;">🎛️ Filter Results</h3>
+    <!-- Category -->
+    <div style="margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:10px;">🗂️ Category</div>
+      <div style="display:flex;flex-wrap:wrap;gap:7px;">
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:600;cursor:pointer;">Men Fashion</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;font-weight:500;cursor:pointer;" onclick="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)';this.style.color='var(--primary)'">Kurta Sets</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;font-weight:500;cursor:pointer;" onclick="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)';this.style.color='var(--primary)'">Ethnic Wear</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;font-weight:500;cursor:pointer;" onclick="this.style.borderColor='var(--primary)';this.style.background='var(--primary-light)';this.style.color='var(--primary)'">Sherwani</span>
+      </div>
+    </div>
+    <!-- Price -->
+    <div style="margin-bottom:16px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:10px;">💰 Price Range</div>
+      <div style="display:flex;gap:8px;">
+        <input type="number" class="price-input" placeholder="Min ₹" style="flex:1;">
+        <span style="color:var(--text-light);align-self:center;">–</span>
+        <input type="number" class="price-input" placeholder="Max ₹" style="flex:1;">
+      </div>
+    </div>
+    <!-- Rating -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:13px;font-weight:700;color:var(--text-mid);margin-bottom:10px;">⭐ Minimum Rating</div>
+      <div style="display:flex;gap:7px;">
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);font-size:12.5px;font-weight:700;cursor:pointer;">4★+</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;cursor:pointer;">3★+</span>
+        <span style="padding:6px 13px;border-radius:16px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:12.5px;cursor:pointer;">Any</span>
+      </div>
+    </div>
+    <div style="display:flex;gap:10px;">
+      <button style="flex:1;padding:11px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="closeMobileFilter()">Reset</button>
+      <button style="flex:1;padding:11px;border-radius:9px;background:var(--primary);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;" onclick="closeMobileFilter()">Apply Filters</button>
+    </div>
+  </div>
+</div>
+
+<!-- FLOATING WA -->
+<div class="float-wa">
+  <div class="float-wa-btn" onclick="window.open('https://wa.me/919876543210?text=Hello! I searched for kurta on Local Bazaar Hub. Can you help me find the right shop?','_blank')">💬</div>
+</div>
+
+<script>
+// ── PRODUCTS DATA ──
+const allProducts = [
+  {name:"Men's Premium Cotton Kurta Set",price:599,mrp:999,disc:"40%",emoji:"👔",shop:"Sharma Cloth House",rating:4.8,reviews:124,inq:286,badge:"bestseller",category:"Kurta Sets"},
+  {name:"Banarasi Silk Kurta – Festive Edition",price:1299,mrp:2199,disc:"41%",emoji:"🥻",shop:"Meera Saree Center",rating:4.7,reviews:88,inq:142,badge:"hot",category:"Ethnic Wear"},
+  {name:"Men's Linen Kurta – Summer Collection",price:449,mrp:699,disc:"36%",emoji:"👕",shop:"Sharma Cloth House",rating:4.6,reviews:72,inq:98,badge:"new",category:"Kurta Sets"},
+  {name:"Embroidered Nehru Collar Kurta",price:899,mrp:1499,disc:"40%",emoji:"🎽",shop:"Royal Ethnic Wear",rating:4.5,reviews:56,inq:76,badge:"",category:"Ethnic Wear"},
+  {name:"Men's Cotton Kurta Pajama Set – White",price:549,mrp:899,disc:"39%",emoji:"🤍",shop:"Gandhi Nagar Cloths",rating:4.4,reviews:48,inq:64,badge:"sale",category:"Kurta Sets"},
+  {name:"Wedding Sherwani Kurta – Heavy Work",price:3499,mrp:5500,disc:"36%",emoji:"🎩",shop:"Sharma Cloth House",rating:4.9,reviews:96,inq:188,badge:"bestseller",category:"Sherwani"},
+  {name:"Men's Pathani Kurta Suit – Eid Special",price:799,mrp:1299,disc:"38%",emoji:"🕌",shop:"Fashion Hub Indore",rating:4.5,reviews:42,inq:58,badge:"hot",category:"Ethnic Wear"},
+  {name:"Casual Linen Kurta – Checks Pattern",price:399,mrp:649,disc:"38%",emoji:"🟫",shop:"Style Street",rating:4.3,reviews:34,inq:44,badge:"new",category:"Kurta Sets"},
+  {name:"Printed Cotton Kurta – Floral Design",price:349,mrp:599,disc:"42%",emoji:"🌸",shop:"Vijay Nagar Fashions",rating:4.2,reviews:28,inq:36,badge:"sale",category:"Kurta Sets"},
+  {name:"Heavy Embroidered Festival Kurta",price:1499,mrp:2499,disc:"40%",emoji:"✨",shop:"Royal Ethnic Wear",rating:4.6,reviews:62,inq:84,badge:"",category:"Ethnic Wear"},
+  {name:"Men's Dhoti Kurta Traditional Set",price:649,mrp:1099,disc:"41%",emoji:"🩱",shop:"Gandhi Nagar Cloths",rating:4.4,reviews:38,inq:52,badge:"",category:"Ethnic Wear"},
+  {name:"Slim Fit Bandhgala Kurta Jacket",price:1199,mrp:1999,disc:"40%",emoji:"🧥",shop:"Sharma Cloth House",rating:4.7,reviews:54,inq:72,badge:"hot",category:"Sherwani"},
+];
+
+const allShops = [
+  {name:"Sharma Cloth House",cat:"Men Fashion",rating:4.8,reviews:124,products:240,inq:1240,emoji:"👔",color:"#1a56db",area:"Gandhi Nagar",open:true,verified:true,desc:"Premium Men's Ethnic & Western Wear. Wholesale & Retail since 1998."},
+  {name:"Royal Ethnic Wear",cat:"Men Fashion",rating:4.6,reviews:88,products:180,inq:860,emoji:"👗",color:"#7c3aed",area:"MG Road",open:true,verified:true,desc:"Exclusive ethnic collection for men. Kurtas, Sherwanis, Pathani Suits."},
+  {name:"Gandhi Nagar Cloths",cat:"Men & Women Fashion",rating:4.5,reviews:72,products:320,inq:640,emoji:"🛍️",color:"#f97316",area:"Gandhi Nagar",open:false,verified:true,desc:"Complete family fashion store. Best prices in Gandhi Nagar market."},
+  {name:"Fashion Hub Indore",cat:"Men Fashion",rating:4.4,reviews:56,products:150,inq:520,emoji:"🏪",color:"#059669",area:"Vijay Nagar",open:true,verified:false,desc:"Trendy kurta and ethnic wear for all occasions. Fast WhatsApp delivery."},
+];
+
+const badgeMap = {
+  bestseller:{cls:'bestseller',text:'⭐ Bestseller'},
+  hot:{cls:'hot',text:'🔥 Hot'},
+  new:{cls:'new',text:'🆕 New'},
+  sale:{cls:'sale',text:'💥 Sale'},
+  '':null,
+};
+
+// ── BUILD PRODUCTS ──
+function buildProducts(data){
+  const grid = document.getElementById('productsGrid');
+  const isListView = grid.classList.contains('list-view');
+  grid.innerHTML = data.map((p,i) => {
+    const b = badgeMap[p.badge];
+    return `
+    <div class="product-card" onclick="window.location='product-detail.html'">
+      <div class="pc-img">
+        <div class="pc-emoji">${p.emoji}</div>
+        ${b ? `<span class="pc-badge ${b.cls}">${b.text}</span>` : ''}
+        <button class="pc-wish" onclick="event.stopPropagation();this.textContent=this.textContent==='🤍'?'❤️':'🤍'" title="Save">🤍</button>
+      </div>
+      <div class="pc-body">
+        <div class="pc-shop-tag">🏪 ${p.shop}</div>
+        <div class="pc-title">${p.name}</div>
+        <div class="pc-price-row">
+          <span class="pc-price">₹${p.price.toLocaleString('en-IN')}</span>
+          <span class="pc-mrp">₹${p.mrp.toLocaleString('en-IN')}</span>
+          <span class="pc-disc">${p.disc} Off</span>
+        </div>
+        <div class="pc-meta-row">
+          <span class="pc-stars">★★★★★</span>
+          <span class="pc-rating">${p.rating}</span>
+          <span class="pc-reviews">(${p.reviews})</span>
+          <span class="pc-inq">· 💬 ${p.inq}</span>
+        </div>
+        <button class="btn-wa-card" onclick="event.stopPropagation();openWAProduct('${p.name}','${p.shop}')">
+          💬 Chat on WhatsApp
+        </button>
+      </div>
+      ${isListView ? `<div class="pc-list-actions"><button class="btn-wa-card" style="width:auto;padding:9px 16px;" onclick="event.stopPropagation();openWAProduct('${p.name}','${p.shop}')">💬 WhatsApp</button><button style="padding:9px 12px;border-radius:8px;border:1.5px solid var(--border);background:var(--bg);font-size:13px;cursor:pointer;transition:all .2s;" onclick="event.stopPropagation();window.location='product-detail.html'">👁️ View</button></div>` : ''}
+    </div>`;
+  }).join('');
+}
+
+// ── BUILD SHOPS ──
+function buildShops(){
+  const grid = document.getElementById('shopsGrid');
+  grid.innerHTML = allShops.map(s => `
+    <div class="shop-card" onclick="window.location='shop-profile.html'">
+      <div class="sc-logo" style="background:linear-gradient(135deg,${s.color},${s.color}aa);">${s.emoji}</div>
+      <div class="sc-body">
+        <div class="sc-name-row">
+          <span class="sc-name">${s.name}</span>
+          ${s.verified ? '<span class="sc-verified">✔ Verified</span>' : ''}
+          ${s.open ? '<span class="sc-open">● Open</span>' : '<span style="background:var(--danger-bg);color:var(--danger);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;">Closed</span>'}
+        </div>
+        <div class="sc-meta">📍 ${s.area}, Indore · ${s.cat}</div>
+        <div class="sc-stats">
+          <span class="sc-stat">⭐ <strong>${s.rating}</strong> (${s.reviews})</span>
+          <span class="sc-stat">📦 <strong>${s.products}</strong> products</span>
+          <span class="sc-stat">💬 <strong>${s.inq.toLocaleString('en-IN')}+</strong> inquiries</span>
+        </div>
+        <div style="font-size:12.5px;color:var(--text-light);margin-bottom:10px;line-height:1.5;">${s.desc}</div>
+        <div class="sc-actions">
+          <button class="btn-wa-shop" onclick="event.stopPropagation();openWAShop('${s.name}')">💬 WhatsApp</button>
+          <button class="btn-view-shop" onclick="event.stopPropagation();window.location='shop-profile.html'">View Shop →</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── TABS ──
+let currentTab = 'all';
+function setTab(tab, btn){
+  currentTab = tab;
+  document.querySelectorAll('.rt-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const ps = document.getElementById('productsSection');
+  const ss = document.getElementById('shopsSection');
+  const pg = document.getElementById('paginationWrap');
+  if(tab === 'shops'){
+    ps.style.display = 'none';
+    ss.classList.add('active');
+    pg.style.display = 'none';
+  } else if(tab === 'products'){
+    ps.style.display = 'block';
+    ss.classList.remove('active');
+    pg.style.display = '';
+  } else {
+    ps.style.display = 'block';
+    ss.classList.remove('active');
+    pg.style.display = '';
+  }
+}
+
+// ── VIEW TOGGLE ──
+function setView(view){
+  const grid = document.getElementById('productsGrid');
+  document.getElementById('gridViewBtn').classList.toggle('active', view === 'grid');
+  document.getElementById('listViewBtn').classList.toggle('active', view === 'list');
+  if(view === 'list'){
+    grid.classList.add('list-view');
+  } else {
+    grid.classList.remove('list-view');
+  }
+  buildProducts(allProducts);
+}
+
+// ── SORT ──
+function sortResults(val){
+  const sorted = [...allProducts];
+  if(val === 'price_asc') sorted.sort((a,b) => a.price - b.price);
+  else if(val === 'price_desc') sorted.sort((a,b) => b.price - a.price);
+  else if(val === 'rating') sorted.sort((a,b) => b.rating - a.rating);
+  else if(val === 'inquiries') sorted.sort((a,b) => b.inq - a.inq);
+  else if(val === 'newest') sorted.reverse();
+  buildProducts(sorted);
+}
+
+// ── FILTERS ──
+function toggleFilter(key){
+  const body = document.getElementById('fb-'+key);
+  const icon = document.getElementById('ft-'+key);
+  const isOpen = body.style.display !== 'none';
+  body.style.display = isOpen ? 'none' : 'block';
+  icon.classList.toggle('open', !isOpen);
+}
+function updateFilters(){
+  // Visual feedback only for demo
+  const chips = document.querySelectorAll('.af-chip');
+}
+function removeFilter(btn){
+  btn.closest('.af-chip').remove();
+}
+function clearAllFilters(){
+  document.getElementById('activeFilters').innerHTML = '<span style="font-size:13px;color:var(--text-light);">No filters applied</span>';
+  document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+  document.querySelectorAll('.filter-sidebar input[type="radio"]').forEach(rb => rb.checked = false);
+  buildProducts(allProducts);
+}
+function applyPriceFilter(){
+  const min = parseInt(document.getElementById('priceMin').value) || 0;
+  const max = parseInt(document.getElementById('priceMax').value) || Infinity;
+  const filtered = allProducts.filter(p => p.price >= min && p.price <= max);
+  buildProducts(filtered.length ? filtered : allProducts);
+  if(min || max < Infinity){
+    const af = document.getElementById('activeFilters');
+    const existing = [...af.querySelectorAll('.af-chip')].find(c => c.textContent.includes('₹'));
+    if(existing) existing.remove();
+    const chip = document.createElement('span');
+    chip.className = 'af-chip';
+    chip.innerHTML = `₹${min} – ₹${max === Infinity ? '∞' : max} <button onclick="removeFilter(this);buildProducts(allProducts)">✕</button>`;
+    af.appendChild(chip);
+  }
+}
+
+// ── MOBILE FILTER ──
+function toggleMobileFilter(){
+  document.getElementById('filterDrawer').classList.toggle('open');
+  document.body.style.overflow = document.getElementById('filterDrawer').classList.contains('open') ? 'hidden' : '';
+}
+function closeMobileFilter(){
+  document.getElementById('filterDrawer').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── SEARCH ──
+function doSearch(){
+  const q = document.getElementById('searchInput').value.trim();
+  if(!q) return;
+  // Update query display
+  document.querySelector('.rh-query').innerHTML = `Search results for <span>"${q}"</span>`;
+  document.querySelector('.breadcrumb .current').textContent = `Results for "${q}"`;
+  document.title = `Search Results for "${q}" – Local Bazaar Hub`;
+  // Filter products
+  const filtered = allProducts.filter(p =>
+    p.name.toLowerCase().includes(q.toLowerCase()) ||
+    p.shop.toLowerCase().includes(q.toLowerCase()) ||
+    p.category.toLowerCase().includes(q.toLowerCase())
+  );
+  buildProducts(filtered.length ? filtered : allProducts);
+}
+function clearSearch(){
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchInput').focus();
+}
+function setSearch(q){
+  document.getElementById('searchInput').value = q;
+  doSearch();
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// ── PAGINATION ──
+function goPage(n){
+  document.querySelectorAll('.pg-btn:not(.arrow)').forEach((b,i) => b.classList.toggle('active', parseInt(b.textContent) === n));
+  window.scrollTo({top:document.querySelector('.results-header').offsetTop - 80, behavior:'smooth'});
+}
+
+// ── WA ──
+function openWAProduct(name, shop){
+  const msg = encodeURIComponent(`Hello ${shop}! I found your product on Local Bazaar Hub: *${name}*. Is it available?`);
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+function openWAShop(shop){
+  const msg = encodeURIComponent(`Hello ${shop}! I found your shop on Local Bazaar Hub. Please share your product catalogue.`);
+  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+}
+
+// ── INIT ──
+buildProducts(allProducts);
+buildShops();
+</script>
+</body>
+</html>

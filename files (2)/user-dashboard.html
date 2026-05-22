@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account – Local Bazaar Hub</title>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary:#1a56db; --primary-dark:#1042b0; --primary-light:#e8f0fe;
+  --accent:#f97316; --accent-light:#fff7ed;
+  --whatsapp:#25D366; --whatsapp-dark:#128C7E;
+  --text-dark:#0f172a; --text-mid:#334155; --text-light:#64748b;
+  --border:#e2e8f0; --bg:#f8fafc; --white:#ffffff;
+  --success:#16a34a; --success-bg:#dcfce7;
+  --danger:#dc2626; --danger-bg:#fee2e2;
+  --warning:#d97706; --warning-bg:#fef3c7;
+  --purple:#7c3aed; --purple-bg:#f3e8ff;
+  --radius:14px; --radius-sm:8px;
+  --font-display:'Sora',sans-serif; --font-body:'Noto Sans',sans-serif;
+  --shadow:0 1px 3px rgba(0,0,0,.06),0 4px 16px rgba(0,0,0,.04);
+  --shadow-hover:0 8px 32px rgba(26,86,219,.13);
+  --sidebar-w:260px; --header-h:66px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text-dark);overflow-x:hidden;min-height:100vh;}
+h1,h2,h3,h4{font-family:var(--font-display);}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:var(--font-body);}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+/* ── NAVBAR ── */
+.navbar{background:var(--white);border-bottom:2px solid var(--border);padding:0 24px;display:flex;align-items:center;gap:16px;height:var(--header-h);position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,.05);}
+.logo{display:flex;align-items:center;gap:10px;}
+.logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;}
+.logo-text{font-family:var(--font-display);font-weight:800;font-size:18px;}
+.logo-text span{color:var(--primary);}
+.logo-text small{color:var(--accent);font-size:10px;display:block;line-height:1;margin-top:-3px;}
+.nav-center{flex:1;display:flex;justify-content:center;}
+.nav-search{display:flex;background:var(--bg);border:2px solid var(--border);border-radius:9px;overflow:hidden;max-width:380px;width:100%;transition:border-color .2s;}
+.nav-search:focus-within{border-color:var(--primary);}
+.nav-search input{flex:1;border:none;outline:none;background:transparent;padding:8px 14px;font-size:13px;color:var(--text-dark);font-family:var(--font-body);}
+.nav-search input::placeholder{color:var(--text-light);}
+.nav-search button{background:var(--primary);border:none;color:#fff;padding:0 16px;font-size:14px;transition:background .2s;}
+.nav-search button:hover{background:var(--primary-dark);}
+.nav-right{display:flex;align-items:center;gap:8px;}
+.nav-link{padding:7px 12px;border-radius:7px;font-size:13px;font-weight:500;color:var(--text-mid);transition:background .2s,color .2s;}
+.nav-link:hover{background:var(--primary-light);color:var(--primary);}
+.nav-notif{position:relative;width:36px;height:36px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:all .18s;}
+.nav-notif:hover{border-color:var(--primary);background:var(--primary-light);}
+.notif-dot{position:absolute;top:6px;right:6px;width:7px;height:7px;background:var(--danger);border-radius:50%;border:1.5px solid var(--white);}
+.nav-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:800;color:#fff;cursor:pointer;border:2px solid var(--border);transition:border-color .2s;}
+.nav-avatar:hover{border-color:var(--primary);}
+.menu-toggle{display:none;width:36px;height:36px;border-radius:8px;background:var(--bg);border:1.5px solid var(--border);align-items:center;justify-content:center;font-size:18px;}
+
+/* ══════════════════════════════
+   LAYOUT
+══════════════════════════════ */
+.dashboard-layout{display:grid;grid-template-columns:var(--sidebar-w) 1fr;min-height:calc(100vh - var(--header-h));}
+
+/* ══════════════════════════════
+   SIDEBAR
+══════════════════════════════ */
+.sidebar{background:var(--white);border-right:1px solid var(--border);display:flex;flex-direction:column;position:sticky;top:var(--header-h);height:calc(100vh - var(--header-h));overflow-y:auto;}
+
+/* User profile block */
+.sidebar-profile{padding:24px 20px 18px;border-bottom:1px solid var(--border);text-align:center;}
+.profile-avatar-wrap{position:relative;display:inline-block;margin-bottom:12px;}
+.profile-avatar{width:72px;height:72px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:800;color:#fff;border:3px solid var(--white);box-shadow:0 4px 16px rgba(26,86,219,.22);}
+.avatar-edit{position:absolute;bottom:0;right:0;width:22px;height:22px;background:var(--primary);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;cursor:pointer;border:2px solid var(--white);}
+.profile-name{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--text-dark);margin-bottom:3px;}
+.profile-phone{font-size:12px;color:var(--text-light);margin-bottom:8px;}
+.profile-badges{display:flex;gap:5px;justify-content:center;flex-wrap:wrap;}
+.profile-badge{font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;}
+.badge-buyer{background:var(--primary-light);color:var(--primary);}
+.badge-verified{background:var(--success-bg);color:var(--success);}
+.badge-premium{background:var(--purple-bg);color:var(--purple);}
+.profile-completeness{margin-top:12px;}
+.pc-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:4px;}
+.pc-bar{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.pc-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--primary),var(--success));transition:width .6s ease;}
+
+/* Nav items */
+.sidebar-nav{flex:1;padding:14px 12px;}
+.nav-section-label{font-size:10px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.8px;padding:8px 8px 4px;}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:9px;font-size:13.5px;font-weight:500;color:var(--text-mid);cursor:pointer;transition:all .18s;position:relative;margin-bottom:1px;}
+.sidebar-item:hover{background:var(--bg);color:var(--text-dark);}
+.sidebar-item.active{background:var(--primary-light);color:var(--primary);font-weight:700;}
+.sidebar-item.active::before{content:'';position:absolute;left:0;top:4px;bottom:4px;width:3px;background:var(--primary);border-radius:0 3px 3px 0;}
+.si-icon{font-size:16px;width:22px;text-align:center;flex-shrink:0;}
+.si-badge{margin-left:auto;background:var(--danger);color:#fff;font-size:10px;font-weight:800;padding:1px 6px;border-radius:10px;}
+.si-badge.green{background:var(--success);}
+.si-badge.orange{background:var(--accent);}
+
+.sidebar-footer{padding:14px 12px;border-top:1px solid var(--border);}
+.btn-logout{width:100%;display:flex;align-items:center;justify-content:center;gap:7px;padding:10px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:13px;font-weight:600;transition:all .2s;}
+.btn-logout:hover{border-color:var(--danger);color:var(--danger);background:var(--danger-bg);}
+
+/* Sidebar overlay mobile */
+.sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:150;}
+
+/* ══════════════════════════════
+   MAIN CONTENT AREA
+══════════════════════════════ */
+.main-area{padding:28px;min-width:0;}
+.page-section{display:none;animation:fadeUp .25s ease;}
+.page-section.active{display:block;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:none;}}
+
+/* Page header */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+.section-title{font-size:22px;font-weight:800;color:var(--text-dark);}
+.section-sub{font-size:13px;color:var(--text-light);margin-top:2px;}
+
+/* Cards & grid */
+.card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;box-shadow:var(--shadow);}
+.card-title{font-family:var(--font-display);font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between;gap:8px;}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;}
+.grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
+
+/* Stat cards */
+.stat-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px;transition:all .2s;position:relative;overflow:hidden;}
+.stat-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);}
+.stat-card::after{content:'';position:absolute;top:0;right:0;width:80px;height:80px;border-radius:50%;opacity:.06;transform:translate(20px,-20px);}
+.stat-card.blue::after{background:var(--primary);}
+.stat-card.green::after{background:var(--success);}
+.stat-card.orange::after{background:var(--accent);}
+.stat-card.purple::after{background:var(--purple);}
+.stat-icon{width:38px;height:38px;border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:12px;}
+.stat-icon.blue{background:var(--primary-light);}
+.stat-icon.green{background:var(--success-bg);}
+.stat-icon.orange{background:var(--accent-light);}
+.stat-icon.purple{background:var(--purple-bg);}
+.stat-num{font-family:var(--font-display);font-size:28px;font-weight:800;color:var(--text-dark);line-height:1;margin-bottom:3px;}
+.stat-label{font-size:12px;color:var(--text-light);}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:9px;font-size:13.5px;font-weight:600;border:none;cursor:pointer;transition:all .2s;}
+.btn-primary{background:var(--primary);color:#fff;}
+.btn-primary:hover{background:var(--primary-dark);}
+.btn-ghost{background:var(--bg);border:1.5px solid var(--border);color:var(--text-mid);}
+.btn-ghost:hover{border-color:var(--primary);color:var(--primary);background:var(--primary-light);}
+.btn-danger{background:var(--danger);color:#fff;}
+.btn-danger:hover{filter:brightness(1.1);}
+.btn-success{background:var(--success);color:#fff;}
+.btn-sm{padding:6px 12px;font-size:12.5px;}
+.btn-wa{background:var(--whatsapp);color:#fff;}
+.btn-wa:hover{background:var(--whatsapp-dark);}
+
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;}
+.badge-success{background:var(--success-bg);color:var(--success);}
+.badge-danger{background:var(--danger-bg);color:var(--danger);}
+.badge-warning{background:var(--warning-bg);color:var(--warning);}
+.badge-primary{background:var(--primary-light);color:var(--primary);}
+.badge-purple{background:var(--purple-bg);color:var(--purple);}
+.badge-gray{background:var(--bg);color:var(--text-light);border:1px solid var(--border);}
+
+/* Form fields */
+.field-group{margin-bottom:16px;}
+.field-label{display:block;font-size:13px;font-weight:600;color:var(--text-mid);margin-bottom:6px;}
+.field-label .req{color:var(--danger);}
+.field-input{width:100%;border:2px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;font-size:14px;color:var(--text-dark);outline:none;transition:border-color .2s,box-shadow .2s;font-family:var(--font-body);background:var(--white);}
+.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.08);}
+.field-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* Table */
+.table-wrap{overflow-x:auto;}
+table{width:100%;border-collapse:collapse;font-size:13.5px;}
+th{padding:10px 14px;text-align:left;font-size:11.5px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid var(--border);background:var(--bg);}
+td{padding:13px 14px;border-bottom:1px solid var(--border);color:var(--text-mid);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+tr:hover td{background:var(--bg);}
+.td-bold{font-weight:600;color:var(--text-dark);}
+
+/* Toggle switch */
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-info strong{display:block;font-size:13.5px;color:var(--text-dark);margin-bottom:1px;}
+.toggle-info small{font-size:12px;color:var(--text-light);}
+.toggle{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle input{display:none;}
+.toggle-slider{position:absolute;inset:0;background:var(--border);border-radius:11px;transition:background .2s;cursor:pointer;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.15);}
+.toggle input:checked+.toggle-slider{background:var(--success);}
+.toggle input:checked+.toggle-slider::before{transform:translateX(18px);}
+
+/* Progress */
+.prog-wrap{margin-bottom:10px;}
+.prog-label{display:flex;justify-content:space-between;font-size:12px;color:var(--text-light);margin-bottom:5px;}
+.prog-label .pval{font-weight:600;color:var(--text-mid);}
+.prog-bg{height:7px;background:var(--border);border-radius:4px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:4px;transition:width .7s ease;}
+
+/* Shop card (for wishlist) */
+.wishlist-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:all .22s;}
+.wishlist-card:hover{box-shadow:var(--shadow-hover);transform:translateY(-2px);border-color:transparent;}
+.wc-img{aspect-ratio:1;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:40px;position:relative;}
+.wc-badge{position:absolute;top:8px;left:8px;background:var(--danger);color:#fff;font-size:10px;font-weight:800;padding:2px 7px;border-radius:4px;}
+.wc-remove{position:absolute;top:8px;right:8px;width:26px;height:26px;background:rgba(255,255,255,.9);border-radius:50%;border:none;display:flex;align-items:center;justify-content:center;font-size:12px;cursor:pointer;transition:all .2s;}
+.wc-remove:hover{background:#fee2e2;color:var(--danger);}
+.wc-body{padding:12px 14px;}
+.wc-name{font-weight:600;font-size:13px;color:var(--text-dark);margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.wc-price{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--primary);margin-bottom:8px;}
+.wc-price .mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;font-weight:400;margin-left:4px;}
+.btn-wa-sm{width:100%;display:flex;align-items:center;justify-content:center;gap:5px;background:var(--whatsapp);color:#fff;border:none;padding:8px;border-radius:7px;font-size:12.5px;font-weight:700;transition:background .2s;}
+.btn-wa-sm:hover{background:var(--whatsapp-dark);}
+
+/* Inquiry item */
+.inquiry-item{display:flex;align-items:flex-start;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+.inquiry-item:last-child{border-bottom:none;}
+.inq-shop-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0;border:1px solid var(--border);}
+.inq-info{flex:1;}
+.inq-product{font-weight:700;font-size:14px;color:var(--text-dark);margin-bottom:2px;}
+.inq-shop{font-size:12.5px;color:var(--text-light);margin-bottom:6px;}
+.inq-msg{font-size:13px;color:var(--text-mid);background:var(--bg);border-radius:7px;padding:8px 10px;border-left:3px solid var(--primary);line-height:1.6;}
+.inq-meta{display:flex;align-items:center;gap:10px;margin-top:8px;font-size:11.5px;color:var(--text-light);}
+.inq-actions{display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
+
+/* Notification item */
+.notif-item{display:flex;align-items:flex-start;gap:12px;padding:13px 14px;border-radius:10px;transition:background .15s;cursor:pointer;}
+.notif-item:hover{background:var(--bg);}
+.notif-item.unread{background:var(--primary-light);}
+.notif-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0;margin-top:5px;}
+.notif-content .nc-title{font-size:13.5px;font-weight:600;color:var(--text-dark);margin-bottom:2px;}
+.notif-content .nc-sub{font-size:12.5px;color:var(--text-light);line-height:1.5;}
+.notif-time{margin-left:auto;font-size:11px;color:var(--text-light);white-space:nowrap;}
+
+/* Avatar upload area */
+.avatar-upload{border:2px dashed var(--border);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:all .2s;}
+.avatar-upload:hover{border-color:var(--primary);background:var(--primary-light);}
+.avatar-upload .au-icon{font-size:36px;margin-bottom:8px;}
+.avatar-upload .au-text{font-size:13px;color:var(--text-light);}
+.avatar-upload .au-text strong{color:var(--primary);}
+
+/* Activity timeline */
+.timeline{display:flex;flex-direction:column;gap:0;}
+.tl-item{display:flex;gap:14px;padding-bottom:18px;position:relative;}
+.tl-item::after{content:'';position:absolute;left:14px;top:28px;bottom:0;width:2px;background:var(--border);}
+.tl-item:last-child::after{display:none;}
+.tl-dot{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;border:2px solid var(--white);box-shadow:0 0 0 2px var(--border);}
+.tl-content{flex:1;padding-top:3px;}
+.tl-title{font-size:13.5px;font-weight:600;color:var(--text-dark);margin-bottom:2px;}
+.tl-sub{font-size:12.5px;color:var(--text-light);}
+.tl-time{font-size:11px;color:var(--text-light);margin-top:2px;}
+
+/* Referral box */
+.referral-box{background:linear-gradient(135deg,var(--primary),var(--primary-dark));border-radius:var(--radius);padding:24px 26px;color:#fff;position:relative;overflow:hidden;}
+.referral-box::before{content:'🎁';position:absolute;right:16px;top:50%;transform:translateY(-50%);font-size:80px;opacity:.1;}
+.ref-title{font-family:var(--font-display);font-size:18px;font-weight:800;margin-bottom:6px;}
+.ref-sub{font-size:13px;color:rgba(255,255,255,.78);margin-bottom:16px;}
+.ref-code-wrap{display:flex;gap:8px;align-items:center;}
+.ref-code{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);border-radius:8px;padding:9px 16px;font-family:'Courier New',monospace;font-size:16px;font-weight:800;color:#fff;letter-spacing:2px;flex:1;}
+.btn-copy-ref{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:9px 16px;border-radius:8px;font-size:13px;font-weight:700;transition:background .2s;flex-shrink:0;}
+.btn-copy-ref:hover{background:rgba(255,255,255,.3);}
+.ref-stats{display:flex;gap:16px;margin-top:14px;}
+.ref-stat{background:rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;text-align:center;}
+.ref-stat .rnum{font-family:var(--font-display);font-size:18px;font-weight:800;}
+.ref-stat .rlbl{font-size:11px;color:rgba(255,255,255,.65);}
+
+/* Empty state */
+.empty-state{text-align:center;padding:48px 20px;}
+.empty-icon{font-size:56px;margin-bottom:14px;}
+.empty-title{font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:8px;}
+.empty-sub{font-size:14px;color:var(--text-light);margin-bottom:20px;max-width:320px;margin-left:auto;margin-right:auto;line-height:1.7;}
+
+/* Save bar */
+.save-bar{position:sticky;bottom:0;background:var(--white);border-top:1px solid var(--border);padding:14px 22px;display:flex;align-items:center;gap:12px;margin:24px -22px -28px;box-shadow:0 -4px 16px rgba(0,0,0,.06);}
+.save-bar-msg{font-size:13px;color:var(--text-light);flex:1;}
+
+/* RESPONSIVE */
+@media(max-width:1024px){.grid-4{grid-template-columns:repeat(2,1fr);}.grid-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:860px){
+  .dashboard-layout{grid-template-columns:1fr;}
+  .sidebar{position:fixed;left:0;top:var(--header-h);bottom:0;z-index:160;transform:translateX(-100%);transition:transform .3s ease;height:calc(100vh - var(--header-h));}
+  .sidebar.open{transform:none;}
+  .sidebar-overlay{display:block;}
+  .menu-toggle{display:flex;}
+  .nav-center{display:none;}
+}
+@media(max-width:600px){.main-area{padding:16px;}.grid-2{grid-template-columns:1fr;}.field-row-2{grid-template-columns:1fr;}.grid-3{grid-template-columns:1fr 1fr;}}
+@media(max-width:400px){.grid-3{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" style="display:none;" onclick="toggleSidebar()"></div>
+
+<!-- ── NAVBAR ── -->
+<nav class="navbar">
+  <button class="menu-toggle" id="menuToggle" onclick="toggleSidebar()">☰</button>
+  <a href="local-bazaar-hub.html" class="logo">
+    <div class="logo-icon">🛍️</div>
+    <div class="logo-text">
+      <div>Local <span>Bazaar</span> Hub</div>
+      <small>Apna Dukaan, Digital Duniya</small>
+    </div>
+  </a>
+  <div class="nav-center">
+    <div class="nav-search">
+      <input type="text" placeholder="Search shops, products...">
+      <button>🔍</button>
+    </div>
+  </div>
+  <div class="nav-right">
+    <a href="local-bazaar-hub.html" class="nav-link">Home</a>
+    <a href="shop-directory.html" class="nav-link">Shops</a>
+    <div class="nav-notif" onclick="showSection('notifications',null)">
+      🔔
+      <div class="notif-dot"></div>
+    </div>
+    <div class="nav-avatar" title="Priya Singh">P</div>
+  </div>
+</nav>
+
+<!-- ══ DASHBOARD LAYOUT ══ -->
+<div class="dashboard-layout">
+
+  <!-- ══ SIDEBAR ══ -->
+  <aside class="sidebar" id="sidebar">
+
+    <!-- Profile Block -->
+    <div class="sidebar-profile">
+      <div class="profile-avatar-wrap">
+        <div class="profile-avatar">P</div>
+        <div class="avatar-edit" onclick="showSection('profile',null)" title="Edit Avatar">✏️</div>
+      </div>
+      <div class="profile-name">Priya Singh</div>
+      <div class="profile-phone">📱 +91 98765 43210</div>
+      <div class="profile-badges">
+        <span class="profile-badge badge-buyer">🛒 Buyer</span>
+        <span class="profile-badge badge-verified">✔ Verified</span>
+      </div>
+      <div class="profile-completeness">
+        <div class="pc-label"><span>Profile Complete</span><span style="font-weight:700;color:var(--primary);">78%</span></div>
+        <div class="pc-bar"><div class="pc-fill" style="width:78%;"></div></div>
+      </div>
+    </div>
+
+    <!-- Nav Items -->
+    <div class="sidebar-nav">
+      <div class="nav-section-label">My Account</div>
+      <div class="sidebar-item active" onclick="showSection('overview',this)">
+        <span class="si-icon">📊</span> Dashboard Overview
+      </div>
+      <div class="sidebar-item" onclick="showSection('profile',this)">
+        <span class="si-icon">👤</span> My Profile
+      </div>
+      <div class="sidebar-item" onclick="showSection('wishlist',this)">
+        <span class="si-icon">❤️</span> Saved / Wishlist
+        <span class="si-badge orange">8</span>
+      </div>
+      <div class="sidebar-item" onclick="showSection('inquiries',this)">
+        <span class="si-icon">💬</span> My WA Inquiries
+        <span class="si-badge green">12</span>
+      </div>
+      <div class="sidebar-item" onclick="showSection('saved-shops',this)">
+        <span class="si-icon">🏪</span> Saved Shops
+      </div>
+      <div class="sidebar-item" onclick="showSection('reviews',this)">
+        <span class="si-icon">⭐</span> My Reviews
+      </div>
+
+      <div class="nav-section-label" style="margin-top:8px;">Activity</div>
+      <div class="sidebar-item" onclick="showSection('activity',this)">
+        <span class="si-icon">🕐</span> Recent Activity
+      </div>
+      <div class="sidebar-item" onclick="showSection('notifications',this)">
+        <span class="si-icon">🔔</span> Notifications
+        <span class="si-badge">4</span>
+      </div>
+      <div class="sidebar-item" onclick="showSection('referral',this)">
+        <span class="si-icon">🎁</span> Refer & Earn
+      </div>
+
+      <div class="nav-section-label" style="margin-top:8px;">Settings</div>
+      <div class="sidebar-item" onclick="showSection('settings',this)">
+        <span class="si-icon">⚙️</span> Account Settings
+      </div>
+      <div class="sidebar-item" onclick="showSection('security',this)">
+        <span class="si-icon">🔒</span> Security & Privacy
+      </div>
+      <div class="sidebar-item" onclick="window.location='shopkeeper-registration.html'">
+        <span class="si-icon">🏪</span> Open a Shop
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <button class="btn-logout" onclick="confirmLogout()">🚪 Logout</button>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN CONTENT ══ -->
+  <div class="main-area">
+
+    <!-- ════ OVERVIEW ════ -->
+    <div class="page-section active" id="sec-overview">
+      <div class="section-header">
+        <div>
+          <div class="section-title">👋 Welcome back, Priya!</div>
+          <div class="section-sub">Here's what's happening in your Local Bazaar Hub account.</div>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="showSection('profile',null)">✏️ Edit Profile</button>
+      </div>
+
+      <!-- Stats -->
+      <div class="grid-4" style="margin-bottom:22px;">
+        <div class="stat-card blue">
+          <div class="stat-icon blue">❤️</div>
+          <div class="stat-num">8</div>
+          <div class="stat-label">Saved Products</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-icon green">💬</div>
+          <div class="stat-num">12</div>
+          <div class="stat-label">WA Inquiries</div>
+        </div>
+        <div class="stat-card orange">
+          <div class="stat-icon orange">🏪</div>
+          <div class="stat-num">5</div>
+          <div class="stat-label">Saved Shops</div>
+        </div>
+        <div class="stat-card purple">
+          <div class="stat-icon purple">⭐</div>
+          <div class="stat-num">3</div>
+          <div class="stat-label">Reviews Given</div>
+        </div>
+      </div>
+
+      <!-- Grid: Recent inquiries + Saved products -->
+      <div class="grid-2" style="margin-bottom:22px;">
+        <!-- Recent Inquiries -->
+        <div class="card">
+          <div class="card-title">
+            💬 Recent Inquiries
+            <button class="btn btn-ghost btn-sm" onclick="showSection('inquiries',null)">View All →</button>
+          </div>
+          <div id="overviewInquiries"></div>
+        </div>
+
+        <!-- Saved Products snippet -->
+        <div class="card">
+          <div class="card-title">
+            ❤️ Recently Saved
+            <button class="btn btn-ghost btn-sm" onclick="showSection('wishlist',null)">View All →</button>
+          </div>
+          <div id="overviewWishlist"></div>
+        </div>
+      </div>
+
+      <!-- Explore + Profile completion -->
+      <div class="grid-2">
+        <!-- Profile completion card -->
+        <div class="card">
+          <div class="card-title">🎯 Complete Your Profile</div>
+          <div id="profileTasks"></div>
+        </div>
+
+        <!-- Recommended shops -->
+        <div class="card">
+          <div class="card-title">🏪 Shops Near You
+            <span style="font-size:11px;color:var(--text-light);font-weight:400;">Indore</span>
+          </div>
+          <div id="nearbyShops"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ MY PROFILE ════ -->
+    <div class="page-section" id="sec-profile">
+      <div class="section-header">
+        <div>
+          <div class="section-title">👤 My Profile</div>
+          <div class="section-sub">Manage your personal information and preferences.</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Left: Avatar + basic -->
+        <div class="card">
+          <div class="card-title">Profile Photo</div>
+          <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
+            <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#fff;border:4px solid var(--white);box-shadow:0 4px 16px rgba(26,86,219,.22);">P</div>
+            <div class="avatar-upload" style="width:100%;" onclick="alert('File picker opens here — WordPress media uploader.')">
+              <div class="au-icon">📷</div>
+              <div class="au-text"><strong>Click to upload</strong> or drag & drop<br>JPG, PNG — Max 2MB</div>
+            </div>
+            <button class="btn btn-ghost btn-sm" style="width:100%;">🗑️ Remove Photo</button>
+          </div>
+        </div>
+
+        <!-- Right: Personal info form -->
+        <div class="card">
+          <div class="card-title">Personal Information</div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <label class="field-label">First Name <span class="req">*</span></label>
+              <input type="text" class="field-input" value="Priya">
+            </div>
+            <div class="field-group">
+              <label class="field-label">Last Name <span class="req">*</span></label>
+              <input type="text" class="field-input" value="Singh">
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">WhatsApp Number <span class="req">*</span></label>
+            <input type="tel" class="field-input" value="+91 98765 43210">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Email Address</label>
+            <input type="email" class="field-input" value="priya.singh@email.com">
+          </div>
+          <div class="field-row-2">
+            <div class="field-group">
+              <label class="field-label">City</label>
+              <select class="field-input">
+                <option selected>Indore</option><option>Bhopal</option><option>Jabalpur</option>
+              </select>
+            </div>
+            <div class="field-group">
+              <label class="field-label">Gender</label>
+              <select class="field-input">
+                <option selected>Female</option><option>Male</option><option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label class="field-label">Date of Birth</label>
+            <input type="date" class="field-input" value="1995-06-15">
+          </div>
+        </div>
+      </div>
+
+      <!-- Additional preferences -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">🛍️ Shopping Preferences</div>
+        <div class="field-row-2">
+          <div class="field-group">
+            <label class="field-label">Favourite Categories</label>
+            <div style="display:flex;flex-wrap:wrap;gap:7px;margin-top:4px;" id="catPrefs">
+              <!-- filled by JS -->
+            </div>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Language Preference</label>
+            <select class="field-input">
+              <option selected>English</option>
+              <option>Hindi</option>
+              <option>English + Hindi</option>
+            </select>
+          </div>
+        </div>
+        <div class="field-group" style="margin-bottom:0;">
+          <label class="field-label">Short Bio (optional)</label>
+          <textarea class="field-input" rows="3" placeholder="Tell shops a bit about yourself...">Fashion lover from Indore. Always looking for the best local deals!</textarea>
+        </div>
+      </div>
+
+      <div class="save-bar">
+        <div class="save-bar-msg">⚠️ You have unsaved changes.</div>
+        <button class="btn btn-ghost btn-sm">Reset</button>
+        <button class="btn btn-primary btn-sm" onclick="saveProfile()">💾 Save Changes</button>
+      </div>
+    </div>
+
+    <!-- ════ WISHLIST ════ -->
+    <div class="page-section" id="sec-wishlist">
+      <div class="section-header">
+        <div>
+          <div class="section-title">❤️ Saved Products</div>
+          <div class="section-sub">8 products saved to your wishlist.</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <select class="field-input" style="width:auto;font-size:13px;padding:7px 12px;">
+            <option>All Categories</option><option>Men Fashion</option><option>Women Fashion</option><option>Electronics</option>
+          </select>
+          <button class="btn btn-ghost btn-sm" onclick="if(confirm('Remove all saved items?')){}">🗑️ Clear All</button>
+        </div>
+      </div>
+      <div class="grid-3" id="wishlistGrid" style="margin-bottom:0;"></div>
+    </div>
+
+    <!-- ════ WA INQUIRIES ════ -->
+    <div class="page-section" id="sec-inquiries">
+      <div class="section-header">
+        <div>
+          <div class="section-title">💬 My WhatsApp Inquiries</div>
+          <div class="section-sub">Track all the shops you've contacted via WhatsApp.</div>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <select class="field-input" style="width:auto;font-size:13px;padding:7px 12px;">
+            <option>All</option><option>This Week</option><option>This Month</option>
+          </select>
+        </div>
+      </div>
+      <div class="card">
+        <div id="inquiriesList"></div>
+      </div>
+    </div>
+
+    <!-- ════ SAVED SHOPS ════ -->
+    <div class="page-section" id="sec-saved-shops">
+      <div class="section-header">
+        <div>
+          <div class="section-title">🏪 Saved Shops</div>
+          <div class="section-sub">5 shops saved to your favourites.</div>
+        </div>
+      </div>
+      <div class="grid-2" id="savedShopsGrid"></div>
+    </div>
+
+    <!-- ════ MY REVIEWS ════ -->
+    <div class="page-section" id="sec-reviews">
+      <div class="section-header">
+        <div>
+          <div class="section-title">⭐ My Reviews</div>
+          <div class="section-sub">Reviews you've submitted for shops and products.</div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:14px;" id="myReviewsList"></div>
+
+      <!-- Pending reviews prompt -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">📝 Shops Waiting for Your Review</div>
+        <div id="pendingReviews"></div>
+      </div>
+    </div>
+
+    <!-- ════ RECENT ACTIVITY ════ -->
+    <div class="page-section" id="sec-activity">
+      <div class="section-header">
+        <div>
+          <div class="section-title">🕐 Recent Activity</div>
+          <div class="section-sub">Your browsing and interaction history on Local Bazaar Hub.</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="if(confirm('Clear all activity history?')){}">🗑️ Clear History</button>
+      </div>
+      <div class="card">
+        <div class="timeline" id="activityTimeline"></div>
+      </div>
+    </div>
+
+    <!-- ════ NOTIFICATIONS ════ -->
+    <div class="page-section" id="sec-notifications">
+      <div class="section-header">
+        <div>
+          <div class="section-title">🔔 Notifications</div>
+          <div class="section-sub">4 unread notifications.</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="markAllRead()">✅ Mark All Read</button>
+      </div>
+      <div class="card">
+        <div id="notifsList"></div>
+      </div>
+    </div>
+
+    <!-- ════ REFER & EARN ════ -->
+    <div class="page-section" id="sec-referral">
+      <div class="section-header">
+        <div>
+          <div class="section-title">🎁 Refer & Earn</div>
+          <div class="section-sub">Invite friends to Local Bazaar Hub and earn rewards.</div>
+        </div>
+      </div>
+
+      <div class="referral-box" style="margin-bottom:20px;">
+        <div class="ref-title">Invite Friends, Earn Rewards! 🎁</div>
+        <div class="ref-sub">Share your referral code. When a new shop registers using your code, you earn ₹100 off your next order or cashback.</div>
+        <div class="ref-code-wrap">
+          <div class="ref-code" id="refCode">PRIYA2024</div>
+          <button class="btn-copy-ref" onclick="copyRefCode()">📋 Copy Code</button>
+        </div>
+        <div class="ref-stats">
+          <div class="ref-stat"><div class="rnum">6</div><div class="rlbl">Total Referrals</div></div>
+          <div class="ref-stat"><div class="rnum">₹600</div><div class="rlbl">Rewards Earned</div></div>
+          <div class="ref-stat"><div class="rnum">2</div><div class="rlbl">Pending</div></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">📤 Share Your Link</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <button class="btn btn-wa" onclick="shareRefWA()">💬 Share on WhatsApp</button>
+            <button class="btn btn-ghost" onclick="copyRefLink()">🔗 Copy Referral Link</button>
+            <button class="btn btn-ghost" onclick="shareRefFB()">📘 Share on Facebook</button>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card-title">🏆 Referral History</div>
+          <div id="referralHistory"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════ ACCOUNT SETTINGS ════ -->
+    <div class="page-section" id="sec-settings">
+      <div class="section-header">
+        <div>
+          <div class="section-title">⚙️ Account Settings</div>
+          <div class="section-sub">Manage your account preferences and notifications.</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">🔔 Notification Preferences</div>
+          <div class="toggle-row">
+            <div class="toggle-info"><strong>WhatsApp Alerts</strong><small>Inquiry replies, shop updates, new offers</small></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><strong>New Offer Alerts</strong><small>When shops in your city post new deals</small></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><strong>New Shop Alerts</strong><small>When new shops open in your category</small></div>
+            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><strong>Wishlist Price Drops</strong><small>Alert when saved item price drops</small></div>
+            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-info"><strong>Platform Updates</strong><small>New features and announcements</small></div>
+            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">🎨 Display Preferences</div>
+          <div class="field-group">
+            <label class="field-label">City / Location</label>
+            <select class="field-input">
+              <option selected>Indore, MP</option>
+              <option>Bhopal, MP</option>
+              <option>Jabalpur, MP</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Default Product View</label>
+            <select class="field-input">
+              <option selected>Grid View</option>
+              <option>List View</option>
+            </select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Currency</label>
+            <select class="field-input">
+              <option selected>₹ INR — Indian Rupee</option>
+            </select>
+          </div>
+          <div class="field-group" style="margin-bottom:0;">
+            <label class="field-label">Language</label>
+            <select class="field-input">
+              <option selected>English</option>
+              <option>Hindi</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="save-bar">
+        <div class="save-bar-msg">Settings will be saved to your account.</div>
+        <button class="btn btn-primary btn-sm" onclick="alert('✅ Settings saved successfully!')">💾 Save Settings</button>
+      </div>
+    </div>
+
+    <!-- ════ SECURITY ════ -->
+    <div class="page-section" id="sec-security">
+      <div class="section-header">
+        <div>
+          <div class="section-title">🔒 Security & Privacy</div>
+          <div class="section-sub">Manage your password, sessions, and privacy settings.</div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <!-- Change password -->
+        <div class="card">
+          <div class="card-title">🔑 Change Password</div>
+          <div class="field-group">
+            <label class="field-label">Current Password <span class="req">*</span></label>
+            <input type="password" class="field-input" placeholder="Enter current password">
+          </div>
+          <div class="field-group">
+            <label class="field-label">New Password <span class="req">*</span></label>
+            <input type="password" class="field-input" placeholder="Minimum 8 characters">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Confirm New Password <span class="req">*</span></label>
+            <input type="password" class="field-input" placeholder="Re-enter new password">
+          </div>
+          <button class="btn btn-primary btn-sm" onclick="alert('✅ Password updated successfully!')">🔑 Update Password</button>
+        </div>
+
+        <!-- Security status -->
+        <div class="card">
+          <div class="card-title">🛡️ Security Status</div>
+          <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--success-bg);border-radius:9px;">
+              <span style="font-size:18px;">✅</span>
+              <div><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">Phone Verified</div><div style="font-size:12px;color:var(--text-light);">+91 98765 43210</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--success-bg);border-radius:9px;">
+              <span style="font-size:18px;">✅</span>
+              <div><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">Email Verified</div><div style="font-size:12px;color:var(--text-light);">priya.singh@email.com</div></div>
+            </div>
+            <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--warning-bg);border-radius:9px;">
+              <span style="font-size:18px;">⚠️</span>
+              <div style="flex:1;"><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">2FA Not Enabled</div><div style="font-size:12px;color:var(--text-light);">Enable for extra security</div></div>
+              <button class="btn btn-ghost btn-sm" onclick="alert('2FA setup wizard opens here.')">Enable</button>
+            </div>
+          </div>
+
+          <div class="card-title" style="margin-bottom:10px;">📱 Active Sessions</div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:9px;font-size:13px;">
+              <div><div style="font-weight:600;color:var(--text-dark);">📱 Android — Chrome</div><div style="font-size:11px;color:var(--text-light);">Indore · Active now</div></div>
+              <span class="badge badge-success">Current</span>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:9px;font-size:13px;">
+              <div><div style="font-weight:600;color:var(--text-dark);">💻 Windows — Firefox</div><div style="font-size:11px;color:var(--text-light);">Indore · 2 days ago</div></div>
+              <button class="btn btn-ghost btn-sm" style="color:var(--danger);" onclick="alert('Session terminated.')">Revoke</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Privacy settings -->
+      <div class="card" style="margin-top:16px;">
+        <div class="card-title">🔐 Privacy Settings</div>
+        <div class="toggle-row">
+          <div class="toggle-info"><strong>Show My City on Profile</strong><small>Visible to shops when you send inquiry</small></div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info"><strong>Allow Analytics Tracking</strong><small>Helps us improve the platform</small></div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-info"><strong>Personalised Recommendations</strong><small>Based on your browsing history</small></div>
+          <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+        </div>
+        <div style="padding-top:14px;border-top:1px solid var(--border);margin-top:4px;display:flex;gap:10px;flex-wrap:wrap;">
+          <button class="btn btn-ghost btn-sm" onclick="alert('Data export will be emailed to you within 24 hours.')">📥 Download My Data</button>
+          <button class="btn btn-danger btn-sm" onclick="confirmDelete()">🗑️ Delete My Account</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-area -->
+</div><!-- /dashboard-layout -->
+
+<!-- FLOATING WA -->
+<div style="position:fixed;bottom:28px;right:28px;z-index:999;">
+  <div style="width:52px;height:52px;background:var(--whatsapp);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(37,211,102,.4);animation:floatBounce 3s ease-in-out infinite;" onclick="openWA()">💬</div>
+</div>
+<style>@keyframes floatBounce{0%,100%{transform:translateY(0);}50%{transform:translateY(-5px);}}</style>
+
+<script>
+// ── SECTION NAVIGATION ──
+function showSection(id, navEl){
+  document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  if(navEl) navEl.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+  if(window.innerWidth <= 860) closeSidebar();
+}
+
+// ── SIDEBAR MOBILE ──
+function toggleSidebar(){
+  const sb = document.getElementById('sidebar');
+  const ov = document.getElementById('sidebarOverlay');
+  const isOpen = sb.classList.toggle('open');
+  ov.style.display = isOpen ? 'block' : 'none';
+}
+function closeSidebar(){
+  document.getElementById('sidebar').classList.remove('open');
+  document.getElementById('sidebarOverlay').style.display='none';
+}
+
+// ── WISHLIST DATA ──
+const wishlistItems = [
+  {name:"Men's Premium Cotton Kurta Set",price:"₹599",mrp:"₹999",disc:"40%",emoji:"👔",shop:"Sharma Cloth House"},
+  {name:"Banarasi Silk Saree – Festive",price:"₹2,199",mrp:"₹3,499",disc:"37%",emoji:"👗",shop:"Meera Saree Center"},
+  {name:"Bluetooth Earphones – Bass Boost",price:"₹849",mrp:"₹1,499",disc:"43%",emoji:"🎧",shop:"Digital Zone"},
+  {name:"Kids Party Frock – Pink",price:"₹449",mrp:"₹799",disc:"44%",emoji:"🧒",shop:"Little Star Kids"},
+  {name:"Men's Linen Shirt – Summer",price:"₹449",mrp:"₹699",disc:"36%",emoji:"👕",shop:"Sharma Cloth House"},
+  {name:"Gold Plated Necklace Set",price:"₹799",mrp:"₹1,299",disc:"38%",emoji:"💍",shop:"Rani Jewels"},
+  {name:"iPhone 15 Back Cover",price:"₹249",mrp:"₹499",disc:"50%",emoji:"📱",shop:"Mobile Master"},
+  {name:"Women's Kurti Combo 3pc",price:"₹899",mrp:"₹1,499",disc:"40%",emoji:"👘",shop:"Fashion Hub"},
+];
+function buildWishlist(){
+  const grid = document.getElementById('wishlistGrid');
+  if(!grid) return;
+  grid.innerHTML = wishlistItems.map((item,i)=>`
+    <div class="wishlist-card">
+      <div class="wc-img">
+        <span>${item.emoji}</span>
+        <div class="wc-badge">${item.disc} Off</div>
+        <button class="wc-remove" onclick="removeWishlist(${i},this)" title="Remove">✕</button>
+      </div>
+      <div class="wc-body">
+        <div class="wc-name">${item.name}</div>
+        <div class="wc-price">${item.price} <span class="mrp">${item.mrp}</span></div>
+        <div style="font-size:11px;color:var(--text-light);margin-bottom:7px;">🏪 ${item.shop}</div>
+        <button class="btn-wa-sm" onclick="openWAProduct('${item.name}','${item.shop}')">💬 WhatsApp</button>
+      </div>
+    </div>`).join('');
+}
+
+function removeWishlist(idx, btn){
+  btn.closest('.wishlist-card').style.transition='all .3s';
+  btn.closest('.wishlist-card').style.opacity='0';
+  btn.closest('.wishlist-card').style.transform='scale(.9)';
+  setTimeout(()=>{ btn.closest('.wishlist-card').remove(); },300);
+}
+
+// ── INQUIRIES DATA ──
+const inquiries = [
+  {product:"Men's Premium Cotton Kurta Set",shop:"Sharma Cloth House",shopIcon:"👔",msg:"Hello! I want this kurta in Size L, Royal Blue. Is it available?",time:"2 hrs ago",status:"replied"},
+  {product:"Banarasi Silk Saree",shop:"Meera Saree Center",shopIcon:"👗",msg:"What is the home delivery charge to Vijay Nagar?",time:"Yesterday",status:"replied"},
+  {product:"Bluetooth Earphones",shop:"Digital Zone",shopIcon:"📱",msg:"Do you have this in black color? Also what is the warranty?",time:"3 days ago",status:"replied"},
+  {product:"Gold Plated Necklace",shop:"Rani Jewels",shopIcon:"💍",msg:"Can I see more photos of this necklace? Planning to buy for Diwali.",time:"5 days ago",status:"pending"},
+  {product:"Kids Party Frock – Pink",shop:"Little Star Kids",shopIcon:"🧒",msg:"Available in Size 6-7 years? Need it for this weekend.",time:"1 week ago",status:"replied"},
+];
+function buildInquiries(container, limit){
+  const el = document.getElementById(container);
+  if(!el) return;
+  const data = limit ? inquiries.slice(0,limit) : inquiries;
+  if(container==='overviewInquiries'){
+    el.innerHTML = data.map(inq=>`
+      <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);">
+        <div style="font-size:22px;flex-shrink:0;">${inq.shopIcon}</div>
+        <div style="flex:1;min-width:0;">
+          <div style="font-weight:600;font-size:13px;color:var(--text-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${inq.product}</div>
+          <div style="font-size:11px;color:var(--text-light);">🏪 ${inq.shop} · ${inq.time}</div>
+        </div>
+        <span class="badge ${inq.status==='replied'?'badge-success':'badge-warning'}">${inq.status==='replied'?'Replied':'Pending'}</span>
+      </div>`).join('');
+    return;
+  }
+  el.innerHTML = data.map(inq=>`
+    <div class="inquiry-item">
+      <div class="inq-shop-icon">${inq.shopIcon}</div>
+      <div class="inq-info">
+        <div class="inq-product">${inq.product}</div>
+        <div class="inq-shop">🏪 ${inq.shop} · ${inq.time}</div>
+        <div class="inq-msg">"${inq.msg}"</div>
+        <div class="inq-meta">
+          <span class="badge ${inq.status==='replied'?'badge-success':'badge-warning'}">${inq.status==='replied'?'✅ Replied':'⏳ Pending'}</span>
+        </div>
+      </div>
+      <div class="inq-actions">
+        <button class="btn btn-wa btn-sm" onclick="openWAProduct('${inq.product}','${inq.shop}')">💬 Reopen</button>
+        <button class="btn btn-ghost btn-sm">🗑️</button>
+      </div>
+    </div>`).join('');
+}
+
+// ── SAVED SHOPS ──
+const savedShops = [
+  {name:"Sharma Cloth House",cat:"Men Fashion",rating:"4.8",reviews:124,emoji:"👔",open:true,city:"Gandhi Nagar, Indore",color:"#1a56db"},
+  {name:"Meera Saree Center",cat:"Women Fashion",rating:"4.9",reviews:88,emoji:"👗",open:true,city:"Vijay Nagar, Indore",color:"#ec4899"},
+  {name:"Digital Zone",cat:"Electronics",rating:"4.6",reviews:72,emoji:"📱",open:false,city:"MG Road, Indore",color:"#059669"},
+  {name:"Rani Jewels",cat:"Jewellery",rating:"4.7",reviews:56,emoji:"💍",open:true,city:"Sarafa Bazaar, Indore",color:"#d97706"},
+  {name:"Little Star Kids",cat:"Kids Wear",rating:"4.5",reviews:42,emoji:"🧒",open:true,city:"South Tukoganj, Indore",color:"#7c3aed"},
+];
+function buildSavedShops(){
+  const el = document.getElementById('savedShopsGrid');
+  if(!el) return;
+  el.innerHTML = savedShops.map(s=>`
+    <div class="card" style="display:flex;align-items:flex-start;gap:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.boxShadow=''" onclick="window.location='shop-profile.html'">
+      <div style="width:54px;height:54px;border-radius:13px;background:linear-gradient(135deg,${s.color},${s.color}aa);display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">${s.emoji}</div>
+      <div style="flex:1;min-width:0;">
+        <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;">
+          <span style="font-weight:800;font-size:15px;color:var(--text-dark);">${s.name}</span>
+          <span class="badge ${s.open?'badge-success':'badge-gray'}">${s.open?'Open':'Closed'}</span>
+        </div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:6px;">📍 ${s.city} · ${s.cat}</div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="color:#fbbf24;font-size:13px;">★</span>
+          <span style="font-weight:700;font-size:13px;color:var(--text-dark);">${s.rating}</span>
+          <span style="font-size:12px;color:var(--text-light);">(${s.reviews} reviews)</span>
+        </div>
+        <div style="display:flex;gap:7px;margin-top:10px;">
+          <button class="btn btn-wa btn-sm" onclick="event.stopPropagation();openWAShop('${s.name}')">💬 WhatsApp</button>
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();alert('Removed from saved shops.')">🗑️</button>
+        </div>
+      </div>
+    </div>`).join('');
+}
+
+// ── MY REVIEWS ──
+function buildMyReviews(){
+  const el = document.getElementById('myReviewsList');
+  if(!el) return;
+  const revs = [
+    {shop:"Sharma Cloth House",product:"Men's Kurta Set",stars:5,title:"Excellent quality!",text:"Very happy with the kurta. Fabric is genuine cotton and the stitching is perfect. Ramesh ji was very helpful.",date:"Dec 10, 2024",helpful:8},
+    {shop:"Digital Zone",product:"Bluetooth Earphones",stars:4,title:"Good product, fast response",text:"Sound quality is decent for the price. Shop owner replied within 10 minutes on WhatsApp — great service!",date:"Nov 28, 2024",helpful:5},
+    {shop:"Meera Saree Center",product:"Banarasi Silk Saree",stars:5,title:"Beautiful saree, loved it!",text:"Got it for my cousin's wedding. Everyone was asking where I bought it. Will definitely order more.",date:"Nov 15, 2024",helpful:12},
+  ];
+  el.innerHTML = revs.map(r=>`
+    <div class="card">
+      <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px;">
+        <div style="flex:1;">
+          <div style="font-weight:700;font-size:14px;color:var(--text-dark);">${r.shop}</div>
+          <div style="font-size:12px;color:var(--text-light);">Product: ${r.product} · ${r.date}</div>
+        </div>
+        <div style="display:flex;gap:6px;">
+          <button class="btn btn-ghost btn-sm">✏️ Edit</button>
+          <button class="btn btn-ghost btn-sm" style="color:var(--danger);" onclick="this.closest('.card').remove()">🗑️</button>
+        </div>
+      </div>
+      <div style="color:#fbbf24;font-size:14px;margin-bottom:6px;">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
+      <div style="font-weight:700;font-size:14px;color:var(--text-dark);margin-bottom:5px;">${r.title}</div>
+      <div style="font-size:14px;color:var(--text-mid);line-height:1.7;">${r.text}</div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text-light);">👍 ${r.helpful} people found this helpful</div>
+    </div>`).join('');
+
+  // Pending reviews
+  const pending = document.getElementById('pendingReviews');
+  if(pending){
+    pending.innerHTML = ['Rani Jewels — Gold Necklace','Little Star Kids — Party Frock'].map(s=>`
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:11px 0;border-bottom:1px solid var(--border);font-size:13.5px;">
+        <div style="color:var(--text-mid);">🏪 ${s}</div>
+        <button class="btn btn-primary btn-sm" onclick="showSection('sec-reviews',null)">✍️ Write Review</button>
+      </div>`).join('');
+  }
+}
+
+// ── ACTIVITY TIMELINE ──
+function buildActivity(){
+  const el = document.getElementById('activityTimeline');
+  if(!el) return;
+  const acts = [
+    {icon:"💬",bg:"#e8f0fe",title:"Sent WhatsApp inquiry","sub":"Men's Kurta Set at Sharma Cloth House","time":"2 hrs ago"},
+    {icon:"❤️",bg:"#fee2e2",title:"Saved product to wishlist","sub":"Gold Plated Necklace at Rani Jewels","time":"5 hrs ago"},
+    {icon:"🏪",bg:"#dcfce7",title:"Saved shop","sub":"Little Star Kids — Indore","time":"Yesterday"},
+    {icon:"⭐",bg:"#fef3c7",title:"Wrote a review","sub":"5 stars for Meera Saree Center","time":"2 days ago"},
+    {icon:"💬",bg:"#e8f0fe",title:"Sent WhatsApp inquiry","sub":"Bluetooth Earphones at Digital Zone","time":"3 days ago"},
+    {icon:"👁️",bg:"#f3e8ff",title:"Viewed shop profile","sub":"Rani Jewels — Sarafa Bazaar","time":"4 days ago"},
+    {icon:"🔍",bg:"#e8f0fe",title:"Searched for products","sub":"Query: \"blue kurta set\"","time":"5 days ago"},
+    {icon:"👤",bg:"#dcfce7",title:"Completed profile","sub":"Added city and phone number","time":"1 week ago"},
+  ];
+  el.innerHTML = acts.map(a=>`
+    <div class="tl-item">
+      <div class="tl-dot" style="background:${a.bg};">${a.icon}</div>
+      <div class="tl-content">
+        <div class="tl-title">${a.title}</div>
+        <div class="tl-sub">${a.sub}</div>
+        <div class="tl-time">🕐 ${a.time}</div>
+      </div>
+    </div>`).join('');
+}
+
+// ── NOTIFICATIONS ──
+function buildNotifs(){
+  const el = document.getElementById('notifsList');
+  if(!el) return;
+  const notifs = [
+    {icon:"💬",color:"#1a56db",title:"Sharma Cloth House replied to your inquiry","sub":"\"Yes, the kurta is available in Size L Royal Blue. Price ₹599. Come visit or we can deliver!\"","time":"1 hr ago",unread:true},
+    {icon:"🔥",color:"#f97316",title:"New offer in Men Fashion — Up to 50% Off","sub":"Sharma Cloth House just posted a new festive discount valid till Dec 31.","time":"3 hrs ago",unread:true},
+    {icon:"📉",color:"#16a34a",title:"Price drop alert — Gold Plated Necklace","sub":"The necklace you saved just dropped from ₹1,299 to ₹799. Limited stock!","time":"Yesterday",unread:true},
+    {icon:"🏪",color:"#7c3aed",title:"New shop in your area — Royal Footwear","sub":"A new verified shoe shop just opened near Gandhi Nagar. Check it out!","time":"2 days ago",unread:true},
+    {icon:"⭐",color:"#d97706",title:"Your review was helpful to 8 people","sub":"Your review on Sharma Cloth House was marked helpful by 8 buyers.","time":"3 days ago",unread:false},
+    {icon:"🎁",color:"#1a56db",title:"Referral reward earned — ₹100","sub":"Your friend Rahul joined using your code. ₹100 reward added to your account.","time":"5 days ago",unread:false},
+  ];
+  el.innerHTML = notifs.map(n=>`
+    <div class="notif-item ${n.unread?'unread':''}" onclick="this.classList.remove('unread')">
+      <div class="notif-dot" style="background:${n.color};"></div>
+      <div class="notif-content">
+        <div class="nc-title">${n.title}</div>
+        <div class="nc-sub">${n.sub}</div>
+      </div>
+      <div class="notif-time">${n.time}</div>
+    </div>`).join('');
+}
+function markAllRead(){
+  document.querySelectorAll('.notif-item.unread').forEach(n=>n.classList.remove('unread'));
+  document.querySelector('.section-sub').textContent='All notifications read.';
+}
+
+// ── OVERVIEW WIDGETS ──
+function buildOverviewWishlist(){
+  const el = document.getElementById('overviewWishlist');
+  if(!el) return;
+  el.innerHTML = wishlistItems.slice(0,4).map(item=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);">
+      <span style="font-size:22px;">${item.emoji}</span>
+      <div style="flex:1;min-width:0;">
+        <div style="font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</div>
+        <div style="font-size:11px;color:var(--text-light);">${item.shop}</div>
+      </div>
+      <span style="font-weight:800;font-size:13px;color:var(--primary);">${item.price}</span>
+    </div>`).join('');
+}
+
+// ── PROFILE TASKS ──
+function buildProfileTasks(){
+  const el = document.getElementById('profileTasks');
+  if(!el) return;
+  const tasks = [
+    {done:true,task:"Phone number verified"},
+    {done:true,task:"Email address added"},
+    {done:true,task:"City selected (Indore)"},
+    {done:false,task:"Upload profile photo"},
+    {done:false,task:"Add favourite categories"},
+    {done:false,task:"Write a shop review"},
+  ];
+  el.innerHTML = tasks.map(t=>`
+    <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13.5px;">
+      <span style="font-size:16px;">${t.done?'✅':'⬜'}</span>
+      <span style="color:${t.done?'var(--text-light)':'var(--text-dark)'};text-decoration:${t.done?'line-through':'none'};">${t.task}</span>
+      ${!t.done?`<span style="margin-left:auto;font-size:11px;color:var(--primary);font-weight:700;cursor:pointer;" onclick="showSection('profile',null)">Do it →</span>`:''}
+    </div>`).join('');
+}
+
+// ── NEARBY SHOPS ──
+function buildNearbyShops(){
+  const el = document.getElementById('nearbyShops');
+  if(!el) return;
+  el.innerHTML = [
+    {name:"Fashion Palace",cat:"Women Fashion",rating:"4.7",emoji:"👗",color:"#ec4899"},
+    {name:"Gadget World",cat:"Electronics",rating:"4.5",emoji:"💻",color:"#059669"},
+    {name:"Shoe Bazaar",cat:"Footwear",rating:"4.6",emoji:"👟",color:"#d97706"},
+    {name:"Kids Kingdom",cat:"Kids Wear",rating:"4.8",emoji:"🧸",color:"#7c3aed"},
+  ].map(s=>`
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="window.location='shop-profile.html'">
+      <div style="width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,${s.color},${s.color}88);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;">${s.emoji}</div>
+      <div style="flex:1;">
+        <div style="font-weight:600;font-size:13px;color:var(--text-dark);">${s.name}</div>
+        <div style="font-size:11px;color:var(--text-light);">${s.cat}</div>
+      </div>
+      <div style="font-size:13px;color:#fbbf24;font-weight:700;">★ ${s.rating}</div>
+    </div>`).join('');
+}
+
+// ── REFERRAL HISTORY ──
+function buildReferralHistory(){
+  const el = document.getElementById('referralHistory');
+  if(!el) return;
+  el.innerHTML = [
+    {name:"Rahul M.",status:"Joined",reward:"₹100",date:"Dec 10"},
+    {name:"Anjali S.",status:"Joined",reward:"₹100",date:"Nov 28"},
+    {name:"Vijay K.",status:"Joined",reward:"₹100",date:"Nov 15"},
+    {name:"Sunita R.",status:"Joined",reward:"₹100",date:"Oct 30"},
+    {name:"Deepak J.",status:"Pending",reward:"—",date:"Dec 14"},
+    {name:"Meena T.",status:"Pending",reward:"—",date:"Dec 13"},
+  ].map(r=>`
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border);font-size:13px;">
+      <div><div style="font-weight:600;color:var(--text-dark);">${r.name}</div><div style="font-size:11px;color:var(--text-light);">${r.date}</div></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span class="badge ${r.status==='Joined'?'badge-success':'badge-warning'}">${r.status}</span>
+        <span style="font-weight:700;color:var(--primary);font-size:13px;">${r.reward}</span>
+      </div>
+    </div>`).join('');
+}
+
+// ── CAT PREFERENCE CHIPS ──
+function buildCatPrefs(){
+  const el = document.getElementById('catPrefs');
+  if(!el) return;
+  const cats = ['👔 Men Fashion','👗 Women Fashion','📱 Electronics','💍 Jewellery','👟 Footwear','🧒 Kids Wear'];
+  const selected = ['👔 Men Fashion','👗 Women Fashion','💍 Jewellery'];
+  el.innerHTML = cats.map(c=>`
+    <span onclick="this.classList.toggle('active')" style="padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid ${selected.includes(c)?'var(--primary)':'var(--border)'};background:${selected.includes(c)?'var(--primary-light)':'var(--bg)'};color:${selected.includes(c)?'var(--primary)':'var(--text-mid)'};cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="">${c}</span>`).join('');
+}
+
+// ── WA HELPERS ──
+function openWA(){ window.open('https://wa.me/919876543210?text=Hello! I need help with my Local Bazaar Hub account.','_blank'); }
+function openWAProduct(product, shop){ window.open(`https://wa.me/919876543210?text=Hello ${shop}! I want to follow up on my inquiry about: ${product}`,'_blank'); }
+function openWAShop(shop){ window.open(`https://wa.me/919876543210?text=Hello ${shop}! I found your shop on Local Bazaar Hub.`,'_blank'); }
+
+// ── MISC ──
+function saveProfile(){ alert('✅ Profile updated successfully!'); }
+function copyRefCode(){ navigator.clipboard?.writeText('PRIYA2024').then(()=>alert('Referral code PRIYA2024 copied!')); }
+function copyRefLink(){ navigator.clipboard?.writeText(window.location.origin+'/ref/PRIYA2024').then(()=>alert('Referral link copied!')); }
+function shareRefWA(){ window.open('https://wa.me/?text='+encodeURIComponent('Join Local Bazaar Hub and shop from the best local stores! Use my code PRIYA2024 to get started: '+window.location.origin),'_blank'); }
+function shareRefFB(){ window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.origin),'_blank'); }
+function confirmLogout(){ if(confirm('Are you sure you want to logout?')){ window.location='login-register.html'; } }
+function confirmDelete(){ if(confirm('⚠️ This will permanently delete your account and all data. Are you absolutely sure?')){ if(confirm('FINAL WARNING: All your saved shops, wishlist, and activity will be lost. Confirm deletion?')){ alert('Account deletion request submitted. You will receive a confirmation email.'); } } }
+
+// ── INIT ──
+buildWishlist();
+buildInquiries('inquiriesList', null);
+buildInquiries('overviewInquiries', 3);
+buildSavedShops();
+buildMyReviews();
+buildActivity();
+buildNotifs();
+buildOverviewWishlist();
+buildProfileTasks();
+buildNearbyShops();
+buildReferralHistory();
+buildCatPrefs();
+</script>
+</body>
+</html>

@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Today's Offers & Deals – BahaBasket</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --primary:#1a56db;--primary-dark:#1042b0;--primary-light:#e8f0fe;
+  --accent:#f97316;--accent-light:#fff7ed;
+  --whatsapp:#25D366;--whatsapp-dark:#128C7E;
+  --text-dark:#111827;--text-mid:#374151;--text-light:#6b7280;
+  --border:#e5e7eb;--bg:#f8fafc;--white:#ffffff;
+  --success:#16a34a;--danger:#dc2626;
+  --card-shadow:0 2px 12px rgba(26,86,219,0.07);
+  --card-shadow-hover:0 10px 36px rgba(26,86,219,0.16);
+  --radius:14px;--radius-sm:8px;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'Noto Sans',sans-serif;background:var(--bg);color:var(--text-dark);overflow-x:hidden;}
+h1,h2,h3,h4,h5{font-family:'Baloo 2',cursive;}
+a{text-decoration:none;color:inherit;}
+button{cursor:pointer;font-family:'Noto Sans',sans-serif;}
+img{max-width:100%;display:block;}
+::-webkit-scrollbar{width:6px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--primary);border-radius:3px;}
+
+
+/* ── BREADCRUMB ── */
+.breadcrumb{background:var(--white);border-bottom:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-light);}
+.breadcrumb a{color:var(--primary);}
+.breadcrumb a:hover{text-decoration:underline;}
+.breadcrumb .sep{color:var(--border);}
+.breadcrumb .current{color:var(--text-dark);font-weight:600;}
+
+/* ══════════════════════════════
+   OFFERS HERO
+══════════════════════════════ */
+.offers-hero{
+  background:linear-gradient(135deg,#7c0a02 0%,#dc2626 40%,#f97316 100%);
+  padding:52px 24px 68px;position:relative;overflow:hidden;text-align:center;
+}
+.offers-hero::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M20 20c0 11.046-8.954 20-20 20V0c11.046 0 20 8.954 20 20zM40 20c0 11.046-8.954 20-20 20V0c11.046 0 20 8.954 20 20z'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* Floating confetti dots */
+.offers-hero::after{content:none;}
+.hero-inner{max-width:720px;margin:0 auto;position:relative;}
+.offers-hero-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(255,255,255,.18);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,.3);
+  color:#fff;padding:7px 20px;border-radius:24px;
+  font-size:13px;font-weight:700;margin-bottom:22px;
+  animation:badge-glow 2s infinite;
+}
+@keyframes badge-glow{0%,100%{box-shadow:0 0 0 0 rgba(255,255,255,.2);}50%{box-shadow:0 0 0 8px rgba(255,255,255,0);}}
+.offers-hero h1{font-size:clamp(28px,5vw,52px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:14px;}
+.offers-hero h1 .highlight{
+  background:linear-gradient(90deg,#fbbf24,#fde68a);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.offers-hero p{color:rgba(255,255,255,.85);font-size:15px;margin-bottom:32px;line-height:1.7;}
+
+/* ── COUNTDOWN TIMER ── */
+.countdown-wrap{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,0,0,.3);backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:16px;padding:14px 24px;margin-bottom:28px;
+}
+.cd-label{font-size:12px;color:rgba(255,255,255,.7);font-weight:600;margin-right:8px;text-transform:uppercase;letter-spacing:1px;}
+.cd-block{text-align:center;}
+.cd-num{
+  font-family:'Baloo 2',cursive;font-size:32px;font-weight:800;color:#fff;
+  background:rgba(255,255,255,.15);border-radius:8px;
+  padding:4px 12px;min-width:52px;display:block;
+  border:1px solid rgba(255,255,255,.2);
+  transition:transform .1s;
+}
+.cd-block.flip .cd-num{transform:scaleY(.9);}
+.cd-unit{font-size:10px;color:rgba(255,255,255,.6);margin-top:4px;text-transform:uppercase;letter-spacing:.5px;}
+.cd-sep{font-size:28px;font-weight:800;color:rgba(255,255,255,.5);margin:0 2px;align-self:flex-start;padding-top:6px;}
+
+.hero-stats-row{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;}
+.hs{background:rgba(255,255,255,.12);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 20px;text-align:center;}
+.hs .num{font-family:'Baloo 2',cursive;font-size:22px;font-weight:800;color:#fff;}
+.hs .lbl{font-size:11px;color:rgba(255,255,255,.7);margin-top:2px;}
+
+/* Wave */
+.wave-sep{display:block;line-height:0;}
+.wave-sep svg{display:block;}
+
+/* ══════════════════════════════
+   SECTION COMMONS
+══════════════════════════════ */
+.section{padding:52px 24px;}
+.section-alt{background:var(--white);}
+.max-w{max-width:1280px;margin:0 auto;}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap;}
+.section-title{font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--text-dark);}
+.section-title span{color:var(--danger);}
+.section-sub{font-size:13px;color:var(--text-light);margin-top:4px;}
+.view-all-btn{display:flex;align-items:center;gap:6px;color:var(--primary);font-weight:600;font-size:13px;padding:7px 14px;border:2px solid var(--primary);border-radius:8px;transition:all .2s;white-space:nowrap;}
+.view-all-btn:hover{background:var(--primary);color:#fff;}
+
+/* ══════════════════════════════
+   DEAL TYPE TABS
+══════════════════════════════ */
+.deal-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
+.dtab{
+  display:flex;align-items:center;gap:7px;
+  padding:9px 18px;border-radius:24px;font-size:13.5px;font-weight:600;
+  border:2px solid var(--border);background:var(--white);color:var(--text-mid);
+  cursor:pointer;transition:all .22s;
+}
+.dtab:hover{border-color:var(--danger);color:var(--danger);}
+.dtab.active{background:var(--danger);border-color:var(--danger);color:#fff;}
+.dtab .cnt{font-size:11px;opacity:.75;}
+
+/* ══════════════════════════════
+   FLASH DEAL BANNER (full width)
+══════════════════════════════ */
+.flash-banner{
+  background:linear-gradient(135deg,#dc2626,#f97316);
+  border-radius:var(--radius);padding:28px 32px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:20px;flex-wrap:wrap;margin-bottom:28px;
+  position:relative;overflow:hidden;
+}
+.flash-banner::before{content:none;}
+.flash-banner-left{position:relative;}
+.flash-banner-left .sub{font-size:12px;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.flash-banner-left h2{font-size:clamp(20px,3vw,30px);font-weight:800;color:#fff;margin-bottom:6px;}
+.flash-banner-left p{font-size:13px;color:rgba(255,255,255,.8);}
+.flash-banner-right{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.flash-cd{display:flex;gap:8px;align-items:center;}
+.fcd-blk{text-align:center;background:rgba(0,0,0,.25);border-radius:8px;padding:8px 12px;min-width:52px;}
+.fcd-num{font-family:'Baloo 2',cursive;font-size:24px;font-weight:800;color:#fff;line-height:1;}
+.fcd-lbl{font-size:9px;color:rgba(255,255,255,.6);text-transform:uppercase;letter-spacing:.5px;margin-top:2px;}
+.fcd-sep{font-size:22px;font-weight:800;color:rgba(255,255,255,.5);}
+.flash-btn{background:#fff;color:var(--danger);border:none;padding:12px 24px;border-radius:10px;font-size:14px;font-weight:800;transition:all .2s;white-space:nowrap;}
+.flash-btn:hover{background:#fef2f2;transform:scale(1.04);}
+
+/* ══════════════════════════════
+   BIG OFFER CARDS (Hero Deals)
+══════════════════════════════ */
+.hero-deals-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:18px;
+  margin-bottom:28px;
+}
+.hero-deal-card{
+  border-radius:var(--radius);padding:28px 24px;
+  position:relative;overflow:hidden;cursor:pointer;
+  transition:transform .25s,box-shadow .25s;
+  min-height:200px;display:flex;flex-direction:column;justify-content:flex-end;
+}
+.hero-deal-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.18);}
+.hd-pattern{position:absolute;inset:0;opacity:.1;background-image:repeating-linear-gradient(45deg,transparent,transparent 10px,rgba(255,255,255,.5) 10px,rgba(255,255,255,.5) 11px);}
+.hd-emoji{position:absolute;top:16px;right:16px;opacity:.2;transition:opacity .3s,transform .3s;line-height:0;}
+.hero-deal-card:hover .hd-emoji{opacity:.35;transform:scale(1.1) rotate(-5deg);}
+.hd-badge{
+  position:absolute;top:14px;left:14px;
+  background:rgba(255,255,255,.25);backdrop-filter:blur(6px);
+  border:1px solid rgba(255,255,255,.35);
+  color:#fff;font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+}
+.hd-content{position:relative;z-index:1;}
+.hd-label{font-size:11px;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.hd-title{font-family:'Baloo 2',cursive;font-size:clamp(16px,2vw,22px);font-weight:800;color:#fff;margin-bottom:6px;line-height:1.2;}
+.hd-discount{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(0,0,0,.25);
+  color:#fff;font-size:14px;font-weight:700;
+  padding:4px 12px;border-radius:6px;margin-bottom:14px;
+}
+.hd-discount .big-pct{font-size:22px;font-family:'Baloo 2',cursive;}
+.hd-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);
+  color:#fff;padding:9px 18px;border-radius:8px;
+  font-size:13px;font-weight:700;cursor:pointer;transition:background .2s;
+}
+.hd-btn:hover{background:rgba(255,255,255,.35);}
+.hdc-blue{background:linear-gradient(135deg,#1a56db,#1e88e5);}
+.hdc-red{background:linear-gradient(135deg,#dc2626,#f87171);}
+.hdc-purple{background:linear-gradient(135deg,#7c3aed,#a78bfa);}
+.hdc-green{background:linear-gradient(135deg,#059669,#34d399);}
+.hdc-orange{background:linear-gradient(135deg,#f97316,#fb923c);}
+.hdc-teal{background:linear-gradient(135deg,#0891b2,#22d3ee);}
+
+/* ══════════════════════════════
+   DEAL PRODUCT CARDS
+══════════════════════════════ */
+.deals-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(210px,1fr));
+  gap:18px;
+}
+.deal-card{
+  background:var(--white);border-radius:var(--radius);
+  border:1px solid var(--border);overflow:hidden;
+  transition:all .25s;cursor:pointer;position:relative;
+}
+.deal-card:hover{box-shadow:var(--card-shadow-hover);transform:translateY(-4px);border-color:transparent;}
+.deal-img-wrap{position:relative;aspect-ratio:1;overflow:hidden;background:var(--bg);}
+.deal-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .4s;}
+.deal-card:hover .deal-img-wrap img{transform:scale(1.06);}
+
+/* Discount ribbon */
+.disc-ribbon{
+  position:absolute;top:0;left:0;
+  background:var(--danger);color:#fff;
+  font-size:11px;font-weight:800;
+  padding:4px 10px 4px 8px;
+  clip-path:polygon(0 0,100% 0,88% 100%,0 100%);
+}
+.disc-ribbon.green-rib{background:var(--success);}
+.disc-ribbon.orange-rib{background:var(--accent);}
+.disc-ribbon.purple-rib{background:#7c3aed;}
+
+/* Timer pill on card */
+.card-timer{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  display:flex;align-items:center;gap:4px;
+  background:rgba(0,0,0,.7);color:#fff;
+  font-size:11px;font-weight:700;
+  padding:3px 10px;border-radius:20px;
+  white-space:nowrap;
+}
+.card-timer span{color:#fbbf24;}
+
+.wish-btn{
+  position:absolute;top:8px;right:8px;
+  width:30px;height:30px;
+  background:rgba(255,255,255,.92);border:none;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  line-height:0;opacity:0;transition:opacity .2s;
+  box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.deal-card:hover .wish-btn{opacity:1;}
+
+.deal-body{padding:12px 14px 14px;}
+.deal-shop{display:flex;align-items:center;gap:5px;font-size:11.5px;color:var(--text-light);margin-bottom:5px;}
+.shop-dot{width:6px;height:6px;border-radius:50%;background:var(--whatsapp);flex-shrink:0;}
+.deal-title{font-weight:600;font-size:13.5px;color:var(--text-dark);line-height:1.4;margin-bottom:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.deal-price-row{display:flex;align-items:center;gap:7px;margin-bottom:6px;}
+.deal-price{font-family:'Baloo 2',cursive;font-size:20px;font-weight:800;color:var(--primary);}
+.deal-mrp{font-size:12px;color:var(--text-light);text-decoration:line-through;}
+.deal-saving{font-size:12px;color:var(--success);font-weight:700;}
+.deal-rating{display:flex;align-items:center;gap:4px;margin-bottom:10px;}
+.stars-xs{color:#fbbf24;font-size:11px;}
+.rv{font-size:11.5px;font-weight:600;color:var(--text-dark);}
+.rc{font-size:11px;color:var(--text-light);}
+
+/* Sold bar */
+.sold-bar-wrap{margin-bottom:10px;}
+.sold-bar-label{display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:4px;}
+.sold-bar-label .sold-hot{color:var(--danger);font-weight:700;}
+.sold-bar-bg{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.sold-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--accent),var(--danger));transition:width .6s ease;}
+
+.btn-wa-deal{
+  display:flex;align-items:center;justify-content:center;gap:7px;
+  width:100%;background:var(--whatsapp);color:#fff;border:none;
+  padding:10px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:700;transition:background .2s,transform .1s;
+}
+.btn-wa-deal:hover{background:var(--whatsapp-dark);}
+.btn-wa-deal:active{transform:scale(.97);}
+.btn-wa-deal svg{width:15px;height:15px;flex-shrink:0;}
+
+/* ══════════════════════════════
+   COUPON SECTION
+══════════════════════════════ */
+.coupons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.coupon-card{
+  background:var(--white);border-radius:var(--radius);
+  border:2px dashed var(--border);
+  display:flex;overflow:hidden;
+  transition:all .22s;cursor:pointer;
+  position:relative;
+}
+.coupon-card:hover{border-color:var(--primary);box-shadow:var(--card-shadow-hover);transform:translateY(-2px);}
+.coupon-left{
+  padding:20px 16px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-width:90px;gap:6px;
+}
+.coupon-icon{display:flex;justify-content:center;align-items:center;line-height:0;}
+.coupon-code{
+  font-family:'Baloo 2',cursive;font-size:14px;font-weight:800;
+  color:var(--primary);background:var(--primary-light);
+  padding:3px 8px;border-radius:5px;letter-spacing:1px;
+  border:1.5px dashed var(--primary);text-align:center;
+}
+.coupon-divider{
+  width:1px;background:repeating-linear-gradient(to bottom,var(--border) 0,var(--border) 6px,transparent 6px,transparent 12px);
+  margin:0;flex-shrink:0;
+}
+/* Notches */
+.coupon-card::before,.coupon-card::after{
+  content:'';position:absolute;
+  width:16px;height:16px;background:var(--bg);
+  border-radius:50%;top:50%;transform:translateY(-50%);
+  border:2px solid var(--border);
+}
+.coupon-card::before{left:82px;}
+.coupon-card::after{left:82px;}
+.coupon-card:hover::before,.coupon-card:hover::after{border-color:var(--primary);}
+.coupon-right{padding:18px 16px 18px 20px;flex:1;display:flex;flex-direction:column;justify-content:center;gap:6px;}
+.coupon-title{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--text-dark);}
+.coupon-desc{font-size:12.5px;color:var(--text-mid);line-height:1.5;}
+.coupon-validity{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:4px;}
+.coupon-exp{font-size:11px;color:var(--text-light);}
+.coupon-copy-btn{
+  background:var(--primary-light);color:var(--primary);border:none;
+  padding:5px 12px;border-radius:6px;font-size:12px;font-weight:700;
+  transition:all .2s;
+}
+.coupon-copy-btn:hover{background:var(--primary);color:#fff;}
+.coupon-badge{
+  position:absolute;top:10px;right:10px;
+  font-size:10px;font-weight:700;padding:2px 7px;
+  border-radius:4px;color:#fff;
+}
+.cb-hot{background:var(--danger);}
+.cb-new{background:var(--success);}
+.cb-exp{background:var(--accent);}
+
+/* ══════════════════════════════
+   CATEGORY OFFERS
+══════════════════════════════ */
+.cat-offers-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+  gap:16px;
+}
+.cat-offer-card{
+  background:var(--white);border-radius:var(--radius);
+  border:2px solid var(--border);padding:24px 18px;
+  text-align:center;cursor:pointer;
+  transition:all .22s;position:relative;overflow:hidden;
+}
+.cat-offer-card:hover{border-color:var(--primary);box-shadow:var(--card-shadow-hover);transform:translateY(-3px);}
+.cat-offer-card::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;
+  height:4px;background:linear-gradient(90deg,var(--primary),var(--accent));
+  transform:scaleX(0);transition:transform .22s;
+}
+.cat-offer-card:hover::after{transform:scaleX(1);}
+.coc-icon{display:flex;justify-content:center;align-items:center;margin-bottom:12px;line-height:0;}
+.coc-name{font-family:'Baloo 2',cursive;font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:4px;}
+.coc-disc{
+  display:inline-block;
+  background:var(--accent-light);color:var(--accent);
+  font-size:13px;font-weight:800;padding:3px 10px;border-radius:6px;
+  margin-bottom:6px;
+}
+.coc-count{font-size:12px;color:var(--text-light);}
+
+/* ══════════════════════════════
+   BRAND OFFERS SCROLL
+══════════════════════════════ */
+.brand-scroll{
+  display:flex;gap:14px;overflow-x:auto;
+  scrollbar-width:none;padding-bottom:8px;
+}
+.brand-scroll::-webkit-scrollbar{display:none;}
+.brand-card{
+  background:var(--white);border:2px solid var(--border);
+  border-radius:var(--radius);padding:18px 24px;
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  min-width:120px;cursor:pointer;transition:all .22s;flex-shrink:0;
+}
+.brand-card:hover{border-color:var(--primary);box-shadow:var(--card-shadow-hover);transform:translateY(-2px);}
+.brand-icon{display:flex;justify-content:center;align-items:center;line-height:0;margin-bottom:2px;}
+.brand-name{font-size:12px;font-weight:700;color:var(--text-dark);}
+.brand-offer{font-size:11px;color:var(--danger);font-weight:700;background:#fee2e2;padding:2px 8px;border-radius:4px;}
+
+/* ══════════════════════════════
+   NEWSLETTER OFFER BAR
+══════════════════════════════ */
+.newsletter-bar{
+  background:linear-gradient(135deg,#1a56db,#1e88e5);
+  border-radius:var(--radius);padding:32px 36px;
+  display:flex;align-items:center;gap:28px;flex-wrap:wrap;
+  position:relative;overflow:hidden;
+}
+.newsletter-bar::before{content:none;}
+.nl-content{flex:1;min-width:200px;position:relative;}
+.nl-content h3{font-size:clamp(18px,2.5vw,24px);font-weight:800;color:#fff;margin-bottom:6px;}
+.nl-content p{font-size:13.5px;color:rgba(255,255,255,.8);}
+.nl-form{display:flex;gap:8px;flex-wrap:wrap;position:relative;}
+.nl-input{
+  flex:1;min-width:200px;
+  border:2px solid rgba(255,255,255,.3);
+  background:rgba(255,255,255,.15);
+  color:#fff;padding:12px 16px;border-radius:10px;
+  font-size:14px;outline:none;transition:border-color .2s;
+  font-family:'Noto Sans',sans-serif;
+}
+.nl-input::placeholder{color:rgba(255,255,255,.6);}
+.nl-input:focus{border-color:rgba(255,255,255,.6);}
+.nl-btn{
+  background:#fff;color:var(--primary);border:none;
+  padding:12px 24px;border-radius:10px;
+  font-size:14px;font-weight:800;transition:all .2s;white-space:nowrap;
+}
+.nl-btn:hover{background:#f0f7ff;transform:scale(1.03);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){.hero-deals-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:860px){.hero-deals-grid{grid-template-columns:1fr 1fr;}.flash-banner{flex-direction:column;}.newsletter-bar{flex-direction:column;}}
+@media(max-width:600px){
+  .offers-hero{padding:36px 16px 52px;}
+  .hero-deals-grid{grid-template-columns:1fr;}
+  .deals-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .section{padding:36px 14px;}
+  .countdown-wrap{flex-wrap:wrap;justify-content:center;}
+  .flash-banner{padding:20px 18px;}
+}
+@media(max-width:400px){.deals-grid{grid-template-columns:1fr;}}
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px);}to{opacity:1;transform:translateY(0);}}
+.deal-card{animation:fadeUp .4s ease both;}
+.deal-card:nth-child(1){animation-delay:.04s;}
+.deal-card:nth-child(2){animation-delay:.08s;}
+.deal-card:nth-child(3){animation-delay:.12s;}
+.deal-card:nth-child(4){animation-delay:.16s;}
+.deal-card:nth-child(5){animation-delay:.20s;}
+.deal-card:nth-child(6){animation-delay:.24s;}
+.deal-card:nth-child(7){animation-delay:.28s;}
+.deal-card:nth-child(8){animation-delay:.32s;}
+.hero-deal-card{animation:fadeUp .45s ease both;}
+.hero-deal-card:nth-child(1){animation-delay:.05s;}
+.hero-deal-card:nth-child(2){animation-delay:.12s;}
+.hero-deal-card:nth-child(3){animation-delay:.19s;}
+</style>
+</head>
+<body>
+
+<div id="site-header"></div>
+<script src="components.js"></script>
+
+<!-- BREADCRUMB -->
+<div class="breadcrumb">
+  <a href="local-bazaar-hub.html" style="display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</a>
+  <span class="sep">›</span>
+  <span class="current" style="display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Today's Offers &amp; Deals</span>
+</div>
+
+<!-- ══ OFFERS HERO ══ -->
+<section class="offers-hero">
+  <div class="hero-inner">
+    <div class="offers-hero-badge" style="display:inline-flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Live Deals — Today Only!</div>
+    <h1>Today's <span class="highlight">Blockbuster</span><br>Offers!</h1>
+    <p>Biggest discounts from local shops — order directly from the seller on WhatsApp.<br>New deals every minute, act fast!</p>
+
+    <!-- COUNTDOWN TIMER -->
+    <div class="countdown-wrap">
+      <span class="cd-label" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="rgba(255,255,255,.7)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Deals Expire In:</span>
+      <div class="cd-block" id="cdHours">
+        <span class="cd-num" id="hoursNum">08</span>
+        <div class="cd-unit">Hours</div>
+      </div>
+      <span class="cd-sep">:</span>
+      <div class="cd-block" id="cdMins">
+        <span class="cd-num" id="minsNum">34</span>
+        <div class="cd-unit">Mins</div>
+      </div>
+      <span class="cd-sep">:</span>
+      <div class="cd-block" id="cdSecs">
+        <span class="cd-num" id="secsNum">22</span>
+        <div class="cd-unit">Secs</div>
+      </div>
+    </div>
+
+    <div class="hero-stats-row">
+      <div class="hs"><div class="num">120+</div><div class="lbl">Live Deals</div></div>
+      <div class="hs"><div class="num">Up to 70%</div><div class="lbl">Max Discount</div></div>
+      <div class="hs"><div class="num">500+</div><div class="lbl">Shops</div></div>
+      <div class="hs"><div class="num">₹0</div><div class="lbl">Platform Charge</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAVE -->
+<svg class="wave-sep" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 40" preserveAspectRatio="none" style="background:#f97316;">
+  <path fill="#f8fafc" d="M0,40 C360,0 1080,0 1440,40 L1440,40 L0,40 Z"/>
+</svg>
+
+<!-- ══ MAIN CONTENT ══ -->
+<div class="section max-w">
+
+  <!-- Deal Type Tabs -->
+  <div class="deal-tabs">
+    <div class="dtab active" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> All Deals <span class="cnt">(120)</span></div>
+    <div class="dtab" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Flash Sale</div>
+    <div class="dtab" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg> Fashion</div>
+    <div class="dtab" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> Electronics</div>
+    <div class="dtab" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Kids</div>
+    <div class="dtab" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 3 2 9 12 22 22 9 18 3"/><path d="M11 3L8 9l4 13 4-13-3-6"/><line x1="2" y1="9" x2="22" y2="9"/></svg> Jewellery</div>
+    <div class="dtab" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Home</div>
+    <div class="dtab" onclick="setTab(this)" style="display:flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.27 3.73L17 8l-3.73 1.27L12 13l-1.27-3.73L7 8l3.73-1.27L12 3z"/></svg> New Arrivals</div>
+  </div>
+
+  <!-- FLASH BANNER -->
+  <div class="flash-banner">
+    <div class="flash-banner-left">
+      <div class="sub" style="display:flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="rgba(255,255,255,.75)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Flash Sale — 8 Hours Only!</div>
+      <h2>Electronics Mega Sale</h2>
+      <p>Earphones, Smartwatch, Power Bank — flat 50% Off on all</p>
+    </div>
+    <div class="flash-banner-right">
+      <div class="flash-cd">
+        <div class="fcd-blk"><div class="fcd-num" id="fh">08</div><div class="fcd-lbl">Hr</div></div>
+        <span class="fcd-sep">:</span>
+        <div class="fcd-blk"><div class="fcd-num" id="fm">34</div><div class="fcd-lbl">Min</div></div>
+        <span class="fcd-sep">:</span>
+        <div class="fcd-blk"><div class="fcd-num" id="fs">22</div><div class="fcd-lbl">Sec</div></div>
+      </div>
+      <button class="flash-btn" onclick="openWA('Electronics Flash Sale','All Products','Digital Zone')" style="display:inline-flex;align-items:center;gap:7px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--danger)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Shop Flash Deals</button>
+    </div>
+  </div>
+
+  <!-- HERO DEAL CARDS (Big 3) -->
+  <div class="section-header">
+    <div>
+      <div class="section-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg> Featured <span>Deals</span></div>
+      <div class="section-sub">Today's top 3 blockbuster offers</div>
+    </div>
+  </div>
+  <div class="hero-deals-grid">
+    <div class="hero-deal-card hdc-red">
+      <div class="hd-pattern"></div>
+      <div class="hd-emoji"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div>
+      <span class="hd-badge" style="display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Bestseller</span>
+      <div class="hd-content">
+        <div class="hd-label">Women Fashion Sale</div>
+        <div class="hd-title">Saree &amp; Lehenga Festival</div>
+        <div class="hd-discount"><span class="big-pct">UP TO 60%</span> Off</div>
+        <button class="hd-btn" onclick="openWA('Saree Festival','60% Off','Meera Saree Center')" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp Order →</button>
+      </div>
+    </div>
+    <div class="hero-deal-card hdc-blue">
+      <div class="hd-pattern"></div>
+      <div class="hd-emoji"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div>
+      <span class="hd-badge" style="display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Flash Sale</span>
+      <div class="hd-content">
+        <div class="hd-label">Electronics Flash</div>
+        <div class="hd-title">Gadgets at Half Price</div>
+        <div class="hd-discount"><span class="big-pct">FLAT 50%</span> Off</div>
+        <button class="hd-btn" onclick="openWA('Electronics Flash','50% Off','Digital Zone')" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp Order →</button>
+      </div>
+    </div>
+    <div class="hero-deal-card hdc-purple">
+      <div class="hd-pattern"></div>
+      <div class="hd-emoji"><svg viewBox="0 0 24 24" width="56" height="56" fill="none" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div>
+      <span class="hd-badge" style="display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Festival</span>
+      <div class="hd-content">
+        <div class="hd-label">Men's Fashion Festive</div>
+        <div class="hd-title">Kurta &amp; Ethnic Wear</div>
+        <div class="hd-discount"><span class="big-pct">UP TO 45%</span> Off</div>
+        <button class="hd-btn" onclick="openWA('Kurta Sale','45% Off','Sharma Cloth')" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> WhatsApp Order →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: Today's Hot Deals (Products) -->
+  <div class="section-header" style="margin-top:40px;">
+    <div>
+      <div class="section-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> Today's <span>Hot Deals</span></div>
+      <div class="section-sub">Limited stock — first come, first served!</div>
+    </div>
+    <a href="product-listings.html" class="view-all-btn">View All →</a>
+  </div>
+  <div class="deals-grid" id="dealsGrid">
+
+    <!-- Deal 1 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/fce7f3/be185d?text=👗+Saree" alt="Saree">
+        <div class="disc-ribbon">60% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span id="ct1">07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Meera Saree Center</div>
+        <div class="deal-title">Kanjivaram Pure Silk Saree – Temple Border, Wedding Special</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹1,599</span>
+          <span class="deal-mrp">₹3,999</span>
+          <span class="deal-saving">Save ₹2,400</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★★</span><span class="rv">4.9</span><span class="rc">(210)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>72% Sold</span><span class="sold-hot">28% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:72%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Kanjivaram Saree','1599','Meera Saree Center')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 2 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/fff7ed/f97316?text=🎧+Earphones" alt="Earphones">
+        <div class="disc-ribbon orange-rib">50% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Digital Zone Electronics</div>
+        <div class="deal-title">TWS Bluetooth Earbuds – ANC, 40Hr Battery, Fast Charge</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹749</span>
+          <span class="deal-mrp">₹1,499</span>
+          <span class="deal-saving">Save ₹750</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.5</span><span class="rc">(89)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>85% Sold</span><span class="sold-hot">15% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:85%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('TWS Earbuds','749','Digital Zone Electronics')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 3 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/e8f0fe/1a56db?text=👔+Kurta" alt="Kurta">
+        <div class="disc-ribbon purple-rib">45% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Sharma Cloth House</div>
+        <div class="deal-title">Men's Ethnic Kurta Pajama Set – Festive Embroidery Work</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹549</span>
+          <span class="deal-mrp">₹999</span>
+          <span class="deal-saving">Save ₹450</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★★</span><span class="rv">4.8</span><span class="rc">(124)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>60% Sold</span><span class="sold-hot">40% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:60%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Kurta Pajama Set','549','Sharma Cloth House')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 4 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/d1fae5/059669?text=🧒+Kids" alt="Kids">
+        <div class="disc-ribbon green-rib">40% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Little Star Kids Wear</div>
+        <div class="deal-title">Kids Party Dress Combo – Buy 2 Get 1 Free, Age 3–10yr</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹599</span>
+          <span class="deal-mrp">₹999</span>
+          <span class="deal-saving">Save ₹400</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.3</span><span class="rc">(56)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>55% Sold</span><span class="sold-hot">45% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:55%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Kids Dress Combo','599','Little Star Kids')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 5 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/cffafe/0891b2?text=💍+Jewellery" alt="Jewellery">
+        <div class="disc-ribbon">55% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Rani Jewellery House</div>
+        <div class="deal-title">Bridal Necklace + Earring + Maang Tikka Combo Set</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹899</span>
+          <span class="deal-mrp">₹1,999</span>
+          <span class="deal-saving">Save ₹1,100</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★★</span><span class="rv">4.9</span><span class="rc">(187)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>90% Sold</span><span class="sold-hot">10% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:90%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Bridal Combo Set','899','Rani Jewellery')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 6 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/fef3c7/d97706?text=📱+Mobile+Cover" alt="Mobile Cover">
+        <div class="disc-ribbon orange-rib">70% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Mobile Master</div>
+        <div class="deal-title">Premium Mobile Cover Combo – Pack of 3, Any Model</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹149</span>
+          <span class="deal-mrp">₹499</span>
+          <span class="deal-saving">Save ₹350</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.6</span><span class="rc">(98)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>65% Sold</span><span class="sold-hot">35% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:65%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Mobile Cover Combo 3pcs','149','Mobile Master')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 7 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/ede9fe/7c3aed?text=👟+Shoes" alt="Shoes">
+        <div class="disc-ribbon purple-rib">40% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Step In Footwear</div>
+        <div class="deal-title">Men's Casual Loafer Shoes – Office & Party Wear, Sizes 6–11</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹699</span>
+          <span class="deal-mrp">₹1,199</span>
+          <span class="deal-saving">Save ₹500</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.2</span><span class="rc">(73)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>48% Sold</span><span class="sold-hot">52% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:48%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Casual Loafer Shoes','699','Step In Footwear')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+    <!-- Deal 8 -->
+    <div class="deal-card">
+      <div class="deal-img-wrap">
+        <img src="https://via.placeholder.com/280x280/e0e7ff/4f46e5?text=⌚+Watch" alt="Smart Watch">
+        <div class="disc-ribbon">50% OFF</div>
+        <button class="wish-btn" onclick="event.stopPropagation();toggleWish(this)" data-wished="false"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#9ca3af" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+        <div class="card-timer"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> <span>07:34:22</span> left</div>
+      </div>
+      <div class="deal-body">
+        <div class="deal-shop"><span class="shop-dot"></span>Digital Zone Electronics</div>
+        <div class="deal-title">Smart Watch Pro – AMOLED Display, Health Monitor, IP68</div>
+        <div class="deal-price-row">
+          <span class="deal-price">₹1,299</span>
+          <span class="deal-mrp">₹2,599</span>
+          <span class="deal-saving">Save ₹1,300</span>
+        </div>
+        <div class="deal-rating"><span class="stars-xs">★★★★☆</span><span class="rv">4.4</span><span class="rc">(64)</span></div>
+        <div class="sold-bar-wrap">
+          <div class="sold-bar-label"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="var(--danger)"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>78% Sold</span><span class="sold-hot">22% left!</span></div>
+          <div class="sold-bar-bg"><div class="sold-bar-fill" style="width:78%"></div></div>
+        </div>
+        <button class="btn-wa-deal" onclick="openWA('Smart Watch Pro','1299','Digital Zone Electronics')">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/></svg>
+          Chat on WhatsApp
+        </button>
+      </div>
+    </div>
+
+  </div><!-- /deals-grid -->
+</div>
+
+<!-- ══ COUPON SECTION ══ -->
+<section class="section section-alt">
+  <div class="max-w">
+    <div class="section-header">
+      <div>
+        <div class="section-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="var(--danger)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2z"/><line x1="9" y1="9" x2="9" y2="15"/></svg> Exclusive <span>Coupons</span></div>
+        <div class="section-sub">Share this code with the seller on WhatsApp and get an extra discount</div>
+      </div>
+    </div>
+    <div class="coupons-grid">
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-hot" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="9" height="9" fill="currentColor"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg> HOT</span>
+        <div class="coupon-left">
+          <div class="coupon-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg></div>
+          <div class="coupon-code">SAVE20</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">Flat 20% Extra Off</div>
+          <div class="coupon-desc">Get 20% extra discount on any fashion product order above ₹500.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Valid till 31 Dec</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('SAVE20',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-new" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.27 3.73L17 8l-3.73 1.27L12 13l-1.27-3.73L7 8l3.73-1.27L12 3z"/></svg> NEW</span>
+        <div class="coupon-left">
+          <div class="coupon-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+          <div class="coupon-code">TECH50</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">₹200 Off on Electronics</div>
+          <div class="coupon-desc">Save ₹200 on any earphones, smartwatch or gadget above ₹800.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Valid till 25 Dec</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('TECH50',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-exp" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> FLASH</span>
+        <div class="coupon-left">
+          <div class="coupon-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div>
+          <div class="coupon-code">SAREE30</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">30% Off on Sarees</div>
+          <div class="coupon-desc">30% extra discount on any saree or lehenga from Meera Saree Center. Limited time!</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Tonight only</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('SAREE30',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+          <div class="coupon-code">KIDS15</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">15% Off on Kids Wear</div>
+          <div class="coupon-desc">Flat 15% discount on any children's product. Valid on school uniforms, party wear, and more.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Valid till 31 Jan</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('KIDS15',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <div class="coupon-left">
+          <div class="coupon-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path d="M5 14l1.5-5h9l2 4H5z"/></svg></div>
+          <div class="coupon-code">SHOES25</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">₹150 Off on Footwear</div>
+          <div class="coupon-desc">Save an extra ₹150 on any order above ₹600 at Step In Footwear.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Valid till 15 Jan</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('SHOES25',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="coupon-card">
+        <span class="coupon-badge cb-hot" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89L17 22l-5-3-5 3 1.523-9.11"/></svg> BEST</span>
+        <div class="coupon-left">
+          <div class="coupon-icon"><svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
+          <div class="coupon-code">FIRST10</div>
+        </div>
+        <div class="coupon-divider"></div>
+        <div class="coupon-right">
+          <div class="coupon-title">10% Off on First Order</div>
+          <div class="coupon-desc">For new customers! Get 10% extra discount on your first order from any shop.</div>
+          <div class="coupon-validity">
+            <span class="coupon-exp" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> New Users Only</span>
+            <button class="coupon-copy-btn" onclick="copyCoupon('FIRST10',this)">Copy Code</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ CATEGORY OFFERS ══ -->
+<section class="section max-w">
+  <div class="section-header">
+    <div>
+      <div class="section-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px;margin-right:6px;"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>Category <span>Wise Offers</span></div>
+      <div class="section-sub">Big discounts across every category</div>
+    </div>
+  </div>
+  <div class="cat-offers-grid">
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div><div class="coc-name">Women Fashion</div><div class="coc-disc">Up to 60% Off</div><div class="coc-count">420+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div><div class="coc-name">Electronics</div><div class="coc-disc">Up to 50% Off</div><div class="coc-count">180+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div><div class="coc-name">Men Fashion</div><div class="coc-disc">Up to 45% Off</div><div class="coc-count">310+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="coc-name">Kids Wear</div><div class="coc-disc">Up to 40% Off</div><div class="coc-count">240+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 3 2 9 12 22 22 9 18 3"/><line x1="2" y1="9" x2="22" y2="9"/><path d="M6 3h12"/><path d="M9 3l3 6 3-6"/></svg></div><div class="coc-name">Jewellery</div><div class="coc-disc">Up to 55% Off</div><div class="coc-count">120+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div class="coc-name">Mobile Access.</div><div class="coc-disc">Up to 70% Off</div><div class="coc-count">198+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path d="M5 14l1.5-5h9l2 4H5z"/><path d="M7 14v4"/><path d="M17 14v4"/></svg></div><div class="coc-name">Footwear</div><div class="coc-disc">Up to 40% Off</div><div class="coc-count">165+ products</div></div>
+    <div class="cat-offer-card"><div class="coc-icon"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="coc-name">Home Decor</div><div class="coc-disc">Up to 35% Off</div><div class="coc-count">90+ products</div></div>
+  </div>
+</section>
+
+<!-- ══ BRAND OFFERS ══ -->
+<section class="section section-alt">
+  <div class="max-w">
+    <div class="section-header">
+      <div>
+        <div class="section-title"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-4px;margin-right:6px;"><path d="M6 2L3 6v2a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V8a2 2 0 0 0 2 2 2 2 0 0 0 2-2V8a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2V6L18 2z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M17 21H7a2 2 0 0 1-2-2V11h14v8a2 2 0 0 1-2 2z"/></svg>Shop <span>Special Offers</span></div>
+        <div class="section-sub">Exclusive deals from our featured shops</div>
+      </div>
+    </div>
+    <div class="brand-scroll">
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div><div class="brand-name">Sharma Cloth</div><div class="brand-offer">Upto 45% Off</div></div>
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg></div><div class="brand-name">Digital Zone</div><div class="brand-offer">Upto 50% Off</div></div>
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg></div><div class="brand-name">Meera Saree</div><div class="brand-offer">Upto 60% Off</div></div>
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div><div class="brand-name">Little Star</div><div class="brand-offer">Upto 40% Off</div></div>
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2" ry="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div><div class="brand-name">Mobile Master</div><div class="brand-offer">Upto 70% Off</div></div>
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 18h18"/><path d="M5 14l1.5-5h9l2 4H5z"/><path d="M7 14v4"/><path d="M17 14v4"/></svg></div><div class="brand-name">Step In</div><div class="brand-offer">Upto 40% Off</div></div>
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 3 2 9 12 22 22 9 18 3"/><line x1="2" y1="9" x2="22" y2="9"/><path d="M6 3h12"/><path d="M9 3l3 6 3-6"/></svg></div><div class="brand-name">Rani Jewels</div><div class="brand-offer">Upto 55% Off</div></div>
+      <div class="brand-card"><div class="brand-icon"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div class="brand-name">Home Decor</div><div class="brand-offer">Upto 35% Off</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ NEWSLETTER ══ -->
+<section class="section max-w">
+  <div class="newsletter-bar">
+    <div class="nl-content">
+      <h3><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-3px;margin-right:6px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Never Miss a Deal!</h3>
+      <p>Share your WhatsApp number — get the best daily deals directly on your phone. Free to subscribe, unsubscribe anytime.</p>
+    </div>
+    <div class="nl-form">
+      <input type="text" class="nl-input" placeholder="WhatsApp Number (e.g. 98765 43210)">
+      <button class="nl-btn" onclick="subscribeDeals()"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-2px;margin-right:5px;"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Subscribe FREE</button>
+    </div>
+  </div>
+</section>
+
+<div id="site-footer"></div>
+<script>typeof injectComponents === 'function' && injectComponents();</script>
+
+<script>
+// ── LIVE COUNTDOWN ──
+function startCountdown(){
+  // Set end time: today midnight
+  const now = new Date();
+  const end = new Date(now);
+  end.setHours(23,59,59,0);
+
+  function tick(){
+    const diff = end - new Date();
+    if(diff <= 0){ clearInterval(timer); return; }
+    const h = String(Math.floor(diff/3600000)).padStart(2,'0');
+    const m = String(Math.floor((diff%3600000)/60000)).padStart(2,'0');
+    const s = String(Math.floor((diff%60000)/1000)).padStart(2,'0');
+    // Hero countdown
+    document.getElementById('hoursNum').textContent = h;
+    document.getElementById('minsNum').textContent = m;
+    document.getElementById('secsNum').textContent = s;
+    // Flash banner countdown
+    document.getElementById('fh').textContent = h;
+    document.getElementById('fm').textContent = m;
+    document.getElementById('fs').textContent = s;
+    // Card timers
+    const ct = `${h}:${m}:${s}`;
+    document.querySelectorAll('.card-timer span').forEach(el => el.textContent = ct);
+  }
+  tick();
+  const timer = setInterval(tick, 1000);
+}
+startCountdown();
+
+// ── WHATSAPP ──
+function openWA(product, price, shop){
+  const msg = encodeURIComponent(`Hello!\n\nI saw today's offer on *BahaBasket*:\n\n*Product:* ${product}\n*Offer Price:* ₹${price}\n*Shop:* ${shop}\n\nIs this deal still available? I'd like to place an order!`);
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+}
+
+// ── COUPON COPY ──
+function copyCoupon(code, btn){
+  navigator.clipboard?.writeText(code).then(()=>{
+    btn.textContent = '✓ Copied!';
+    btn.style.background = 'var(--success)';
+    btn.style.color = '#fff';
+    setTimeout(()=>{ btn.textContent='Copy Code'; btn.style.background=''; btn.style.color=''; }, 2000);
+  }).catch(()=>{
+    btn.textContent = '✓ ' + code;
+    setTimeout(()=>{ btn.textContent='Copy Code'; }, 2000);
+  });
+}
+
+// ── WISHLIST ──
+function toggleWish(btn){
+  const wished = btn.getAttribute('data-wished') === 'true';
+  if(wished){
+    btn.setAttribute('data-wished','false');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+  } else {
+    btn.setAttribute('data-wished','true');
+    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="#ef4444" stroke="#ef4444" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+  }
+}
+
+// ── DEAL TABS ──
+function setTab(el){
+  document.querySelectorAll('.dtab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── SUBSCRIBE ──
+function subscribeDeals(){
+  const input = document.querySelector('.nl-input');
+  if(input.value.trim().length < 8){
+    alert('Please enter a valid WhatsApp number!');
+    return;
+  }
+  const msg = encodeURIComponent(`Hello! I would like to subscribe to daily deals from BahaBasket. My number: ${input.value}`);
+  window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
+  input.value='';
+}
+
+// ── SOLD BAR ANIMATION ──
+window.addEventListener('load', ()=>{
+  document.querySelectorAll('.sold-bar-fill').forEach(bar=>{
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(()=>{ bar.style.width = w; }, 400);
+  });
+});
+</script>
+</body>
+</html>
