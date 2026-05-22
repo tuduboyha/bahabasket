@@ -11,7 +11,13 @@
   "engines": {
     "node": ">=18.0.0"
   },
-  "keywords": ["bahabasket", "bahabasket", "ecommerce", "express", "supabase"],
+  "keywords": [
+    "bahabasket",
+    "bahabasket",
+    "ecommerce",
+    "express",
+    "supabase"
+  ],
   "author": "LocalBazaarHub",
   "license": "ISC",
   "dependencies": {
@@ -23,7 +29,8 @@
     "helmet": "^7.1.0",
     "joi": "^17.13.1",
     "morgan": "^1.10.0",
-    "razorpay": "^2.9.2"
+    "razorpay": "^2.9.2",
+    "ws": "^8.20.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.3"
