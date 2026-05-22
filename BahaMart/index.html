@@ -2924,7 +2924,7 @@ buildNearestStores();
     </div>
     <a href="shop-directory.html" class="view-all">View All Shops →</a>
   </div>
-  <div class="shop-grid">
+  <div class="shop-grid" id="featuredShopsGrid">
 
     <!-- SHOP 1 -->
     <div class="shop-card" onclick="window.location='shop-profile.html'">
@@ -3406,7 +3406,113 @@ buildNearestStores();
 </div>
 
 <script>
-// WhatsApp button function
+const API_BASE = 'https://bahabasket-production.up.railway.app/api';
+
+// ── Featured Shops — load from API ───────────────────────────────────────────
+const _shopBgPalette = [
+  'linear-gradient(135deg,#1a56db,#3b82f6)',
+  'linear-gradient(135deg,#ec4899,#f472b6)',
+  'linear-gradient(135deg,#059669,#34d399)',
+  'linear-gradient(135deg,#d97706,#fbbf24)',
+  'linear-gradient(135deg,#7c3aed,#a78bfa)',
+  'linear-gradient(135deg,#dc2626,#f87171)',
+  'linear-gradient(135deg,#0891b2,#22d3ee)',
+  'linear-gradient(135deg,#16a34a,#4ade80)',
+];
+
+function _shopBadge(shop, idx) {
+  if (shop.is_verified) return '⭐ Verified';
+  if (shop.plan === 'premium') return '👑 Premium';
+  if (idx === 0) return '🔥 Popular';
+  return '🆕 New';
+}
+
+function _shopInitials(name) {
+  return (name || 'S').slice(0, 2).toUpperCase();
+}
+
+function _shopCardHTML(shop, idx) {
+  const bg   = _shopBgPalette[idx % _shopBgPalette.length];
+  const cats = Array.isArray(shop.category) ? shop.category[0] : (shop.category || 'Shop');
+  const rating = shop.rating ? Number(shop.rating).toFixed(1) : '4.5';
+  const reviews = shop.review_count || 0;
+  const waNum = (shop.whatsapp || '919999999999').replace(/[^0-9]/g, '');
+  const waMsg = encodeURIComponent(`Hello ${shop.name}! I found your shop on BahaBasket.`);
+
+  return `
+    <div class="shop-card" onclick="window.location='shop-profile.html?slug=${shop.slug}'">
+      <div class="shop-cover" style="background:${bg};">
+        <div class="shop-cover-pattern"></div>
+        <span class="shop-featured-badge">${_shopBadge(shop, idx)}</span>
+      </div>
+      <div class="shop-body">
+        <div class="shop-logo" style="display:flex;align-items:center;justify-content:center;font-weight:800;font-size:18px;color:#1a56db;background:#e8f0fe;">
+          ${shop.logo ? `<img src="${shop.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;" onerror="this.parentElement.textContent='${_shopInitials(shop.name)}'">` : _shopInitials(shop.name)}
+        </div>
+        <div class="shop-name">${shop.name}</div>
+        <span class="shop-category">${cats}</span>
+        <div class="shop-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-num">${rating}</span>
+          <span class="rating-count">(${reviews} reviews)</span>
+        </div>
+        <div class="shop-meta">
+          <span><svg style="vertical-align:-3px;margin-right:4px;" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>${shop.city || 'Local'}</span>
+          <span style="color:var(--success);font-weight:700;font-size:12px;">● Open</span>
+        </div>
+        <div class="shop-actions">
+          <button style="display:inline-flex;align-items:center;gap:6px;" class="btn-shop-wa"
+            onclick="event.stopPropagation();window.open('https://wa.me/${waNum}?text=${waMsg}','_blank')">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884zm8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.464 3.488z"/></svg>
+            WhatsApp
+          </button>
+          <button class="btn-shop-view"
+            onclick="event.stopPropagation();window.location='shop-profile.html?slug=${shop.slug}'">
+            View Shop →
+          </button>
+        </div>
+      </div>
+    </div>`;
+}
+
+async function loadFeaturedShops() {
+  const grid = document.getElementById('featuredShopsGrid');
+  if (!grid) return;
+
+  // Loading skeleton
+  grid.innerHTML = Array(3).fill(`
+    <div class="shop-card" style="pointer-events:none;">
+      <div class="shop-cover" style="background:#e8f0fe;"></div>
+      <div class="shop-body">
+        <div style="width:48px;height:48px;border-radius:12px;background:#e8f0fe;margin-bottom:12px;"></div>
+        <div style="height:16px;background:#f1f5f9;border-radius:4px;margin-bottom:8px;width:70%;"></div>
+        <div style="height:12px;background:#f1f5f9;border-radius:4px;width:50%;"></div>
+      </div>
+    </div>`).join('');
+
+  try {
+    const res  = await fetch(`${API_BASE}/shops?limit=6`);
+    const data = await res.json();
+    const shops = (data.success && data.shops && data.shops.length) ? data.shops : null;
+
+    if (!shops) {
+      // No shops yet — keep existing hardcoded cards (already in HTML)
+      grid.innerHTML = grid.dataset.fallback || '';
+      return;
+    }
+
+    grid.innerHTML = shops.map((s, i) => _shopCardHTML(s, i)).join('');
+  } catch (e) {
+    console.warn('loadFeaturedShops error:', e);
+    // On error — leave skeleton hidden, fallback gracefully
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:32px;color:#64748b;">Shops loading… <a href="shop-directory.html">Browse All Shops →</a></div>';
+  }
+}
+
+// Run on page load
+loadFeaturedShops();
+
+// ── WhatsApp button function ───────────────────────────────────────────────
 function openWA(shop, product, price) {
   const msg = encodeURIComponent(`Hello! I am interested in this product.\n\n*Product:* ${product}\n*Price:* ₹${price}\n*Shop:* ${shop}\n\nKya yeh available hai?`);
   window.open(`https://wa.me/919876543210?text=${msg}`, '_blank');
