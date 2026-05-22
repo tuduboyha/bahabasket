@@ -1008,6 +1008,7 @@ initShopPage();
 
 // ── PRODUCTS DATA (populated from API) ──
 let products = [];
+let _productsLoaded = false;
 
 // ── LOAD PRODUCTS FROM API ──
 async function loadProducts(shopId) {
@@ -1016,6 +1017,7 @@ async function loadProducts(shopId) {
     const data = await res.json();
     if (!data.success) return;
     products = data.products || [];
+    _productsLoaded = true;
 
     // Update "Products (N)" tab button text
     const prodTabBtn = document.querySelector('.tab-btn');
@@ -1113,9 +1115,14 @@ function renderBatch() {
   const arr   = getFilteredSorted();
   const batch = arr.slice(loadedCount, loadedCount + PER_PAGE);
   if (batch.length === 0 && loadedCount === 0) {
-    const msg = products.length === 0
-      ? '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--text-light);font-size:15px;"><span class="spin" style="font-size:24px;">◌</span><br><br>Loading products…</div>'
-      : '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--text-light);font-size:15px;">No products found in this category.</div>';
+    let msg;
+    if (!_productsLoaded) {
+      msg = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--text-light);font-size:15px;"><span class="spin" style="font-size:24px;">◌</span><br><br>Loading products…</div>';
+    } else if (products.length === 0) {
+      msg = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--text-light);font-size:15px;">🛍️<br><br><b>No products listed yet</b><br><span style="font-size:13px;">This shop hasn\'t added any products yet.</span></div>';
+    } else {
+      msg = '<div style="grid-column:1/-1;text-align:center;padding:48px 20px;color:var(--text-light);font-size:15px;">No products found in this category.</div>';
+    }
     grid.innerHTML = msg;
     document.getElementById('loadMoreBtn').style.display = 'none';
     return;
