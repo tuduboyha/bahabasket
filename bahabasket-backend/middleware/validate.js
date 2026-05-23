@@ -58,6 +58,7 @@ const schemas = {
     stock:       Joi.number().integer().min(0).default(0),
     sizes:       Joi.array().items(Joi.string()).optional(),
     colors:      Joi.array().items(Joi.string()).optional(),
+    images:      Joi.array().items(Joi.string().uri()).optional(),
     is_active:   Joi.boolean().optional(),
   }),
 
