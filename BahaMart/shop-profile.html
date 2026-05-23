@@ -775,8 +775,10 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
 // ══════════════════════════════════════════════════════
 const API_BASE = 'https://bahabasket-production.up.railway.app/api';
 
-// ?slug=sharma-cloth-house  ya  ?slug=digital-zone-electronics
-const _slug = new URLSearchParams(window.location.search).get('slug');
+// ?slug=sharma-cloth-house  ya  ?id=UUID
+const _urlParams = new URLSearchParams(window.location.search);
+const _slug      = _urlParams.get('slug');
+const _shopId    = _urlParams.get('id');   // fallback when slug not present
 
 var _shopData = null;
 
@@ -805,6 +807,44 @@ function populateShopPage(shop) {
   const cats        = Array.isArray(shop.category)
     ? shop.category.map(c => c.charAt(0).toUpperCase() + c.slice(1).replace(/-/g,' ')).join(', ')
     : (shop.category || 'General');
+
+  // ── Cover background — use cover_image if available, else category gradient ──
+  const coverSection = document.querySelector('.shop-cover-section');
+  if (coverSection) {
+    if (shop.cover_image) {
+      coverSection.style.background = 'none';
+      coverSection.style.backgroundImage = 'url(' + shop.cover_image + ')';
+      coverSection.style.backgroundSize  = 'cover';
+      coverSection.style.backgroundPosition = 'center';
+    } else {
+      const catColors = {
+        'men':'linear-gradient(135deg,#1a56db,#1e88e5)',
+        'women':'linear-gradient(135deg,#7c3aed,#a78bfa)',
+        'kids':'linear-gradient(135deg,#059669,#10b981)',
+        'electronics':'linear-gradient(135deg,#f97316,#fb923c)',
+        'mobile':'linear-gradient(135deg,#0284c7,#38bdf8)',
+        'footwear':'linear-gradient(135deg,#92400e,#d97706)',
+        'jewellery':'linear-gradient(135deg,#0891b2,#22d3ee)',
+        'home-decor':'linear-gradient(135deg,#4f46e5,#818cf8)',
+        'ethnic-wear':'linear-gradient(135deg,#be185d,#f472b6)',
+        'beauty-care':'linear-gradient(135deg,#db2777,#f9a8d4)',
+        'sports-fitness':'linear-gradient(135deg,#16a34a,#4ade80)',
+        'watches':'linear-gradient(135deg,#374151,#6b7280)',
+      };
+      const catSlug = Array.isArray(shop.category) ? (shop.category[0]||'') : (shop.category||'');
+      const grad = catColors[catSlug] || 'linear-gradient(135deg,#1042b0 0%,#1a56db 50%,#2563eb 100%)';
+      coverSection.style.background = grad;
+    }
+  }
+
+  // ── Shop logo ──
+  if (shop.logo) {
+    const logoEl = document.querySelector('.shop-logo');
+    if (logoEl) {
+      logoEl.innerHTML = '<img src="' + shop.logo + '" alt="' + name + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"' +
+        ' onerror="this.style.display=\'none\'">';
+    }
+  }
 
   // ── Page title + breadcrumb ──
   document.title = name + ' — Shop Profile | BahaBasket';
@@ -914,9 +954,17 @@ async function loadReviews(shopId) {
     const data = await res.json();
     if (data.success && data.reviews && data.reviews.length > 0) {
       renderAPIReviews(data.reviews);
+    } else {
+      const el = document.getElementById('reviewsList');
+      if (el) el.innerHTML =
+        '<div style="text-align:center;padding:40px 20px;color:var(--text-light);font-size:14px;">' +
+        '⭐<br><br><b>No reviews yet</b><br><span style="font-size:13px;">Be the first to review this shop!</span></div>';
     }
-    // No reviews from API → keep hardcoded demo reviews
-  } catch (e) { /* keep hardcoded */ }
+  } catch (e) {
+    const el = document.getElementById('reviewsList');
+    if (el) el.innerHTML =
+      '<div style="text-align:center;padding:32px 20px;color:var(--text-light);font-size:13px;">Could not load reviews. Please try again later.</div>';
+  }
 }
 
 function renderAPIReviews(reviews) {
@@ -954,16 +1002,29 @@ function renderAPIReviews(reviews) {
 
 // ── Load similar shops ──
 async function loadSimilarShops(shop) {
-  if (!shop || !Array.isArray(shop.category) || !shop.category.length) return;
-  const cat = shop.category[0];
+  const catArr = Array.isArray(shop.category) ? shop.category : (shop.category ? [shop.category] : []);
+  if (!shop || !catArr.length) {
+    document.getElementById('similarShops').innerHTML =
+      '<div style="text-align:center;padding:16px;color:var(--text-light);font-size:13px;">No similar shops found.</div>';
+    return;
+  }
+  const cat = catArr[0];
   try {
-    const res  = await fetch(API_BASE + '/shops?category=' + cat + '&limit=4');
+    const res  = await fetch(API_BASE + '/shops?category=' + cat + '&limit=5');
     const data = await res.json();
     if (data.success && data.shops) {
-      const others = data.shops.filter(s => s.slug !== shop.slug).slice(0, 3);
-      if (others.length > 0) renderSimilarShops(others, cat);
+      const others = data.shops.filter(s => s.id !== shop.id).slice(0, 3);
+      if (others.length > 0) {
+        renderSimilarShops(others, cat);
+      } else {
+        document.getElementById('similarShops').innerHTML =
+          '<div style="text-align:center;padding:16px;color:var(--text-light);font-size:13px;">No similar shops found.</div>';
+      }
     }
-  } catch (e) { /* keep hardcoded */ }
+  } catch (e) {
+    document.getElementById('similarShops').innerHTML =
+      '<div style="text-align:center;padding:16px;color:var(--text-light);font-size:13px;">Could not load.</div>';
+  }
 }
 
 function renderSimilarShops(shops, cat) {
@@ -986,10 +1047,11 @@ function renderSimilarShops(shops, cat) {
 
 // ── MAIN INIT ──
 async function initShopPage() {
-  if (!_slug) { showShopNotFound(); return; }
+  const lookupKey = _slug || _shopId;
+  if (!lookupKey) { showShopNotFound(); return; }
   showLoadingState();
   try {
-    const res  = await fetch(API_BASE + '/shops/' + _slug);
+    const res  = await fetch(API_BASE + '/shops/' + lookupKey);
     if (res.status === 404) { showShopNotFound(); return; }
     const data = await res.json();
     if (!data.success || !data.shop) { showShopNotFound(); return; }
@@ -1028,7 +1090,56 @@ async function loadProducts(shopId) {
     if (sp) sp.textContent = products.length;
 
     resetGrid();
+    updateGalleryFromProducts();
   } catch (e) { console.error('loadProducts:', e); }
+}
+
+// ── Populate gallery from product images ──
+function updateGalleryFromProducts() {
+  // Collect all images from products
+  var allImgs = [];
+  products.forEach(function(p) {
+    if (p.images && p.images.length) {
+      p.images.forEach(function(src) {
+        if (src && allImgs.length < 8) allImgs.push({ src: src, lbl: p.name });
+      });
+    }
+  });
+  if (allImgs.length === 0) return; // Keep static gallery if no product images
+
+  // Update global galleryImgs array
+  galleryImgs.splice(0, galleryImgs.length, ...allImgs);
+
+  // Re-render gallery grid
+  var gg = document.getElementById('galleryGrid');
+  if (gg) {
+    gg.innerHTML = galleryImgs.map(function(g, i) {
+      return '<div class="gallery-item" onclick="openGallery(' + i + ')">' +
+        '<div class="gallery-shimmer" id="gsk' + i + '"></div>' +
+        '<img src="' + g.src + '" alt="' + g.lbl + '" id="gimg' + i + '"' +
+          ' onload="this.classList.add(\'loaded\');document.getElementById(\'gsk' + i + '\').style.display=\'none\'"' +
+          ' onerror="document.getElementById(\'gsk' + i + '\').style.display=\'none\';this.style.opacity=\'1\'">' +
+        '<div class="gallery-overlay">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" width="26" height="26"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>' +
+          '<span class="gallery-lbl">' + g.lbl + '</span>' +
+        '</div>' +
+      '</div>';
+    }).join('');
+  }
+
+  // Update cover mini thumbs
+  var mini = document.querySelector('.cover-mini-gallery');
+  if (mini && allImgs.length >= 3) {
+    mini.innerHTML =
+      '<div class="cover-mini-thumb" onclick="openGallery(0)"><img src="' + allImgs[0].src + '" alt="' + allImgs[0].lbl + '"></div>' +
+      '<div class="cover-mini-thumb" onclick="openGallery(1)"><img src="' + allImgs[1].src + '" alt="' + allImgs[1].lbl + '"></div>' +
+      '<div class="cover-mini-thumb" onclick="openGallery(2)"><img src="' + allImgs[2].src + '" alt="' + allImgs[2].lbl + '"></div>' +
+      (allImgs.length > 3 ? '<div class="cover-mini-more" onclick="showTab(\'gallery\',null)">+' + (allImgs.length - 3) + '</div>' : '');
+  } else if (mini && allImgs.length > 0) {
+    mini.innerHTML = allImgs.map(function(img, i) {
+      return '<div class="cover-mini-thumb" onclick="openGallery(' + i + ')"><img src="' + img.src + '" alt="' + img.lbl + '"></div>';
+    }).join('');
+  }
 }
 
 // ── PAGINATION / FILTER / SORT ──
@@ -1078,7 +1189,7 @@ function cardHTML(p, i) {
   const safeName     = p.name.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
   return `
-  <div class="product-card" onclick="window.location='product-detail.html'">
+  <div class="product-card" onclick="window.location='product-detail.html?id=${p.id}'">
     <div class="pc-img">
       <div class="pc-img-skeleton" id="sk${i}"></div>
       <div class="pc-img-fallback" id="fb${i}" style="background:${pbg};${photo ? 'display:none;' : ''}">
@@ -1147,28 +1258,11 @@ function updateLoadMoreBtn(total) {
 // Initial render — products populated by initShopPage → loadProducts()
 // renderBatch() called there after API responds
 
-// ── REVIEWS ──
-const reviews = [
-  {name:"Rahul Mishra",city:"Indore",date:"15 Dec 2024",stars:5,title:"Best cloth shop in Gandhi Nagar!",text:"Visited this shop for my brother's wedding. The collection is amazing — they have everything from casual kurtas to heavy sherwanis. Quality is top-notch and Ramesh ji's advice on sizing was really helpful. Definitely coming back!",color:"linear-gradient(135deg,#1a56db,#3b82f6)"},
-  {name:"Pradeep Sharma",city:"Bhopal",date:"10 Dec 2024",stars:5,title:"Ordered via WhatsApp — seamless experience",text:"I'm from Bhopal and found this shop on BahaBasket. Messaged on WhatsApp, got a prompt reply with photos and price list. Ordered 3 kurta sets, they were delivered the next day via courier. Fabric quality exceeded my expectations!",color:"linear-gradient(135deg,#059669,#34d399)"},
-  {name:"Arun Kumar",city:"Ujjain",date:"5 Dec 2024",stars:4,title:"Good collection, slightly expensive",text:"Good quality products and helpful staff. Kurta fabric is genuinely pure cotton. Slight concern about pricing — could be a bit lower. But given the quality and service, it is still worth it. Will recommend to friends.",color:"linear-gradient(135deg,#f97316,#fb923c)"},
-  {name:"Vijay Nair",city:"Indore",date:"1 Dec 2024",stars:5,title:"My go-to shop for ethnic wear",text:"I have been buying from Sharma Cloth House for 5 years. Never once disappointed. Recently discovered them on BahaBasket — so much easier to browse products now! WhatsApp ordering is a game changer.",color:"linear-gradient(135deg,#7c3aed,#a78bfa)"},
-];
-document.getElementById('reviewsList').innerHTML = reviews.map(r=>`
-  <div class="review-item">
-    <div class="ri-header">
-      <div class="ri-av" style="background:${r.color};">${r.name[0]}</div>
-      <div class="ri-meta">
-        <div class="ri-name">${r.name} <span style="font-size:11px;color:var(--text-light);">· ${r.city}</span></div>
-        <div class="ri-date">${r.date}</div>
-      </div>
-      <span class="ri-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
-    </div>
-    <div class="ri-stars">${'★'.repeat(r.stars)}${'☆'.repeat(5-r.stars)}</div>
-    <div class="ri-title">${r.title}</div>
-    <div class="ri-text">${r.text}</div>
-    <div class="ri-helpful">Was this helpful? <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>Yes</button><button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>No</button></div>
-  </div>`).join('');
+// ── REVIEWS — placeholder until API responds ──
+document.getElementById('reviewsList').innerHTML =
+  '<div style="text-align:center;padding:32px 20px;color:var(--text-light);font-size:14px;">' +
+  '<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" style="animation:spin 1s linear infinite;margin-bottom:10px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>' +
+  '<br>Loading reviews…</div>';
 
 // ── GALLERY ──
 const galleryImgs = [
@@ -1248,25 +1342,9 @@ document.getElementById('shopOffersList').innerHTML = [
     </div>
   </div>`).join('');
 
-// ── SIMILAR SHOPS ──
-const ssIcons = {
-  bag:`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="20" height="20"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>`,
-  shirt:`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="20" height="20"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>`,
-  store:`<svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="20" height="20"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg>`,
-};
-document.getElementById('similarShops').innerHTML = [
-  {name:"Royal Ethnic Wear",cat:"Men Fashion",rating:"4.6",icon:"bag",color:"#f97316"},
-  {name:"Trendy Menswear",cat:"Men Fashion",rating:"4.4",icon:"shirt",color:"#059669"},
-  {name:"Gandhi Nagar Cloths",cat:"Men & Women",rating:"4.5",icon:"store",color:"#7c3aed"},
-].map(s=>`
-  <div class="similar-shop" onclick="alert('Navigating to ${s.name} profile...')">
-    <div class="ss-logo" style="background:linear-gradient(135deg,${s.color},${s.color}aa);display:flex;align-items:center;justify-content:center;">${ssIcons[s.icon]}</div>
-    <div class="ss-info">
-      <div class="ss-name">${s.name}</div>
-      <div class="ss-cat">${s.cat}</div>
-    </div>
-    <div class="ss-rating">★ ${s.rating}</div>
-  </div>`).join('');
+// ── SIMILAR SHOPS — placeholder until API responds ──
+document.getElementById('similarShops').innerHTML =
+  '<div style="text-align:center;padding:20px;color:var(--text-light);font-size:13px;">Loading similar shops…</div>';
 
 // ── TABS ──
 function showTab(id, btn){
