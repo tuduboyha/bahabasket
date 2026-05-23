@@ -234,11 +234,11 @@
           </button>
         </div>
       </div>
-      <a href="login-register.html" class="nav-link-login">
+      <a href="login-register.html" class="nav-link-login" id="navLoginBtn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Login
       </a>
-      <a href="login-register.html?mode=seller" class="nav-btn-register" style="box-sizing:border-box;border:none;">
+      <a href="login-register.html?mode=seller" class="nav-btn-register" id="navRegisterBtn" style="box-sizing:border-box;border:none;">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         Register Shop
       </a>
@@ -302,11 +302,11 @@
 
   <!-- Login / Register buttons — top of drawer -->
   <div style="padding:14px 12px 10px;display:flex;flex-direction:column;gap:10px;border-bottom:1px solid var(--border);flex-shrink:0;">
-    <a href="login-register.html" class="drawer-btn-login">
+    <a href="login-register.html" class="drawer-btn-login" id="drawerLoginBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
       Login
     </a>
-    <a href="login-register.html?mode=seller" class="drawer-btn-register">
+    <a href="login-register.html?mode=seller" class="drawer-btn-register" id="drawerRegisterBtn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
       Register Shop
     </a>
@@ -831,5 +831,64 @@
      DOM mein hai → injectComponents() turant chalao.
   ───────────────────────────────────────────────────────── */
   injectComponents();
+
+  /* ─────────────────────────────────────────────────────────
+     10. AUTH NAV — Login button → user name + Logout if logged in
+  ───────────────────────────────────────────────────────── */
+  (function initAuthNav() {
+    var token = localStorage.getItem('bb_token');
+    var user  = null;
+    try { user = JSON.parse(localStorage.getItem('bb_user')); } catch(e) {}
+    if (!token || !user) return; // not logged in — keep defaults
+
+    var userName  = (user.name || user.phone || 'Account').split(' ')[0];
+    var isSeller  = user.role === 'seller';
+
+    var personSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+    var logoutSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+
+    function doLogout(e) {
+      e.preventDefault();
+      localStorage.removeItem('bb_token');
+      localStorage.removeItem('bb_user');
+      window.location.href = 'index.html';
+    }
+
+    // ── Desktop navbar ──
+    var navLogin = document.getElementById('navLoginBtn');
+    var navReg   = document.getElementById('navRegisterBtn');
+    if (navLogin) {
+      navLogin.removeAttribute('href');
+      navLogin.style.cursor = 'pointer';
+      navLogin.innerHTML = personSVG + ' ' + userName;
+      navLogin.onclick = function() {
+        window.location.href = isSeller ? 'seller-dashboard.html' : 'login-register.html';
+      };
+    }
+    if (navReg) {
+      navReg.textContent = 'Logout';
+      navReg.removeAttribute('href');
+      navReg.style.background = 'linear-gradient(135deg,#dc2626,#b91c1c)';
+      navReg.innerHTML = logoutSVG + ' Logout';
+      navReg.onclick = doLogout;
+    }
+
+    // ── Mobile drawer ──
+    var drLogin = document.getElementById('drawerLoginBtn');
+    var drReg   = document.getElementById('drawerRegisterBtn');
+    if (drLogin) {
+      drLogin.removeAttribute('href');
+      drLogin.innerHTML = personSVG + ' ' + userName + (isSeller ? ' (Seller)' : '');
+      drLogin.onclick = function() {
+        window.location.href = isSeller ? 'seller-dashboard.html' : 'login-register.html';
+      };
+    }
+    if (drReg) {
+      drReg.removeAttribute('href');
+      drReg.style.background = 'linear-gradient(135deg,#dc2626,#b91c1c)';
+      drReg.innerHTML = logoutSVG + ' Logout';
+      drReg.onclick = doLogout;
+    }
+  })();
 
 })();
