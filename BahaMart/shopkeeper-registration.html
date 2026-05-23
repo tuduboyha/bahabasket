@@ -1167,16 +1167,26 @@ async function finalSubmit(){
     // ✅ Success!
     const regId = 'BB-' + data.shop.id.slice(0,8).toUpperCase();
     document.getElementById('regId').textContent = regId;
+
+    // Hide form elements
     document.getElementById('formCard').style.display = 'none';
     const sidebar = document.querySelector('.reg-sidebar');
     if(sidebar) sidebar.style.display = 'none';
-    document.getElementById('successPage').style.display = 'block';
+    const progressBar = document.querySelector('.progress-wrap');
+    if(progressBar) progressBar.style.display = 'none';
+    const regLayout = document.querySelector('.reg-layout');
+    if(regLayout) regLayout.style.display = 'none';
+
+    // Show success page
+    const sp = document.getElementById('successPage');
+    sp.style.display = 'block';
+    sp.style.minHeight = '80vh';
     window.scrollTo({top:0,behavior:'smooth'});
 
-    // Auto-redirect to seller dashboard after 2 seconds
+    // Auto-redirect to seller dashboard after 4 seconds
     setTimeout(()=>{
       window.location.href = 'seller-dashboard.html';
-    }, 2000);
+    }, 4000);
 
   } catch(err) {
     btn.innerHTML = origText;
