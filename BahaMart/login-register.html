@@ -1449,6 +1449,17 @@ function socialLogin(platform){
 // ── KEYBOARD: ESC to close modals ──
 document.addEventListener('keydown',e=>{
   if(e.key==='Escape') closeForgotModal();
+
+  // Enter key → submit login form if password tab is active
+  if(e.key==='Enter'){
+    const passForm = document.getElementById('loginPassForm');
+    const activeEl = document.activeElement;
+    if(passForm && passForm.style.display !== 'none' &&
+       (activeEl?.id === 'loginEmail' || activeEl?.id === 'loginPassword')){
+      e.preventDefault();
+      passwordLogin();
+    }
+  }
 });
 
 function submitSellerReg(){
