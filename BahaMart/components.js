@@ -879,7 +879,7 @@
     var drReg   = document.getElementById('drawerRegisterBtn');
     if (drLogin) {
       drLogin.removeAttribute('href');
-      drLogin.innerHTML = personSVG + ' ' + userName + (isSeller ? ' (Seller)' : '');
+      drLogin.innerHTML = personSVG + ' ' + userName;
       drLogin.onclick = function() {
         window.location.href = isSeller ? 'seller-dashboard.html' : 'user-dashboard.html';
       };
