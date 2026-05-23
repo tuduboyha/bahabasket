@@ -943,6 +943,7 @@ const API_BASE = 'https://bahabasket-production.up.railway.app/api';
 function saveAuth(token, user){
   localStorage.setItem('bb_token', token);
   localStorage.setItem('bb_user', JSON.stringify(user));
+  localStorage.setItem('bb_login_type', loginType); // 'buyer' or 'seller'
 }
 
 // Check if already logged in → redirect
