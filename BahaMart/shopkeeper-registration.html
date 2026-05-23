@@ -1111,6 +1111,15 @@ async function finalSubmit(){
     });
     const data = await res.json();
 
+    // Auth error → clear token and redirect to login
+    if (res.status === 401 || (data.error && data.error.toLowerCase().includes('token'))) {
+      localStorage.removeItem('bb_token');
+      localStorage.removeItem('bb_user');
+      localStorage.setItem('bb_redirect_after_login', 'shopkeeper-registration.html');
+      alert('Session expire ho gayi. Dobara login karein.');
+      window.location.href = 'login-register.html';
+      return;
+    }
     if(!data.success) throw new Error(data.error || 'Shop creation failed');
 
     // ✅ Success!

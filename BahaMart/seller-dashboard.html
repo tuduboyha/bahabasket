@@ -1584,6 +1584,13 @@ async function submitProduct(mode) {
       body: JSON.stringify(body)
     });
     const data = await res.json();
+    if (res.status === 401) {
+      localStorage.removeItem('bb_token');
+      localStorage.removeItem('bb_user');
+      alert('Session expire ho gayi. Dobara login karein.');
+      window.location.href = 'login-register.html';
+      return;
+    }
     if (!data.success) throw new Error(data.error || 'Failed to save product');
 
     // Clear the form
