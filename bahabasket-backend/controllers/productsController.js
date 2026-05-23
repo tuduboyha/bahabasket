@@ -40,10 +40,10 @@ exports.getProduct = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    const { shop_id, name, description, price, mrp, category, stock, sizes, colors, is_active } = req.body;
+    const { shop_id, name, description, price, mrp, category, stock, sizes, colors, images, is_active } = req.body;
 
     // Verify shop ownership
-    const { data: shop } = await supabase.from('shops').select('owner_id').eq('id', shop_id).single();
+    const { data: shop } = await supabaseAdmin.from('shops').select('owner_id').eq('id', shop_id).single();
     if (!shop || shop.owner_id !== req.user.id) {
       return res.status(403).json({ success: false, error: 'Not authorised for this shop' });
     }
@@ -54,9 +54,10 @@ exports.createProduct = async (req, res, next) => {
       stock: stock || 0,
       is_active: is_active !== undefined ? is_active : true
     };
-    if (mrp)    insertData.mrp    = mrp;
-    if (sizes   && sizes.length)  insertData.sizes  = sizes;
-    if (colors  && colors.length) insertData.colors = colors;
+    if (mrp)                      insertData.mrp    = mrp;
+    if (sizes  && sizes.length)   insertData.sizes  = sizes;
+    if (colors && colors.length)  insertData.colors = colors;
+    if (images && images.length)  insertData.images = images;  // ← fix: images save karo
 
     const { data, error } = await supabaseAdmin.from('products').insert(insertData).select().single();
 
@@ -71,7 +72,7 @@ exports.updateProduct = async (req, res, next) => {
     const updates = {};
     allowed.forEach(f => { if (req.body[f] !== undefined) updates[f] = req.body[f]; });
 
-    const { data, error } = await supabase.from('products').update(updates).eq('id', req.params.id).select().single();
+    const { data, error } = await supabaseAdmin.from('products').update(updates).eq('id', req.params.id).select().single();
     if (error) throw error;
     res.json({ success: true, product: data });
   } catch (err) { next(err); }

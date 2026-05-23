@@ -124,7 +124,7 @@ exports.deleteShop = async (req, res, next) => {
 exports.getShopProducts = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('products')
       .select('*')
       .eq('shop_id', id)
@@ -132,7 +132,7 @@ exports.getShopProducts = async (req, res, next) => {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    res.json({ success: true, products: data });
+    res.json({ success: true, products: data || [] });
   } catch (err) { next(err); }
 };
 
