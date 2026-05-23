@@ -56,6 +56,9 @@ const schemas = {
     mrp:         Joi.number().positive().optional(),
     category:    Joi.string().required(),
     stock:       Joi.number().integer().min(0).default(0),
+    sizes:       Joi.array().items(Joi.string()).optional(),
+    colors:      Joi.array().items(Joi.string()).optional(),
+    is_active:   Joi.boolean().optional(),
   }),
 
   // Review

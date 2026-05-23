@@ -1,5 +1,5 @@
 // controllers/productsController.js
-const { supabase } = require('../supabase/client');
+const { supabase, supabaseAdmin } = require('../supabase/client');
 
 exports.listProducts = async (req, res, next) => {
   try {
@@ -40,7 +40,7 @@ exports.getProduct = async (req, res, next) => {
 
 exports.createProduct = async (req, res, next) => {
   try {
-    const { shop_id, name, description, price, mrp, category, stock } = req.body;
+    const { shop_id, name, description, price, mrp, category, stock, sizes, colors, is_active } = req.body;
 
     // Verify shop ownership
     const { data: shop } = await supabase.from('shops').select('owner_id').eq('id', shop_id).single();
@@ -49,9 +49,16 @@ exports.createProduct = async (req, res, next) => {
     }
 
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '-' + Date.now();
-    const { data, error } = await supabase.from('products').insert({
-      shop_id, name, slug, description, price, mrp, category, stock: stock || 0, is_active: true
-    }).select().single();
+    const insertData = {
+      shop_id, name, slug, description, price, category,
+      stock: stock || 0,
+      is_active: is_active !== undefined ? is_active : true
+    };
+    if (mrp)    insertData.mrp    = mrp;
+    if (sizes   && sizes.length)  insertData.sizes  = sizes;
+    if (colors  && colors.length) insertData.colors = colors;
+
+    const { data, error } = await supabaseAdmin.from('products').insert(insertData).select().single();
 
     if (error) throw error;
     res.status(201).json({ success: true, product: data });
