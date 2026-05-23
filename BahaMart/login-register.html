@@ -1046,28 +1046,31 @@ function showLoginSuccess(){
   document.getElementById('loginPanel').style.display='none';
   document.getElementById('loginSuccess').style.display='block';
 
-  const isSeller = loginType === 'seller';
+  // Use actual user role from localStorage (set by saveAuth just before this call)
+  let isSeller = false;
+  try { isSeller = JSON.parse(localStorage.getItem('bb_user') || '{}').role === 'seller'; } catch(e){}
+
   document.getElementById('loginSuccessEmoji').innerHTML = isSeller
     ? '<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="72" height="72"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg>'
     : '<svg viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" width="72" height="72"><path d="M20.5 10c0-1.1-.9-2-2-2s-2 .9-2 2v4M16.5 10V6c0-1.1-.9-2-2-2s-2 .9-2 2v4M12.5 10V5c0-1.1-.9-2-2-2s-2 .9-2 2v5M8.5 10V7c0-1.1-.9-2-2-2s-2 .9-2 2v7c0 4.418 3.582 8 8 8s8-3.582 8-8v-4c0-1.1-.9-2-2-2s-2 .9-2 2"/></svg>';
-  document.getElementById('loginSuccessTitle').textContent  = isSeller ? 'Seller Login Successful!' : 'Welcome Back!';
-  document.getElementById('loginSuccessMsg').textContent    = isSeller
+  document.getElementById('loginSuccessTitle').textContent = isSeller ? 'Seller Login Successful!' : 'Welcome Back!';
+  document.getElementById('loginSuccessMsg').textContent   = isSeller
     ? 'Redirecting you to your Seller Dashboard...'
-    : 'Logged in successfully. Redirecting to your account...';
+    : 'Redirecting you to your Buyer Dashboard...';
 
-  // Update action buttons
+  // Action buttons
   const actions = document.getElementById('loginSuccessActions');
   if(isSeller){
     actions.innerHTML = `
-      <button class="btn-go-home" onclick="window.location='seller-dashboard.html'" style="background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Go to Seller Dashboard</button>
+      <button class="btn-go-home" onclick="window.location='seller-dashboard.html'" style="background:linear-gradient(135deg,#f97316,#ea580c);display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Seller Dashboard</button>
       <button class="btn-go-shop" onclick="window.location='index.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Homepage</button>`;
   } else {
     actions.innerHTML = `
-      <button class="btn-go-home" onclick="window.location='user-dashboard.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Account</button>
-      <button class="btn-go-shop" onclick="window.location='shop-directory.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg> Browse Shops</button>`;
+      <button class="btn-go-home" onclick="window.location='user-dashboard.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> My Dashboard</button>
+      <button class="btn-go-shop" onclick="window.location='index.html'" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Homepage</button>`;
   }
 
-  // Progress bar animation
+  // Progress bar + auto redirect
   setTimeout(()=>{ document.getElementById('loginRedirectBar').style.width='100%'; }, 100);
   setTimeout(()=>{ window.location = getRedirectUrl(); }, 3000);
 }
@@ -1143,7 +1146,12 @@ function setLoginType(type){
 function getRedirectUrl(){
   const stored = localStorage.getItem('bb_redirect_after_login');
   if(stored){ localStorage.removeItem('bb_redirect_after_login'); return stored; }
-  return loginType === 'seller' ? 'seller-dashboard.html' : 'index.html';
+  // Use actual user role (not URL mode) for correct redirect
+  try {
+    const u = JSON.parse(localStorage.getItem('bb_user') || '{}');
+    if(u.role === 'seller') return 'seller-dashboard.html';
+  } catch(e){}
+  return 'user-dashboard.html';
 }
 
 async function verifyLoginOTP(){
