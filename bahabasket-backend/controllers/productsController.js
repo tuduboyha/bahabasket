@@ -6,7 +6,7 @@ exports.listProducts = async (req, res, next) => {
     const { category, city, search, min_price, max_price, page = 1, limit = 24 } = req.query;
     const offset = (page - 1) * limit;
 
-    let query = supabase
+    let query = supabaseAdmin
       .from('products')
       .select('*, shops(id, name, slug, city, logo, whatsapp)', { count: 'exact' })
       .eq('is_active', true)
