@@ -1111,30 +1111,38 @@ textarea.rev-input{resize:vertical;min-height:90px;}
 
 
 <script>
-// ── IMAGE DATA ──
-const images = [
-  'https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&h=600&fit=crop&auto=format',
-  'https://images.unsplash.com/photo-1611510338559-2f463335092c?w=600&h=600&fit=crop&auto=format',
-  'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&h=600&fit=crop&auto=format',
-  'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&h=600&fit=crop&auto=format',
-  'https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=600&h=600&fit=crop&auto=format',
-];
-let currentImg = 0;
-let isSliding = false;
+// ── API & GLOBAL STATE ──
+const API_BASE = 'https://bahabasket-production.up.railway.app/api';
+let _product  = null; // set by loadProduct()
 
-// Preload all images for smooth transitions
-images.forEach(src => { const img = new Image(); img.src = src; });
+// ── IMAGE DATA (populated by loadProduct) ──
+let images    = ['https://placehold.co/600x600/e8f0fe/1a56db?text=Loading...'];
+let currentImg = 0;
+let isSliding  = false;
 
 // ── DOT INDICATORS ──
 function renderDots(){
-  document.getElementById('imgDots').innerHTML = images.map((_,i) =>
-    `<button class="img-dot${i===0?' active':''}" onclick="setImg(${i},document.querySelectorAll('.thumb')[${i}])" aria-label="Image ${i+1}"></button>`
-  ).join('');
+  var dotsEl = document.getElementById('imgDots');
+  if (!dotsEl) return;
+  dotsEl.innerHTML = images.map(function(_,i){
+    return '<button class="img-dot' + (i===0?' active':'') + '" onclick="setImg(' + i + ',document.querySelectorAll(\'.thumb\')[' + i + '])" aria-label="Image ' + (i+1) + '"></button>';
+  }).join('');
 }
 function updateDots(idx){
-  document.querySelectorAll('.img-dot').forEach((d,i) => d.classList.toggle('active', i===idx));
+  document.querySelectorAll('.img-dot').forEach(function(d,i){ d.classList.toggle('active', i===idx); });
 }
-renderDots();
+
+// ── THUMB STRIP ──
+function renderThumbs(){
+  var strip = document.getElementById('thumbStrip');
+  if (!strip) return;
+  strip.innerHTML = images.map(function(src, i){
+    return '<div class="thumb' + (i===0?' active':'') + '" onclick="setImg(' + i + ',this)">' +
+      '<img src="' + src + '" alt="Image ' + (i+1) + '" loading="lazy"' +
+        ' onerror="this.src=\'https://placehold.co/80x80/e8f0fe/1a56db?text=?\'">' +
+    '</div>';
+  }).join('');
+}
 
 // ── SLIDE ANIMATION ──
 function slideImg(newIdx, dir){
@@ -1410,10 +1418,12 @@ function toggleSave(){
 
 // ── SHARE ──
 function shareProduct(){
+  var name  = (_product && _product.name)  || document.title;
+  var price = (_product && _product.price) || '';
   if(navigator.share){
-    navigator.share({title:"Men's Premium Cotton Kurta Set",text:"Check out this amazing kurta set at ₹599!",url:window.location.href});
+    navigator.share({title:name, text:'Check out this product at ₹'+price+' on BahaBasket!', url:window.location.href});
   } else {
-    navigator.clipboard?.writeText(window.location.href).then(()=>alert('Link copied! Share it with anyone.'));
+    navigator.clipboard && navigator.clipboard.writeText(window.location.href).then(function(){ alert('Link copied! Share it with anyone.'); });
   }
 }
 
@@ -1437,71 +1447,93 @@ function selectStar(n){
 
 // ── WHATSAPP ──
 function openWA(type){
-  const size = document.getElementById('selSizeLabel').textContent;
-  const color = document.getElementById('selColorLabel').textContent;
-  const qty = document.getElementById('qtyInput').value;
-  const msgs = {
-    order: `Hello Sharma Cloth House!\n\nI would like to place an order for:\n\n*Product:* Men's Premium Cotton Kurta Set\n*Price:* ₹599\n*Size:* ${size}\n*Color:* ${color}\n*Quantity:* ${qty}\n\nIs this available? Please share details about delivery and pickup.`,
-    shop: `Hello Sharma Cloth House! I would like to enquire about your shop.`,
+  var p    = _product || {};
+  var shop = p.shops  || {};
+  var waNum = (shop.whatsapp || '919876543210').replace(/\D/g,'');
+  var size  = (document.getElementById('selSizeLabel')  || {}).textContent || '';
+  var color = (document.getElementById('selColorLabel') || {}).textContent || '';
+  var qty   = (document.getElementById('qtyInput')      || {}).value       || '1';
+  var pname = p.name  || 'Product';
+  var price = p.price || '';
+  var sname = shop.name || 'Shop';
+  var msgs = {
+    order: 'Hello ' + sname + '!\n\nI would like to place an order for:\n\n' +
+           '*Product:* ' + pname + '\n*Price:* ₹' + price + '\n*Size:* ' + size + '\n*Color:* ' + color + '\n*Quantity:* ' + qty +
+           '\n\nIs this available? Please share details about delivery and pickup.',
+    shop: 'Hello ' + sname + '! I would like to enquire about your products on BahaBasket.',
   };
-  const msg = encodeURIComponent(msgs[type]||msgs.order);
-  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+  window.open('https://wa.me/' + waNum + '?text=' + encodeURIComponent(msgs[type]||msgs.order), '_blank');
 }
 
-// ── RELATED PRODUCTS ──
-const relatedProds = [
-  {name:"Men's Linen Kurta – Summer Collection",price:"₹499",mrp:"₹799",disc:"38% Off",rating:4.6,reviews:89,img:"https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=220&h=220&fit=crop&auto=format",shop:"Sharma Cloth House"},
-  {name:"Men's Pathani Suit – Eid Special",price:"₹899",mrp:"₹1,499",disc:"40% Off",rating:4.4,reviews:52,img:"https://images.unsplash.com/photo-1611510338559-2f463335092c?w=220&h=220&fit=crop&auto=format",shop:"Sharma Cloth House"},
-  {name:"Men's Sherwani Set – Wedding",price:"₹2,499",mrp:"₹4,000",disc:"38% Off",rating:4.8,reviews:137,img:"https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=220&h=220&fit=crop&auto=format",shop:"Sharma Cloth House"},
-  {name:"Men's Kurta Dhoti Set – Traditional",price:"₹699",mrp:"₹1,100",disc:"36% Off",rating:4.3,reviews:64,img:"https://images.unsplash.com/photo-1516762689617-e1cffcef479d?w=220&h=220&fit=crop&auto=format",shop:"Royal Ethnic Wear"},
-];
-function rcStars(r){
-  return [1,2,3,4,5].map(i=>
-    `<span style="color:${i<=Math.round(r)?'#fbbf24':'#e2e8f0'}">★</span>`
-  ).join('');
+// Direct WA for related product cards
+function openWADirect(product, price, shop, waNum){
+  var num = (waNum||'919876543210').replace(/\D/g,'');
+  var msg = encodeURIComponent('Hello ' + shop + '!\n\nI found your product on *BahaBasket*:\n\n*Product:* ' + product + '\n*Price:* ₹' + price + '\n\nIs this available?');
+  window.open('https://wa.me/' + num + '?text=' + msg, '_blank');
 }
-document.getElementById('relatedGrid').innerHTML = relatedProds.map(p=>`
-  <div class="related-card">
-    <div class="rc-img">
-      <img src="${p.img}" alt="${p.name}">
-      <div class="rc-badge">${p.disc}</div>
-    </div>
-    <div class="rc-body">
-      <div class="rc-name">${p.name}</div>
-      <div class="rc-rating">
-        <span class="rc-stars">${rcStars(p.rating)}</span>
-        <span class="rc-rating-num">${p.rating}</span>
-        <span class="rc-reviews">(${p.reviews})</span>
-      </div>
-      <div style="display:flex;align-items:center;gap:6px;">
-        <span class="rc-price">${p.price}</span>
-        <span class="rc-mrp">${p.mrp}</span>
-      </div>
-      <button class="btn-wa-rel" onclick="openWA('order')" style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
-    </div>
-  </div>`).join('');
 
-document.getElementById('recentGrid').innerHTML = [
-  {name:"Banarasi Silk Saree",price:"₹2,199",rating:4.7,reviews:203,img:"https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=220&h=220&fit=crop&auto=format",shop:"Meera Saree"},
-  {name:"Bluetooth Earphones",price:"₹849",rating:4.5,reviews:118,img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=220&h=220&fit=crop&auto=format",shop:"Digital Zone"},
-  {name:"Kids Party Frock",price:"₹449",rating:4.2,reviews:76,img:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=220&h=220&fit=crop&auto=format",shop:"Little Star"},
-  {name:"iPhone 15 Cover",price:"₹249",rating:4.6,reviews:341,img:"https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=220&h=220&fit=crop&auto=format",shop:"Mobile Master"},
-].map(p=>`
-  <div class="related-card">
-    <div class="rc-img">
-      <img src="${p.img}" alt="${p.name}">
-    </div>
-    <div class="rc-body">
-      <div class="rc-name">${p.name}</div>
-      <div class="rc-rating">
-        <span class="rc-stars">${rcStars(p.rating)}</span>
-        <span class="rc-rating-num">${p.rating}</span>
-        <span class="rc-reviews">(${p.reviews})</span>
-      </div>
-      <div class="rc-price">${p.price}</div>
-      <button class="btn-wa-rel" onclick="openWA('order')" style="display:flex;align-items:center;justify-content:center;gap:5px;margin-top:8px;"><svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp</button>
-    </div>
-  </div>`).join('');
+// ── RELATED PRODUCTS (loaded from API by loadProduct) ──
+var _WA_SVG_SM = '<svg viewBox="0 0 24 24" fill="currentColor" width="12" height="12" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>';
+
+function buildRelatedCard(p, currentId) {
+  var shop  = p.shops || {};
+  var img   = (p.images && p.images.length) ? p.images[0] : 'https://placehold.co/220x220/e8f0fe/1a56db?text=Product';
+  var price = p.price || 0;
+  var mrp   = p.mrp || price;
+  var disc  = mrp > price ? Math.round((mrp - price) / mrp * 100) : 0;
+  var waNum = (shop.whatsapp || '919876543210').replace(/\D/g,'');
+  var safeName = (p.name||'').replace(/'/g,"&#39;");
+  var safeshop = (shop.name||'').replace(/'/g,"&#39;");
+  return '<div class="related-card" onclick="window.location.href=\'product-detail.html?id=' + p.id + '\'" style="cursor:pointer;">' +
+    '<div class="rc-img">' +
+      '<img src="' + img + '" alt="' + safeName + '" loading="lazy" onerror="this.src=\'https://placehold.co/220x220/e8f0fe/1a56db?text=Product\'">' +
+      (disc > 0 ? '<div class="rc-badge">' + disc + '% Off</div>' : '') +
+    '</div>' +
+    '<div class="rc-body">' +
+      '<div class="rc-name">' + (p.name||'Product') + '</div>' +
+      '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">' +
+        '<span class="rc-price">&#8377;' + price.toLocaleString('en-IN') + '</span>' +
+        (mrp > price ? '<span class="rc-mrp">&#8377;' + mrp.toLocaleString('en-IN') + '</span>' : '') +
+      '</div>' +
+      '<button class="btn-wa-rel" onclick="event.stopPropagation();openWADirect(\'' + safeName + '\',\'' + price + '\',\'' + safeshop + '\',\'' + waNum + '\')" style="display:flex;align-items:center;justify-content:center;gap:5px;">' +
+        _WA_SVG_SM + ' WhatsApp' +
+      '</button>' +
+    '</div>' +
+  '</div>';
+}
+
+async function loadRelatedProducts(category, currentId) {
+  try {
+    var catParam = category ? '&category=' + encodeURIComponent(category) : '';
+    var [relRes, recentRes] = await Promise.all([
+      fetch(API_BASE + '/products?limit=5' + catParam),
+      fetch(API_BASE + '/products?limit=5')
+    ]);
+    var relData    = await relRes.json();
+    var recentData = await recentRes.json();
+
+    var relGrid    = document.getElementById('relatedGrid');
+    var recentGrid = document.getElementById('recentGrid');
+
+    if (relGrid && relData.success) {
+      var relProds = (relData.products || []).filter(function(p){ return p.id !== currentId; }).slice(0, 4);
+      relGrid.innerHTML = relProds.length
+        ? relProds.map(function(p){ return buildRelatedCard(p, currentId); }).join('')
+        : '<div style="grid-column:1/-1;text-align:center;padding:20px;color:var(--text-light);font-size:13px;">No similar products found</div>';
+    }
+
+    if (recentGrid && recentData.success) {
+      var recentProds = (recentData.products || []).filter(function(p){ return p.id !== currentId; }).slice(0, 4);
+      recentGrid.innerHTML = recentProds.length
+        ? recentProds.map(function(p){ return buildRelatedCard(p, currentId); }).join('')
+        : '';
+    }
+  } catch(err) {
+    console.error('loadRelatedProducts:', err);
+  }
+}
+
+// recentGrid and relatedGrid are loaded by loadProduct() via loadRelatedProducts()
 
 // ── Q&A ──
 document.getElementById('qaList').innerHTML = [
@@ -1520,6 +1552,168 @@ document.getElementById('qaList').innerHTML = [
       <div style="font-size:14px;color:var(--text-mid);line-height:1.6;">${qa.a} <span style="font-size:11px;color:var(--text-light);margin-left:6px;">${qa.date}</span></div>
     </div>
   </div>`).join('');
+
+// ── LOAD PRODUCT FROM API ──
+async function loadProduct() {
+  var id = new URLSearchParams(window.location.search).get('id');
+  if (!id) {
+    showLoadError('Product ID missing. Please go back and select a product.');
+    return;
+  }
+  try {
+    var res  = await fetch(API_BASE + '/products/' + id);
+    var data = await res.json();
+    if (!data.success || !data.product) throw new Error(data.error || 'Product not found');
+    _product = data.product;
+    var p    = _product;
+    var shop = p.shops || {};
+
+    // Images
+    images = (p.images && p.images.length)
+      ? p.images
+      : ['https://placehold.co/600x600/e8f0fe/1a56db?text=No+Image'];
+    images.forEach(function(src){ var i=new Image(); i.src=src; }); // preload
+    var mainImg = document.getElementById('mainImg');
+    if (mainImg) mainImg.src = images[0];
+    currentImg = 0;
+    renderDots();
+    renderThumbs();
+
+    // Image badges
+    var price = p.price || 0;
+    var mrp   = p.mrp   || price;
+    var disc  = mrp > price ? Math.round((mrp - price) / mrp * 100) : 0;
+    var imgBadges = document.querySelector('.img-badges');
+    if (imgBadges) {
+      imgBadges.innerHTML = disc > 0
+        ? '<span class="img-badge badge-sale">' + disc + '% OFF</span>'
+        : '';
+    }
+
+    // Page title & breadcrumb
+    document.title = (p.name || 'Product') + ' – BahaBasket';
+    var bc = document.querySelector('.breadcrumb .current');
+    if (bc) bc.textContent = p.name || 'Product';
+
+    // Category tag
+    var catTag = document.querySelector('.prod-category-tag');
+    if (catTag) catTag.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>' + (p.category || 'Product');
+
+    // Product title
+    var titleEl = document.querySelector('h1.prod-title');
+    if (titleEl) titleEl.textContent = p.name || 'Product';
+
+    // Prices
+    var saving = mrp - price;
+    var priceEl  = document.querySelector('.price-main');   if (priceEl)  priceEl.textContent  = '₹' + price.toLocaleString('en-IN');
+    var mrpEl    = document.querySelector('.price-mrp');    if (mrpEl)    mrpEl.textContent    = mrp > price ? '₹' + mrp.toLocaleString('en-IN') : '';
+    var discEl   = document.querySelector('.price-disc');   if (discEl)   discEl.textContent   = disc > 0   ? disc + '% OFF' : '';
+    var savingEl = document.querySelector('.price-saving'); if (savingEl) savingEl.textContent = saving > 0 ? '₹' + saving.toLocaleString('en-IN') + ' savings!' : '';
+
+    // Stock / availability
+    var instock = (p.stock || 0) > 0;
+    document.querySelectorAll('.avail-tag').forEach(function(tag) {
+      tag.className = 'avail-tag ' + (instock ? 'in' : 'out');
+      tag.innerHTML = '<span class="avail-dot"></span> ' + (instock ? 'In Stock' : 'Out of Stock');
+    });
+    var stockSpan = document.querySelector('.rating-row span:last-child');
+    if (stockSpan) {
+      stockSpan.style.color = instock ? 'var(--success)' : 'var(--danger)';
+      stockSpan.innerHTML = instock
+        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>In Stock'
+        : 'Out of Stock';
+    }
+
+    // Sizes
+    var sizeSection = document.querySelector('.size-chips')?.closest('.option-section');
+    var sizeChips   = document.querySelector('.size-chips');
+    if (p.sizes && p.sizes.length && sizeChips) {
+      sizeChips.innerHTML = p.sizes.map(function(s, i) {
+        return '<div class="size-chip' + (i===0?' selected':'') + '" onclick="selectSize(this,\'' + s + '\')">' + s + '</div>';
+      }).join('');
+      var sizeLabel = document.getElementById('selSizeLabel');
+      if (sizeLabel && p.sizes.length) sizeLabel.textContent = p.sizes[0] + ' (Select Size)';
+    } else if (sizeSection) {
+      sizeSection.style.display = 'none';
+    }
+
+    // Colors
+    var colorSection = document.querySelector('.color-chips')?.closest('.option-section');
+    var colorChips   = document.querySelector('.color-chips');
+    if (p.colors && p.colors.length && colorChips) {
+      colorChips.innerHTML = p.colors.map(function(c, i) {
+        var isHex = /^#[0-9A-Fa-f]{6}$/.test(c);
+        return isHex
+          ? '<div class="color-chip' + (i===0?' selected':'') + '" style="background:' + c + ';" title="' + c + '" onclick="selectColor(this,\'' + c + '\',\'' + c + '\')"></div>'
+          : '<div class="size-chip' + (i===0?' selected':'') + '" onclick="selectSize(this,\'' + c + '\')" style="margin:2px;">' + c + '</div>';
+      }).join('');
+      var colorLabel = document.getElementById('selColorLabel');
+      if (colorLabel) colorLabel.textContent = p.colors[0] + ' (Select Color)';
+    } else if (colorSection) {
+      colorSection.style.display = 'none';
+    }
+
+    // Description in tab
+    var descEl = document.querySelector('#tab-description p');
+    if (descEl && p.description) descEl.textContent = p.description;
+
+    // Shop card
+    var shopNameLink = document.querySelector('.shop-name-link');
+    if (shopNameLink) {
+      // Replace text node (first child) with shop name
+      shopNameLink.childNodes[0].textContent = (shop.name || 'Local Shop') + ' ';
+      if (shop.slug) shopNameLink.href = 'shop-profile.html?slug=' + shop.slug;
+    }
+    var shopMetaSpans = document.querySelectorAll('.shop-meta-sm span');
+    if (shopMetaSpans[0] && shop.city) {
+      shopMetaSpans[0].innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>' + shop.city;
+    }
+    var viewShopBtn = document.querySelector('.btn-view-shop');
+    if (viewShopBtn && shop.slug) {
+      viewShopBtn.onclick = function() { window.location.href = 'shop-profile.html?slug=' + shop.slug; };
+    }
+    if (viewShopBtn && shop.id) {
+      viewShopBtn.onclick = function() { window.location.href = 'shop-profile.html?id=' + shop.id; };
+    }
+
+    // Sticky bar product name
+    var stickyName = document.getElementById('stickyProductName');
+    if (stickyName) stickyName.textContent = p.name;
+    var stickyPrice = document.getElementById('stickyPrice');
+    if (stickyPrice) stickyPrice.textContent = '₹' + price.toLocaleString('en-IN');
+
+    // Float WA button (sticky)
+    var floatWa = document.querySelector('.float-wa-btn, #floatWA');
+    if (floatWa && shop.whatsapp) {
+      var waNum = shop.whatsapp.replace(/\D/g,'');
+      floatWa.onclick = function() { openWA('order'); };
+    }
+
+    // Load related
+    loadRelatedProducts(p.category, p.id);
+
+  } catch(err) {
+    console.error('loadProduct error:', err);
+    showLoadError(err.message || 'Could not load product. Please try again.');
+  }
+}
+
+function showLoadError(msg) {
+  var infoCol = document.querySelector('.info-column');
+  if (infoCol) {
+    infoCol.innerHTML =
+      '<div style="padding:60px 0;text-align:center;">' +
+        '<div style="font-size:48px;margin-bottom:16px;">😕</div>' +
+        '<div style="font-size:20px;font-weight:700;margin-bottom:8px;color:var(--text-dark);">Product not found</div>' +
+        '<div style="font-size:14px;color:var(--text-light);margin-bottom:24px;">' + msg + '</div>' +
+        '<a href="product-listings.html" style="display:inline-block;background:var(--primary);color:#fff;padding:12px 28px;border-radius:8px;font-weight:700;font-size:14px;">← Browse All Products</a>' +
+      '</div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  loadProduct();
+});
 
 // ── STICKY BAR on scroll ──
 window.addEventListener('scroll',()=>{
