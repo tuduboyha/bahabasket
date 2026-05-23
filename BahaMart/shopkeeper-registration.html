@@ -1063,29 +1063,18 @@ async function finalSubmit(){
     alert('Please agree to our Terms and Privacy Policy!'); return;
   }
 
-  // Check login
-  const token = localStorage.getItem('bb_token');
-  if(!token){
-    if(confirm('Shop banane ke liye pehle login karna hoga.\n\nLogin page pe jaaye?')){
-      localStorage.setItem('bb_redirect_after_login', 'shopkeeper-registration.html');
-      window.location = 'login-register.html';
-    }
-    return;
-  }
-
   const btn = document.getElementById('finalSubmitBtn');
   const origText = btn.innerHTML;
   btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;animation:spin 1s linear infinite"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Submitting...';
   btn.disabled = true;
 
   try {
-    // Collect form data
-    const name     = document.getElementById('shopName').value.trim();
-    // Clean WhatsApp: remove +91, spaces, dashes → keep only 10 digits
-    const rawWa    = document.getElementById('shopWa').value.trim();
-    const whatsapp = rawWa.replace(/\D/g, '').replace(/^91/, '').slice(-10);
-    const address  = document.getElementById('shopAddr').value.trim();
-    const city     = document.getElementById('shopArea').value.trim();
+    // Collect shop form data
+    const name        = document.getElementById('shopName').value.trim();
+    const rawWa       = document.getElementById('shopWa').value.trim();
+    const whatsapp    = rawWa.replace(/\D/g, '').replace(/^91/, '').slice(-10);
+    const address     = document.getElementById('shopAddr').value.trim();
+    const city        = document.getElementById('shopArea').value.trim();
     const description = document.getElementById('shopDesc').value.trim();
 
     // Get selected categories
@@ -1100,7 +1089,62 @@ async function finalSubmit(){
       .map(c => catMap[c.textContent.trim()] || c.textContent.trim().toLowerCase());
     const category = selectedChips.length > 0 ? selectedChips : ['general'];
 
-    // POST to API
+    // ── Get or create auth token ──────────────────────────────────────────
+    let token = localStorage.getItem('bb_token');
+
+    if (!token) {
+      // Auto-register using owner details from Step 1
+      const ownerName  = (document.getElementById('ownerName')?.value || '').trim() || name;
+      const rawOwnerWa = (document.getElementById('ownerWa')?.value  || '').trim();
+      const ownerPhone = rawOwnerWa.replace(/\D/g, '').replace(/^91/, '').slice(-10) || whatsapp;
+      const ownerPass  = (document.getElementById('ownerPass')?.value || '').trim();
+      const ownerCity  = (document.getElementById('ownerCity')?.value || '').trim() || city;
+
+      if (!ownerPhone || ownerPhone.length !== 10) {
+        throw new Error('Step 1 mein sahi WhatsApp number daalo (10 digits).');
+      }
+
+      btn.innerHTML = btn.innerHTML.replace('Submitting', 'Creating account');
+
+      // Try register first
+      const regRes = await fetch(`${API_BASE}/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: ownerName,
+          phone: ownerPhone,
+          password: ownerPass || ownerPhone, // use phone as default password if not set
+          city: ownerCity
+        })
+      });
+      const regData = await regRes.json();
+
+      if (regData.success && regData.token) {
+        // Freshly registered
+        token = regData.token;
+        localStorage.setItem('bb_token', token);
+        localStorage.setItem('bb_user', JSON.stringify(regData.user));
+      } else {
+        // Already registered — try login
+        btn.innerHTML = btn.innerHTML.replace('Creating account', 'Logging in');
+        const loginRes = await fetch(`${API_BASE}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone: ownerPhone, password: ownerPass || ownerPhone })
+        });
+        const loginData = await loginRes.json();
+        if (!loginData.success || !loginData.token) {
+          throw new Error('Account already exists. Please login first or enter the correct password in Step 1.');
+        }
+        token = loginData.token;
+        localStorage.setItem('bb_token', token);
+        localStorage.setItem('bb_user', JSON.stringify(loginData.user));
+      }
+
+      btn.innerHTML = btn.innerHTML.replace('Logging in', 'Submitting');
+    }
+
+    // ── Create Shop ───────────────────────────────────────────────────────
     const res = await fetch(`${API_BASE}/shops`, {
       method: 'POST',
       headers: {
@@ -1111,14 +1155,11 @@ async function finalSubmit(){
     });
     const data = await res.json();
 
-    // Auth error → clear token and redirect to login
-    if (res.status === 401 || (data.error && data.error.toLowerCase().includes('token'))) {
+    // Auth error → clear token and show helpful message
+    if (res.status === 401) {
       localStorage.removeItem('bb_token');
       localStorage.removeItem('bb_user');
-      localStorage.setItem('bb_redirect_after_login', 'shopkeeper-registration.html');
-      alert('Session expire ho gayi. Dobara login karein.');
-      window.location.href = 'login-register.html';
-      return;
+      throw new Error('Authentication failed. Please refresh the page and try again.');
     }
     if(!data.success) throw new Error(data.error || 'Shop creation failed');
 
