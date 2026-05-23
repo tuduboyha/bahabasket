@@ -1,5 +1,5 @@
 // controllers/shopsController.js
-const { supabase, supabaseAdmin } = require('../supabase/client');
+const { supabaseAdmin } = require('../supabase/client');
 
 // ─── List Shops ───────────────────────────────────────────────────────────────
 exports.listShops = async (req, res, next) => {
@@ -7,12 +7,12 @@ exports.listShops = async (req, res, next) => {
     const { city, category, plan, search, page = 1, limit = 20 } = req.query;
     const offset = (page - 1) * limit;
 
-    let query = supabase
+    let query = supabaseAdmin
       .from('shops')
-      .select('id, name, slug, category, whatsapp, city, logo, cover_image, rating, review_count, plan, is_verified', { count: 'exact' })
+      .select('id, name, slug, category, description, whatsapp, city, logo, cover_image, rating, review_count, plan, is_verified', { count: 'exact' })
       .eq('is_active', true)
       .order('is_verified', { ascending: false })
-      .order('rating', { ascending: false })
+      .order('rating',      { ascending: false })
       .range(offset, offset + limit - 1);
 
     if (city)     query = query.ilike('city', `%${city}%`);
@@ -23,14 +23,14 @@ exports.listShops = async (req, res, next) => {
     const { data, error, count } = await query;
     if (error) throw error;
 
-    res.json({ success: true, shops: data, total: count, page: +page, limit: +limit });
+    res.json({ success: true, shops: data || [], total: count || 0, page: +page, limit: +limit });
   } catch (err) { next(err); }
 };
 
 // ─── Get My Shop (current seller's shop) ─────────────────────────────────────
 exports.getMyShop = async (req, res, next) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('shops')
       .select('*')
       .eq('owner_id', req.user.id)
@@ -44,17 +44,17 @@ exports.getMyShop = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-// ─── Get Single Shop ──────────────────────────────────────────────────────────
+// ─── Get Single Shop (by slug or id) ─────────────────────────────────────────
 exports.getShop = async (req, res, next) => {
   try {
     const { slug } = req.params;
-    const { data, error } = await supabase
-      .from('shops')
-      .select('*, users(name, avatar)')
-      .eq('slug', slug)
-      .eq('is_active', true)
-      .single();
 
+    // Support both slug and UUID id
+    const isUUID = /^[0-9a-f-]{36}$/.test(slug);
+    let query = supabaseAdmin.from('shops').select('*, users(name, avatar)').eq('is_active', true);
+    query = isUUID ? query.eq('id', slug) : query.eq('slug', slug);
+
+    const { data, error } = await query.single();
     if (error || !data) return res.status(404).json({ success: false, error: 'Shop not found' });
     res.json({ success: true, shop: data });
   } catch (err) { next(err); }
@@ -65,7 +65,6 @@ exports.createShop = async (req, res, next) => {
   try {
     const { name, category, description, whatsapp, address, city, pincode } = req.body;
 
-    // Generate URL-safe slug from shop name
     const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '') + '-' + Date.now();
 
     const { data, error } = await supabaseAdmin
@@ -94,7 +93,7 @@ exports.updateShop = async (req, res, next) => {
     const { id } = req.params;
 
     // Verify ownership
-    const { data: shop } = await supabase.from('shops').select('owner_id').eq('id', id).single();
+    const { data: shop } = await supabaseAdmin.from('shops').select('owner_id').eq('id', id).single();
     if (!shop) return res.status(404).json({ success: false, error: 'Shop not found' });
     if (shop.owner_id !== req.user.id && req.userRole !== 'admin') {
       return res.status(403).json({ success: false, error: 'Not authorised to edit this shop' });
@@ -104,7 +103,7 @@ exports.updateShop = async (req, res, next) => {
     const updates = {};
     allowed.forEach(f => { if (req.body[f] !== undefined) updates[f] = req.body[f]; });
 
-    const { data, error } = await supabase.from('shops').update(updates).eq('id', id).select().single();
+    const { data, error } = await supabaseAdmin.from('shops').update(updates).eq('id', id).select().single();
     if (error) throw error;
     res.json({ success: true, shop: data });
   } catch (err) { next(err); }
@@ -114,7 +113,7 @@ exports.updateShop = async (req, res, next) => {
 exports.deleteShop = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { error } = await supabase.from('shops').update({ is_active: false }).eq('id', id);
+    const { error } = await supabaseAdmin.from('shops').update({ is_active: false }).eq('id', id);
     if (error) throw error;
     res.json({ success: true, message: 'Shop deactivated' });
   } catch (err) { next(err); }
@@ -140,7 +139,7 @@ exports.getShopProducts = async (req, res, next) => {
 exports.getShopReviews = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('reviews')
       .select('*, users(name, avatar)')
       .eq('shop_id', id)
@@ -149,6 +148,6 @@ exports.getShopReviews = async (req, res, next) => {
       .order('created_at', { ascending: false });
 
     if (error) throw error;
-    res.json({ success: true, reviews: data });
+    res.json({ success: true, reviews: data || [] });
   } catch (err) { next(err); }
 };
