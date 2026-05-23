@@ -1125,7 +1125,7 @@ async function finalSubmit(){
         localStorage.setItem('bb_token', token);
         localStorage.setItem('bb_user', JSON.stringify(regData.user));
       } else {
-        // Already registered — try login
+        // Already registered — try login with phone
         btn.innerHTML = btn.innerHTML.replace('Creating account', 'Logging in');
         const loginRes = await fetch(`${API_BASE}/auth/login`, {
           method: 'POST',
@@ -1134,7 +1134,8 @@ async function finalSubmit(){
         });
         const loginData = await loginRes.json();
         if (!loginData.success || !loginData.token) {
-          throw new Error('Account already exists. Please login first or enter the correct password in Step 1.');
+          // Password mismatch — give clear message
+          throw new Error('Is phone number se already account hai. Step 1 mein apna sahi password daalo, ya pehle login-register page pe jaake login karo.');
         }
         token = loginData.token;
         localStorage.setItem('bb_token', token);

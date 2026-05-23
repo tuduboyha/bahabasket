@@ -41,41 +41,63 @@ exports.verifyOtp = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
-// ─── Register (Email + Password) ─────────────────────────────────────────────
+// ─── Register (Phone or Email + Password) ────────────────────────────────────
 exports.register = async (req, res, next) => {
   try {
     const { name, email, phone, password, city } = req.body;
 
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    if (error) throw error;
+    // Use phone-derived email if no real email provided
+    const authEmail = (email && email.includes('@')) ? email : `${phone}@bahabasket.app`;
+    const authPass  = password || phone; // fallback: phone number as password
 
-    // Create user profile in our users table
+    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+      email: authEmail,
+      password: authPass
+    });
+    if (signUpError) throw signUpError;
+
+    // Create user profile
     const { error: profileError } = await supabaseAdmin.from('users').insert({
-      id:    data.user.id,
+      id:    signUpData.user.id,
       name,
-      email,
+      email: authEmail,
       phone,
       city:  city || '',
       role:  'buyer'
     });
     if (profileError) throw profileError;
 
+    // Immediately sign in to get token (skips email verification requirement)
+    const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
+      email: authEmail,
+      password: authPass
+    });
+    if (loginError) throw loginError;
+
     res.status(201).json({
       success: true,
-      message: 'Registration successful! Please verify your email.',
-      user: data.user
+      token: loginData.session.access_token,
+      user: { ...loginData.user, name, phone, city }
     });
   } catch (err) { next(err); }
 };
 
-// ─── Login (Email + Password) ─────────────────────────────────────────────────
+// ─── Login (Phone or Email + Password) ───────────────────────────────────────
 exports.login = async (req, res, next) => {
   try {
-    const { email, password } = req.body;
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { email, phone, password } = req.body;
+
+    // Support phone-based login
+    const authEmail = (email && email.includes('@')) ? email : `${phone}@bahabasket.app`;
+    const authPass  = password || phone;
+
+    const { data, error } = await supabase.auth.signInWithPassword({ email: authEmail, password: authPass });
     if (error) throw error;
 
-    res.json({ success: true, token: data.session.access_token, user: data.user });
+    // Fetch user profile
+    const { data: profile } = await supabase.from('users').select('*').eq('id', data.user.id).single();
+
+    res.json({ success: true, token: data.session.access_token, user: profile || data.user });
   } catch (err) { next(err); }
 };
 
