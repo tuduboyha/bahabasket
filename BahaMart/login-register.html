@@ -1046,9 +1046,8 @@ function showLoginSuccess(){
   document.getElementById('loginPanel').style.display='none';
   document.getElementById('loginSuccess').style.display='block';
 
-  // Use actual user role from localStorage (set by saveAuth just before this call)
-  let isSeller = false;
-  try { isSeller = JSON.parse(localStorage.getItem('bb_user') || '{}').role === 'seller'; } catch(e){}
+  // Use the login tab the user chose (buyer tab → buyer flow, seller tab → seller flow)
+  const isSeller = loginType === 'seller';
 
   document.getElementById('loginSuccessEmoji').innerHTML = isSeller
     ? '<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="72" height="72"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/><path d="M10 11v10M14 11v10"/></svg>'
@@ -1146,12 +1145,8 @@ function setLoginType(type){
 function getRedirectUrl(){
   const stored = localStorage.getItem('bb_redirect_after_login');
   if(stored){ localStorage.removeItem('bb_redirect_after_login'); return stored; }
-  // Use actual user role (not URL mode) for correct redirect
-  try {
-    const u = JSON.parse(localStorage.getItem('bb_user') || '{}');
-    if(u.role === 'seller') return 'seller-dashboard.html';
-  } catch(e){}
-  return 'user-dashboard.html';
+  // Redirect based on which login tab was used (buyer tab → user dashboard, seller tab → seller dashboard)
+  return loginType === 'seller' ? 'seller-dashboard.html' : 'user-dashboard.html';
 }
 
 async function verifyLoginOTP(){
