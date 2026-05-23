@@ -835,14 +835,16 @@
   /* ─────────────────────────────────────────────────────────
      10. AUTH NAV — Login button → user name + Logout if logged in
   ───────────────────────────────────────────────────────── */
-  (function initAuthNav() {
+  function applyAuthNav() {
     var token = localStorage.getItem('bb_token');
     var user  = null;
     try { user = JSON.parse(localStorage.getItem('bb_user')); } catch(e) {}
     if (!token || !user) return; // not logged in — keep defaults
 
-    var userName  = (user.name || user.phone || 'Account').split(' ')[0];
-    var isSeller  = user.role === 'seller';
+    // Support both custom users table format AND raw Supabase auth user format
+    var meta      = user.user_metadata || {};
+    var userName  = (user.name || meta.name || user.phone || meta.phone || 'My Account').split(' ')[0];
+    var isSeller  = (user.role === 'seller');
 
     var personSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
     var logoutSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
@@ -862,11 +864,10 @@
       navLogin.style.cursor = 'pointer';
       navLogin.innerHTML = personSVG + ' ' + userName;
       navLogin.onclick = function() {
-        window.location.href = isSeller ? 'seller-dashboard.html' : 'login-register.html';
+        window.location.href = isSeller ? 'seller-dashboard.html' : 'user-dashboard.html';
       };
     }
     if (navReg) {
-      navReg.textContent = 'Logout';
       navReg.removeAttribute('href');
       navReg.style.background = 'linear-gradient(135deg,#dc2626,#b91c1c)';
       navReg.innerHTML = logoutSVG + ' Logout';
@@ -880,7 +881,7 @@
       drLogin.removeAttribute('href');
       drLogin.innerHTML = personSVG + ' ' + userName + (isSeller ? ' (Seller)' : '');
       drLogin.onclick = function() {
-        window.location.href = isSeller ? 'seller-dashboard.html' : 'login-register.html';
+        window.location.href = isSeller ? 'seller-dashboard.html' : 'user-dashboard.html';
       };
     }
     if (drReg) {
@@ -889,6 +890,11 @@
       drReg.innerHTML = logoutSVG + ' Logout';
       drReg.onclick = doLogout;
     }
-  })();
+  }
+
+  // Run immediately after inject (sync) + again after full DOM load (safety)
+  applyAuthNav();
+  document.addEventListener('DOMContentLoaded', applyAuthNav);
+  window.refreshAuthNav = applyAuthNav; // callable from any page after login
 
 })();

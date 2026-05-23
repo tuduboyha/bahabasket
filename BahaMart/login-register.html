@@ -1161,6 +1161,7 @@ async function verifyLoginOTP(){
     if(!data.success) throw new Error(data.error || 'Invalid OTP. Please try again.');
 
     saveAuth(data.token, data.user);
+    if (window.refreshAuthNav) window.refreshAuthNav();
     showLoginSuccess();
 
   } catch(err) {
@@ -1195,6 +1196,7 @@ async function passwordLogin(){
     if(!data.success) throw new Error(data.error || 'Login failed. Phone number ya password galat hai.');
 
     saveAuth(data.token, data.user);
+    if (window.refreshAuthNav) window.refreshAuthNav();
     showLoginSuccess();
 
   } catch(err) {
@@ -1268,6 +1270,7 @@ async function goRegStep(step){
         if(!data.success) throw new Error(data.error || 'Registration failed.');
 
         saveAuth(data.token, data.user);
+        if (window.refreshAuthNav) window.refreshAuthNav();
 
         // Redirect based on account type
         if(selectedAccountType === 'seller'){
@@ -1319,6 +1322,7 @@ async function verifyRegOTP(){
     if(!otpData.success) throw new Error(otpData.error || 'Invalid OTP. Please try again.');
 
     saveAuth(otpData.token, otpData.user);
+    if (window.refreshAuthNav) window.refreshAuthNav();
 
     // Step 2: Update profile with name, city, email
     await fetch(`${API_BASE}/auth/me`, {
