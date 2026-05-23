@@ -827,10 +827,14 @@ tr:hover td{background:var(--bg);}
           <div class="field-row-2">
             <div class="field-group">
               <label class="field-label">City</label>
-              <select class="field-input">
-                <option selected>Indore</option><option>Bhopal</option><option>Jabalpur</option>
-              </select>
+              <input type="text" id="fieldCity" class="field-input" placeholder="Your city">
             </div>
+            <div class="field-group">
+              <label class="field-label">Pincode</label>
+              <input type="text" id="fieldPincode" class="field-input" placeholder="6-digit pincode" maxlength="6">
+            </div>
+          </div>
+          <div class="field-row-2" style="display:none;"><!-- gender placeholder -->
             <div class="field-group">
               <label class="field-label">Gender</label>
               <select class="field-input">
@@ -1613,10 +1617,14 @@ function populateUser(user) {
   const fieldLN    = document.getElementById('fieldLastName');
   const fieldPh    = document.getElementById('fieldPhone');
   const fieldEm    = document.getElementById('fieldEmail');
+  const fieldCt    = document.getElementById('fieldCity');
+  const fieldPin   = document.getElementById('fieldPincode');
   if (fieldFN) fieldFN.value = fName;
   if (fieldLN) fieldLN.value = lName;
   if (fieldPh && phone) fieldPh.value = phone.startsWith('+91') ? phone : '+91 ' + phone.replace(/^91/, '');
   if (fieldEm && email) fieldEm.value = email;
+  if (fieldCt && user.city)    fieldCt.value    = user.city;
+  if (fieldPin && user.pincode) fieldPin.value  = user.pincode;
 
   // Security section
   const secPh = document.getElementById('secPhone');
@@ -2758,13 +2766,198 @@ function openWAProduct(product, shop){ window.open(`https://wa.me/919876543210?t
 function openWAShop(shop){ window.open(`https://wa.me/919876543210?text=Hello ${shop}! I found your shop on BahaBasket.`,'_blank'); }
 
 // ── MISC ──
-function saveProfile(){ alert('✅ Profile updated successfully!'); }
+async function saveProfile(){
+  const fn   = document.getElementById('fieldFirstName')?.value.trim() || '';
+  const ln   = document.getElementById('fieldLastName')?.value.trim()  || '';
+  const city = document.getElementById('fieldCity')?.value.trim()      || '';
+  const pin  = document.getElementById('fieldPincode')?.value.trim()   || '';
+  const name = (fn + ' ' + ln).trim();
+  if(!name){ alert('Name is required.'); return; }
+
+  const btn = document.querySelector('#sec-profile .btn-primary');
+  const orig = btn ? btn.innerHTML : '';
+  if(btn){ btn.disabled = true; btn.textContent = 'Saving…'; }
+
+  try {
+    const res  = await fetch(`${API_BASE}/auth/me`, {
+      method:  'PATCH',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
+      body:    JSON.stringify({ name, city, pincode: pin })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'Update failed');
+
+    // Update localStorage + UI
+    const updated = { ..._bbUser, ...data.user };
+    localStorage.setItem('bb_user', JSON.stringify(updated));
+    populateUser(updated);
+    if(window.refreshAuthNav) window.refreshAuthNav();
+
+    if(btn){ btn.disabled = false; btn.innerHTML = orig; }
+    // Show success toast
+    const t = document.createElement('div');
+    t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#16a34a;color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.18);';
+    t.textContent = '✅ Profile updated successfully!';
+    document.body.appendChild(t);
+    setTimeout(()=>t.remove(), 3000);
+  } catch(err) {
+    if(btn){ btn.disabled = false; btn.innerHTML = orig; }
+    alert('❌ ' + err.message);
+  }
+}
+
 function copyRefCode(){ navigator.clipboard?.writeText('PRIYA2024').then(()=>alert('Referral code PRIYA2024 copied!')); }
 function copyRefLink(){ navigator.clipboard?.writeText(window.location.origin+'/ref/PRIYA2024').then(()=>alert('Referral link copied!')); }
 function shareRefWA(){ window.open('https://wa.me/?text='+encodeURIComponent('Join BahaBasket and shop from the best local stores! Use my code PRIYA2024 to get started: '+window.location.origin),'_blank'); }
 function shareRefFB(){ window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(window.location.origin),'_blank'); }
 function confirmLogout(){ if(confirm('Are you sure you want to logout?')){ window.location='login-register.html'; } }
 function confirmDelete(){ if(confirm('⚠️ This will permanently delete your account and all data. Are you absolutely sure?')){ if(confirm('FINAL WARNING: All your saved shops, wishlist, and activity will be lost. Confirm deletion?')){ alert('Account deletion request submitted. You will receive a confirmation email.'); } } }
+
+// ── REAL API DATA LOADER ──
+async function loadDashboardData() {
+  if (!_bbToken) return;
+  const hdrs = { 'Authorization': 'Bearer ' + _bbToken };
+
+  // ── Fetch all in parallel ──
+  const [wlRes, revRes, notifRes] = await Promise.allSettled([
+    fetch(`${API_BASE}/wishlist`,      { headers: hdrs }),
+    fetch(`${API_BASE}/reviews?user_id=${_bbUser?.id}`, { headers: hdrs }),
+    fetch(`${API_BASE}/notifications`, { headers: hdrs })
+  ]);
+
+  // ── 1. WISHLIST ──
+  if (wlRes.status === 'fulfilled' && wlRes.value.ok) {
+    const d = await wlRes.value.json();
+    if (d.success) {
+      const items = (d.wishlist || []);
+      document.querySelector('#sec-overview .stat-card.blue .stat-num').textContent = items.length;
+
+      if (items.length === 0) {
+        // Empty state
+        wlItems = [];
+        document.getElementById('wlGrid').innerHTML = `
+          <div class="wl-empty-state" style="display:block;grid-column:1/-1;">
+            <div class="wl-empty-state-icon"><svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+            <h3>Your wishlist is empty</h3>
+            <p>Save products you love by clicking the heart icon on any product.</p>
+            <a href="index.html" class="btn btn-primary" style="display:inline-flex;margin-top:8px;">Browse Products</a>
+          </div>`;
+        document.getElementById('overviewWishlist').innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">No saved products yet. <a href="index.html" style="color:var(--primary);">Browse shops →</a></div>`;
+      } else {
+        // Transform API items to local format
+        const icons = ['shirt','dress','phone','headphones','ring','hat','diamond','watch','necklace'];
+        const bgs   = ['#dbeafe','#fce7f3','#e0f2fe','#fef9c3','#fdf4ff','#fff7ed','#ecfdf5','#eff6ff','#fdf2f8'];
+        wlItems = items.map((item, i) => {
+          const p = item.products || {};
+          const s = p.shops || {};
+          return {
+            id:         item.product_id,
+            icon:       icons[i % icons.length],
+            bg:         bgs[i % bgs.length],
+            title:      p.name || 'Product',
+            shop:       s.name || 'Shop',
+            price:      p.price || 0,
+            mrp:        p.mrp  || p.price || 0,
+            cat:        'all',
+            badge:      '',
+            badgeText:  '',
+            added:      timeAgo(item.created_at),
+            rating:     p.rating || 0,
+            reviews:    p.review_count || 0,
+            inStock:    (p.stock ?? 1) > 0,
+            priceAlert: false,
+            collection: 'daily',
+            waNum:      '91' + (s.whatsapp || '9876543210'),
+            images:     p.images || []
+          };
+        });
+        renderWL();
+        buildOverviewWishlist();
+      }
+    }
+  }
+
+  // ── 2. REVIEWS ──
+  if (revRes.status === 'fulfilled' && revRes.value.ok) {
+    const d = await revRes.value.json();
+    if (d.success) {
+      const items = d.reviews || [];
+      document.querySelector('#sec-overview .stat-card.purple .stat-num').textContent = items.length;
+
+      if (items.length === 0) {
+        document.getElementById('revList').innerHTML = `
+          <div class="rev-empty-state">
+            <div class="empty-icon">⭐</div>
+            <h3>No reviews yet</h3>
+            <p>Share your experience with shops and products you've visited.</p>
+          </div>`;
+      } else {
+        revItems = items.map(r => ({
+          id:          r.id,
+          type:        r.type,
+          shop:        r.shops?.name || r.products?.name || 'Unknown',
+          shopCat:     r.type === 'product' ? 'Product Review' : 'Shop Review',
+          shopIcon:    r.type === 'product' ? '📦' : '🏪',
+          productName: r.products?.name || '',
+          rating:      r.rating,
+          title:       r.title || '',
+          text:        r.text,
+          date:        new Date(r.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}),
+          status:      r.status,
+          helpful:     r.helpful_count || 0
+        }));
+        renderRevs();
+      }
+    }
+  }
+
+  // ── 3. NOTIFICATIONS ──
+  if (notifRes.status === 'fulfilled' && notifRes.value.ok) {
+    const d = await notifRes.value.json();
+    if (d.success) {
+      const items = d.notifications || [];
+      const unread = d.unread_count || 0;
+
+      // Update badge
+      const badge = document.querySelector('.sidebar-item[onclick*="notifications"] .si-badge');
+      if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? '' : 'none'; }
+
+      if (items.length === 0) {
+        document.getElementById('notifList').innerHTML = `
+          <div style="text-align:center;padding:48px 20px;color:var(--text-light);">
+            <div style="font-size:48px;margin-bottom:12px;opacity:.4;">🔔</div>
+            <div style="font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:6px;">All caught up!</div>
+            <div style="font-size:13px;">No notifications yet.</div>
+          </div>`;
+      } else {
+        notifItems = items.map(n => ({
+          id:      n.id,
+          type:    n.type || 'info',
+          icon:    '🔔',
+          iconBg:  '#e0f2fe',
+          title:   n.title || 'Notification',
+          sub:     n.message || '',
+          time:    timeAgo(n.created_at),
+          isRead:  n.is_read,
+          pinned:  false
+        }));
+        renderNotifs();
+      }
+    }
+  }
+}
+
+function timeAgo(dateStr) {
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const m = Math.floor(diff / 60000);
+  if (m < 1)   return 'just now';
+  if (m < 60)  return m + 'm ago';
+  const h = Math.floor(m / 60);
+  if (h < 24)  return h + 'h ago';
+  const day = Math.floor(h / 24);
+  if (day < 7) return day + 'd ago';
+  return new Date(dateStr).toLocaleDateString('en-IN', {day:'numeric',month:'short'});
+}
 
 // ── OVERVIEW SAVED SHOPS ──
 function buildOverviewSavedShops(){
@@ -2796,6 +2989,9 @@ buildProfileTasks();
 buildNearbyShops();
 buildReferralHistory();
 buildCatPrefs();
+
+// Load real data from API (overrides mock data above)
+loadDashboardData();
 </script>
 
 <!-- WRITE REVIEW MODAL -->

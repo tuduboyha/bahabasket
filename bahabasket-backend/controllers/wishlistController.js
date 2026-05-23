@@ -1,9 +1,9 @@
 // controllers/wishlistController.js
-const { supabase } = require('../supabase/client');
+const { supabaseAdmin } = require('../supabase/client');
 
 exports.getWishlist = async (req, res, next) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('wishlists')
       .select('*, products(*, shops(name, slug, whatsapp))')
       .eq('user_id', req.user.id)
@@ -19,7 +19,7 @@ exports.addToWishlist = async (req, res, next) => {
     const { product_id } = req.body;
     if (!product_id) return res.status(400).json({ success: false, error: 'product_id required' });
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('wishlists')
       .upsert({ user_id: req.user.id, product_id }, { onConflict: 'user_id,product_id' })
       .select()
@@ -33,7 +33,7 @@ exports.addToWishlist = async (req, res, next) => {
 exports.removeFromWishlist = async (req, res, next) => {
   try {
     const { product_id } = req.params;
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('wishlists')
       .delete()
       .eq('user_id', req.user.id)

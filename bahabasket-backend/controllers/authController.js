@@ -118,7 +118,7 @@ exports.logout = async (req, res, next) => {
 // ─── Get Current User ─────────────────────────────────────────────────────────
 exports.getMe = async (req, res, next) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('users')
       .select('*')
       .eq('id', req.user.id)
@@ -136,7 +136,7 @@ exports.updateMe = async (req, res, next) => {
     const updates = {};
     allowed.forEach(field => { if (req.body[field] !== undefined) updates[field] = req.body[field]; });
 
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('users')
       .update(updates)
       .eq('id', req.user.id)

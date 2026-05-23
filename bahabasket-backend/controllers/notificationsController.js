@@ -1,9 +1,9 @@
 // controllers/notificationsController.js
-const { supabase } = require('../supabase/client');
+const { supabaseAdmin } = require('../supabase/client');
 
 exports.listNotifications = async (req, res, next) => {
   try {
-    const { data, error } = await supabase
+    const { data, error } = await supabaseAdmin
       .from('notifications')
       .select('*')
       .eq('user_id', req.user.id)
@@ -11,14 +11,14 @@ exports.listNotifications = async (req, res, next) => {
       .limit(50);
 
     if (error) throw error;
-    const unreadCount = data.filter(n => !n.is_read).length;
-    res.json({ success: true, notifications: data, unread_count: unreadCount });
+    const unreadCount = (data || []).filter(n => !n.is_read).length;
+    res.json({ success: true, notifications: data || [], unread_count: unreadCount });
   } catch (err) { next(err); }
 };
 
 exports.markRead = async (req, res, next) => {
   try {
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('notifications')
       .update({ is_read: true })
       .eq('id', req.params.id)
@@ -31,7 +31,7 @@ exports.markRead = async (req, res, next) => {
 
 exports.markAllRead = async (req, res, next) => {
   try {
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('notifications')
       .update({ is_read: true })
       .eq('user_id', req.user.id)
@@ -44,7 +44,7 @@ exports.markAllRead = async (req, res, next) => {
 
 exports.deleteNotification = async (req, res, next) => {
   try {
-    const { error } = await supabase
+    const { error } = await supabaseAdmin
       .from('notifications')
       .delete()
       .eq('id', req.params.id)
