@@ -77,10 +77,13 @@ exports.register = async (req, res, next) => {
     });
     if (loginError) throw loginError;
 
+    // Fetch full profile from our users table
+    const { data: profile } = await supabaseAdmin.from('users').select('*').eq('id', adminData.user.id).single();
+
     res.status(201).json({
       success: true,
       token: loginData.session.access_token,
-      user: { ...loginData.user, name, phone, city }
+      user: profile || { ...loginData.user, name, phone, city, role: 'buyer' }
     });
   } catch (err) { next(err); }
 };
@@ -97,8 +100,8 @@ exports.login = async (req, res, next) => {
     const { data, error } = await supabase.auth.signInWithPassword({ email: authEmail, password: authPass });
     if (error) throw error;
 
-    // Fetch user profile
-    const { data: profile } = await supabase.from('users').select('*').eq('id', data.user.id).single();
+    // Fetch user profile using admin client (bypasses RLS)
+    const { data: profile } = await supabaseAdmin.from('users').select('*').eq('id', data.user.id).single();
 
     res.json({ success: true, token: data.session.access_token, user: profile || data.user });
   } catch (err) { next(err); }
