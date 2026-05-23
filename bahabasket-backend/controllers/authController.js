@@ -50,24 +50,27 @@ exports.register = async (req, res, next) => {
     const authEmail = (email && email.includes('@')) ? email : `${phone}@bahabasket.app`;
     const authPass  = password || phone; // fallback: phone number as password
 
-    const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
-      email: authEmail,
-      password: authPass
+    // Use admin to create user — bypasses email confirmation requirement
+    const { data: adminData, error: adminError } = await supabaseAdmin.auth.admin.createUser({
+      email:            authEmail,
+      password:         authPass,
+      email_confirm:    true,   // mark email as already confirmed
+      user_metadata:    { name, phone, city }
     });
-    if (signUpError) throw signUpError;
+    if (adminError) throw adminError;
 
-    // Create user profile
+    // Create user profile in our users table
     const { error: profileError } = await supabaseAdmin.from('users').insert({
-      id:    signUpData.user.id,
+      id:    adminData.user.id,
       name,
       email: authEmail,
       phone,
       city:  city || '',
       role:  'buyer'
     });
-    if (profileError) throw profileError;
+    if (profileError && !profileError.message.includes('duplicate')) throw profileError;
 
-    // Immediately sign in to get token (skips email verification requirement)
+    // Sign in to get session token
     const { data: loginData, error: loginError } = await supabase.auth.signInWithPassword({
       email: authEmail,
       password: authPass
