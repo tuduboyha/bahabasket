@@ -680,28 +680,116 @@ img{max-width:100%;display:block;}
 <script>injectComponents();</script>
 
 <script>
-// ── PRODUCTS DATA ──
-const allProducts = [
-  {name:"Men's Premium Cotton Kurta Set",price:599,mrp:999,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/kurta,india?lock=101",shop:"Sharma Cloth House",rating:4.8,reviews:124,inq:286,badge:"bestseller",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
-  {name:"Banarasi Silk Kurta – Festive Edition",price:1299,mrp:2199,disc:"41%",discNum:41,img:"https://loremflickr.com/300/300/silk,fashion?lock=102",shop:"Meera Saree Center",rating:4.7,reviews:88,inq:142,badge:"hot",category:"Men Fashion",cat:"men-fashion",area:"Sarafa Bazaar",instock:1,verified:1,open:1,delivery:1},
-  {name:"Men's Linen Kurta – Summer Collection",price:449,mrp:699,disc:"36%",discNum:36,img:"https://loremflickr.com/300/300/linen,fashion?lock=103",shop:"Sharma Cloth House",rating:4.6,reviews:72,inq:98,badge:"new",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
-  {name:"Embroidered Nehru Collar Kurta",price:899,mrp:1499,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/embroidery,india?lock=104",shop:"Royal Ethnic Wear",rating:4.5,reviews:56,inq:76,badge:"",category:"Men Fashion",cat:"men-fashion",area:"MG Road",instock:1,verified:1,open:1,delivery:0},
-  {name:"Men's Cotton Kurta Pajama Set – White",price:549,mrp:899,disc:"39%",discNum:39,img:"https://loremflickr.com/300/300/cotton,india?lock=105",shop:"Gandhi Nagar Cloths",rating:4.4,reviews:48,inq:64,badge:"sale",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:0,delivery:1},
-  {name:"Wedding Sherwani Kurta – Heavy Work",price:3499,mrp:5500,disc:"36%",discNum:36,img:"https://loremflickr.com/300/300/wedding,fashion?lock=106",shop:"Sharma Cloth House",rating:4.9,reviews:96,inq:188,badge:"bestseller",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
-  {name:"Men's Pathani Kurta Suit – Eid Special",price:799,mrp:1299,disc:"38%",discNum:38,img:"https://loremflickr.com/300/300/ethnic,fashion?lock=107",shop:"Fashion Hub Indore",rating:4.5,reviews:42,inq:58,badge:"hot",category:"Men Fashion",cat:"men-fashion",area:"Vijay Nagar",instock:1,verified:0,open:1,delivery:1},
-  {name:"Casual Linen Kurta – Checks Pattern",price:399,mrp:649,disc:"38%",discNum:38,img:"https://loremflickr.com/300/300/casual,fashion?lock=108",shop:"Style Street",rating:4.3,reviews:34,inq:44,badge:"new",category:"Men Fashion",cat:"men-fashion",area:"Palasia",instock:1,verified:0,open:1,delivery:0},
-  {name:"Printed Cotton Kurta – Floral Design",price:349,mrp:599,disc:"42%",discNum:42,img:"https://loremflickr.com/300/300/textile,india?lock=109",shop:"Vijay Nagar Fashions",rating:4.2,reviews:28,inq:36,badge:"sale",category:"Men Fashion",cat:"men-fashion",area:"Vijay Nagar",instock:1,verified:0,open:1,delivery:1},
-  {name:"Heavy Embroidered Festival Kurta",price:1499,mrp:2499,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/festival,fashion?lock=110",shop:"Royal Ethnic Wear",rating:4.6,reviews:62,inq:84,badge:"",category:"Men Fashion",cat:"men-fashion",area:"MG Road",instock:1,verified:1,open:1,delivery:0},
-  {name:"Men's Dhoti Kurta Traditional Set",price:649,mrp:1099,disc:"41%",discNum:41,img:"https://loremflickr.com/300/300/traditional,india?lock=111",shop:"Gandhi Nagar Cloths",rating:4.4,reviews:38,inq:52,badge:"",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:0,verified:1,open:0,delivery:1},
-  {name:"Slim Fit Bandhgala Kurta Jacket",price:1199,mrp:1999,disc:"40%",discNum:40,img:"https://loremflickr.com/300/300/formal,fashion?lock=112",shop:"Sharma Cloth House",rating:4.7,reviews:54,inq:72,badge:"hot",category:"Men Fashion",cat:"men-fashion",area:"Gandhi Nagar",instock:1,verified:1,open:1,delivery:1},
-];
+// ── API ──
+const API_BASE = 'https://bahabasket-production.up.railway.app/api';
 
-const allShops = [
-  {name:"Sharma Cloth House",cat:"Men Fashion",rating:4.8,reviews:124,products:240,inq:1240,emoji:"👔",color:"#1a56db",area:"Gandhi Nagar",open:true,verified:true,desc:"Premium Men's Ethnic & Western Wear. Wholesale & Retail since 1998."},
-  {name:"Royal Ethnic Wear",cat:"Men Fashion",rating:4.6,reviews:88,products:180,inq:860,emoji:"👗",color:"#7c3aed",area:"MG Road",open:true,verified:true,desc:"Exclusive ethnic collection for men. Kurtas, Sherwanis, Pathani Suits."},
-  {name:"Gandhi Nagar Cloths",cat:"Men & Women Fashion",rating:4.5,reviews:72,products:320,inq:640,emoji:"🛍️",color:"#f97316",area:"Gandhi Nagar",open:false,verified:true,desc:"Complete family fashion store. Best prices in Gandhi Nagar market."},
-  {name:"Fashion Hub Indore",cat:"Men Fashion",rating:4.4,reviews:56,products:150,inq:520,emoji:"🏪",color:"#059669",area:"Vijay Nagar",open:true,verified:false,desc:"Trendy kurta and ethnic wear for all occasions. Fast WhatsApp delivery."},
-];
+// Populated by loadSearchResults()
+var allProducts = [];
+var allShops    = [];
+
+// ── Map API product → UI format ──
+function apiProductToUI(p) {
+  var shop    = p.shops || {};
+  var price   = Number(p.price)  || 0;
+  var mrp     = Number(p.mrp)    || price;
+  var discNum = mrp > price ? Math.round((mrp - price) / mrp * 100) : 0;
+  var isNew   = p.created_at && (Date.now() - new Date(p.created_at).getTime()) < 7 * 24 * 3600 * 1000;
+  var badge   = discNum >= 40 ? 'hot' : isNew ? 'new' : discNum >= 20 ? 'sale' : '';
+  return {
+    id:       p.id,
+    name:     p.name,
+    price:    price,
+    mrp:      mrp,
+    disc:     discNum + '%',
+    discNum:  discNum,
+    img:      (p.images && p.images.length) ? p.images[0] : '',
+    shop:     shop.name || 'Local Shop',
+    shopSlug: shop.slug || '',
+    shopWA:   (shop.whatsapp || '').replace(/\D/g,'') || '919876543210',
+    rating:   parseFloat(shop.rating) || 0,
+    reviews:  parseInt(shop.review_count) || 0,
+    inq:      0,
+    badge:    badge,
+    category: p.category || '',
+    cat:      (p.category || '').replace(/[^a-z0-9]+/g,'-'),
+    area:     shop.city || '',
+    instock:  (p.stock || 0) > 0 ? 1 : 0,
+    verified: shop.is_verified ? 1 : 0,
+    open:     1,
+    delivery: 1,
+  };
+}
+
+// ── Map API shop → UI format ──
+function apiShopToUI(s) {
+  var cats = Array.isArray(s.category) ? s.category : [s.category || ''];
+  var catLabel = (cats[0] || '').charAt(0).toUpperCase() + (cats[0] || '').slice(1).replace(/-/g,' ');
+  return {
+    id:       s.id,
+    name:     s.name,
+    slug:     s.slug || '',
+    cat:      catLabel || 'General',
+    rating:   parseFloat(s.rating) || 0,
+    reviews:  parseInt(s.review_count) || 0,
+    products: 0,
+    inq:      0,
+    emoji:    '🏪',
+    color:    '#1a56db',
+    area:     s.city || '',
+    open:     true,
+    verified: s.is_verified || false,
+    desc:     s.description || '',
+    whatsapp: (s.whatsapp || '').replace(/\D/g,'') || '919876543210',
+  };
+}
+
+// ── Load real results from API ──
+var _searchLoading = false;
+async function loadSearchResults(q) {
+  if (_searchLoading) return;
+  _searchLoading = true;
+
+  const grid = document.getElementById('productsGrid');
+  const shopsGrid = document.getElementById('shopsGrid');
+  const rc = document.getElementById('resultCount');
+  const noRes = document.getElementById('noResults');
+
+  // Show loading state
+  if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);font-size:15px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" style="animation:spin 1s linear infinite;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg><br><br>Searching…</div>';
+  if (shopsGrid) shopsGrid.innerHTML = '';
+  if (rc) rc.innerHTML = 'Searching…';
+  if (noRes) noRes.style.display = 'none';
+
+  try {
+    const params = new URLSearchParams({ limit: 48 });
+    if (q) params.set('search', q);
+
+    const [prodRes, shopRes] = await Promise.all([
+      fetch(`${API_BASE}/products?${params}`),
+      fetch(`${API_BASE}/shops?${new URLSearchParams({ limit: 8, ...(q ? { search: q } : {}) })}`)
+    ]);
+
+    const prodData = await prodRes.json();
+    const shopData = await shopRes.json();
+
+    allProducts = (prodData.success && prodData.products) ? prodData.products.map(apiProductToUI) : [];
+    allShops    = (shopData.success && shopData.shops)    ? shopData.shops.map(apiShopToUI)       : [];
+
+    buildProducts(allProducts);
+    buildShops();
+
+    if (rc) rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${allProducts.length}</strong> product${allProducts.length !== 1 ? 's' : ''}`;
+    if (noRes) noRes.style.display = allProducts.length === 0 ? 'flex' : 'none';
+
+  } catch (e) {
+    if (grid) grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);font-size:14px;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2" width="40" height="40" style="margin-bottom:12px;"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg><br>
+      Could not load results. Please check your connection.
+    </div>`;
+  } finally {
+    _searchLoading = false;
+  }
+}
 
 const badgeMap = {
   bestseller:{cls:'badge-bestseller',text:`<svg width="10" height="10" viewBox="0 0 24 24" fill="#fff" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:3px;"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>Bestseller`},
@@ -757,7 +845,7 @@ function buildProducts(data){
     const _isLocal = typeof userLocationData !== 'undefined' && userLocationData && (userLocationData.shopAreas||[]).length &&
       getLocalShopNames(userLocationData.shopAreas).some(function(s){ return p.shop.toLowerCase().includes(s); });
     return `
-    <div class="product-card" onclick="window.location='product-detail.html'">
+    <div class="product-card" onclick="window.location='product-detail.html?id=${p.id}'">
       <div class="prod-img-wrap">
         <img src="${p.img}" alt="${p.name}" loading="lazy" onload="this.closest('.prod-img-wrap').style.animation='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         ${shirt(bg,st)}
@@ -780,7 +868,7 @@ function buildProducts(data){
           <span class="rating-cnt-sm">(${p.reviews})</span>
           <span class="prod-inq">· ${msgSVG}${p.inq}</span>
         </div>
-        <button class="btn-wa" onclick="event.stopPropagation();openWAProduct('${p.name}','${p.shop}')">${waSVG} WhatsApp</button>
+        <button class="btn-wa" onclick="event.stopPropagation();openWAProduct('${p.name}','${p.shop}','${p.shopWA}')">${waSVG} WhatsApp</button>
       </div>
     </div>`;
   }).join('');
@@ -812,7 +900,7 @@ function buildShops(){
     const _isLocalShop = userLocationData && (userLocationData.shopAreas||[]).length &&
       getLocalShopNames(userLocationData.shopAreas).some(function(n){ return s.name.toLowerCase().includes(n); });
     return `
-    <div class="shop-card" onclick="window.location='shop-profile.html'" style="${_isLocalShop ? 'border-color:rgba(26,86,219,.3);box-shadow:0 0 0 2px rgba(26,86,219,.08),var(--shadow);' : ''}">
+    <div class="shop-card" onclick="window.location='shop-profile.html?${s.slug ? 'slug='+s.slug : 'id='+s.id}'" style="${_isLocalShop ? 'border-color:rgba(26,86,219,.3);box-shadow:0 0 0 2px rgba(26,86,219,.08),var(--shadow);' : ''}">
       <div class="sc-logo" style="background:linear-gradient(135deg,${s.color},${s.color}aa);">${storeLogo}</div>
       <div class="sc-body">
         <div class="sc-name-row">
@@ -829,8 +917,8 @@ function buildShops(){
         </div>
         <div style="font-size:12.5px;color:var(--text-light);margin-bottom:10px;line-height:1.5;">${s.desc}</div>
         <div class="sc-actions">
-          <button class="btn-wa-shop" onclick="event.stopPropagation();openWAShop('${s.name}')">${waSVG} WhatsApp</button>
-          <button class="btn-view-shop" onclick="event.stopPropagation();window.location='shop-profile.html'">View Shop →</button>
+          <button class="btn-wa-shop" onclick="event.stopPropagation();openWAShop('${s.name}','${s.whatsapp}')">${waSVG} WhatsApp</button>
+          <button class="btn-view-shop" onclick="event.stopPropagation();window.location='shop-profile.html?${s.slug ? 'slug='+s.slug : 'id='+s.id}'">View Shop →</button>
         </div>
       </div>
     </div>`;
@@ -1086,11 +1174,12 @@ function closeMobileFilter(){
 function doSearch(){
   const inp = document.getElementById('navSearchInput');
   const q = inp ? inp.value.trim() : '';
-  if(!q) return;
-  document.querySelector('.rh-query').innerHTML = `Search results for <span>"${q}"</span>`;
-  document.querySelector('.breadcrumb .current').textContent = `Results for "${q}"`;
-  document.title = `Search Results for "${q}" – BahaBasket`;
-  updateFilters();
+  const rhQuery = document.querySelector('.rh-query');
+  const breadCur = document.querySelector('.breadcrumb .current');
+  if(rhQuery) rhQuery.innerHTML = `Search results for <span>"${q || 'All Products'}"</span>`;
+  if(breadCur) breadCur.textContent = q ? `Results for "${q}"` : 'All Products';
+  document.title = q ? `Search Results for "${q}" – BahaBasket` : 'Search Results – BahaBasket';
+  loadSearchResults(q);
 }
 function clearSearch(){
   const inp = document.getElementById('navSearchInput');
@@ -1110,13 +1199,15 @@ function goPage(n){
 }
 
 // ── WA ──
-function openWAProduct(name, shop){
+function openWAProduct(name, shop, waNum){
+  const num = (waNum || '919876543210').replace(/\D/g,'');
   const msg = encodeURIComponent(`Hello ${shop}! I found your product on BahaBasket: *${name}*. Is it available?`);
-  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+  window.open('https://wa.me/'+num+'?text='+msg,'_blank');
 }
-function openWAShop(shop){
+function openWAShop(shop, waNum){
+  const num = (waNum || '919876543210').replace(/\D/g,'');
   const msg = encodeURIComponent(`Hello ${shop}! I found your shop on BahaBasket. Please share your product catalogue.`);
-  window.open('https://wa.me/919876543210?text='+msg,'_blank');
+  window.open('https://wa.me/'+num+'?text='+msg,'_blank');
 }
 
 // ── INIT ──
@@ -1124,16 +1215,11 @@ function openWAShop(shop){
 document.getElementById('filterSidebar').addEventListener('click', function(e){
   if(e.target === this) closeMobileFilter();
 });
-buildProducts(allProducts);
-buildShops();
 // All tab default: show both products + shops
 document.getElementById('shopsSection').classList.add('active');
 document.getElementById('shopsDivider').style.display = 'block';
 // Init range fill
 updateRangeFill();
-// Init result count
-const _rc = document.getElementById('resultCount');
-if(_rc) _rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${allProducts.length}</strong> products`;
 
 // Shared navbar — search recommendation + default query
 document.addEventListener('DOMContentLoaded', function(){
@@ -1142,9 +1228,21 @@ document.addEventListener('DOMContentLoaded', function(){
   const dropInner= document.getElementById('searchDropdownInner');
   if(!inp) return;
 
-  // URL se query lao, nahi toh 'kurta' default
+  // URL se query lao
   const urlQ = new URLSearchParams(window.location.search).get('q');
-  inp.value = urlQ || 'kurta';
+  inp.value = urlQ || '';
+
+  // Page heading update
+  const rhQuery = document.querySelector('.rh-query');
+  const breadCur = document.querySelector('.breadcrumb .current');
+  if(urlQ){
+    if(rhQuery) rhQuery.innerHTML = `Search results for <span>"${urlQ}"</span>`;
+    if(breadCur) breadCur.textContent = `Results for "${urlQ}"`;
+    document.title = `Search Results for "${urlQ}" – BahaBasket`;
+  }
+
+  // Load results from API
+  loadSearchResults(urlQ || '');
 
   // ── Dropdown close helper ──
   function closeDrop(){ if(drop) drop.style.display='none'; }
