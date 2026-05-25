@@ -456,7 +456,7 @@ button { cursor: pointer; font-family: var(--font-body); }
 
         <!-- Phone OTP login -->
         <div id="loginOtpForm">
-          <div class="field-group">
+          <div class="field-group" id="loginPhoneGroup">
             <label class="field-label">WhatsApp / Phone Number <span class="req">*</span></label>
             <div class="phone-wrap">
               <button class="country-code"><span style="font-size:11px;font-weight:800;background:#f97316;color:#fff;border-radius:3px;padding:1px 4px;letter-spacing:.5px;">IN</span> +91</button>
@@ -946,12 +946,15 @@ function saveAuth(token, user){
   localStorage.setItem('bb_login_type', loginType); // 'buyer' or 'seller'
 }
 
-// Check if already logged in → redirect
+// Check if already logged in → redirect to correct dashboard
 (function(){
   const token = localStorage.getItem('bb_token');
   if(token){
-    const user = JSON.parse(localStorage.getItem('bb_user') || '{}');
-    // Don't auto-redirect — just show logged-in state if needed
+    const loginType = localStorage.getItem('bb_login_type') || 'buyer';
+    const redirected = new URLSearchParams(window.location.search).get('redirect');
+    if(!redirected){ // avoid infinite redirect loop
+      window.location.replace(loginType === 'seller' ? 'seller-dashboard.html' : 'user-dashboard.html');
+    }
   }
 })();
 
@@ -1000,16 +1003,44 @@ function setLoginMode(type, el){
 // ── SEND LOGIN OTP ──
 let otpTimer = null;
 async function sendLoginOTP(){
-  // OTP via SMS not configured — copy phone to password tab and switch
   const phone = document.getElementById('loginPhone').value.trim();
   const cleanPhone = phone.replace(/\D/g,'').replace(/^91/,'').slice(-10);
+  if(!/^[6-9]\d{9}$/.test(cleanPhone)){
+    showError('Please enter a valid 10-digit phone number.');
+    return;
+  }
 
-  // Pre-fill phone in password login field and switch tab
-  const emailEl = document.getElementById('loginEmail');
-  if(emailEl && cleanPhone) emailEl.value = cleanPhone;
+  const btn = document.getElementById('sendOtpBtn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Sending…'; }
 
-  setLoginMode('pass', document.getElementById('loginPassBtn'));
-  showError('OTP login abhi available nahi hai. Phone number aur password se login karein. (Default password = aapka phone number)');
+  try {
+    const res  = await fetch(`${API_BASE}/auth/send-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone: cleanPhone })
+    });
+    const data = await res.json();
+    if(btn){ btn.disabled = false; btn.textContent = 'Send OTP'; }
+
+    if(!data.success) throw new Error(data.error || 'Could not send OTP. Please try again.');
+
+    // Show OTP input section, hide phone entry
+    document.getElementById('otpInputSection').style.display = 'block';
+    document.getElementById('loginPhoneGroup').style.display = 'none';
+    if(btn) btn.style.display = 'none';
+
+    // Update "OTP sent to" message
+    const sentTo = document.getElementById('otpSentTo');
+    if(sentTo) sentTo.textContent = '+91 ' + cleanPhone;
+
+    startOtpTimer('otpCountdown');
+    // Store phone for verify step
+    window._otpPhone = cleanPhone;
+
+  } catch(err) {
+    if(btn){ btn.disabled = false; btn.textContent = 'Send OTP'; }
+    showError(err.message);
+  }
 }
 
 function startOtpTimer(id){
@@ -1075,7 +1106,15 @@ function showLoginSuccess(){
   setTimeout(()=>{ window.location = getRedirectUrl(); }, 3000);
 }
 
-function resendOTP(){ startOtpTimer('otpCountdown'); }
+function resendOTP(){
+  if(window._otpPhone){
+    fetch(`${API_BASE}/auth/send-otp`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ phone: window._otpPhone })
+    });
+  }
+  startOtpTimer('otpCountdown');
+}
 function resendRegOTP(){ startOtpTimer('regOtpCountdown'); }
 
 // ── LOGIN TYPE (buyer / seller) ──
@@ -1151,7 +1190,7 @@ function getRedirectUrl(){
 }
 
 async function verifyLoginOTP(){
-  const phone = document.getElementById('loginPhone').value.trim();
+  const phone = window._otpPhone || document.getElementById('loginPhone').value.trim().replace(/\D/g,'').slice(-10);
   const otp   = ['otp1','otp2','otp3','otp4','otp5','otp6'].map(id=>document.getElementById(id).value).join('');
   if(otp.length < 6){ showError('Please enter the complete 6-digit OTP.'); return; }
 
@@ -1291,7 +1330,9 @@ async function goRegStep(step){
           document.getElementById('regSuccessMsg').textContent =
             'BahaBasket mein aapka swagat hai! Account ready hai.';
           _updateStepUI(4);
-          setTimeout(()=>{ window.location = localStorage.getItem('bb_redirect_after_login') || 'index.html'; }, 2000);
+          const regRedirect = localStorage.getItem('bb_redirect_after_login') || 'user-dashboard.html';
+          localStorage.removeItem('bb_redirect_after_login');
+          setTimeout(()=>{ window.location = regRedirect; }, 2000);
         }
         return; // skip _updateStepUI below
 
@@ -1420,18 +1461,98 @@ function closeForgotModal(){
   document.getElementById('forgotModal').classList.remove('open');
   document.body.style.overflow='';
 }
-function sendForgotOTP(){
+async function sendForgotOTP(){
   const val = document.getElementById('forgotInput').value.trim();
-  if(!val){ alert('Please enter your phone or email.'); return; }
-  document.getElementById('forgotStep1').style.display='none';
-  document.getElementById('forgotStep2').style.display='block';
+  if(!val){ showForgotError('Please enter your phone number or email.'); return; }
+
+  const cleanPhone = val.replace(/\D/g,'').replace(/^91/,'').slice(-10);
+  const isPhone = /^[6-9]\d{9}$/.test(cleanPhone);
+
+  const forgotBtn = document.querySelector('#forgotStep1 .btn-submit');
+  if(forgotBtn){ forgotBtn.disabled = true; forgotBtn.textContent = 'Sending…'; }
+
+  try {
+    if(isPhone){
+      // Phone: send OTP via /auth/send-otp
+      const res  = await fetch(`${API_BASE}/auth/send-otp`, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ phone: cleanPhone })
+      });
+      const data = await res.json();
+      if(!data.success) throw new Error(data.error || 'Could not send OTP.');
+      window._forgotPhone = cleanPhone;
+    } else {
+      // Email: inform user to check their email (Supabase sends reset link)
+      // We don't have a custom reset-password endpoint, so show instruction
+      closeForgotModal();
+      showToast('📧 Agar aapka account email se bana hai, toh support se contact karein: support@bahabasket.app', 8000);
+      return;
+    }
+
+    if(forgotBtn){ forgotBtn.disabled = false; forgotBtn.textContent = 'Send Reset OTP'; }
+    document.getElementById('forgotStep1').style.display='none';
+    document.getElementById('forgotStep2').style.display='block';
+
+  } catch(err) {
+    if(forgotBtn){ forgotBtn.disabled = false; forgotBtn.textContent = 'Send Reset OTP'; }
+    showForgotError(err.message);
+  }
 }
-function resetPasswordDone(){
-  closeForgotModal();
-  alert('✅ Password reset successfully! Please login with your new password.');
-  document.getElementById('forgotStep1').style.display='block';
-  document.getElementById('forgotStep2').style.display='none';
-  document.getElementById('forgotInput').value='';
+
+function showForgotError(msg){
+  var prev = document.querySelector('.forgot-error');
+  if(prev) prev.remove();
+  var div = document.createElement('div');
+  div.className = 'forgot-error';
+  div.style.cssText = 'background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;padding:9px 13px;border-radius:8px;font-size:13px;margin-top:10px;font-weight:500;';
+  div.textContent = '⚠ ' + msg;
+  var s1 = document.getElementById('forgotStep1');
+  if(s1) s1.appendChild(div);
+}
+
+async function resetPasswordDone(){
+  // Get OTP from forgot step 2 boxes
+  const otpBoxes = document.querySelectorAll('#forgotStep2 .otp-box');
+  const otp = Array.from(otpBoxes).map(b=>b.value).join('');
+  if(otp.length < 6){ alert('Please enter the complete 6-digit OTP.'); return; }
+
+  const newPass = document.querySelector('#forgotStep2 input[type="password"]').value;
+  if(!newPass || newPass.length < 8){ alert('New password must be at least 8 characters.'); return; }
+
+  try {
+    // Verify OTP first to get a token
+    const otpRes  = await fetch(`${API_BASE}/auth/verify-otp`, {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone: window._forgotPhone, otp })
+    });
+    const otpData = await otpRes.json();
+    if(!otpData.success) throw new Error(otpData.error || 'Invalid OTP.');
+
+    // Use the token to update password via Supabase (PATCH /auth/me won't work for password)
+    // For now: log user in with new token and show success
+    saveAuth(otpData.token, otpData.user);
+    if(window.refreshAuthNav) window.refreshAuthNav();
+
+    closeForgotModal();
+    showToast('✅ OTP verified! Please use Password Login and set a new password by contacting support, or re-register with the same number.');
+    document.getElementById('forgotStep1').style.display='block';
+    document.getElementById('forgotStep2').style.display='none';
+    document.getElementById('forgotInput').value='';
+    otpBoxes.forEach(b=>b.value='');
+
+  } catch(err) {
+    alert('⚠ ' + err.message);
+  }
+}
+
+function showToast(msg, duration){
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a56db;color:#fff;padding:12px 20px;border-radius:10px;font-size:14px;font-weight:500;z-index:9999;max-width:360px;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.18);animation:fadeSlide .3s ease;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='opacity .5s'; setTimeout(()=>t.remove(), 500); }, duration || 4000);
 }
 document.getElementById('forgotModal').addEventListener('click',function(e){
   if(e.target===this) closeForgotModal();
@@ -1439,7 +1560,7 @@ document.getElementById('forgotModal').addEventListener('click',function(e){
 
 // ── SOCIAL LOGIN ──
 function socialLogin(platform){
-  alert(`Connecting to ${platform}...\n\n(WordPress mein: WP OAuth plugin se ${platform} login integrate hoga)`);
+  showToast('🚀 ' + platform + ' login coming soon! Abhi ke liye phone + password se login karein.');
 }
 
 // ── KEYBOARD: ESC to close modals ──
