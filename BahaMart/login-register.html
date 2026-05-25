@@ -964,7 +964,12 @@ function saveAuth(token, user){
 })();
 
 // Check if already logged in → redirect (to next URL or correct dashboard)
+// Skip when ?code= is present — Supabase OAuth callback is being processed
 (function(){
+  const isOAuthCallback = window.location.search.includes('code=') ||
+                          window.location.hash.includes('access_token');
+  if(isOAuthCallback) return; // Let handleOAuthCallback() take over
+
   const token = localStorage.getItem('bb_token');
   if(!token) return;
 
@@ -1667,74 +1672,99 @@ function socialLogin(platform) {
   const sb = getSupabaseClient();
   if (!sb) { showToast('⚠️ Please wait and try again.'); return; }
 
-  const redirectTo = window.location.origin + '/login-register.html';
+  // Use the current page's full URL as redirectTo (works on both localhost and Vercel)
+  const redirectTo = window.location.origin + window.location.pathname;
   sb.auth.signInWithOAuth({
     provider: 'google',
-    options: { redirectTo }
+    options: { redirectTo, queryParams: { access_type: 'offline', prompt: 'consent' } }
   }).then(function(result) {
     if (result.error) showError('Google login error: ' + result.error.message);
     // On success, browser will redirect to Google — no further action needed here
   });
 }
 
-// Handle OAuth callback — runs when Google redirects back to this page
-async function handleOAuthCallback() {
-  const sb = getSupabaseClient();
-  if (!sb) return;
+// ── GOOGLE OAUTH CALLBACK HANDLER ────────────────────────────────────────────
 
-  // Check if there's a session (Supabase auto-processes the URL hash)
-  const { data: { session }, error } = await sb.auth.getSession();
-  if (error || !session) return;
-
-  // Check if this is a fresh OAuth callback (has hash or code in URL)
-  const hasOAuthParams = window.location.hash.includes('access_token') ||
-                         window.location.search.includes('code=');
-  if (!hasOAuthParams) return;
-
+// Process a valid Supabase session from Google OAuth
+async function processOAuthSession(session) {
   const token = session.access_token;
-
   try {
-    // Call backend to ensure user record exists in our users table
     const res  = await fetch(API_BASE + '/auth/social-complete', {
       method:  'POST',
       headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' }
     });
     const data = await res.json();
-
-    const userToSave = data.success ? data.user : session.user;
+    const userToSave = (data.success && data.user) ? data.user : session.user;
 
     localStorage.setItem('bb_token',      token);
     localStorage.setItem('bb_user',       JSON.stringify(userToSave));
     localStorage.setItem('bb_login_type', 'buyer');
-
-    if (window.refreshAuthNav) window.refreshAuthNav();
-
-    // Clean URL (remove hash/params)
-    history.replaceState(null, '', window.location.pathname + window.location.search.replace(/[?&]code=[^&]*/,''));
-
-    showLoginSuccess();
-
   } catch(e) {
-    console.error('OAuth callback error:', e);
-    // Fallback: save session directly
+    // Backend call failed — save raw session as fallback
     localStorage.setItem('bb_token',      token);
     localStorage.setItem('bb_user',       JSON.stringify(session.user));
     localStorage.setItem('bb_login_type', 'buyer');
-    showLoginSuccess();
   }
+
+  if (window.refreshAuthNav) window.refreshAuthNav();
+
+  // Clean up OAuth params from URL
+  history.replaceState(null, '', window.location.pathname);
+
+  showLoginSuccess();
 }
 
-// Run callback handler after Supabase JS loads
+// Detect OAuth callback and handle session
+function handleOAuthCallback() {
+  // Only run when URL contains OAuth callback params
+  const isOAuthCallback = window.location.search.includes('code=') ||
+                          window.location.search.includes('error=') ||
+                          window.location.hash.includes('access_token');
+  if (!isOAuthCallback) return;
+
+  const sb = getSupabaseClient();
+  if (!sb) {
+    // Supabase JS not yet loaded — retry shortly
+    setTimeout(handleOAuthCallback, 200);
+    return;
+  }
+
+  let handled = false;
+
+  // Primary: onAuthStateChange fires when Supabase finishes code exchange
+  const { data: listener } = sb.auth.onAuthStateChange(function(event, session) {
+    if ((event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED') && session && !handled) {
+      handled = true;
+      listener.subscription.unsubscribe();
+      processOAuthSession(session);
+    }
+  });
+
+  // Fallback: getSession() in case Supabase already exchanged the code
+  sb.auth.getSession().then(function(result) {
+    const session = result.data && result.data.session;
+    if (session && !handled) {
+      handled = true;
+      listener.subscription.unsubscribe();
+      processOAuthSession(session);
+    }
+  });
+}
+
+// Run when page loads — Supabase CDN loaded inline after this script
 window.addEventListener('load', function() {
-  if (window.supabase) handleOAuthCallback();
+  handleOAuthCallback();
 });
 </script>
 
 <!-- Supabase JS — for Google OAuth -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script>
-  // Re-run callback handler once Supabase JS is loaded
-  if (typeof handleOAuthCallback === 'function') handleOAuthCallback();
+  // Supabase JS just loaded — initialize client and run callback if needed
+  if (typeof handleOAuthCallback === 'function') {
+    // Give Supabase a tick to register window.supabase
+    setTimeout(handleOAuthCallback, 50);
+  }
 </script>
 </body>
 </html>
