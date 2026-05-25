@@ -616,6 +616,47 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
         <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg> Edit Shop Profile</div><div class="sec-sub">Update your shop information visible to buyers.</div></div>
       </div>
 
+      <!-- Logo & Cover Upload -->
+      <div class="card" style="margin-bottom:16px;">
+        <div class="card-title"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg> Shop Logo &amp; Cover Image</div>
+
+        <!-- Cover Image Upload -->
+        <div style="position:relative;height:140px;border-radius:10px;overflow:hidden;background:linear-gradient(135deg,#1042b0,#1a56db,#2563eb);margin-bottom:36px;cursor:pointer;"
+             id="coverPreview" onclick="document.getElementById('coverFileInput').click()" title="Click to upload cover image">
+          <div id="coverPattern" style="position:absolute;inset:0;opacity:.08;background-image:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,.5) 20px,rgba(255,255,255,.5) 21px);"></div>
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:rgba(255,255,255,.8);">
+            <svg id="coverCamIcon" viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+            <span id="coverCamTxt" style="font-size:13px;font-weight:600;">Click to upload cover image</span>
+          </div>
+          <input type="file" id="coverFileInput" accept="image/*" style="display:none" onchange="handleCoverUpload(this)">
+          <!-- Remove button -->
+          <button id="coverRemoveBtn" onclick="event.stopPropagation();removeCoverImage()" title="Remove cover"
+            style="display:none;position:absolute;top:8px;right:8px;background:rgba(220,38,38,.85);border:none;color:#fff;width:26px;height:26px;border-radius:50%;cursor:pointer;font-size:14px;line-height:1;align-items:center;justify-content:center;">✕</button>
+        </div>
+
+        <!-- Logo Upload — overlaps cover at bottom-left -->
+        <div style="display:flex;align-items:flex-end;gap:14px;margin-top:-50px;padding:0 12px 4px;">
+          <div style="position:relative;flex-shrink:0;">
+            <div id="logoPreview" onclick="document.getElementById('logoFileInput').click()"
+              style="width:72px;height:72px;border-radius:14px;background:linear-gradient(135deg,var(--primary),#2563eb);border:3px solid #fff;box-shadow:0 2px 10px rgba(0,0,0,.18);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden;font-family:var(--font-display);font-size:26px;font-weight:800;color:#fff;flex-shrink:0;"
+              title="Click to upload shop logo" id="logoCircle">?</div>
+            <div id="logoSpinner" style="display:none;position:absolute;inset:0;background:rgba(255,255,255,.7);border-radius:14px;display:none;align-items:center;justify-content:center;">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" style="animation:spin 1s linear infinite;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+            </div>
+            <button id="logoRemoveBtn" onclick="event.stopPropagation();removeLogoImage()" title="Remove logo"
+              style="display:none;position:absolute;top:-6px;right:-6px;background:rgba(220,38,38,.85);border:none;color:#fff;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:11px;align-items:center;justify-content:center;">✕</button>
+            <input type="file" id="logoFileInput" accept="image/*" style="display:none" onchange="handleLogoUpload(this)">
+          </div>
+          <div style="padding-bottom:6px;">
+            <div style="font-size:13px;font-weight:700;color:var(--text-dark);">Shop Logo</div>
+            <div style="font-size:12px;color:var(--text-light);margin-top:2px;">Click the square to upload. PNG, JPG recommended. Square images work best.</div>
+          </div>
+        </div>
+
+        <!-- Upload status -->
+        <div id="imgUploadStatus" style="display:none;margin-top:10px;padding:8px 12px;border-radius:8px;font-size:13px;font-weight:600;"></div>
+      </div>
+
       <div class="grid-2">
         <div class="card">
           <div class="card-title">Basic Information</div>
@@ -1400,6 +1441,7 @@ function populateSeller(user, shop) {
   }
 
   _currentShop = shop;
+  restoreShopImages(shop);
   const shopName = shop.name || 'My Shop';
   const shopCity = shop.city || '';
   const shopCat  = Array.isArray(shop.category)
@@ -1963,6 +2005,12 @@ function showSec(id, navEl){
   if(navEl) navEl.classList.add('active');
   window.scrollTo({top:0,behavior:'smooth'});
   if(window.innerWidth<=860) closeSidebar();
+  // Reset add-product form when navigating there (not from editProduct)
+  if(id === 'add-product' && _editProductId === null) {
+    if(typeof buildProductPhotos === 'function') buildProductPhotos();
+    var title = document.querySelector('#sec-add-product .sec-title');
+    if(title && title.textContent.includes('Edit')) resetAddProductForm();
+  }
 }
 function toggleSidebar(){
   const sb=document.getElementById('sidebar'),ov=document.getElementById('sidebarOverlay');
@@ -2042,8 +2090,8 @@ function buildProductsTable() {
       <td style="font-size:12px;color:var(--text-light);">${fmtProductDate(p.created_at)}</td>
       <td>
         <div style="display:flex;gap:4px;">
-          <button class="btn btn-ghost btn-sm btn-icon" title="Edit" onclick="showSec('add-product',null)"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
-          <button class="btn btn-ghost btn-sm btn-icon" title="View"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          <button class="btn btn-ghost btn-sm btn-icon" title="Edit" onclick="editProduct('${p.id}')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="btn btn-ghost btn-sm btn-icon" title="View on Public Page" onclick="window.open('product-detail.html?id=${p.id}','_blank')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
           <button class="btn btn-danger btn-sm btn-icon" title="Delete" onclick="deleteProduct('${p.id}',this)"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
         </div>
       </td>
@@ -2549,6 +2597,335 @@ function openWAReply(name){
 }
 
 // ══════════════════════════════════════════════════════
+//  LOGO & COVER IMAGE UPLOAD
+// ══════════════════════════════════════════════════════
+var _logoUrl  = null;   // URL after upload (or existing URL from shop)
+var _coverUrl = null;
+
+function showImgStatus(type, msg) {
+  const el = document.getElementById('imgUploadStatus');
+  if (!el) return;
+  el.style.display = 'block';
+  el.style.background = type === 'success' ? 'var(--success-bg)' : type === 'error' ? 'var(--danger-bg)' : 'var(--primary-light)';
+  el.style.color = type === 'success' ? 'var(--success)' : type === 'error' ? 'var(--danger)' : 'var(--primary)';
+  el.textContent = msg;
+  if (type !== 'loading') setTimeout(() => { el.style.display = 'none'; }, 3500);
+}
+
+async function handleLogoUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const logoCircle  = document.getElementById('logoCircle');
+  const logoSpinner = document.getElementById('logoSpinner');
+  if (logoSpinner) { logoSpinner.style.display = 'flex'; }
+  showImgStatus('loading', 'Uploading logo...');
+  try {
+    const base64 = await fileToBase64(file);
+    const res    = await fetch(`${API_BASE}/upload/image`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body: JSON.stringify({ base64, fileName: file.name, contentType: file.type, folder: 'logos' })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Upload failed');
+    _logoUrl = data.url;
+    // Show preview
+    if (logoCircle) {
+      logoCircle.innerHTML = `<img src="${data.url}" alt="Logo" style="width:100%;height:100%;object-fit:cover;border-radius:11px;">`;
+    }
+    const removeBtn = document.getElementById('logoRemoveBtn');
+    if (removeBtn) removeBtn.style.display = 'flex';
+    showImgStatus('success', '✓ Logo uploaded! Click Save Profile to apply.');
+  } catch (e) {
+    showImgStatus('error', 'Logo upload failed: ' + e.message);
+  } finally {
+    if (logoSpinner) logoSpinner.style.display = 'none';
+  }
+}
+
+function removeLogoImage() {
+  _logoUrl = null;
+  const logoCircle = document.getElementById('logoCircle');
+  if (logoCircle) logoCircle.innerHTML = _currentShop ? _currentShop.name.charAt(0).toUpperCase() : '?';
+  const removeBtn = document.getElementById('logoRemoveBtn');
+  if (removeBtn) removeBtn.style.display = 'none';
+  const inp = document.getElementById('logoFileInput');
+  if (inp) inp.value = '';
+}
+
+async function handleCoverUpload(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const preview = document.getElementById('coverPreview');
+  const camIcon = document.getElementById('coverCamIcon');
+  const camTxt  = document.getElementById('coverCamTxt');
+  if (camTxt) camTxt.textContent = 'Uploading...';
+  showImgStatus('loading', 'Uploading cover image...');
+  try {
+    const base64 = await fileToBase64(file);
+    const res    = await fetch(`${API_BASE}/upload/image`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body: JSON.stringify({ base64, fileName: file.name, contentType: file.type, folder: 'covers' })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Upload failed');
+    _coverUrl = data.url;
+    // Show preview
+    if (preview) {
+      preview.style.backgroundImage    = `url(${data.url})`;
+      preview.style.backgroundSize     = 'cover';
+      preview.style.backgroundPosition = 'center';
+      const pattern = document.getElementById('coverPattern');
+      if (pattern) pattern.style.display = 'none';
+      if (camIcon) camIcon.style.display = 'none';
+      if (camTxt)  camTxt.style.display  = 'none';
+    }
+    const removeBtn = document.getElementById('coverRemoveBtn');
+    if (removeBtn) removeBtn.style.display = 'flex';
+    showImgStatus('success', '✓ Cover image uploaded! Click Save Profile to apply.');
+  } catch (e) {
+    if (camTxt) camTxt.textContent = 'Click to upload cover image';
+    showImgStatus('error', 'Cover upload failed: ' + e.message);
+  }
+}
+
+function removeCoverImage() {
+  _coverUrl = null;
+  const preview = document.getElementById('coverPreview');
+  if (preview) {
+    preview.style.backgroundImage = '';
+    preview.style.background = 'linear-gradient(135deg,#1042b0,#1a56db,#2563eb)';
+  }
+  const pattern = document.getElementById('coverPattern');
+  if (pattern) pattern.style.display = '';
+  const camIcon = document.getElementById('coverCamIcon');
+  if (camIcon) camIcon.style.display = '';
+  const camTxt  = document.getElementById('coverCamTxt');
+  if (camTxt)  { camTxt.style.display = ''; camTxt.textContent = 'Click to upload cover image'; }
+  const removeBtn = document.getElementById('coverRemoveBtn');
+  if (removeBtn) removeBtn.style.display = 'none';
+  const inp = document.getElementById('coverFileInput');
+  if (inp) inp.value = '';
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload  = e => resolve(e.target.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// ── Restore existing logo/cover from shop data when page loads ──
+function restoreShopImages(shop) {
+  if (!shop) return;
+  if (shop.logo) {
+    _logoUrl = shop.logo;
+    const logoCircle = document.getElementById('logoCircle');
+    if (logoCircle) logoCircle.innerHTML = `<img src="${shop.logo}" alt="${shop.name}" style="width:100%;height:100%;object-fit:cover;border-radius:11px;">`;
+    const removeBtn = document.getElementById('logoRemoveBtn');
+    if (removeBtn) removeBtn.style.display = 'flex';
+  } else {
+    const logoCircle = document.getElementById('logoCircle');
+    if (logoCircle && shop.name) logoCircle.textContent = shop.name.charAt(0).toUpperCase();
+  }
+  if (shop.cover_image) {
+    _coverUrl = shop.cover_image;
+    const preview = document.getElementById('coverPreview');
+    if (preview) {
+      preview.style.backgroundImage    = `url(${shop.cover_image})`;
+      preview.style.backgroundSize     = 'cover';
+      preview.style.backgroundPosition = 'center';
+      const pattern = document.getElementById('coverPattern');
+      if (pattern) pattern.style.display = 'none';
+      const camIcon = document.getElementById('coverCamIcon');
+      if (camIcon) camIcon.style.display = 'none';
+      const camTxt = document.getElementById('coverCamTxt');
+      if (camTxt) camTxt.style.display = 'none';
+    }
+    const removeBtn = document.getElementById('coverRemoveBtn');
+    if (removeBtn) removeBtn.style.display = 'flex';
+  }
+}
+
+// ══════════════════════════════════════════════════════
+//  PRODUCT EDIT (inline edit mode)
+// ══════════════════════════════════════════════════════
+var _editProductId = null;   // null = add mode, UUID = edit mode
+
+function editProduct(id) {
+  const p = _shopProducts.find(function(x) { return x.id === id; });
+  if (!p) { alert('Product not found'); return; }
+  _editProductId = id;
+
+  // Navigate to add-product section
+  showSec('add-product', null);
+
+  // Update section header
+  const title = document.querySelector('#sec-add-product .sec-title');
+  if (title) title.textContent = '✏️ Edit Product';
+  const sub = document.querySelector('#sec-add-product .sec-sub');
+  if (sub) sub.textContent = 'Update product details. Changes go live immediately.';
+
+  // Fill form fields
+  const set = function(id, val) { var el = document.getElementById(id); if (el) el.value = val || ''; };
+  set('prodName',        p.name);
+  set('prodDescription', p.description);
+  set('prodPrice',       p.price);
+  set('prodMrp',         p.mrp || '');
+  set('prodSizes',       (p.sizes  || []).join(', '));
+  set('prodColors',      (p.colors || []).join(', '));
+
+  // Category select
+  var catEl = document.getElementById('prodCatSelect');
+  if (catEl && p.category) {
+    // Try to find display label matching the slug
+    var slugToDisplay = {
+      'men':'Men Fashion','women':'Women Fashion','kids':'Kids Wear',
+      'electronics':'Electronics','footwear':'Footwear','home-decor':'Home Decor',
+      'jewellery':'Jewellery','ethnic-wear':'Ethnic Wear','bags-wallets':'Bags & Wallets',
+      'watches':'Watches','beauty-care':'Beauty & Care','sports-fitness':'Sports & Fitness'
+    };
+    var displayCat = slugToDisplay[p.category] || p.category;
+    for (var i = 0; i < catEl.options.length; i++) {
+      if (catEl.options[i].value === displayCat) { catEl.selectedIndex = i; break; }
+    }
+  }
+
+  // Stock
+  var stockEl = document.getElementById('prodStockSelect');
+  if (stockEl) {
+    if (p.stock === 0)       stockEl.value = 'Out of Stock';
+    else if (p.stock <= 5)   stockEl.value = 'Limited';
+    else                     stockEl.value = 'In Stock';
+  }
+
+  // Show existing product images as previews
+  if (p.images && p.images.length) {
+    p.images.forEach(function(url, idx) {
+      if (idx >= 5) return;
+      _prodImgUrls[idx] = url;
+      var cell   = document.getElementById('prodPhotoCell' + idx);
+      var iconEl = document.getElementById('prodPhotoIcon' + idx);
+      var txtEl  = document.getElementById('prodPhotoTxt'  + idx);
+      if (cell) {
+        cell.style.backgroundImage    = 'url(' + url + ')';
+        cell.style.backgroundSize     = 'cover';
+        cell.style.backgroundPosition = 'center';
+        cell.classList.add('has-img');
+        cell.style.pointerEvents = 'none';
+      }
+      if (iconEl) iconEl.innerHTML = '<div class="ph-remove" onclick="removeProdPhoto(event,' + idx + ')" style="position:absolute;top:5px;right:5px;width:22px;height:22px;background:rgba(220,38,38,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>';
+      if (txtEl)  txtEl.textContent = '';
+    });
+  }
+
+  // Change submit buttons
+  var pubBtn = document.getElementById('prodPublishBtn');
+  if (pubBtn) {
+    pubBtn.innerHTML = pubBtn.innerHTML.replace(/Publish Product|Save Changes/, 'Save Changes');
+    pubBtn.onclick = function() { updateProduct(); };
+  }
+  var draftBtn = document.getElementById('prodDraftBtn');
+  if (draftBtn) draftBtn.style.display = 'none'; // hide draft in edit mode
+
+  // Scroll to top of section
+  var sec = document.getElementById('sec-add-product');
+  if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function resetAddProductForm() {
+  _editProductId = null;
+  // Reset title
+  var title = document.querySelector('#sec-add-product .sec-title');
+  if (title) title.textContent = 'Add New Product';
+  var sub = document.querySelector('#sec-add-product .sec-sub');
+  if (sub) sub.textContent = 'Fill in the details below to list a new product in your shop.';
+  // Reset fields
+  ['prodName','prodDescription','prodPrice','prodMrp','prodSizes','prodColors'].forEach(function(id) {
+    var el = document.getElementById(id); if (el) el.value = '';
+  });
+  var catEl = document.getElementById('prodCatSelect');
+  if (catEl) catEl.value = '';
+  var stockEl = document.getElementById('prodStockSelect');
+  if (stockEl) stockEl.value = 'In Stock';
+  // Reset photos
+  buildProductPhotos();
+  // Reset buttons
+  var pubBtn = document.getElementById('prodPublishBtn');
+  if (pubBtn) {
+    pubBtn.innerHTML = pubBtn.innerHTML.replace('Save Changes', 'Publish Product');
+    pubBtn.onclick = function() { submitProduct('publish'); };
+  }
+  var draftBtn = document.getElementById('prodDraftBtn');
+  if (draftBtn) draftBtn.style.display = '';
+}
+
+async function updateProduct() {
+  if (!_editProductId) { submitProduct('publish'); return; }
+
+  var nameEl     = document.getElementById('prodName');
+  var catEl      = document.getElementById('prodCatSelect');
+  var descEl     = document.getElementById('prodDescription');
+  var priceEl    = document.getElementById('prodPrice');
+  var mrpEl      = document.getElementById('prodMrp');
+  var stockEl    = document.getElementById('prodStockSelect');
+  var sizesEl    = document.getElementById('prodSizes');
+  var colorsEl   = document.getElementById('prodColors');
+
+  var name        = nameEl   ? nameEl.value.trim()  : '';
+  var catDisplay  = catEl    ? catEl.value           : '';
+  var description = descEl   ? descEl.value.trim()   : '';
+  var price       = parseFloat(priceEl ? priceEl.value : '');
+  var mrpRaw      = mrpEl    ? mrpEl.value           : '';
+  var stockLabel  = stockEl  ? stockEl.value         : 'In Stock';
+  var stockMap    = { 'In Stock': 10, 'Out of Stock': 0, 'Limited': 5 };
+  var stock       = stockMap[stockLabel] !== undefined ? stockMap[stockLabel] : 10;
+  var sizesRaw    = sizesEl  ? sizesEl.value.trim()  : '';
+  var colorsRaw   = colorsEl ? colorsEl.value.trim() : '';
+  var sizes       = sizesRaw  ? sizesRaw.split(',').map(function(s) { return s.trim(); }).filter(Boolean)  : [];
+  var colors      = colorsRaw ? colorsRaw.split(',').map(function(c) { return c.trim(); }).filter(Boolean) : [];
+
+  if (!name)  { alert('Product title is required.'); return; }
+  if (!price || isNaN(price) || price <= 0) { alert('Please enter a valid selling price.'); return; }
+
+  var category = PROD_CAT_SLUG[catDisplay] || catDisplay.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+  var pubBtn = document.getElementById('prodPublishBtn');
+  var origHTML = pubBtn ? pubBtn.innerHTML : '';
+  if (pubBtn) { pubBtn.disabled = true; pubBtn.innerHTML = '<span class="spin">◌</span> Saving…'; }
+
+  try {
+    var images = _prodImgUrls.filter(Boolean);
+    var body   = { name, description, price, category, stock };
+    if (mrpRaw)       body.mrp    = parseFloat(mrpRaw);
+    if (sizes.length)  body.sizes  = sizes;
+    if (colors.length) body.colors = colors;
+    if (images.length) body.images = images;
+
+    var res = await fetch(`${API_BASE}/products/${_editProductId}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body: JSON.stringify(body)
+    });
+    var data = await res.json();
+    if (res.status === 401) { localStorage.removeItem('bb_token'); window.location.href = 'login-register.html'; return; }
+    if (!data.success) throw new Error(data.error || 'Update failed');
+
+    alert('✅ Product updated successfully!');
+    resetAddProductForm();
+    await loadShopProducts(_currentShop.id);
+    showSec('products', null);
+  } catch (e) {
+    alert('Error: ' + e.message);
+  } finally {
+    if (pubBtn) { pubBtn.disabled = false; pubBtn.innerHTML = origHTML; }
+  }
+}
+
+// ══════════════════════════════════════════════════════
 //  SHOP PROFILE SAVE / RESET
 // ══════════════════════════════════════════════════════
 
@@ -2609,7 +2986,11 @@ async function saveShopProfile() {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + _bbToken
       },
-      body: JSON.stringify({ name, description, whatsapp, address, city, pincode, category })
+      body: JSON.stringify({
+        name, description, whatsapp, address, city, pincode, category,
+        ...((_logoUrl  !== null) && { logo:         _logoUrl  }),
+        ...((_coverUrl !== null) && { cover_image:  _coverUrl })
+      })
     });
 
     const data = await res.json();
