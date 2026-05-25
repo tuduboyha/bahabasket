@@ -107,6 +107,37 @@ exports.login = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
+// ─── Social Complete (Google / OAuth) ────────────────────────────────────────
+// Called after OAuth redirect — ensures user exists in our users table
+exports.socialComplete = async (req, res, next) => {
+  try {
+    const authHeader = req.headers.authorization || '';
+    const token = authHeader.replace('Bearer ', '').trim();
+    if (!token) return res.status(401).json({ success: false, error: 'Token required' });
+
+    // Verify token and get user from Supabase
+    const { data: { user }, error } = await supabase.auth.getUser(token);
+    if (error || !user) throw new Error('Invalid or expired token');
+
+    // Extract profile info from Google metadata
+    const meta   = user.user_metadata || {};
+    const name   = meta.full_name || meta.name || (user.email || '').split('@')[0] || 'User';
+    const email  = user.email || '';
+    const avatar = meta.avatar_url || meta.picture || '';
+
+    // Upsert into our users table (create if first time, update if existing)
+    const { data: profile, error: upsertErr } = await supabaseAdmin
+      .from('users')
+      .upsert({ id: user.id, name, email, avatar, role: 'buyer' }, { onConflict: 'id' })
+      .select()
+      .single();
+
+    if (upsertErr) throw upsertErr;
+
+    res.json({ success: true, user: profile });
+  } catch (err) { next(err); }
+};
+
 // ─── Logout ───────────────────────────────────────────────────────────────────
 exports.logout = async (req, res, next) => {
   try {

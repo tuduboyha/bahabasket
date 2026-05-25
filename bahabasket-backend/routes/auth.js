@@ -17,6 +17,9 @@ router.post('/register', validate(schemas.register), authCtrl.register);
 // POST /api/auth/login          → Login with email + password
 router.post('/login', validate(schemas.login), authCtrl.login);
 
+// POST /api/auth/social-complete → After Google/OAuth login — ensure user exists in users table
+router.post('/social-complete', authCtrl.socialComplete);
+
 // POST /api/auth/logout         → Logout (client-side token removal + server signout)
 router.post('/logout', requireAuth, authCtrl.logout);
 
