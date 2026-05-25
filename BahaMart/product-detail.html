@@ -671,10 +671,10 @@ textarea.rev-input{resize:vertical;min-height:90px;}
         <div class="stars-row">
           <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
         </div>
-        <span class="rating-num">4.8</span>
-        <span class="rating-count"><a href="#reviews">124 reviews</a></span>
-        <span class="divider-dot"></span>
-        <span class="inq-count"><strong>286</strong> WhatsApp inquiries</span>
+        <span class="rating-num" id="prodRatingNum">—</span>
+        <span class="rating-count" id="prodRatingCnt"><a href="#reviews">— reviews</a></span>
+        <span class="divider-dot" id="inqDivider" style="display:none;"></span>
+        <span class="inq-count" id="prodInqCnt" style="display:none;"></span>
         <span class="divider-dot"></span>
         <span style="font-size:13px;color:var(--success);font-weight:600;display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span>
       </div>
@@ -796,8 +796,8 @@ textarea.rev-input{resize:vertical;min-height:90px;}
         </div>
         <div class="shop-rating-row">
           <span class="shop-stars">★★★★★</span>
-          <span class="shop-rating-num">4.8</span>
-          <span class="shop-review-cnt">(124 reviews) · 500+ customers served</span>
+          <span class="shop-rating-num" id="shopRatingNum">—</span>
+          <span class="shop-review-cnt" id="shopRevCnt">Loading…</span>
         </div>
         <div class="shop-actions">
           <button class="btn-wa-shop" onclick="openWA('shop')" style="display:flex;align-items:center;justify-content:center;gap:6px;"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp Shop</button>
@@ -917,9 +917,9 @@ textarea.rev-input{resize:vertical;min-height:90px;}
   <div class="tab-panel" id="tab-reviews" id-anchor="reviews">
     <div class="reviews-summary">
       <div class="rev-big-num">
-        <div class="num">4.8</div>
-        <div class="stars">★★★★★</div>
-        <div class="cnt">124 reviews</div>
+        <div class="num" id="revBigNum">—</div>
+        <div class="stars" id="revBigStars">★★★★★</div>
+        <div class="cnt" id="revBigCnt">—</div>
       </div>
       <div class="rev-bars">
         <div class="rev-bar-row"><span class="lbl">5★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:82%;"></div></div><span class="pct">82%</span></div>
@@ -930,66 +930,9 @@ textarea.rev-input{resize:vertical;min-height:90px;}
       </div>
     </div>
 
-    <div class="reviews-list">
-      <div class="review-card">
-        <div class="rev-header">
-          <div class="rev-av" style="background:linear-gradient(135deg,#1a56db,#3b82f6);">R</div>
-          <div class="rev-meta">
-            <div class="rev-name">Rahul Mishra</div>
-            <div class="rev-date">15 December 2024 · Indore</div>
-          </div>
-          <span class="rev-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified Purchase</span>
-        </div>
-        <div class="rev-stars">★★★★★</div>
-        <div class="rev-title">Excellent quality! Better than expected!</div>
-        <div class="rev-text">I wore this kurta set to a wedding and received many compliments. The fabric is very soft and genuinely feels like cotton. The colour matches the photos exactly. The stitching is solid and well-done. Will definitely shop from Sharma Cloth House again!</div>
-        <div class="rev-imgs">
-          <div class="rev-img"><img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=64&h=64&fit=crop&auto=format" alt="Review photo"></div>
-          <div class="rev-img"><img src="https://images.unsplash.com/photo-1611510338559-2f463335092c?w=64&h=64&fit=crop&auto=format" alt="Review photo"></div>
-        </div>
-        <div class="rev-helpful">
-          Was this helpful?
-          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>Yes (24)</button>
-          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>No (2)</button>
-        </div>
-      </div>
-
-      <div class="review-card">
-        <div class="rev-header">
-          <div class="rev-av" style="background:linear-gradient(135deg,#059669,#34d399);">P</div>
-          <div class="rev-meta">
-            <div class="rev-name">Pradeep Sharma</div>
-            <div class="rev-date">10 December 2024 · Bhopal</div>
-          </div>
-          <span class="rev-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified Purchase</span>
-        </div>
-        <div class="rev-stars">★★★★☆</div>
-        <div class="rev-title">Good product, size runs a bit large</div>
-        <div class="rev-text">Product quality is very good. Fabric is genuine cotton. One suggestion — the size runs slightly large, so going one size down is advisable. Excellent value for the price. The seller's response on WhatsApp was very prompt!</div>
-        <div class="rev-helpful">
-          Was this helpful?
-          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>Yes (18)</button>
-          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>No (1)</button>
-        </div>
-      </div>
-
-      <div class="review-card">
-        <div class="rev-header">
-          <div class="rev-av" style="background:linear-gradient(135deg,#f97316,#fb923c);">A</div>
-          <div class="rev-meta">
-            <div class="rev-name">Amit Kumar Verma</div>
-            <div class="rev-date">5 December 2024 · Ujjain</div>
-          </div>
-          <span class="rev-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified Purchase</span>
-        </div>
-        <div class="rev-stars">★★★★★</div>
-        <div class="rev-title">First shopping experience on BahaBasket — excellent!</div>
-        <div class="rev-text">First time ordering from this platform. Messaged on WhatsApp, got a reply within 10 minutes. Picked it up from the shop the next day. Was absolutely delighted when I saw the kurta set. It was a perfect choice for Eid. Will definitely recommend to all my friends!</div>
-        <div class="rev-helpful">
-          Was this helpful?
-          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M14 9V5a3 3 0 00-3-3l-4 9v11h11.28a2 2 0 002-1.7l1.38-9a2 2 0 00-2-2.3H14z"/><path d="M7 22H4a2 2 0 01-2-2v-7a2 2 0 012-2h3"/></svg>Yes (31)</button>
-          <button class="helpful-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:3px;"><path d="M10 15v4a3 3 0 003 3l4-9V2H5.72a2 2 0 00-2 1.7l-1.38 9a2 2 0 002 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0122 4v7a2.31 2.31 0 01-2.33 2H17"/></svg>No (0)</button>
-        </div>
+    <div class="reviews-list" id="reviewsList">
+      <div style="text-align:center;padding:48px 20px;color:var(--text-light);font-size:14px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" style="animation:spin 1s linear infinite;margin-bottom:10px;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg><br>Loading reviews…
       </div>
     </div>
 
@@ -1502,6 +1445,61 @@ function buildRelatedCard(p, currentId) {
   '</div>';
 }
 
+// ── LOAD PRODUCT REVIEWS ──
+async function loadProductReviews(productId) {
+  var revList = document.getElementById('reviewsList');
+  if (!revList) return;
+  try {
+    var res  = await fetch(API_BASE + '/reviews?product_id=' + productId + '&limit=10');
+    var data = await res.json();
+    var reviews = (data.reviews || data.data || []);
+    // Filter to approved only (or all if no status field)
+    reviews = reviews.filter(function(r){ return !r.status || r.status === 'approved'; });
+
+    if (!reviews.length) {
+      revList.innerHTML =
+        '<div style="text-align:center;padding:56px 20px;">' +
+          '<div style="font-size:40px;margin-bottom:12px;">💬</div>' +
+          '<div style="font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:6px;">No reviews yet</div>' +
+          '<div style="font-size:13px;color:var(--text-light);">Be the first to share your experience with this product!</div>' +
+        '</div>';
+      return;
+    }
+
+    var COLORS = ['#1a56db','#059669','#f97316','#7c3aed','#dc2626','#0891b2','#be185d'];
+    var VERIFIED_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="9" height="9" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>';
+
+    revList.innerHTML = reviews.map(function(r) {
+      var stars   = Math.min(5, Math.max(0, Math.round(parseFloat(r.rating) || 0)));
+      var starStr = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+      var name    = r.reviewer_name || (r.profiles && r.profiles.full_name) || 'Customer';
+      var initials = name.charAt(0).toUpperCase();
+      var color    = COLORS[initials.charCodeAt(0) % COLORS.length];
+      var dateStr  = r.created_at
+        ? new Date(r.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'long',year:'numeric'})
+        : '';
+      return '<div class="review-card">' +
+        '<div class="rev-header">' +
+          '<div class="rev-av" style="background:linear-gradient(135deg,' + color + ',' + color + 'aa);">' + initials + '</div>' +
+          '<div class="rev-meta">' +
+            '<div class="rev-name">' + name + '</div>' +
+            '<div class="rev-date">' + dateStr + '</div>' +
+          '</div>' +
+          (r.is_verified_purchase ? '<span class="rev-verified">' + VERIFIED_SVG + 'Verified Purchase</span>' : '') +
+        '</div>' +
+        '<div class="rev-stars">' + starStr + '</div>' +
+        (r.title ? '<div class="rev-title">' + r.title + '</div>' : '') +
+        '<div class="rev-text">' + (r.comment || r.body || '') + '</div>' +
+      '</div>';
+    }).join('');
+
+  } catch(e) {
+    console.error('loadProductReviews:', e);
+    revList.innerHTML =
+      '<div style="text-align:center;padding:40px 20px;color:var(--text-light);font-size:14px;">Could not load reviews. Please refresh and try again.</div>';
+  }
+}
+
 async function loadRelatedProducts(category, currentId) {
   try {
     var catParam = category ? '&category=' + encodeURIComponent(category) : '';
@@ -1675,6 +1673,64 @@ async function loadProduct() {
     if (viewShopBtn && shop.id) {
       viewShopBtn.onclick = function() { window.location.href = 'shop-profile.html?id=' + shop.id; };
     }
+
+    // ── Rating row (top of info column) ──
+    var shopRating   = parseFloat(shop.rating || 0);
+    var shopRevCount = parseInt(shop.review_count || 0);
+    var ratingNumEl  = document.getElementById('prodRatingNum');
+    var ratingCntEl  = document.getElementById('prodRatingCnt');
+    if (ratingNumEl) ratingNumEl.textContent = shopRating > 0 ? shopRating.toFixed(1) : '—';
+    if (ratingCntEl) ratingCntEl.innerHTML   = '<a href="#reviews">' + (shopRevCount > 0 ? shopRevCount + ' reviews' : 'No reviews yet') + '</a>';
+
+    // ── Reviews summary block ──
+    var revBigNum   = document.getElementById('revBigNum');
+    var revBigStars = document.getElementById('revBigStars');
+    var revBigCnt   = document.getElementById('revBigCnt');
+    if (revBigNum)   revBigNum.textContent   = shopRating > 0 ? shopRating.toFixed(1) : '—';
+    if (revBigStars) {
+      var starsFull  = Math.round(shopRating);
+      revBigStars.textContent = '★'.repeat(starsFull) + '☆'.repeat(5 - starsFull);
+    }
+    if (revBigCnt) revBigCnt.textContent = shopRevCount + ' reviews';
+
+    // ── Reviews tab button count ──
+    var reviewsTabBtn = document.getElementById('reviewsTabBtn');
+    if (reviewsTabBtn) {
+      reviewsTabBtn.innerHTML = reviewsTabBtn.innerHTML.replace(/Reviews \(\d+\)/, 'Reviews (' + shopRevCount + ')');
+    }
+
+    // ── Shop card — rating + review count ──
+    var shopRatingNumEl = document.getElementById('shopRatingNum');
+    var shopRevCntEl    = document.getElementById('shopRevCnt');
+    if (shopRatingNumEl) shopRatingNumEl.textContent = shopRating > 0 ? shopRating.toFixed(1) : '—';
+    if (shopRevCntEl)    shopRevCntEl.textContent    = shopRevCount > 0 ? '(' + shopRevCount + ' reviews)' : '';
+
+    // ── Shop logo in card ──
+    if (shop.logo) {
+      var shopLogoEl = document.querySelector('.shop-logo-sm');
+      if (shopLogoEl) {
+        shopLogoEl.style.padding = '0';
+        shopLogoEl.style.overflow = 'hidden';
+        shopLogoEl.innerHTML = '<img src="' + shop.logo + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.display=\'none\'">';
+      }
+    }
+
+    // ── Breadcrumb category link ──
+    var catBreadcrumb = document.querySelector('.breadcrumb a[href*="product-listings"]');
+    if (catBreadcrumb && p.category) {
+      var catLabel = p.category.charAt(0).toUpperCase() + p.category.slice(1).replace(/-/g, ' ');
+      catBreadcrumb.textContent = catLabel;
+      catBreadcrumb.href = 'product-listings.html?cat=' + encodeURIComponent(p.category);
+    }
+
+    // ── Shop product count in meta ──
+    var shopMetaSpans = document.querySelectorAll('.shop-meta-sm span');
+    if (shopMetaSpans[1] && shop.product_count != null) {
+      shopMetaSpans[1].innerHTML = shopMetaSpans[1].innerHTML.replace(/\d+ products/, (shop.product_count || 0) + ' products');
+    }
+
+    // ── Load reviews ──
+    loadProductReviews(p.id);
 
     // Sticky bar product name
     var stickyName = document.getElementById('stickyProductName');
