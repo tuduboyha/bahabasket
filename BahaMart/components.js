@@ -894,9 +894,26 @@
     }
   }
 
+  // ── UPDATE LOGIN LINKS — add ?next= so user returns here after login ──
+  function updateLoginLinks() {
+    var token = localStorage.getItem('bb_token');
+    if (token) return; // already logged in — buttons already replaced by applyAuthNav
+    var next = encodeURIComponent(window.location.href);
+    var btns = document.querySelectorAll('#navLoginBtn, #drawerLoginBtn');
+    btns.forEach(function(btn) {
+      if (btn && btn.tagName === 'A') {
+        btn.href = 'login-register.html?next=' + next;
+      }
+    });
+  }
+
   // Run immediately after inject (sync) + again after full DOM load (safety)
   applyAuthNav();
-  document.addEventListener('DOMContentLoaded', applyAuthNav);
+  updateLoginLinks();
+  document.addEventListener('DOMContentLoaded', function() {
+    applyAuthNav();
+    updateLoginLinks();
+  });
   window.refreshAuthNav = applyAuthNav; // callable from any page after login
 
 })();

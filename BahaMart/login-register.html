@@ -946,13 +946,38 @@ function saveAuth(token, user){
   localStorage.setItem('bb_login_type', loginType); // 'buyer' or 'seller'
 }
 
-// Check if already logged in → redirect to correct dashboard
+// Read ?next= param — store for after login redirect
+(function(){
+  const params  = new URLSearchParams(window.location.search);
+  const nextUrl = params.get('next');
+  if(nextUrl){
+    // Only allow same-origin URLs to prevent open-redirect attacks
+    try {
+      const parsed = new URL(nextUrl, window.location.origin);
+      if(parsed.origin === window.location.origin){
+        localStorage.setItem('bb_redirect_after_login', parsed.href);
+      }
+    } catch(e) {
+      localStorage.setItem('bb_redirect_after_login', nextUrl); // relative URL
+    }
+  }
+})();
+
+// Check if already logged in → redirect (to next URL or correct dashboard)
 (function(){
   const token = localStorage.getItem('bb_token');
-  if(token){
-    const loginType = localStorage.getItem('bb_login_type') || 'buyer';
+  if(!token) return;
+
+  const stored    = localStorage.getItem('bb_redirect_after_login');
+  const loginType = localStorage.getItem('bb_login_type') || 'buyer';
+
+  if(stored){
+    localStorage.removeItem('bb_redirect_after_login');
+    window.location.replace(stored);
+  } else {
+    // Avoid infinite loop: only redirect if not already on login page via ?redirect=1
     const redirected = new URLSearchParams(window.location.search).get('redirect');
-    if(!redirected){ // avoid infinite redirect loop
+    if(!redirected){
       window.location.replace(loginType === 'seller' ? 'seller-dashboard.html' : 'user-dashboard.html');
     }
   }
