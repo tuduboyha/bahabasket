@@ -1644,6 +1644,97 @@ function submitSellerReg(){
       </a>
     </div>`;
 }
+
+// ── GOOGLE OAUTH (Supabase) ──────────────────────────────────────────────────
+const _supabaseUrl  = 'https://kgbnimqmizgibhephdky.supabase.co';
+const _supabaseAnon = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtnYm5pbXFtaXpnaWJoZXBoZGt5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0MTM0MjksImV4cCI6MjA5NDk4OTQyOX0.IHeAJNFU7Da9xLWUsX7eIp8mRMh1lwVkPA28LyBn2tQ';
+let _sbClient = null;
+
+function getSupabaseClient() {
+  if (_sbClient) return _sbClient;
+  if (window.supabase && window.supabase.createClient) {
+    _sbClient = window.supabase.createClient(_supabaseUrl, _supabaseAnon);
+  }
+  return _sbClient;
+}
+
+// Update socialLogin to use real Google OAuth
+function socialLogin(platform) {
+  if (platform !== 'Google') {
+    showToast('🚀 ' + platform + ' login coming soon! Abhi ke liye phone + password se login karein.');
+    return;
+  }
+  const sb = getSupabaseClient();
+  if (!sb) { showToast('⚠️ Please wait and try again.'); return; }
+
+  const redirectTo = window.location.origin + '/login-register.html';
+  sb.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo }
+  }).then(function(result) {
+    if (result.error) showError('Google login error: ' + result.error.message);
+    // On success, browser will redirect to Google — no further action needed here
+  });
+}
+
+// Handle OAuth callback — runs when Google redirects back to this page
+async function handleOAuthCallback() {
+  const sb = getSupabaseClient();
+  if (!sb) return;
+
+  // Check if there's a session (Supabase auto-processes the URL hash)
+  const { data: { session }, error } = await sb.auth.getSession();
+  if (error || !session) return;
+
+  // Check if this is a fresh OAuth callback (has hash or code in URL)
+  const hasOAuthParams = window.location.hash.includes('access_token') ||
+                         window.location.search.includes('code=');
+  if (!hasOAuthParams) return;
+
+  const token = session.access_token;
+
+  try {
+    // Call backend to ensure user record exists in our users table
+    const res  = await fetch(API_BASE + '/auth/social-complete', {
+      method:  'POST',
+      headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' }
+    });
+    const data = await res.json();
+
+    const userToSave = data.success ? data.user : session.user;
+
+    localStorage.setItem('bb_token',      token);
+    localStorage.setItem('bb_user',       JSON.stringify(userToSave));
+    localStorage.setItem('bb_login_type', 'buyer');
+
+    if (window.refreshAuthNav) window.refreshAuthNav();
+
+    // Clean URL (remove hash/params)
+    history.replaceState(null, '', window.location.pathname + window.location.search.replace(/[?&]code=[^&]*/,''));
+
+    showLoginSuccess();
+
+  } catch(e) {
+    console.error('OAuth callback error:', e);
+    // Fallback: save session directly
+    localStorage.setItem('bb_token',      token);
+    localStorage.setItem('bb_user',       JSON.stringify(session.user));
+    localStorage.setItem('bb_login_type', 'buyer');
+    showLoginSuccess();
+  }
+}
+
+// Run callback handler after Supabase JS loads
+window.addEventListener('load', function() {
+  if (window.supabase) handleOAuthCallback();
+});
+</script>
+
+<!-- Supabase JS — for Google OAuth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+  // Re-run callback handler once Supabase JS is loaded
+  if (typeof handleOAuthCallback === 'function') handleOAuthCallback();
 </script>
 </body>
 </html>
