@@ -290,9 +290,11 @@ tr:hover td{background:var(--bg);}
   .menu-toggle{display:flex;}
   .nav-center{display:none;}
   .footer-grid{grid-template-columns:1fr 1fr;}
+  .grid-2{grid-template-columns:1fr;}
+  .grid-2>*:nth-child(3n){grid-column:unset;}
 }
 @media(max-width:1200px){.grid-2{grid-template-columns:1fr 1fr;}.grid-2>*:nth-child(3n){grid-column:span 2;}}
-@media(max-width:600px){.main-area{padding:16px;}.grid-2{grid-template-columns:1fr;}.grid-2-compact{grid-template-columns:1fr 1fr;}.field-row-2{grid-template-columns:1fr;}.grid-3{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.footer-bottom{flex-direction:column;text-align:center;}}
+@media(max-width:600px){.main-area{padding:16px;}.grid-2{grid-template-columns:1fr;}.grid-2-compact{grid-template-columns:1fr;}.field-row-2{grid-template-columns:1fr;}.grid-3{grid-template-columns:1fr 1fr;}.footer-grid{grid-template-columns:1fr 1fr;}.footer-bottom{flex-direction:column;text-align:center;}}
 @media(max-width:400px){.grid-3{grid-template-columns:1fr;}}
 
 /* ── WISHLIST FULL UI ── */
