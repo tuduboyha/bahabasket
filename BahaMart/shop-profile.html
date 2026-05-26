@@ -201,6 +201,8 @@ img { max-width: 100%; display: block; }
 .stars-xs { color: #fbbf24; font-size: 11px; }
 .pc-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--whatsapp); color: #fff; border: none; padding: 9px; border-radius: 7px; font-size: 12.5px; font-weight: 700; transition: background .2s; }
 .pc-btn:hover { background: var(--whatsapp-dark); }
+.pc-btn-view { background: var(--primary-light); color: var(--primary); border: 1.5px solid var(--primary); }
+.pc-btn-view:hover { background: var(--primary); color: #fff; }
 
 /* Load more */
 .load-more-wrap { text-align: center; margin-top: 24px; }
@@ -1214,8 +1216,8 @@ function cardHTML(p, i) {
         <span style="font-size:12px;font-weight:600;color:var(--text-dark);">${shopRating}</span>
         <span style="font-size:11px;color:var(--text-light);">(${shopReviews})</span>
       </div>
-      <button class="pc-btn" onclick="event.stopPropagation();openWA('product','${safeName}','${priceFmt}')">
-        <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg> WhatsApp
+      <button class="pc-btn pc-btn-view" onclick="event.stopPropagation();window.location='product-detail.html?id=${p.id}'">
+        View Details →
       </button>
     </div>
   </div>`;

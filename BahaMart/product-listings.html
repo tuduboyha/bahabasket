@@ -211,10 +211,8 @@ img{max-width:100%;display:block;}
 .stars-xs{color:#fbbf24;font-size:11px;}
 .rating-val{font-size:12px;font-weight:600;color:var(--text-dark);}
 .rating-cnt-sm{font-size:11px;color:var(--text-light);}
-.btn-wa{display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:var(--whatsapp);color:#fff;border:none;padding:10px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;transition:background .2s,transform .1s;}
-.btn-wa:hover{background:var(--whatsapp-dark);}
-.btn-wa:active{transform:scale(.97);}
-.btn-wa svg{width:15px;height:15px;flex-shrink:0;}
+.btn-view{display:flex;align-items:center;justify-content:center;width:100%;background:var(--primary-light);color:var(--primary);border:1.5px solid var(--primary);padding:9px;border-radius:var(--radius-sm);font-size:13px;font-weight:700;transition:background .18s,color .18s;}
+.btn-view:hover{background:var(--primary);color:#fff;}
 
 /* ── PRODUCT CARD (List View) ── */
 .products-grid.list-view .product-card{display:grid;grid-template-columns:180px 1fr;}
@@ -222,7 +220,7 @@ img{max-width:100%;display:block;}
 .products-grid.list-view .prod-body{padding:16px 20px;display:flex;flex-direction:column;justify-content:space-between;}
 .products-grid.list-view .prod-title{-webkit-line-clamp:3;font-size:15px;}
 .products-grid.list-view .prod-price{font-size:22px;}
-.products-grid.list-view .btn-wa{width:auto;padding:10px 22px;align-self:flex-start;}
+.products-grid.list-view .btn-view{width:auto;padding:9px 22px;align-self:flex-start;}
 
 /* ── QUICK VIEW MODAL ── */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:2000;align-items:center;justify-content:center;padding:16px;}
@@ -913,10 +911,7 @@ function buildProductCard(p, idx) {
             '<span class="prod-disc">' + disc + '% Off</span>'
           : '') +
       '</div>' +
-      '<button class="btn-wa"' +
-        ' onclick="event.stopPropagation();openWA(\'' + safeTitle + '\',\'' + price + '\',\'' + safeShop + '\',\'' + waNum + '\')">' +
-        WA_SVG + ' WhatsApp' +
-      '</button>' +
+      '<button class="btn-view" onclick="event.stopPropagation();window.location.href=\'product-detail.html?id=' + pId + '\'">View Details →</button>' +
     '</div>' +
   '</div>';
 }
