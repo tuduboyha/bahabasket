@@ -713,8 +713,9 @@ select.finput{cursor:pointer;}
         <div class="otp-title">Verify via WhatsApp OTP</div>
         <div class="otp-sub" id="otpSubText">A 6-digit OTP will be sent to your WhatsApp number. Enter it below.</div>
         <div id="otpSendSection">
-          <button style="background:var(--whatsapp);color:#fff;border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:700;margin-bottom:16px;display:inline-flex;align-items:center;gap:7px;" onclick="sendOTP()"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>Send WhatsApp OTP</button>
+          <button id="sendOtpBtn" style="background:var(--whatsapp);color:#fff;border:none;padding:11px 24px;border-radius:8px;font-size:14px;font-weight:700;margin-bottom:16px;display:inline-flex;align-items:center;gap:7px;" onclick="sendOTP()"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M20 2H4C2.9 2 2 2.9 2 4v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>Send OTP</button>
         </div>
+        <div id="otpErrorMsg" style="display:none;color:#dc2626;font-size:13px;font-weight:600;padding:8px 14px;background:#fef2f2;border-radius:8px;margin:8px auto;max-width:320px;"></div>
         <div class="otp-inputs" id="otpInputs" style="display:none;">
           <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,1)">
           <input type="text" class="otp-box" maxlength="1" oninput="otpMove(this,2)">
@@ -772,6 +773,7 @@ select.finput{cursor:pointer;}
       </div>
 
       <!-- Final submit -->
+      <div id="submitErrorMsg" style="display:none;color:#dc2626;font-size:13.5px;font-weight:600;padding:12px 16px;background:#fef2f2;border:1px solid #fecaca;border-radius:10px;margin-bottom:12px;"></div>
       <button class="btn-next" style="width:100%;padding:16px;font-size:16px;justify-content:center;" id="finalSubmitBtn" onclick="finalSubmit()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg> Register My Shop — Free!
       </button>
@@ -1013,26 +1015,70 @@ function fillReview(){
   document.getElementById('rv-addr').textContent = (document.getElementById('shopAddr').value || '—').substring(0,40)+'...';
 }
 
-// ── OTP Flow ──
-function sendOTP(){
+// ── OTP Helpers ──
+function _otpError(msg){
+  const el = document.getElementById('otpErrorMsg');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+}
+
+function _getOwnerPhone(){
   const wa = document.getElementById('ownerWa').value.trim();
-  if(!wa){ alert('Please enter your WhatsApp number in Step 1 first.'); goStep(1); return; }
-  document.getElementById('otpSendSection').style.display = 'none';
-  document.getElementById('otpInputs').style.display = 'flex';
-  document.getElementById('otpResend').style.display = 'block';
-  document.getElementById('verifyOtpBtn').style.display = 'inline-flex';
-  document.getElementById('otpSubText').textContent = `OTP has been sent to ${wa}. Please enter it below.`;
-  startOtpTimer();
-  // In real WordPress, this triggers actual WhatsApp OTP via API
+  return wa.replace(/\D/g, '').replace(/^91/, '').slice(-10);
+}
+
+// ── OTP Flow ──
+async function sendOTP(){
+  const phone = _getOwnerPhone();
+  if(!phone || phone.length !== 10){
+    _otpError('❌ Pehle Step 1 mein apna 10-digit WhatsApp number daalo.');
+    goStep(1);
+    return;
+  }
+  _otpError('');
+
+  const btn = document.getElementById('sendOtpBtn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Sending OTP…'; }
+
+  try {
+    const res  = await fetch(API_BASE + '/auth/send-otp', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'OTP send karne mein error hua');
+
+    // Show OTP input boxes
+    document.getElementById('otpSendSection').style.display = 'none';
+    document.getElementById('otpInputs').style.display      = 'flex';
+    document.getElementById('otpResend').style.display      = 'block';
+    document.getElementById('verifyOtpBtn').style.display   = 'inline-flex';
+    document.getElementById('otpSubText').textContent       = 'OTP +91' + phone + ' pe bheja gaya. Neeche enter karein.';
+    startOtpTimer();
+    otpSent = true;
+
+    const firstBox = document.querySelector('.otp-box');
+    if(firstBox) firstBox.focus();
+
+  } catch(err){
+    if(btn){ btn.disabled = false; btn.textContent = 'OTP Dobara Bhejein'; }
+    _otpError('❌ ' + err.message);
+  }
 }
 
 function startOtpTimer(){
-  let t = 30;
+  let t = 60;
   clearInterval(otpTimerInterval);
+  const timerEl = document.getElementById('otpTimer');
   otpTimerInterval = setInterval(()=>{
     t--;
-    document.getElementById('otpTimer').textContent = t+'s';
-    if(t <= 0){ clearInterval(otpTimerInterval); document.getElementById('otpTimer').textContent = 'ab available'; }
+    if(timerEl) timerEl.textContent = t + 's';
+    if(t <= 0){
+      clearInterval(otpTimerInterval);
+      if(timerEl) timerEl.textContent = '0s';
+    }
   }, 1000);
 }
 
@@ -1042,25 +1088,72 @@ function otpMove(input, idx){
     const next = document.querySelectorAll('.otp-box')[idx];
     if(next) next.focus();
   }
+  // Auto-verify when all 6 digits filled
+  if(idx === 6 && input.value){
+    const all = [...document.querySelectorAll('.otp-box')].map(b => b.value);
+    if(all.every(v => v)) verifyOTP();
+  }
 }
 
-function verifyOTP(){
+async function verifyOTP(){
   const boxes = document.querySelectorAll('.otp-box');
-  const otp = [...boxes].map(b => b.value).join('');
-  if(otp.length < 6){ alert('Please enter the complete 6-digit OTP.'); return; }
-  // Demo: accept any 6-digit OTP
-  document.getElementById('otpInputs').style.display = 'none';
-  document.getElementById('verifyOtpBtn').style.display = 'none';
-  document.getElementById('otpResend').style.display = 'none';
-  document.getElementById('otpSendSection').style.display = 'none';
-  document.getElementById('otpSuccess').style.display = 'block';
-  otpVerified = true;
+  const otp   = [...boxes].map(b => b.value).join('');
+  if(otp.length < 6){ _otpError('❌ Poora 6-digit OTP daalo.'); return; }
+  _otpError('');
+
+  const phone  = _getOwnerPhone();
+  const verBtn = document.getElementById('verifyOtpBtn');
+  const origHtml = verBtn ? verBtn.innerHTML : '';
+  if(verBtn){ verBtn.disabled = true; verBtn.textContent = 'Verifying…'; }
+
+  try {
+    const res  = await fetch(API_BASE + '/auth/verify-otp', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({ phone, otp })
+    });
+    const data = await res.json();
+    if(!data.success) throw new Error(data.error || 'OTP galat hai ya expire ho gaya');
+
+    // Save auth token so finalSubmit won't need to re-register
+    if(data.token){
+      localStorage.setItem('bb_token', data.token);
+      if(data.user) localStorage.setItem('bb_user', JSON.stringify(data.user));
+    }
+
+    clearInterval(otpTimerInterval);
+    document.getElementById('otpInputs').style.display      = 'none';
+    document.getElementById('verifyOtpBtn').style.display   = 'none';
+    document.getElementById('otpResend').style.display      = 'none';
+    document.getElementById('otpSendSection').style.display = 'none';
+    document.getElementById('otpSuccess').style.display     = 'block';
+    otpVerified = true;
+
+  } catch(err){
+    if(verBtn){ verBtn.disabled = false; verBtn.innerHTML = origHtml; }
+    _otpError('❌ ' + err.message);
+    boxes.forEach(b => b.value = '');
+    if(boxes[0]) boxes[0].focus();
+  }
+}
+
+// ── Final Submit Error Helper ──
+function _submitError(msg){
+  const el = document.getElementById('submitErrorMsg');
+  if(!el) return;
+  el.textContent = msg;
+  el.style.display = msg ? 'block' : 'none';
+  if(msg) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
 // ── Final Submit — Real API ──
 async function finalSubmit(){
+  _submitError('');
   if(!document.getElementById('c1').checked || !document.getElementById('c2').checked){
-    alert('Please agree to our Terms and Privacy Policy!'); return;
+    _submitError('❌ Terms of Service aur Privacy Policy se agree karna zaroori hai.'); return;
+  }
+  if(!otpVerified){
+    _submitError('❌ Pehle apna WhatsApp number verify karein (OTP section mein).'); return;
   }
 
   const btn = document.getElementById('finalSubmitBtn');
@@ -1191,7 +1284,7 @@ async function finalSubmit(){
   } catch(err) {
     btn.innerHTML = origText;
     btn.disabled = false;
-    alert('Error: ' + err.message + '\n\nPlease try again.');
+    _submitError('❌ ' + err.message);
   }
 }
 
