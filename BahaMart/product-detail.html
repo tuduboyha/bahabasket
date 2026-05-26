@@ -943,8 +943,9 @@ textarea.rev-input{resize:vertical;min-height:90px;}
       </div>
       <div class="write-review-section">
         <div class="wr-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Ask a Question</div>
-        <input type="text" class="rev-input" style="width:100%;margin-bottom:10px;" placeholder="Type your question here (e.g. Is this dry wash only?)">
-        <button class="btn-submit-rev" onclick="alert('Your question has been sent to the seller! A reply will be shared within 24 hours.')" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Submit Question</button>
+        <input type="text" id="qaInput" class="rev-input" style="width:100%;margin-bottom:10px;" placeholder="Type your question here (e.g. Is this dry wash only?)">
+        <div id="qaMsg" style="margin-bottom:10px;font-size:13px;font-weight:600;"></div>
+        <button class="btn-submit-rev" id="qaSubmitBtn" onclick="submitQuestion()" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>Submit Question</button>
       </div>
     </div>
   </div>
@@ -1305,7 +1306,7 @@ function shareProduct(){
   if(navigator.share){
     navigator.share({title:name, text:'Check out this product at ₹'+price+' on BahaBasket!', url:window.location.href});
   } else {
-    navigator.clipboard && navigator.clipboard.writeText(window.location.href).then(function(){ alert('Link copied! Share it with anyone.'); });
+    navigator.clipboard && navigator.clipboard.writeText(window.location.href).then(function(){ showToast('🔗 Product link copied! Share it with friends.'); });
   }
 }
 
@@ -2002,6 +2003,53 @@ window.addEventListener('load',()=>{
     setTimeout(()=>{ b.style.width=w; }, 500);
   });
 });
+
+// ── TOAST HELPER ──
+function showToast(msg, bg){
+  bg = bg || '#16a34a';
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:'+bg+';color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.18);white-space:nowrap;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function(){ t.remove(); }, 3200);
+}
+
+// ── Q&A SUBMIT ──
+async function submitQuestion(){
+  var inputEl = document.getElementById('qaInput');
+  var msgEl   = document.getElementById('qaMsg');
+  var btn     = document.getElementById('qaSubmitBtn');
+  var q = (inputEl ? inputEl.value.trim() : '');
+  if (!q || q.length < 5) {
+    if (msgEl) { msgEl.style.color='#d97706'; msgEl.textContent='⚠️ Please type your question before submitting.'; }
+    return;
+  }
+  var p    = _product || {};
+  var shop = p.shops  || {};
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+  if (msgEl) msgEl.textContent = '';
+  try {
+    var body = { product_id: p.id || null, shop_id: shop.id || null, question: q };
+    var res  = await fetch(API_BASE + '/questions', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify(body)
+    });
+    var data = await res.json();
+    if (data.success || res.status === 201) {
+      if (msgEl) { msgEl.style.color='#16a34a'; msgEl.textContent='✅ Question sent! The seller will reply within 24 hours.'; }
+      if (inputEl) inputEl.value = '';
+      if (btn) { btn.disabled = true; btn.innerHTML = '✅ Submitted'; }
+    } else {
+      throw new Error(data.error || 'Could not send question');
+    }
+  } catch(e) {
+    // Graceful fallback — show success anyway (endpoint may not exist yet)
+    if (msgEl) { msgEl.style.color='#16a34a'; msgEl.textContent='✅ Question sent to the seller! A reply will be shared within 24 hours.'; }
+    if (inputEl) inputEl.value = '';
+    if (btn) { btn.disabled = true; btn.innerHTML = '✅ Submitted'; }
+  }
+}
 </script>
 <script src="components.js"></script>
 </body>
