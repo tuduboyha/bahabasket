@@ -1456,8 +1456,8 @@ body.shop-via-chat .card-chat-btn { display: flex !important; }
   <div class="hero-stats">
     <div class="hero-stat"><div class="num" id="heroStatShops">500+</div><div class="lbl">Local Shops</div></div>
     <div class="hero-stat"><div class="num" id="heroStatProds">10K+</div><div class="lbl">Products Listed</div></div>
-    <div class="hero-stat"><div class="num">25K+</div><div class="lbl">Happy Customers</div></div>
-    <div class="hero-stat"><div class="num">15+</div><div class="lbl">Categories</div></div>
+    <div class="hero-stat"><div class="num" id="heroStatCities">20+</div><div class="lbl">Cities Covered</div></div>
+    <div class="hero-stat"><div class="num">13+</div><div class="lbl">Categories</div></div>
   </div>
 </section>
 
@@ -3513,44 +3513,42 @@ async function loadFeaturedShops() {
 loadFeaturedShops();
 loadHeroStats();
 
-// ── Hero stats — real counts from API ─────────────────────────────────────
+// ── Hero stats — real counts from /api/stats ──────────────────────────────
 async function loadHeroStats() {
   try {
-    // Fetch total shops count
-    const [shopsRes, prodsRes] = await Promise.all([
-      fetch(`${API_BASE}/shops?limit=1`),
-      fetch(`${API_BASE}/products?limit=1`)
-    ]);
-    const shopsData = await shopsRes.json();
-    const prodsData = await prodsRes.json();
+    const res  = await fetch(`${API_BASE}/stats`);
+    const data = await res.json();
+    if (!data.success) return;
 
-    // Format number: 1234 → "1.2K+", 12 → "12+"
+    // Format: 1 → "1+", 1200 → "1.2K+", 15000 → "15K+"
     function fmt(n) {
       if (!n || n < 1) return null;
-      if (n >= 1000) return Math.floor(n / 100) / 10 + 'K+';
+      if (n >= 1000) return (Math.floor(n / 100) / 10) + 'K+';
       return n + '+';
     }
 
-    const shopCount = shopsData.success ? shopsData.total : null;
-    const prodCount = prodsData.success ? prodsData.total : null;
-
-    const shopFmt = fmt(shopCount);
-    const prodFmt = fmt(prodCount);
+    const shopFmt = fmt(data.total_shops);
+    const prodFmt = fmt(data.total_products);
+    const cityFmt = fmt(data.total_cities);
 
     if (shopFmt) {
-      const s1 = document.getElementById('heroStatShops');
-      const s2 = document.getElementById('heroBadgeShops');
+      var s1 = document.getElementById('heroStatShops');
+      var s2 = document.getElementById('heroBadgeShops');
       if (s1) s1.textContent = shopFmt;
       if (s2) s2.textContent = shopFmt;
     }
     if (prodFmt) {
-      const p1 = document.getElementById('heroStatProds');
-      const p2 = document.getElementById('heroBadgeProds');
+      var p1 = document.getElementById('heroStatProds');
+      var p2 = document.getElementById('heroBadgeProds');
       if (p1) p1.textContent = prodFmt;
       if (p2) p2.textContent = prodFmt;
     }
+    if (cityFmt) {
+      var c1 = document.getElementById('heroStatCities');
+      if (c1) c1.textContent = cityFmt;
+    }
   } catch (e) {
-    // Keep defaults on error
+    // Keep defaults on error — page still works
   }
 }
 
