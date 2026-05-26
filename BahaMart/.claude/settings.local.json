@@ -40,7 +40,21 @@
       "Bash(mkdir -p \"Z:/LocalBazaarHub/bahamart-backend/routes\" \\\\ *)",
       "Bash(npm --version)",
       "mcp__bee83ca1-9cc3-4dd8-aa2e-b22eb4449c3d__list_projects",
-      "Bash(wc -l \"/mnt/z/LocalBazaarHub/BahaMart/seller-dashboard.html\")"
+      "Bash(wc -l \"/mnt/z/LocalBazaarHub/BahaMart/seller-dashboard.html\")",
+      "Bash(npm install *)",
+      "Bash(copy /Y local-bazaar-hub.html index.html)",
+      "mcp__bee83ca1-9cc3-4dd8-aa2e-b22eb4449c3d__execute_sql",
+      "Bash(ls /mnt/)",
+      "Read(//z//**)",
+      "Bash(find / -name \"authController.js\" -path \"*/bahabasket*\" 2>/dev/null | head -5)",
+      "Read(//proc/**)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)",
+      "mcp__bee83ca1-9cc3-4dd8-aa2e-b22eb4449c3d__list_tables",
+      "Bash(ls /mnt/z/LocalBazaarHub/bahabasket-backend/)",
+      "Bash(node seed-test-data.js)",
+      "Bash(git rm *)"
     ]
   }
 }
