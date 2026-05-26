@@ -251,6 +251,7 @@ img{max-width:100%;display:block;}
 .avail-dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
 @keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
+.sk{background:linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%);background-size:200% 100%;animation:shimmer 1.4s ease-in-out infinite;border-radius:6px;}
 .price-per-unit{font-size:11px;color:var(--text-light);margin-top:4px;}
 
 /* Options */
@@ -612,7 +613,8 @@ textarea.rev-input{resize:vertical;min-height:90px;}
     <div class="img-column">
       <div class="main-img-wrap" id="mainImgWrap">
         <div class="zoom-wrapper" id="zoomWrapper">
-          <img src="https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=600&h=600&fit=crop&auto=format" alt="Men Premium Cotton Kurta Set" id="mainImg" style="width:100%;height:100%;object-fit:cover;display:block;">
+          <img src="" alt="" id="mainImg" style="width:100%;height:100%;object-fit:cover;display:none;">
+          <div id="mainImgSkeleton" class="sk" style="width:100%;height:100%;position:absolute;top:0;left:0;border-radius:0;"></div>
         </div>
         <div class="img-badges">
           <span class="img-badge badge-sale"><svg viewBox="0 0 24 24" fill="currentColor" width="10" height="10" style="vertical-align:-1px;margin-right:3px;"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0010 0C17 7.5 12 2 12 2z"/></svg>40% OFF</span>
@@ -659,68 +661,58 @@ textarea.rev-input{resize:vertical;min-height:90px;}
     </div>
 
     <!-- INFO COLUMN -->
-    <div class="info-column" id="infoColumn" style="opacity:0;transition:opacity .25s ease;">
+    <div class="info-column" id="infoColumn">
 
-      <!-- Category -->
-      <div class="prod-category-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion › Kurta & Ethnic Wear</div>
-
-      <!-- Title -->
-      <h1 class="prod-title">Men's Premium Cotton Kurta Set – Festive & Wedding Collection 2024</h1>
-
-      <!-- Rating -->
-      <div class="rating-row">
-        <div class="stars-row">
-          <span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span>
-        </div>
-        <span class="rating-num" id="prodRatingNum">—</span>
-        <span class="rating-count" id="prodRatingCnt"><a href="#reviews">— reviews</a></span>
-        <span class="divider-dot" id="inqDivider" style="display:none;"></span>
-        <span class="inq-count" id="prodInqCnt" style="display:none;"></span>
-        <span class="divider-dot"></span>
-        <span style="font-size:13px;color:var(--success);font-weight:600;display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>In Stock</span>
+      <!-- Category (skeleton → JS se fill hoga) -->
+      <div class="prod-category-tag" id="prodCategoryTag">
+        <span class="sk" style="display:inline-block;width:160px;height:18px;border-radius:12px;"></span>
       </div>
 
-      <!-- Price -->
-      <div class="price-section">
+      <!-- Title (skeleton) -->
+      <h1 class="prod-title" id="prodTitleEl">
+        <span class="sk" style="display:block;height:28px;border-radius:6px;margin-bottom:8px;"></span>
+        <span class="sk" style="display:block;height:28px;border-radius:6px;width:75%;"></span>
+      </h1>
+
+      <!-- Rating (skeleton) -->
+      <div class="rating-row" id="ratingRow">
+        <span class="sk" style="display:inline-block;width:90px;height:18px;border-radius:8px;"></span>
+        <span class="sk" style="display:inline-block;width:60px;height:18px;border-radius:8px;margin-left:6px;"></span>
+        <span class="sk" style="display:inline-block;width:70px;height:18px;border-radius:8px;margin-left:6px;"></span>
+        <!-- hidden real elements — JS se populate honge -->
+        <span class="divider-dot" id="inqDivider" style="display:none;"></span>
+        <span class="inq-count" id="prodInqCnt" style="display:none;"></span>
+      </div>
+
+      <!-- Price (skeleton) -->
+      <div class="price-section" id="priceSection">
         <div class="price-left">
-          <div class="price-main">₹599</div>
+          <div class="price-main" id="priceMainSk">
+            <span class="sk" style="display:inline-block;width:110px;height:40px;border-radius:8px;"></span>
+          </div>
           <div class="price-meta">
-            <span class="price-mrp">₹999</span>
-            <span class="price-disc">40% OFF</span>
-            <span class="price-saving">₹400 savings!</span>
+            <span class="price-mrp"></span>
+            <span class="price-disc"></span>
+            <span class="price-saving"></span>
           </div>
         </div>
         <div class="price-right">
-          <div class="avail-tag in"><span class="avail-dot"></span> In Stock</div>
+          <div class="avail-tag in" id="availTagWrap"><span class="sk" style="display:inline-block;width:70px;height:22px;border-radius:6px;"></span></div>
           <div class="price-per-unit" style="margin-top:6px;">Inclusive of all taxes</div>
         </div>
       </div>
 
-      <!-- Size Selection -->
-      <div class="option-section">
-        <div class="option-label">Size: <span class="sel-val" id="selSizeLabel">M (Select Size)</span></div>
-        <div class="size-chips">
-          <div class="size-chip" onclick="selectSize(this,'S')">S</div>
-          <div class="size-chip" onclick="selectSize(this,'M')">M</div>
-          <div class="size-chip" onclick="selectSize(this,'L')">L</div>
-          <div class="size-chip" onclick="selectSize(this,'XL')">XL</div>
-          <div class="size-chip" onclick="selectSize(this,'XXL')">XXL</div>
-          <div class="size-chip out-stock" title="Out of Stock">3XL</div>
-        </div>
+      <!-- Size Selection (hidden until API loads) -->
+      <div class="option-section" id="sizeSectionWrap" style="display:none;">
+        <div class="option-label">Size: <span class="sel-val" id="selSizeLabel"></span></div>
+        <div class="size-chips" id="sizeChipsWrap"></div>
         <div style="margin-top:8px;font-size:12px;color:var(--primary);cursor:pointer;display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 3H3a2 2 0 00-2 2v14a2 2 0 002 2h18a2 2 0 002-2V5a2 2 0 00-2-2z"/><path d="M7 7v4M11 7v2M15 7v4M19 7v2"/></svg>View Size Guide →</div>
       </div>
 
-      <!-- Color Selection -->
-      <div class="option-section">
-        <div class="option-label">Color: <span class="sel-val" id="selColorLabel">Royal Blue (Select Color)</span></div>
-        <div class="color-chips">
-          <div class="color-chip selected" style="background:#1d4ed8;" title="Royal Blue" onclick="selectColor(this,'Royal Blue','#1d4ed8')"></div>
-          <div class="color-chip" style="background:#166534;" title="Forest Green" onclick="selectColor(this,'Forest Green','#166534')"></div>
-          <div class="color-chip" style="background:#7c2d12;" title="Rust Brown" onclick="selectColor(this,'Rust Brown','#7c2d12')"></div>
-          <div class="color-chip" style="background:#1e1b4b;" title="Deep Indigo" onclick="selectColor(this,'Deep Indigo','#1e1b4b')"></div>
-          <div class="color-chip" style="background:#831843;" title="Maroon" onclick="selectColor(this,'Maroon','#831843')"></div>
-          <div class="color-chip" style="background:#78350f;" title="Dark Mustard" onclick="selectColor(this,'Dark Mustard','#78350f')"></div>
-        </div>
+      <!-- Color Selection (hidden until API loads) -->
+      <div class="option-section" id="colorSectionWrap" style="display:none;">
+        <div class="option-label">Color: <span class="sel-val" id="selColorLabel"></span></div>
+        <div class="color-chips" id="colorChipsWrap"></div>
       </div>
 
       <!-- Quantity -->
@@ -779,40 +771,33 @@ textarea.rev-input{resize:vertical;min-height:90px;}
         </div>
       </div>
 
-      <!-- Shop Card -->
-      <div class="shop-card">
+      <!-- Shop Card (skeleton → API se fill hoga) -->
+      <div class="shop-card" id="shopCard">
         <div class="shop-card-header">
-          <div class="shop-logo-sm"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="24" height="24"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg></div>
+          <div class="shop-logo-sm" id="shopLogoEl"><svg viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" width="24" height="24"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg></div>
           <div class="shop-info-wrap">
-            <a href="shop-directory.html" class="shop-name-link">
-              Sharma Cloth House
-              <span class="verified-badge"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+            <a href="shop-directory.html" class="shop-name-link" id="shopNameLink">
+              <span class="sk" style="display:inline-block;width:140px;height:18px;border-radius:6px;"></span>
             </a>
-            <div class="shop-meta-sm">
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>Gandhi Nagar, Indore</span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>240 products</span>
-              <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Open Now</span>
+            <div class="shop-meta-sm" id="shopMetaEl">
+              <span class="sk" style="display:inline-block;width:200px;height:14px;border-radius:6px;margin-top:6px;"></span>
             </div>
           </div>
         </div>
-        <div class="shop-rating-row">
-          <span class="shop-stars">★★★★★</span>
-          <span class="shop-rating-num" id="shopRatingNum">—</span>
-          <span class="shop-review-cnt" id="shopRevCnt">Loading…</span>
+        <div class="shop-rating-row" id="shopRatingRow">
+          <span class="sk" style="display:inline-block;width:120px;height:16px;border-radius:6px;"></span>
         </div>
         <div class="shop-actions">
           <button class="btn-wa-shop" onclick="openWA('shop')" style="display:flex;align-items:center;justify-content:center;gap:6px;"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp Shop</button>
-          <button class="btn-view-shop" onclick="window.location='shop-directory.html'">Shop Profile →</button>
+          <button class="btn-view-shop" id="viewShopBtn" onclick="window.location='shop-directory.html'">Shop Profile →</button>
         </div>
       </div>
 
-      <!-- Key Highlights -->
-      <div class="highlights">
-        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2V9M9 21H5a2 2 0 01-2-2V9m0 0h18"/></svg></div>100% pure cotton — breathable and comfortable fabric</div>
-        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/></svg></div>6 exclusive colors available — for every occasion</div>
-        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M21 3H3a2 2 0 00-2 2v14a2 2 0 002 2h18a2 2 0 002-2V5a2 2 0 00-2-2z"/><path d="M7 7v4M11 7v2M15 7v4M19 7v2"/></svg></div>Size S to XXL — inclusive sizing for all body types</div>
-        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></div>Custom stitching available on request — extra ₹200</div>
-        <div class="highlight-item"><div class="hi-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>Home delivery available within 10 km — free above ₹800</div>
+      <!-- Key Highlights (skeleton → API se fill hoga) -->
+      <div class="highlights" id="highlightsEl">
+        <div class="highlight-item"><div class="hi-icon" style="background:var(--bg);"></div><span class="sk" style="display:inline-block;width:220px;height:14px;border-radius:6px;"></span></div>
+        <div class="highlight-item"><div class="hi-icon" style="background:var(--bg);"></div><span class="sk" style="display:inline-block;width:180px;height:14px;border-radius:6px;"></span></div>
+        <div class="highlight-item"><div class="hi-icon" style="background:var(--bg);"></div><span class="sk" style="display:inline-block;width:200px;height:14px;border-radius:6px;"></span></div>
       </div>
 
     </div><!-- /info-column -->
@@ -833,55 +818,21 @@ textarea.rev-input{resize:vertical;min-height:90px;}
   <div class="tab-panel active" id="tab-description">
     <div class="desc-grid">
       <div class="desc-text">
-        <p>This <strong>Premium Cotton Kurta Set</strong> from Sharma Cloth House is crafted to give you the perfect look for every festive occasion. Made from carefully selected 100% pure cotton fabric, it is not only comfortable to wear but also effortlessly stylish.</p>
-        <p>This kurta set is equally suitable for casual gatherings and formal wedding events. Intricate thread work and tasteful embroidery give it a distinct ethnic charm that is sure to turn heads.</p>
-        <h4><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="16" height="16" style="vertical-align:-3px;margin-right:6px;color:#fbbf24;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Product Highlights</h4>
-        <ul>
-          <li>100% breathable cotton fabric — comfortable in both warm and cool weather</li>
-          <li>Hand-embroidered chest pocket with traditional motifs</li>
-          <li>Full button-down front with premium quality buttons</li>
-          <li>Matching pajama included with comfortable elastic waistband</li>
-          <li>Machine washable — easy care and maintenance</li>
-          <li>Pre-shrunk fabric — size stays consistent even after multiple washes</li>
-          <li>Available in 6 exclusive festive colors</li>
-          <li>Custom stitching available for perfect fit</li>
-        </ul>
-        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;color:var(--primary);"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>Perfect For</h4>
-        <ul>
-          <li>Wedding & sangeet ceremonies</li>
-          <li>Eid, Diwali, Holi and all festivals</li>
-          <li>Family functions and social gatherings</li>
-          <li>Casual ethnic day wear</li>
-          <li>Pooja aur religious occasions</li>
-        </ul>
-        <h4><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="vertical-align:-3px;margin-right:6px;color:#059669;"><path d="M3 3l18 18M9.5 9.5C9.18 10.28 9 11.12 9 12c0 1.66.67 3.16 1.76 4.24M14.5 9.5C14.82 10.28 15 11.12 15 12c0 .88-.18 1.72-.5 2.5M6.72 6.72C5.64 7.95 5 9.4 5 12c0 3.87 3.13 7 7 7 2.6 0 4.87-1.4 6.12-3.5M12 5c3.87 0 7 3.13 7 7 0 .52-.06 1.03-.17 1.52"/></svg>Care Instructions</h4>
-        <ul>
-          <li>Machine wash cold (30°C) with similar colors</li>
-          <li>Do not bleach — may damage the fabric colour</li>
-          <li>Tumble dry on low heat or dry in the sun</li>
-          <li>Warm iron recommended for best results</li>
-        </ul>
+        <span class="sk" style="display:block;height:15px;border-radius:4px;margin-bottom:10px;"></span>
+        <span class="sk" style="display:block;height:15px;border-radius:4px;margin-bottom:10px;width:92%;"></span>
+        <span class="sk" style="display:block;height:15px;border-radius:4px;margin-bottom:10px;width:86%;"></span>
+        <span class="sk" style="display:block;height:15px;border-radius:4px;margin-bottom:10px;"></span>
+        <span class="sk" style="display:block;height:15px;border-radius:4px;margin-bottom:10px;width:78%;"></span>
+        <span class="sk" style="display:block;height:15px;border-radius:4px;margin-bottom:10px;width:95%;"></span>
+        <span class="sk" style="display:block;height:15px;border-radius:4px;margin-bottom:10px;width:70%;"></span>
       </div>
-      <div class="specs-card">
-        <table>
-          <tbody>
-            <tr><td>Brand</td><td>Sharma Cloth House</td></tr>
-            <tr><td>Material</td><td>100% Pure Cotton</td></tr>
-            <tr><td>Type</td><td>Kurta Pajama Set</td></tr>
-            <tr><td>Pattern</td><td>Embroidered, Solid</td></tr>
-            <tr><td>Sizes</td><td>S, M, L, XL, XXL</td></tr>
-            <tr><td>Colors</td><td>6 Colors Available</td></tr>
-            <tr><td>Occasion</td><td>Festive, Wedding, Casual</td></tr>
-            <tr><td>Fit Type</td><td>Regular Fit</td></tr>
-            <tr><td>Length</td><td>Knee Length (40 inch)</td></tr>
-            <tr><td>Neck</td><td>Mandarin Collar</td></tr>
-            <tr><td>Sleeve</td><td>Full Sleeve</td></tr>
-            <tr><td>Wash Type</td><td>Machine Wash</td></tr>
-            <tr><td>GSM</td><td>180 GSM (Medium Weight)</td></tr>
-            <tr><td>SKU</td><td>SCH-KPJ-001-BLU</td></tr>
-            <tr><td>Country of Origin</td><td>India 🇮🇳</td></tr>
-          </tbody>
-        </table>
+      <div class="specs-card" style="padding:16px;">
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:82%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:75%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:88%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:65%;"></span>
       </div>
     </div>
   </div>
@@ -889,27 +840,15 @@ textarea.rev-input{resize:vertical;min-height:90px;}
   <!-- SPECIFICATIONS TAB -->
   <div class="tab-panel" id="tab-specifications">
     <div style="max-width:600px;">
-      <div class="specs-card">
-        <table>
-          <tbody>
-            <tr><td>Brand</td><td>Sharma Cloth House</td></tr>
-            <tr><td>Material Composition</td><td>100% Pure Cotton (180 GSM)</td></tr>
-            <tr><td>Product Type</td><td>Kurta Pajama Set (2 Piece)</td></tr>
-            <tr><td>Available Sizes</td><td>S (36), M (38), L (40), XL (42), XXL (44)</td></tr>
-            <tr><td>Kurta Length</td><td>40 inches (Knee Length)</td></tr>
-            <tr><td>Collar Style</td><td>Mandarin / Band Collar</td></tr>
-            <tr><td>Sleeve Style</td><td>Full Sleeve with Embroidered Cuffs</td></tr>
-            <tr><td>Closure</td><td>Front Button-Down (5 Buttons)</td></tr>
-            <tr><td>Pockets</td><td>1 Chest Pocket + 2 Side Pockets</td></tr>
-            <tr><td>Embroidery</td><td>Thread Work on Chest & Collar</td></tr>
-            <tr><td>Pajama Type</td><td>Straight Leg with Elastic Waistband</td></tr>
-            <tr><td>Wash Care</td><td>Machine Wash Cold, Do Not Bleach</td></tr>
-            <tr><td>Weight</td><td>Approx 350g (Size M)</td></tr>
-            <tr><td>Package Contents</td><td>1 Kurta + 1 Pajama + Care Card</td></tr>
-            <tr><td>Manufacturer</td><td>Sharma Cloth House, Gandhi Nagar, Indore</td></tr>
-            <tr><td>SKU Code</td><td>SCH-KPJ-001-BLU</td></tr>
-          </tbody>
-        </table>
+      <div class="specs-card" style="padding:16px;">
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:80%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:90%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:72%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:85%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:68%;"></span>
+        <span class="sk" style="display:block;height:13px;border-radius:4px;margin-bottom:14px;width:78%;"></span>
       </div>
     </div>
   </div>
@@ -1653,58 +1592,68 @@ async function loadProduct() {
     var bc = document.querySelector('.breadcrumb .current');
     if (bc) bc.textContent = p.name || 'Product';
 
-    // Category tag
-    var catTag = document.querySelector('.prod-category-tag');
-    if (catTag) catTag.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>' + (p.category || 'Product');
-
-    // Product title (shimmer reset karo)
-    var titleEl = document.querySelector('h1.prod-title');
-    if (titleEl) {
-      titleEl.textContent = p.name || 'Product';
-      titleEl.style.background = '';
-      titleEl.style.backgroundSize = '';
-      titleEl.style.animation = '';
-      titleEl.style.minHeight = '';
-      titleEl.style.borderRadius = '';
+    // ── Main image skeleton hataao, real image dikhao ──
+    var mainImgEl = document.getElementById('mainImg');
+    var mainImgSk = document.getElementById('mainImgSkeleton');
+    if (mainImgEl) {
+      mainImgEl.src = images[0];
+      mainImgEl.style.display = 'block';
+      mainImgEl.onload = function() { if (mainImgSk) mainImgSk.style.display = 'none'; };
+      mainImgEl.onerror = function() { if (mainImgSk) mainImgSk.style.display = 'none'; };
+      if (mainImgSk && mainImgEl.complete) mainImgSk.style.display = 'none';
     }
 
-    // Prices
+    // ── Category tag ──
+    var catTagEl = document.getElementById('prodCategoryTag');
+    if (catTagEl) catTagEl.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>' + (p.category || 'Product');
+
+    // ── Title skeleton replace ──
+    var titleEl = document.getElementById('prodTitleEl');
+    if (titleEl) titleEl.textContent = p.name || 'Product';
+
+    // ── Prices ──
     var saving = mrp - price;
-    var priceEl  = document.querySelector('.price-main');   if (priceEl)  priceEl.textContent  = '₹' + price.toLocaleString('en-IN');
+    var priceMainEl = document.querySelector('.price-main');
+    if (priceMainEl) priceMainEl.innerHTML = '₹' + price.toLocaleString('en-IN');
     var mrpEl    = document.querySelector('.price-mrp');    if (mrpEl)    mrpEl.textContent    = mrp > price ? '₹' + mrp.toLocaleString('en-IN') : '';
     var discEl   = document.querySelector('.price-disc');   if (discEl)   discEl.textContent   = disc > 0   ? disc + '% OFF' : '';
     var savingEl = document.querySelector('.price-saving'); if (savingEl) savingEl.textContent = saving > 0 ? '₹' + saving.toLocaleString('en-IN') + ' savings!' : '';
 
-    // Stock / availability
+    // ── Stock / availability ──
     var instock = (p.stock || 0) > 0;
-    document.querySelectorAll('.avail-tag').forEach(function(tag) {
-      tag.className = 'avail-tag ' + (instock ? 'in' : 'out');
-      tag.innerHTML = '<span class="avail-dot"></span> ' + (instock ? 'In Stock' : 'Out of Stock');
-    });
-    var stockSpan = document.querySelector('.rating-row span:last-child');
-    if (stockSpan) {
-      stockSpan.style.color = instock ? 'var(--success)' : 'var(--danger)';
-      stockSpan.innerHTML = instock
-        ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>In Stock'
-        : 'Out of Stock';
+    var availWrap = document.getElementById('availTagWrap');
+    if (availWrap) { availWrap.className = 'avail-tag ' + (instock ? 'in' : 'out'); availWrap.innerHTML = '<span class="avail-dot"></span> ' + (instock ? 'In Stock' : 'Out of Stock'); }
+
+    // ── Rating row: skeleton hatao, real data daalo ──
+    var ratingRowEl = document.getElementById('ratingRow');
+    if (ratingRowEl) {
+      ratingRowEl.innerHTML =
+        '<div class="stars-row" id="starsRow"></div>' +
+        '<span class="rating-num" id="prodRatingNum">—</span>' +
+        '<span class="rating-count" id="prodRatingCnt"><a href="#reviews">— reviews</a></span>' +
+        '<span class="divider-dot" id="inqDivider" style="display:none;"></span>' +
+        '<span class="inq-count" id="prodInqCnt" style="display:none;"></span>' +
+        '<span class="divider-dot"></span>' +
+        '<span style="font-size:13px;color:' + (instock?'var(--success)':'var(--danger)') + ';font-weight:600;display:inline-flex;align-items:center;gap:4px;">' +
+        (instock ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14"><polyline points="20 6 9 17 4 12"/></svg>In Stock' : 'Out of Stock') +
+        '</span>';
     }
 
-    // Sizes
-    var sizeSection = document.querySelector('.size-chips')?.closest('.option-section');
-    var sizeChips   = document.querySelector('.size-chips');
+    // ── Sizes ──
+    var sizeWrap  = document.getElementById('sizeSectionWrap');
+    var sizeChips = document.getElementById('sizeChipsWrap');
     if (p.sizes && p.sizes.length && sizeChips) {
       sizeChips.innerHTML = p.sizes.map(function(s, i) {
         return '<div class="size-chip' + (i===0?' selected':'') + '" onclick="selectSize(this,\'' + s + '\')">' + s + '</div>';
       }).join('');
       var sizeLabel = document.getElementById('selSizeLabel');
-      if (sizeLabel && p.sizes.length) sizeLabel.textContent = p.sizes[0] + ' (Select Size)';
-    } else if (sizeSection) {
-      sizeSection.style.display = 'none';
+      if (sizeLabel) sizeLabel.textContent = p.sizes[0] + ' (Select Size)';
+      if (sizeWrap) sizeWrap.style.display = '';
     }
 
-    // Colors
-    var colorSection = document.querySelector('.color-chips')?.closest('.option-section');
-    var colorChips   = document.querySelector('.color-chips');
+    // ── Colors ──
+    var colorWrap  = document.getElementById('colorSectionWrap');
+    var colorChips = document.getElementById('colorChipsWrap');
     if (p.colors && p.colors.length && colorChips) {
       colorChips.innerHTML = p.colors.map(function(c, i) {
         var isHex = /^#[0-9A-Fa-f]{6}$/.test(c);
@@ -1714,8 +1663,7 @@ async function loadProduct() {
       }).join('');
       var colorLabel = document.getElementById('selColorLabel');
       if (colorLabel) colorLabel.textContent = p.colors[0] + ' (Select Color)';
-    } else if (colorSection) {
-      colorSection.style.display = 'none';
+      if (colorWrap) colorWrap.style.display = '';
     }
 
     // ── Description tab — poora content API se build karo ──
@@ -1773,28 +1721,57 @@ async function loadProduct() {
       specsTab.innerHTML = '<div style="max-width:600px;"><div class="specs-card"><table><tbody>' + fullSpecHTML + '</tbody></table></div></div>';
     }
 
-    // Shop card
-    var shopNameLink = document.querySelector('.shop-name-link');
-    if (shopNameLink) {
-      // Replace text node (first child) with shop name
-      shopNameLink.childNodes[0].textContent = (shop.name || 'Local Shop') + ' ';
-      if (shop.slug) shopNameLink.href = 'shop-profile.html?slug=' + shop.slug;
-    }
-    var shopMetaSpans = document.querySelectorAll('.shop-meta-sm span');
-    if (shopMetaSpans[0] && shop.city) {
-      shopMetaSpans[0].innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>' + shop.city;
-    }
-    var viewShopBtn = document.querySelector('.btn-view-shop');
-    if (viewShopBtn && shop.slug) {
-      viewShopBtn.onclick = function() { window.location.href = 'shop-profile.html?slug=' + shop.slug; };
-    }
-    if (viewShopBtn && shop.id) {
-      viewShopBtn.onclick = function() { window.location.href = 'shop-profile.html?id=' + shop.id; };
-    }
-
-    // ── Rating row (top of info column) ──
+    // ── Shop card (skeleton IDs se update) ──
     var shopRating   = parseFloat(shop.rating || 0);
     var shopRevCount = parseInt(shop.review_count || 0);
+
+    // Shop name link
+    var shopNameLinkEl = document.getElementById('shopNameLink');
+    if (shopNameLinkEl) {
+      shopNameLinkEl.innerHTML = (shop.name || 'Local Shop') +
+        (shop.is_verified ? ' <span class="verified-badge">✓ Verified</span>' : '');
+      if (shop.slug) shopNameLinkEl.href = 'shop-profile.html?slug=' + shop.slug;
+      else if (shop.id) shopNameLinkEl.href = 'shop-profile.html?id=' + shop.id;
+    }
+
+    // Shop meta (city + product count)
+    var shopMetaWrap = document.getElementById('shopMetaEl');
+    if (shopMetaWrap) {
+      var metaParts = [];
+      if (shop.city) metaParts.push('<span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:2px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>' + shop.city + '</span>');
+      if (shop.product_count != null) metaParts.push('<span>🏪 ' + shop.product_count + ' products</span>');
+      shopMetaWrap.innerHTML = metaParts.length ? metaParts.join('') : '<span style="color:var(--text-light);">Local Shop</span>';
+    }
+
+    // Shop rating row in card
+    var shopRatingRowEl = document.getElementById('shopRatingRow');
+    if (shopRatingRowEl) {
+      var srFull = Math.min(5, Math.round(shopRating));
+      shopRatingRowEl.innerHTML = shopRating > 0
+        ? '<span class="shop-stars">' + '★'.repeat(srFull) + '☆'.repeat(5 - srFull) + '</span>' +
+          '<span class="shop-rating-num">' + shopRating.toFixed(1) + '</span>' +
+          '<span class="shop-review-cnt">(' + shopRevCount + ' reviews)</span>'
+        : '<span style="font-size:12px;color:var(--text-light);">No ratings yet</span>';
+    }
+
+    // View shop button
+    var viewShopBtnEl = document.getElementById('viewShopBtn');
+    if (viewShopBtnEl && (shop.slug || shop.id)) {
+      var shopUrl_ = shop.slug ? ('shop-profile.html?slug=' + shop.slug) : ('shop-profile.html?id=' + shop.id);
+      viewShopBtnEl.onclick = function() { window.location.href = shopUrl_; };
+    }
+
+    // Shop logo
+    if (shop.logo) {
+      var shopLogoEl = document.getElementById('shopLogoEl');
+      if (shopLogoEl) {
+        shopLogoEl.style.padding = '0';
+        shopLogoEl.style.overflow = 'hidden';
+        shopLogoEl.innerHTML = '<img src="' + shop.logo + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.display=\'none\'">';
+      }
+    }
+
+    // ── Product rating row (info column top) ──
     var ratingNumEl  = document.getElementById('prodRatingNum');
     var ratingCntEl  = document.getElementById('prodRatingCnt');
     if (ratingNumEl) ratingNumEl.textContent = shopRating > 0 ? shopRating.toFixed(1) : '—';
@@ -1804,7 +1781,7 @@ async function loadProduct() {
     var revBigNum   = document.getElementById('revBigNum');
     var revBigStars = document.getElementById('revBigStars');
     var revBigCnt   = document.getElementById('revBigCnt');
-    if (revBigNum)   revBigNum.textContent   = shopRating > 0 ? shopRating.toFixed(1) : '—';
+    if (revBigNum)   revBigNum.textContent = shopRating > 0 ? shopRating.toFixed(1) : '—';
     if (revBigStars) {
       var starsFull  = Math.round(shopRating);
       revBigStars.textContent = '★'.repeat(starsFull) + '☆'.repeat(5 - starsFull);
@@ -1817,22 +1794,6 @@ async function loadProduct() {
       reviewsTabBtn.innerHTML = reviewsTabBtn.innerHTML.replace(/Reviews \(\d+\)/, 'Reviews (' + shopRevCount + ')');
     }
 
-    // ── Shop card — rating + review count ──
-    var shopRatingNumEl = document.getElementById('shopRatingNum');
-    var shopRevCntEl    = document.getElementById('shopRevCnt');
-    if (shopRatingNumEl) shopRatingNumEl.textContent = shopRating > 0 ? shopRating.toFixed(1) : '—';
-    if (shopRevCntEl)    shopRevCntEl.textContent    = shopRevCount > 0 ? '(' + shopRevCount + ' reviews)' : '';
-
-    // ── Shop logo in card ──
-    if (shop.logo) {
-      var shopLogoEl = document.querySelector('.shop-logo-sm');
-      if (shopLogoEl) {
-        shopLogoEl.style.padding = '0';
-        shopLogoEl.style.overflow = 'hidden';
-        shopLogoEl.innerHTML = '<img src="' + shop.logo + '" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.style.display=\'none\'">';
-      }
-    }
-
     // ── Breadcrumb category link ──
     var catBreadcrumb = document.querySelector('.breadcrumb a[href*="product-listings"]');
     if (catBreadcrumb && p.category) {
@@ -1841,21 +1802,45 @@ async function loadProduct() {
       catBreadcrumb.href = 'product-listings.html?cat=' + encodeURIComponent(p.category);
     }
 
-    // ── Shop product count in meta ──
-    var shopMetaSpans = document.querySelectorAll('.shop-meta-sm span');
-    if (shopMetaSpans[1] && shop.product_count != null) {
-      shopMetaSpans[1].innerHTML = shopMetaSpans[1].innerHTML.replace(/\d+ products/, (shop.product_count || 0) + ' products');
+    // ── Key Highlights (skeleton → dynamic content) ──
+    var highlightsEl = document.getElementById('highlightsEl');
+    if (highlightsEl) {
+      var hlItems = [
+        { icon: '💰', text: '₹' + price.toLocaleString('en-IN') + (disc > 0 ? ' — ' + disc + '% OFF on MRP' : '') },
+        { icon: instock ? '✅' : '❌', text: instock ? 'In Stock — Ready to order now' : 'Currently Out of Stock' },
+        shop.city ? { icon: '📍', text: 'Shop located in ' + shop.city } : { icon: '🏪', text: 'Verified local shop' },
+        shop.whatsapp ? { icon: '💬', text: 'Order directly on WhatsApp — quick response' } : null,
+        (p.sizes && p.sizes.length) ? { icon: '📏', text: 'Sizes available: ' + p.sizes.join(', ') } : null,
+        (p.colors && p.colors.length) ? { icon: '🎨', text: p.colors.length + ' color' + (p.colors.length > 1 ? 's' : '') + ' available' } : null,
+      ].filter(Boolean).slice(0, 4);
+      highlightsEl.innerHTML = hlItems.map(function(h) {
+        return '<div class="highlight-item">' +
+          '<div class="hi-icon" style="background:var(--primary-light);">' + h.icon + '</div>' +
+          '<span>' + h.text + '</span>' +
+        '</div>';
+      }).join('');
     }
 
     // ── Load reviews + init review form ──
     loadProductReviews(p.id);
     initReviewForm();
 
-    // Sticky bar product name
+    // ── Sticky bar ──
+    var stickyBar = document.getElementById('stickyBar');
+    if (stickyBar) {
+      var stickyPriceEl = stickyBar.querySelector('.sticky-price');
+      if (stickyPriceEl) {
+        stickyPriceEl.innerHTML = '₹' + price.toLocaleString('en-IN') +
+          (mrp > price ? ' <small>₹' + mrp.toLocaleString('en-IN') + '</small>' : '');
+      }
+      var stickyStatusEl = stickyBar.querySelector('.sticky-price + div');
+      if (stickyStatusEl) {
+        stickyStatusEl.textContent = (disc > 0 ? disc + '% Off — ' : '') + (instock ? 'In Stock' : 'Out of Stock');
+        stickyStatusEl.style.color = instock ? 'var(--success)' : 'var(--danger)';
+      }
+    }
     var stickyName = document.getElementById('stickyProductName');
     if (stickyName) stickyName.textContent = p.name;
-    var stickyPrice = document.getElementById('stickyPrice');
-    if (stickyPrice) stickyPrice.textContent = '₹' + price.toLocaleString('en-IN');
 
     // Float WA button (sticky)
     var floatWa = document.querySelector('.float-wa-btn, #floatWA');
