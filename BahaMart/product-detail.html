@@ -250,6 +250,7 @@ img{max-width:100%;display:block;}
 .avail-tag.out{background:#fee2e2;color:var(--danger);}
 .avail-dot{width:7px;height:7px;border-radius:50%;background:currentColor;animation:blink 1.5s infinite;}
 @keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+@keyframes shimmer{0%{background-position:200% 0;}100%{background-position:-200% 0;}}
 .price-per-unit{font-size:11px;color:var(--text-light);margin-top:4px;}
 
 /* Options */
@@ -658,7 +659,7 @@ textarea.rev-input{resize:vertical;min-height:90px;}
     </div>
 
     <!-- INFO COLUMN -->
-    <div class="info-column">
+    <div class="info-column" id="infoColumn" style="opacity:0;transition:opacity .25s ease;">
 
       <!-- Category -->
       <div class="prod-category-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>Men Fashion › Kurta & Ethnic Wear</div>
@@ -1568,6 +1569,47 @@ document.getElementById('qaList').innerHTML = [
     </div>
   </div>`).join('');
 
+// ── CLEAR STALE TEMPLATE DATA (runs before API call) ──
+function clearProductUI() {
+  // Main image — blank placeholder
+  var mainImg = document.getElementById('mainImg');
+  if (mainImg) { mainImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; mainImg.alt = ''; }
+  // Thumbnails
+  var thumbWrap = document.getElementById('thumbsWrap');
+  if (thumbWrap) thumbWrap.innerHTML = '';
+  // Dots
+  var dotsEl = document.getElementById('imgDots');
+  if (dotsEl) dotsEl.innerHTML = '';
+  // Badges
+  var imgBadges = document.querySelector('.img-badges');
+  if (imgBadges) imgBadges.innerHTML = '';
+  // Category tag
+  var catTag = document.querySelector('.prod-category-tag');
+  if (catTag) catTag.textContent = '';
+  // Title
+  var titleEl = document.querySelector('h1.prod-title');
+  if (titleEl) { titleEl.textContent = ' '; titleEl.style.minHeight = '2.4em'; titleEl.style.background = 'linear-gradient(90deg,#f1f5f9 25%,#e2e8f0 50%,#f1f5f9 75%)'; titleEl.style.backgroundSize = '200% 100%'; titleEl.style.animation = 'shimmer 1.4s ease-in-out infinite'; titleEl.style.borderRadius = '6px'; }
+  // Prices
+  var priceEl  = document.querySelector('.price-main');   if (priceEl)  priceEl.textContent  = '';
+  var mrpEl    = document.querySelector('.price-mrp');    if (mrpEl)    mrpEl.textContent    = '';
+  var discEl   = document.querySelector('.price-disc');   if (discEl)   discEl.textContent   = '';
+  var savingEl = document.querySelector('.price-saving'); if (savingEl) savingEl.textContent = '';
+  // Rating
+  var starsEl  = document.querySelector('.stars-row');    if (starsEl)  starsEl.innerHTML = '';
+  var ratingVal = document.querySelector('.rating-val');  if (ratingVal) ratingVal.textContent = '';
+  var reviewCnt = document.querySelector('.review-cnt');  if (reviewCnt) reviewCnt.textContent = '';
+  // Availability
+  document.querySelectorAll('.avail-tag').forEach(function(t) { t.innerHTML = ''; });
+  // Page title & breadcrumb
+  document.title = 'Loading… – BahaBasket';
+  var bc = document.querySelector('.breadcrumb .current');
+  if (bc) bc.textContent = 'Loading…';
+  // Shop card
+  var shopName = document.querySelector('.shop-name-link'); if (shopName) shopName.textContent = '';
+  var shopMeta = document.querySelector('.shop-meta-sm');   if (shopMeta) shopMeta.innerHTML  = '';
+  var shopRating = document.querySelector('.shop-rating-row'); if (shopRating) shopRating.innerHTML = '';
+}
+
 // ── LOAD PRODUCT FROM API ──
 async function loadProduct() {
   var id = new URLSearchParams(window.location.search).get('id');
@@ -1575,6 +1617,7 @@ async function loadProduct() {
     showLoadError('Product ID missing. Please go back and select a product.');
     return;
   }
+
   try {
     var res  = await fetch(API_BASE + '/products/' + id);
     var data = await res.json();
@@ -1614,9 +1657,16 @@ async function loadProduct() {
     var catTag = document.querySelector('.prod-category-tag');
     if (catTag) catTag.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-2px;margin-right:5px;"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.57a1 1 0 00.99.84H5v10a2 2 0 002 2h10a2 2 0 002-2V10h1.15a1 1 0 00.99-.84l.58-3.57a2 2 0 00-1.34-2.23z"/></svg>' + (p.category || 'Product');
 
-    // Product title
+    // Product title (shimmer reset karo)
     var titleEl = document.querySelector('h1.prod-title');
-    if (titleEl) titleEl.textContent = p.name || 'Product';
+    if (titleEl) {
+      titleEl.textContent = p.name || 'Product';
+      titleEl.style.background = '';
+      titleEl.style.backgroundSize = '';
+      titleEl.style.animation = '';
+      titleEl.style.minHeight = '';
+      titleEl.style.borderRadius = '';
+    }
 
     // Prices
     var saving = mrp - price;
@@ -1668,9 +1718,60 @@ async function loadProduct() {
       colorSection.style.display = 'none';
     }
 
-    // Description in tab
-    var descEl = document.querySelector('#tab-description p');
-    if (descEl && p.description) descEl.textContent = p.description;
+    // ── Description tab — poora content API se build karo ──
+    var descTab = document.getElementById('tab-description');
+    if (descTab) {
+      var shopName_  = shop.name || 'this shop';
+      var desc_      = p.description || '';
+      var sizesStr   = (p.sizes  && p.sizes.length)  ? p.sizes.join(', ')   : (shop.sizes  || null);
+      var colorsStr  = (p.colors && p.colors.length) ? p.colors.join(', ')  : null;
+      var catLabel_  = (p.category || '').charAt(0).toUpperCase() + (p.category || '').slice(1).replace(/-/g,' ');
+
+      var specRows = [
+        ['Brand',    shopName_],
+        ['Category', catLabel_ || '—'],
+        p.sizes  && p.sizes.length  ? ['Sizes Available', p.sizes.join(', ')]  : null,
+        p.colors && p.colors.length ? ['Colors Available', p.colors.join(', ')] : null,
+        ['Stock', (p.stock || 0) > 0 ? (p.stock + ' units in stock') : 'Out of Stock'],
+        shop.city   ? ['Location', shop.city] : null,
+        ['Price',    '₹' + (p.price||0).toLocaleString('en-IN')],
+        p.mrp && p.mrp > p.price ? ['MRP', '₹' + p.mrp.toLocaleString('en-IN')] : null,
+        p.mrp && p.mrp > p.price ? ['You Save', '₹' + (p.mrp - p.price).toLocaleString('en-IN') + ' (' + Math.round((p.mrp-p.price)/p.mrp*100) + '% OFF)'] : null,
+      ].filter(Boolean);
+
+      var specHTML = specRows.map(function(r){ return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>'; }).join('');
+
+      descTab.innerHTML =
+        '<div class="desc-grid">' +
+          '<div class="desc-text">' +
+            (desc_ ? '<p>' + desc_.split('\n').join('</p><p>') + '</p>' : '<p style="color:var(--text-light)">No description available for this product.</p>') +
+          '</div>' +
+          '<div class="specs-card">' +
+            '<table><tbody>' + specHTML + '</tbody></table>' +
+          '</div>' +
+        '</div>';
+    }
+
+    // ── Specifications tab — same table data ──
+    var specsTab = document.getElementById('tab-specifications');
+    if (specsTab) {
+      var fullSpecRows = [
+        ['Brand / Seller',  shop.name || '—'],
+        ['Category',        (p.category||'').charAt(0).toUpperCase() + (p.category||'').slice(1).replace(/-/g,' ') || '—'],
+        p.sizes  && p.sizes.length  ? ['Available Sizes',  p.sizes.join(', ')]  : null,
+        p.colors && p.colors.length ? ['Available Colors', p.colors.join(', ')] : null,
+        ['Price',           '₹' + (p.price||0).toLocaleString('en-IN')],
+        p.mrp && p.mrp > p.price    ? ['MRP',              '₹' + p.mrp.toLocaleString('en-IN')] : null,
+        p.mrp && p.mrp > p.price    ? ['Discount',         Math.round((p.mrp-p.price)/p.mrp*100) + '% OFF'] : null,
+        ['Stock',           (p.stock||0) > 0 ? p.stock + ' units' : 'Out of Stock'],
+        shop.city    ? ['Shop Location', shop.city]                 : null,
+        shop.whatsapp? ['WhatsApp',      shop.whatsapp]             : null,
+        ['Product ID',      p.id ? p.id.slice(0,8).toUpperCase() : '—'],
+      ].filter(Boolean);
+
+      var fullSpecHTML = fullSpecRows.map(function(r){ return '<tr><td>'+r[0]+'</td><td>'+r[1]+'</td></tr>'; }).join('');
+      specsTab.innerHTML = '<div style="max-width:600px;"><div class="specs-card"><table><tbody>' + fullSpecHTML + '</tbody></table></div></div>';
+    }
 
     // Shop card
     var shopNameLink = document.querySelector('.shop-name-link');
@@ -1766,6 +1867,10 @@ async function loadProduct() {
     // Load related
     loadRelatedProducts(p.category, p.id);
 
+    // ── Sab data aa gaya — info column dikhao ──
+    var infoCol = document.getElementById('infoColumn');
+    if (infoCol) infoCol.style.opacity = '1';
+
   } catch(err) {
     console.error('loadProduct error:', err);
     showLoadError(err.message || 'Could not load product. Please try again.');
@@ -1775,6 +1880,7 @@ async function loadProduct() {
 function showLoadError(msg) {
   var infoCol = document.querySelector('.info-column');
   if (infoCol) {
+    infoCol.style.opacity = '1';
     infoCol.innerHTML =
       '<div style="padding:60px 0;text-align:center;">' +
         '<div style="font-size:48px;margin-bottom:16px;">😕</div>' +

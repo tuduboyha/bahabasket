@@ -616,20 +616,8 @@ img{max-width:100%;display:block;}
       <div class="shops-grid" id="shopsGrid"></div>
     </div>
 
-    <!-- Pagination -->
-    <div class="pagination" id="paginationWrap">
-      <div class="pg-info">Showing 1–12 of 148 products</div>
-      <div class="pg-btns">
-        <button class="pg-btn arrow" disabled>←</button>
-        <button class="pg-btn active">1</button>
-        <button class="pg-btn" onclick="goPage(2)">2</button>
-        <button class="pg-btn" onclick="goPage(3)">3</button>
-        <button class="pg-btn" onclick="goPage(4)">4</button>
-        <span style="color:var(--text-light);font-size:14px;padding:0 4px;">…</span>
-        <button class="pg-btn" onclick="goPage(13)">13</button>
-        <button class="pg-btn arrow" onclick="goPage(2)">→</button>
-      </div>
-    </div>
+    <!-- Pagination — JS se fill hota hai -->
+    <div class="pagination" id="paginationWrap"></div>
 
   </div><!-- /results-area -->
 </div><!-- /search-layout -->
@@ -745,9 +733,16 @@ function apiShopToUI(s) {
 
 // ── Load real results from API ──
 var _searchLoading = false;
-async function loadSearchResults(q) {
+var _srQuery = '';
+var _srPage  = 1;
+var _srTotal = 0;
+var _srLimit = 24;
+
+async function loadSearchResults(q, page) {
   if (_searchLoading) return;
   _searchLoading = true;
+  _srQuery = q || '';
+  _srPage  = page || 1;
 
   const grid = document.getElementById('productsGrid');
   const shopsGrid = document.getElementById('shopsGrid');
@@ -756,30 +751,45 @@ async function loadSearchResults(q) {
 
   // Show loading state
   if (grid) grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);font-size:15px;"><svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round" style="animation:spin 1s linear infinite;"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg><br><br>Searching…</div>';
-  if (shopsGrid) shopsGrid.innerHTML = '';
+  if (shopsGrid && _srPage === 1) shopsGrid.innerHTML = '';
   if (rc) rc.innerHTML = 'Searching…';
   if (noRes) noRes.style.display = 'none';
 
   try {
-    const params = new URLSearchParams({ limit: 48 });
+    const params = new URLSearchParams({ limit: _srLimit, page: _srPage });
     if (q) params.set('search', q);
 
-    const [prodRes, shopRes] = await Promise.all([
-      fetch(`${API_BASE}/products?${params}`),
-      fetch(`${API_BASE}/shops?${new URLSearchParams({ limit: 8, ...(q ? { search: q } : {}) })}`)
-    ]);
+    const promises = [fetch(`${API_BASE}/products?${params}`)];
+    // Only load shops on page 1
+    if (_srPage === 1) {
+      promises.push(fetch(`${API_BASE}/shops?${new URLSearchParams({ limit: 8, ...(q ? { search: q } : {}) })}`));
+    }
 
-    const prodData = await prodRes.json();
-    const shopData = await shopRes.json();
+    const results  = await Promise.all(promises);
+    const prodData = await results[0].json();
+    const shopData = results[1] ? await results[1].json() : null;
 
+    _srTotal    = prodData.total || 0;
     allProducts = (prodData.success && prodData.products) ? prodData.products.map(apiProductToUI) : [];
-    allShops    = (shopData.success && shopData.shops)    ? shopData.shops.map(apiShopToUI)       : [];
+    if (shopData) allShops = (shopData.success && shopData.shops) ? shopData.shops.map(apiShopToUI) : [];
 
     buildProducts(allProducts);
-    buildShops();
+    if (_srPage === 1) buildShops();
 
-    if (rc) rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${allProducts.length}</strong> product${allProducts.length !== 1 ? 's' : ''}`;
+    // Result count: "Showing 1–24 of 148 products"
+    const start = (_srPage - 1) * _srLimit + 1;
+    const end   = Math.min(_srPage * _srLimit, _srTotal);
+    if (rc) {
+      if (_srTotal > 0) {
+        rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${start}–${end}</strong> of <strong style="color:var(--text-dark);">${_srTotal}</strong> product${_srTotal !== 1 ? 's' : ''}`;
+      } else {
+        rc.innerHTML = `<strong style="color:var(--text-dark);">0</strong> products found`;
+      }
+    }
     if (noRes) noRes.style.display = allProducts.length === 0 ? 'flex' : 'none';
+
+    // Render pagination
+    renderSearchPagination(_srTotal, _srPage);
 
   } catch (e) {
     if (grid) grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);font-size:14px;">
@@ -1179,7 +1189,7 @@ function doSearch(){
   if(rhQuery) rhQuery.innerHTML = `Search results for <span>"${q || 'All Products'}"</span>`;
   if(breadCur) breadCur.textContent = q ? `Results for "${q}"` : 'All Products';
   document.title = q ? `Search Results for "${q}" – BahaBasket` : 'Search Results – BahaBasket';
-  loadSearchResults(q);
+  loadSearchResults(q, 1);
 }
 function clearSearch(){
   const inp = document.getElementById('navSearchInput');
@@ -1193,9 +1203,55 @@ function setSearch(q){
 }
 
 // ── PAGINATION ──
-function goPage(n){
-  document.querySelectorAll('.pg-btn:not(.arrow)').forEach((b,i) => b.classList.toggle('active', parseInt(b.textContent) === n));
-  window.scrollTo({top:document.querySelector('.results-header').offsetTop - 80, behavior:'smooth'});
+function renderSearchPagination(total, currentPage) {
+  const container = document.getElementById('paginationWrap');
+  if (!container) return;
+  const totalPages = Math.ceil(total / _srLimit);
+  if (totalPages <= 1) { container.innerHTML = ''; return; }
+
+  const start = (currentPage - 1) * _srLimit + 1;
+  const end   = Math.min(currentPage * _srLimit, total);
+
+  // Build page number buttons with ellipsis
+  function pageBtn(n, active) {
+    return `<button class="pg-btn${active ? ' active' : ''}" onclick="goPage(${n})">${n}</button>`;
+  }
+  function ellipsis() {
+    return `<span style="color:var(--text-light);font-size:14px;padding:0 4px;">…</span>`;
+  }
+
+  let pages = [];
+  if (totalPages <= 7) {
+    for (var i = 1; i <= totalPages; i++) pages.push(i);
+  } else {
+    pages.push(1);
+    if (currentPage > 3) pages.push('…');
+    var s = Math.max(2, currentPage - 1);
+    var e = Math.min(totalPages - 1, currentPage + 1);
+    for (var i = s; i <= e; i++) pages.push(i);
+    if (currentPage < totalPages - 2) pages.push('…');
+    pages.push(totalPages);
+  }
+
+  var btns = pages.map(function(p) {
+    return p === '…' ? ellipsis() : pageBtn(p, p === currentPage);
+  }).join('');
+
+  container.innerHTML =
+    '<div class="pg-info">Showing ' + start + '–' + end + ' of ' + total + ' products</div>' +
+    '<div class="pg-btns">' +
+      '<button class="pg-btn arrow" onclick="goPage(' + (currentPage - 1) + ')"' + (currentPage === 1 ? ' disabled' : '') + '>←</button>' +
+      btns +
+      '<button class="pg-btn arrow" onclick="goPage(' + (currentPage + 1) + ')"' + (currentPage === totalPages ? ' disabled' : '') + '>→</button>' +
+    '</div>';
+}
+
+function goPage(n) {
+  const totalPages = Math.ceil(_srTotal / _srLimit);
+  if (n < 1 || n > totalPages) return;
+  loadSearchResults(_srQuery, n);
+  const target = document.querySelector('.results-header');
+  if (target) window.scrollTo({ top: target.offsetTop - 80, behavior: 'smooth' });
 }
 
 // ── WA ──
