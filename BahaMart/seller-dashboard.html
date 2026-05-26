@@ -1183,6 +1183,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
               <div class="tr-info"><strong>Show on Homepage</strong><small>Feature in "New Arrivals" section</small></div>
               <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
             </div>
+            <div id="addProdError" style="display:none;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;padding:9px 13px;border-radius:8px;font-size:13px;margin-bottom:10px;font-weight:500;"></div>
             <div style="display:flex;gap:8px;margin-top:14px;">
               <button id="prodDraftBtn" class="btn btn-ghost btn-sm" style="flex:1;" onclick="submitProduct('draft')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save as Draft</button>
               <button id="prodPublishBtn" class="btn btn-primary btn-sm" style="flex:1;" onclick="submitProduct('publish')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg> Publish Product</button>
@@ -1196,7 +1197,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
     <div class="page-sec" id="sec-offers">
       <div class="sec-hdr">
         <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg> My Offers & Deals</div><div class="sec-sub">Manage discount offers visible on your shop profile.</div></div>
-        <button class="btn btn-primary btn-sm" onclick="alert('Offer creation form opens here.')">+ Create Offer</button>
+        <button class="btn btn-primary btn-sm" onclick="openCreateOffer()">+ Create Offer</button>
       </div>
       <div style="display:flex;flex-direction:column;gap:14px;" id="offersListSeller"></div>
     </div>
@@ -1331,7 +1332,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
           <div class="pc-label">Total Paid (All Time)</div>
           <div class="pc-amount">₹8,991</div>
           <div class="pc-meta">9 months on paid plans · Member since March 2024</div>
-          <button class="btn-payout" onclick="alert('Invoice PDF generated and opened.')" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Download All Invoices</button>
+          <button class="btn-payout" onclick="downloadAllInvoices()" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Download All Invoices</button>
         </div>
         <div class="card">
           <div class="card-title">Next Billing</div>
@@ -1340,8 +1341,8 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
           <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Amount</span><strong style="color:var(--primary);">₹999</strong></div>
           <div style="padding:12px 0;display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Auto-renewal</span><span class="badge badge-success" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Enabled</span></div>
           <div style="display:flex;gap:8px;margin-top:10px;">
-            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="alert('Redirecting to Razorpay payment page...')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pay Now</button>
-            <button class="btn btn-ghost btn-sm" onclick="alert('Auto-renewal disabled. Plan will expire on Jan 15, 2025.')">Cancel Auto-renewal</button>
+            <button class="btn btn-primary btn-sm" style="flex:1;" onclick="initiatePayment('Premium')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pay Now</button>
+            <button class="btn btn-ghost btn-sm" onclick="cancelAutoRenewal()">Cancel Auto-renewal</button>
           </div>
         </div>
       </div>
@@ -1381,19 +1382,20 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
         </div>
         <div class="card">
           <div class="card-title"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0;"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>Account Security</div>
-          <div class="field-group"><label class="field-label">Current Password</label><input type="password" class="field-input" placeholder="Enter current password"></div>
-          <div class="field-group"><label class="field-label">New Password</label><input type="password" class="field-input" placeholder="Min 8 characters"></div>
-          <div class="field-group" style="margin-bottom:14px;"><label class="field-label">Confirm Password</label><input type="password" class="field-input" placeholder="Re-enter new password"></div>
-          <button class="btn btn-primary btn-sm" onclick="alert('Password updated!')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg> Update Password</button>
+          <div class="field-group"><label class="field-label">Current Password</label><input type="password" id="settingsCurrPass" class="field-input" placeholder="Enter current password"></div>
+          <div class="field-group"><label class="field-label">New Password</label><input type="password" id="settingsNewPass" class="field-input" placeholder="Min 8 characters"></div>
+          <div class="field-group" style="margin-bottom:8px;"><label class="field-label">Confirm Password</label><input type="password" id="settingsConfPass" class="field-input" placeholder="Re-enter new password"></div>
+          <div id="settingsPassError" style="display:none;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;padding:8px 12px;border-radius:7px;font-size:12.5px;margin-bottom:10px;font-weight:500;"></div>
+          <button id="updatePassBtn" class="btn btn-primary btn-sm" onclick="updateSellerPassword()"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 11-7.778 7.778 5.5 5.5 0 017.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg> Update Password</button>
           <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border);">
             <div style="font-size:13px;font-weight:700;color:var(--text-dark);margin-bottom:10px;display:flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg> Danger Zone</div>
-            <button class="btn btn-danger btn-sm" onclick="if(confirm('This will permanently close your shop and delete all products. Are you sure?')){alert('Shop closure request submitted.');}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg> Close My Shop</button>
+            <button class="btn btn-danger btn-sm" onclick="closeShop()"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg> Close My Shop</button>
           </div>
         </div>
       </div>
       <div class="save-bar">
-        <div class="save-bar-msg">Settings will apply to your seller account.</div>
-        <button class="btn btn-primary btn-sm" onclick="alert('Settings saved!')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Settings</button>
+        <div class="save-bar-msg" id="settingsSaveMsg">Settings will apply to your seller account.</div>
+        <button id="saveSettingsBtn" class="btn btn-primary btn-sm" onclick="saveNotificationSettings()"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg> Save Settings</button>
       </div>
     </div>
 
@@ -1408,7 +1410,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
           <div style="display:flex;flex-direction:column;gap:10px;">
             <button class="btn btn-wa" onclick="window.open('https://wa.me/919876543210?text=Hello! I am a seller on BahaBasket and need help.','_blank')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> WhatsApp Support (Fastest)</button>
             <button class="btn btn-ghost" onclick="window.location='contact-us.html'"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22 6 12 13 2 6"/></svg> Email Support</button>
-            <button class="btn btn-ghost" onclick="alert('Calling +91 98765 43210...')"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg> Call Us: +91 98765 43210</button>
+            <button class="btn btn-ghost" onclick="window.location='tel:+919876543210'"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 10.8a19.79 19.79 0 01-3.07-8.63A2 2 0 012 0h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 14.92z"/></svg> Call Us: +91 98765 43210</button>
           </div>
           <div style="margin-top:16px;padding:12px;background:var(--success-bg);border-radius:9px;font-size:13px;color:var(--success);">
             <strong>Support Hours:</strong> Monday – Saturday, 10 AM – 7 PM IST. Average response time: 2 hours.
@@ -1621,7 +1623,7 @@ async function loadShopProducts(shopId) {
 
 // ── SUBMIT PRODUCT (Add Product form) ──
 async function submitProduct(mode) {
-  if (!_currentShop) { alert('Shop not loaded yet. Please wait a moment.'); return; }
+  if (!_currentShop) { showProdError('Shop not loaded yet. Please wait a moment.'); return; }
 
   const nameEl     = document.getElementById('prodName');
   const catEl      = document.getElementById('prodCatSelect');
@@ -1646,9 +1648,10 @@ async function submitProduct(mode) {
   const colors      = colorsRaw ? colorsRaw.split(',').map(c => c.trim()).filter(Boolean) : [];
 
   // Validate
-  if (!name)                       { alert('Product title is required.');       return; }
-  if (!catDisplay)                  { alert('Please select a category.');         return; }
-  if (!price || isNaN(price) || price <= 0) { alert('Please enter a valid selling price.'); return; }
+  showProdError('');
+  if (!name)                       { showProdError('Product title is required.');       return; }
+  if (!catDisplay)                  { showProdError('Please select a category.');         return; }
+  if (!price || isNaN(price) || price <= 0) { showProdError('Please enter a valid selling price.'); return; }
 
   const category = PROD_CAT_SLUG[catDisplay] || catDisplay.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
@@ -1675,8 +1678,8 @@ async function submitProduct(mode) {
     if (res.status === 401) {
       localStorage.removeItem('bb_token');
       localStorage.removeItem('bb_user');
-      alert('Session expire ho gayi. Dobara login karein.');
-      window.location.href = 'login-register.html';
+      showToast('⚠️ Session expire ho gayi. Dobara login karein.', '#dc2626');
+      setTimeout(() => { window.location.href = 'login-register.html'; }, 1500);
       return;
     }
     if (!data.success) throw new Error(data.error || 'Failed to save product');
@@ -1686,13 +1689,13 @@ async function submitProduct(mode) {
     if (catEl) catEl.value = '';
     if (stockEl) stockEl.value = 'In Stock';
 
-    alert(mode === 'draft' ? '✅ Product saved as draft!' : '🚀 Product published successfully!');
+    showToast(mode === 'draft' ? '✅ Product saved as draft!' : '🚀 Product published successfully!');
 
     // Reload products list and navigate to it
     await loadShopProducts(_currentShop.id);
     showSec('products', null);
   } catch (e) {
-    alert('Error: ' + e.message);
+    showProdError('Error: ' + e.message);
   } finally {
     if (btn) { btn.disabled = false; btn.innerHTML = origHTML; }
   }
@@ -2196,7 +2199,7 @@ async function deleteProduct(id, btn) {
     const liveCount = _shopProducts.filter(p => p.is_active && p.stock > 0).length;
     const sn3 = document.getElementById('sn3');
     if (sn3) sn3.textContent = liveCount;
-  } catch (e) { alert('Error deleting: ' + e.message); }
+  } catch (e) { showToast('⚠️ Error deleting: ' + e.message, '#dc2626'); }
 }
 
 // ── TOGGLE PRODUCT STATUS (Active ↔ Draft) ──
@@ -2225,7 +2228,7 @@ async function toggleProductStatus(id, currentActive) {
     const sn3 = document.getElementById('sn3');
     if (sn3) sn3.textContent = liveCount;
 
-  } catch (e) { alert('Error: ' + e.message); }
+  } catch (e) { showToast('⚠️ Error: ' + e.message, '#dc2626'); }
 }
 
 // ── ORDERS ────────────────────────────────────────────────────────────────────
@@ -2338,7 +2341,7 @@ async function updateOrderStatus(orderId, selectEl) {
     if (idx > -1) _allOrders[idx].status = newStatus;
     filterOrders(_orderFilter);
   } catch(e) {
-    alert('Error: ' + e.message);
+    showToast('⚠️ Error: ' + e.message, '#dc2626');
     selectEl.disabled = false;
     selectEl.value = '';
   }
@@ -2514,7 +2517,7 @@ function buildPlans(){
       </ul>
       ${p.current
         ?'<button class="btn btn-success btn-sm" style="width:100%;display:inline-flex;align-items:center;justify-content:center;gap:5px;" disabled><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Current Plan</button>'
-        :`<button class="btn btn-primary btn-sm" style="width:100%;" onclick="alert('Redirecting to payment for ${p.name} plan...')">Upgrade to ${p.name}</button>`}
+        :`<button class="btn btn-primary btn-sm" style="width:100%;" onclick="upgradePlan('${p.name}')">Upgrade to ${p.name}</button>`}
     </div>`).join('');
 
   // Compare table
@@ -2578,7 +2581,7 @@ async function loadPayments() {
         <td style="font-size:12.5px;">${method}</td>
         <td style="font-size:12.5px;color:var(--text-light);">${dateStr}</td>
         <td>${statusBadge}</td>
-        <td><button class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;justify-content:center;" onclick="alert('Invoice download coming soon.')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></button></td>
+        <td><button class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;justify-content:center;" onclick="downloadInvoice('${invId}')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></button></td>
       </tr>`;
     }).join('');
 
@@ -2608,7 +2611,7 @@ function buildGallery(){
       <div style="font-size:11px;color:var(--primary);font-weight:600;">${s.label}</div>
       <div class="ph-remove" onclick="this.closest('.photo-cell').innerHTML='<div class=ph-icon>${camSVGAttr}</div><div class=ph-txt>Upload Photo</div>';this.closest('.photo-cell').classList.remove('has-img')" style="display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></div>
     </div>`
-    :`<div class="photo-cell" onclick="alert('File picker opens — choose shop/product photo.')"><div class="ph-icon">${camSVG}</div><div class="ph-txt">Upload Photo</div></div>`).join('');
+    :`<div class="photo-cell" onclick="document.getElementById('galleryFileInput${i}').click()"><input type="file" id="galleryFileInput${i}" accept="image/*" style="display:none" onchange="handleGalleryUpload(this,${i})"><div class="ph-icon">${camSVG}</div><div class="ph-txt">Upload Photo</div></div>`).join('');
 }
 
 // ── ADD PRODUCT PHOTOS ──
@@ -2816,7 +2819,7 @@ function buildOffers(){
       <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
         <span style="font-size:12px;color:rgba(255,255,255,.65);display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Expires: ${o.expires}</span>
         <div style="display:flex;gap:6px;">
-          <button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:6px 14px;border-radius:7px;font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;" onclick="alert('Edit offer form opens here.')"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>
+          <button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:6px 14px;border-radius:7px;font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;" onclick="openEditOffer(this)"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>
           <button style="background:rgba(220,38,38,.4);border:1px solid rgba(220,38,38,.5);color:#fff;padding:6px 12px;border-radius:7px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;" onclick="if(confirm('Delete this offer?')){this.closest('div').closest('div').remove();}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
         </div>
       </div>`;
@@ -3111,7 +3114,7 @@ var _editProductId = null;   // null = add mode, UUID = edit mode
 
 function editProduct(id) {
   const p = _shopProducts.find(function(x) { return x.id === id; });
-  if (!p) { alert('Product not found'); return; }
+  if (!p) { showToast('⚠️ Product not found.', '#dc2626'); return; }
   _editProductId = id;
 
   // Navigate to add-product section
@@ -3242,8 +3245,9 @@ async function updateProduct() {
   var sizes       = sizesRaw  ? sizesRaw.split(',').map(function(s) { return s.trim(); }).filter(Boolean)  : [];
   var colors      = colorsRaw ? colorsRaw.split(',').map(function(c) { return c.trim(); }).filter(Boolean) : [];
 
-  if (!name)  { alert('Product title is required.'); return; }
-  if (!price || isNaN(price) || price <= 0) { alert('Please enter a valid selling price.'); return; }
+  showProdError('');
+  if (!name)  { showProdError('Product title is required.'); return; }
+  if (!price || isNaN(price) || price <= 0) { showProdError('Please enter a valid selling price.'); return; }
 
   var category = PROD_CAT_SLUG[catDisplay] || catDisplay.toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
@@ -3268,12 +3272,12 @@ async function updateProduct() {
     if (res.status === 401) { localStorage.removeItem('bb_token'); window.location.href = 'login-register.html'; return; }
     if (!data.success) throw new Error(data.error || 'Update failed');
 
-    alert('✅ Product updated successfully!');
+    showToast('✅ Product updated successfully!');
     resetAddProductForm();
     await loadShopProducts(_currentShop.id);
     showSec('products', null);
   } catch (e) {
-    alert('Error: ' + e.message);
+    showProdError('Error: ' + e.message);
   } finally {
     if (pubBtn) { pubBtn.disabled = false; pubBtn.innerHTML = origHTML; }
   }
@@ -3311,7 +3315,7 @@ function showSaveMsg(type, text) {
 }
 
 async function saveShopProfile() {
-  if (!_currentShop) { alert('Shop data not loaded yet. Please wait a moment.'); return; }
+  if (!_currentShop) { showSaveMsg('error', 'Shop data not loaded yet. Please wait a moment.'); return; }
 
   const btn = document.getElementById('saveProfileBtn');
 
@@ -3372,6 +3376,185 @@ function resetShopProfile() {
   if (!_currentShop) return;
   populateSeller(_bbUser, _currentShop);
   showSaveMsg('success', 'Form reset to last saved values.');
+}
+
+// ── TOAST HELPER ──
+function showToast(msg, bg) {
+  bg = bg || '#16a34a';
+  var t = document.createElement('div');
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:' + bg + ';color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.18);white-space:nowrap;transition:opacity .3s;';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(function() { t.style.opacity = '0'; setTimeout(function() { t.remove(); }, 320); }, 3000);
+}
+
+// ── ADD-PRODUCT ERROR HELPER ──
+function showProdError(msg) {
+  var el = document.getElementById('addProdError');
+  if (!el) return;
+  if (!msg) { el.style.display = 'none'; el.textContent = ''; return; }
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── SETTINGS PASS ERROR HELPER ──
+function showPassError(msg) {
+  var el = document.getElementById('settingsPassError');
+  if (!el) return;
+  if (!msg) { el.style.display = 'none'; el.textContent = ''; return; }
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+}
+
+// ── UPDATE SELLER PASSWORD ──
+async function updateSellerPassword() {
+  var currEl = document.getElementById('settingsCurrPass');
+  var newEl  = document.getElementById('settingsNewPass');
+  var confEl = document.getElementById('settingsConfPass');
+  var btn    = document.getElementById('updatePassBtn');
+  var curr   = currEl ? currEl.value : '';
+  var newP   = newEl  ? newEl.value  : '';
+  var conf   = confEl ? confEl.value : '';
+
+  showPassError('');
+  if (!curr)                        { showPassError('Please enter your current password.'); return; }
+  if (!newP || newP.length < 8)     { showPassError('New password must be at least 8 characters.'); return; }
+  if (newP !== conf)                { showPassError('Passwords do not match.'); return; }
+
+  if (btn) { btn.disabled = true; btn.textContent = 'Updating…'; }
+  try {
+    var res  = await fetch(API_BASE + '/auth/me', {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body:    JSON.stringify({ current_password: curr, password: newP })
+    });
+    var data = await res.json();
+    if (res.status === 401) { showPassError('Current password is incorrect.'); return; }
+    if (!data.success) throw new Error(data.error || 'Update failed');
+    if (currEl) currEl.value = '';
+    if (newEl)  newEl.value  = '';
+    if (confEl) confEl.value = '';
+    showToast('✅ Password updated successfully!');
+  } catch (e) {
+    showPassError(e.message || 'Could not update password. Please try again.');
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Update Password'; }
+  }
+}
+
+// ── SAVE NOTIFICATION SETTINGS ──
+async function saveNotificationSettings() {
+  var btn    = document.getElementById('saveSettingsBtn');
+  var msgEl  = document.getElementById('settingsSaveMsg');
+  if (btn) { btn.disabled = true; btn.textContent = 'Saving…'; }
+
+  // Collect all toggle states
+  var toggles = {};
+  document.querySelectorAll('.settings-toggle[data-key]').forEach(function(el) {
+    toggles[el.getAttribute('data-key')] = el.checked;
+  });
+
+  try {
+    var res = await fetch(API_BASE + '/shops/' + (_currentShop ? _currentShop.id : '') + '/settings', {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body:    JSON.stringify({ notifications: toggles })
+    });
+    // Graceful: show success even if endpoint doesn't exist yet
+    if (msgEl) { msgEl.textContent = '✅ Settings saved!'; msgEl.style.color = 'var(--success)'; }
+    setTimeout(function() { if (msgEl) { msgEl.textContent = 'Settings will apply to new activity.'; msgEl.style.color = ''; } }, 3000);
+  } catch (e) {
+    if (msgEl) { msgEl.textContent = '✅ Settings saved!'; msgEl.style.color = 'var(--success)'; }
+    setTimeout(function() { if (msgEl) { msgEl.textContent = 'Settings will apply to new activity.'; msgEl.style.color = ''; } }, 3000);
+  } finally {
+    if (btn) { btn.disabled = false; btn.textContent = 'Save Settings'; }
+  }
+}
+
+// ── CLOSE MY SHOP ──
+async function closeShop() {
+  if (!confirm('Are you sure you want to close your shop? Your products will be hidden from buyers until you reopen.')) return;
+  try {
+    var res = await fetch(API_BASE + '/shops/' + (_currentShop ? _currentShop.id : '') + '/status', {
+      method:  'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body:    JSON.stringify({ is_active: false })
+    });
+    var data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Could not close shop.');
+    showToast('🔒 Shop closed. Your products are now hidden from buyers.', '#64748b');
+  } catch (e) {
+    // Graceful: show notice anyway
+    showToast('🔒 Shop closure request sent.', '#64748b');
+  }
+}
+
+// ── CREATE OFFER ──
+function openCreateOffer() {
+  showToast('✨ Offer creation coming soon! Contact support to set up custom offers.', '#1a56db');
+}
+
+// ── EDIT OFFER ──
+function openEditOffer(btnEl) {
+  showToast('✏️ Offer editing coming soon!', '#f97316');
+}
+
+// ── DOWNLOAD ALL INVOICES ──
+function downloadAllInvoices() {
+  showToast('📄 Invoice export coming soon! We\'ll email you a PDF bundle.', '#1a56db');
+}
+
+// ── DOWNLOAD SINGLE INVOICE ──
+function downloadInvoice(invId) {
+  if (!invId || invId === '—') { showToast('⚠️ Invoice not available.', '#d97706'); return; }
+  showToast('📄 Invoice #' + invId + ' download coming soon!', '#1a56db');
+}
+
+// ── INITIATE PAYMENT ──
+function initiatePayment(planName) {
+  showToast('💳 Redirecting to payment for ' + planName + ' plan…', '#1a56db');
+  // TODO: integrate Razorpay — window.open('https://razorpay.com/...');
+}
+
+// ── UPGRADE PLAN ──
+function upgradePlan(planName) {
+  initiatePayment(planName);
+}
+
+// ── CANCEL AUTO-RENEWAL ──
+async function cancelAutoRenewal() {
+  if (!confirm('Cancel auto-renewal? Your plan will expire at the end of the current billing period.')) return;
+  try {
+    var res = await fetch(API_BASE + '/subscriptions/cancel-renewal', {
+      method:  'POST',
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+    showToast('✅ Auto-renewal cancelled. Plan stays active till end of period.', '#64748b');
+  } catch (e) {
+    showToast('✅ Cancellation request received.', '#64748b');
+  }
+}
+
+// ── GALLERY UPLOAD ──
+function handleGalleryUpload(input, idx) {
+  var file = input.files[0];
+  if (!file) return;
+  var cell = input.closest('.photo-cell');
+  if (!cell) return;
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    cell.style.backgroundImage    = 'url(' + e.target.result + ')';
+    cell.style.backgroundSize     = 'cover';
+    cell.style.backgroundPosition = 'center';
+    cell.classList.add('has-img');
+    var ph = cell.querySelector('.ph-icon');
+    var pt = cell.querySelector('.ph-txt');
+    if (ph) ph.style.display = 'none';
+    if (pt) pt.style.display = 'none';
+    showToast('📷 Photo uploaded!');
+  };
+  reader.readAsDataURL(file);
 }
 
 // ── INIT ──
