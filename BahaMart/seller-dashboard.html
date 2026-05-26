@@ -1707,11 +1707,37 @@ async function initSellerDashboard() {
     const data = await res.json();
     const shop = (data.success && data.shop) ? data.shop : null;
     populateSeller(_bbUser, shop);
-    if (shop) loadShopProducts(shop.id);
+    if (shop) {
+      loadShopProducts(shop.id);
+      // Load async sections that depend on shop data
+      loadReviews();
+      loadNotifs();
+      loadPayments();
+    } else {
+      // No shop found — show create-shop prompt
+      showCreateShopPrompt();
+    }
   } catch (e) {
     // Network error — still populate greeting from cached user
     populateSeller(_bbUser, null);
   }
+}
+
+function showCreateShopPrompt() {
+  // Show a visible prompt in the overview section for sellers without a shop
+  const overviewEl = document.getElementById('sec-overview');
+  if (!overviewEl) return;
+  const banner = document.createElement('div');
+  banner.style.cssText = 'background:var(--primary-light);border:2px dashed var(--primary);border-radius:14px;padding:32px;text-align:center;margin-bottom:22px;';
+  banner.innerHTML = `
+    <div style="font-size:40px;margin-bottom:14px;">🏪</div>
+    <div style="font-family:var(--font-display);font-size:18px;font-weight:800;color:var(--text-dark);margin-bottom:8px;">Create Your Shop</div>
+    <div style="font-size:13.5px;color:var(--text-mid);max-width:400px;margin:0 auto 20px;">You don't have a shop yet. Create one to start listing products and receiving inquiries from customers.</div>
+    <button class="btn btn-primary" onclick="showSec('profile')" style="display:inline-flex;align-items:center;gap:7px;font-size:14px;padding:10px 24px;">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Create Shop Now
+    </button>`;
+  overviewEl.insertBefore(banner, overviewEl.firstChild);
 }
 
 initSellerDashboard();
@@ -2060,6 +2086,10 @@ function showSec(id, navEl){
     _ordersLoaded = true;
     loadOrders();
   }
+  // Lazy-load reviews, notifications, payments on first visit
+  if(id === 'reviews' && !_reviewsLoaded) loadReviews();
+  if(id === 'notifications' && !_notifsLoaded) loadNotifs();
+  if(id === 'plans' && !_paymentsLoaded) loadPayments();
 }
 function toggleSidebar(){
   const sb=document.getElementById('sidebar'),ov=document.getElementById('sidebarOverlay');
@@ -2380,64 +2410,99 @@ function buildTopProducts() {
 }
 
 // ── REVIEWS ──
-const reviewsData=[
-  {name:"Rahul M.",stars:5,title:"Excellent quality!",text:"Very happy with the kurta. Fabric is genuine cotton and the stitching is perfect.",date:"Dec 10",color:"#1a56db",replied:false},
-  {name:"Pradeep S.",stars:4,title:"Good product, slightly large sizing",text:"Good quality products and helpful staff. Sizing runs slightly big — recommend one size down.",date:"Dec 5",color:"#059669",replied:true},
-  {name:"Amit V.",stars:5,title:"Best shop in Gandhi Nagar!",text:"Visited for my wedding sherwani. Amazing collection. Everyone loved it!",date:"Nov 28",color:"#f97316",replied:false},
-];
-function buildReviews(){
-  const el=document.getElementById('reviewsList');
-  if(!el) return;
-  el.innerHTML=reviewsData.map(r=>`
-    <div class="rev-item">
-      <div class="rev-hdr">
-        <div class="rev-av" style="background:${r.color};">${r.name[0]}</div>
-        <div><div class="rev-name">${r.name}</div><div class="rev-date">${r.date}</div></div>
-        ${r.replied?'<span class="badge badge-success" style="margin-left:auto;display:inline-flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Replied</span>':'<span class="badge badge-warning" style="margin-left:auto;display:inline-flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Not replied</span>'}
-      </div>
-      <div class="rev-stars">${Array(r.stars).fill('<svg viewBox="0 0 24 24" width="14" height="14" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>').join('')}${Array(5-r.stars).fill('<svg viewBox="0 0 24 24" width="14" height="14" fill="#e5e7eb" stroke="#e5e7eb" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>').join('')}</div>
-      <div style="font-weight:700;font-size:14px;margin-bottom:5px;">${r.title}</div>
-      <div class="rev-text">${r.text}</div>
-      ${!r.replied?`
-        <div class="rev-reply-box" style="margin-top:10px;">
-          <div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:6px;">Reply publicly:</div>
-          <textarea placeholder="Thank the customer or address their feedback..."></textarea>
-          <button class="btn btn-primary btn-sm" style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;" onclick="this.closest('.rev-reply-box').innerHTML='<div style=padding:8px;background:var(--success-bg);border-radius:7px;font-size:13px;color:var(--success);display:flex;align-items:center;gap:6px;>Reply submitted successfully!</div>'"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg> Post Reply</button>
-        </div>`:
-        `<div style="margin-top:8px;padding:8px 10px;background:var(--success-bg);border-radius:7px;font-size:12.5px;color:var(--success);display:flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> You have replied to this review.</div>`}
-    </div>`).join('');
+// ── REVIEWS (real API) ──
+var _reviewsLoaded = false;
+async function loadReviews() {
+  if (!_currentShop) return;
+  const el = document.getElementById('reviewsList');
+  if (!el) return;
+  if (_reviewsLoaded) return;
+  _reviewsLoaded = true;
 
-  // Review bars
-  const bars=document.getElementById('reviewBars');
-  if(bars) bars.innerHTML=[[5,82],[4,12],[3,4],[2,1],[1,1]].map(([s,p])=>`
-    <div class="prog-row">
-      <div class="prog-lbl"><span style="display:inline-flex;align-items:center;gap:2px;">${s}<svg viewBox="0 0 24 24" width="11" height="11" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span class="pval">${p}%</span></div>
-      <div class="prog-bg"><div class="prog-fill" style="width:${p}%;background:${s>=4?'#fbbf24':s===3?'#f97316':'#dc2626'};"></div></div>
-    </div>`).join('');
+  el.innerHTML = '<div style="text-align:center;padding:32px;"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" style="animation:spin 1s linear infinite;display:block;margin:0 auto 10px;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><div style="font-size:13px;color:var(--text-light);">Loading reviews…</div></div>';
 
-  // Insights
-  const ins=document.getElementById('reviewInsights');
-  if(ins) ins.innerHTML=[
-    {label:"Quality",pct:92,color:"#1a56db"},
-    {label:"Service",pct:96,color:"#16a34a"},
-    {label:"WhatsApp Response",pct:88,color:"#f97316"},
-    {label:"Value for Money",pct:84,color:"#7c3aed"},
-  ].map(item=>`
-    <div class="prog-row">
-      <div class="prog-lbl"><span>${item.label}</span><span class="pval">${item.pct}%</span></div>
-      <div class="prog-bg"><div class="prog-fill" style="width:${item.pct}%;background:${item.color};"></div></div>
-    </div>`).join('');
+  try {
+    const res  = await fetch(API_BASE + '/reviews?shop_id=' + _currentShop.id + '&limit=30', {
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+    const data = await res.json();
+    const reviews = (data.reviews || data.data || []).filter(function(r){ return !r.status || r.status === 'approved'; });
+
+    if (!reviews.length) {
+      el.innerHTML = '<div style="text-align:center;padding:48px 20px;"><div style="font-size:36px;margin-bottom:12px;">💬</div><div style="font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:5px;">No reviews yet</div><div style="font-size:13px;color:var(--text-light);">Customer reviews will appear here once received.</div></div>';
+      return;
+    }
+
+    const COLORS = ['#1a56db','#059669','#f97316','#7c3aed','#dc2626','#0891b2'];
+    var total = reviews.length;
+    var avgRating = reviews.reduce(function(s,r){ return s + (parseFloat(r.rating)||0); }, 0) / total;
+    var distrib = [5,4,3,2,1].map(function(s){
+      var cnt = reviews.filter(function(r){ return Math.round(parseFloat(r.rating)||0) === s; }).length;
+      return { s: s, pct: total ? Math.round(cnt/total*100) : 0 };
+    });
+
+    // Rating bars
+    var bars = document.getElementById('reviewBars');
+    if (bars) bars.innerHTML = distrib.map(function(d){
+      return '<div class="prog-row"><div class="prog-lbl"><span style="display:inline-flex;align-items:center;gap:2px;">'+d.s+'<svg viewBox="0 0 24 24" width="11" height="11" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span><span class="pval">'+d.pct+'%</span></div><div class="prog-bg"><div class="prog-fill" style="width:'+d.pct+'%;background:'+(d.s>=4?'#fbbf24':d.s===3?'#f97316':'#dc2626')+'"></div></div></div>';
+    }).join('');
+
+    // Average rating display
+    var revAvg = document.getElementById('reviewAvgNum');
+    if (revAvg) revAvg.textContent = avgRating.toFixed(1);
+    var revCnt = document.getElementById('reviewTotalCnt');
+    if (revCnt) revCnt.textContent = total + ' reviews';
+
+    // Reviews list
+    el.innerHTML = reviews.map(function(r) {
+      var stars = Math.min(5, Math.round(parseFloat(r.rating)||0));
+      var name  = r.reviewer_name || (r.profiles && r.profiles.full_name) || 'Customer';
+      var color = COLORS[name.charCodeAt(0) % COLORS.length];
+      var dateStr = r.created_at ? new Date(r.created_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '';
+      var starHTML = '★'.repeat(stars)+'☆'.repeat(5-stars);
+      var replied = !!r.shop_reply;
+      return '<div class="rev-item">'+
+        '<div class="rev-hdr">'+
+          '<div class="rev-av" style="background:'+color+';">'+name.charAt(0).toUpperCase()+'</div>'+
+          '<div><div class="rev-name">'+name+'</div><div class="rev-date">'+dateStr+'</div></div>'+
+          (replied
+            ? '<span class="badge badge-success" style="margin-left:auto;">✓ Replied</span>'
+            : '<span class="badge badge-warning" style="margin-left:auto;">⏳ Not replied</span>')+
+        '</div>'+
+        '<div class="rev-stars" style="font-size:16px;color:#fbbf24;letter-spacing:1px;margin-bottom:6px;">'+starHTML+'</div>'+
+        (r.title ? '<div style="font-weight:700;font-size:14px;margin-bottom:5px;">'+r.title+'</div>' : '')+
+        '<div class="rev-text">'+(r.comment||r.body||'')+'</div>'+
+        (!replied
+          ? '<div class="rev-reply-box" style="margin-top:10px;"><div style="font-size:12px;font-weight:700;color:var(--primary);margin-bottom:6px;">Reply publicly:</div><textarea placeholder="Thank the customer or address their feedback..." style="width:100%;border:1.5px solid var(--border);border-radius:7px;padding:8px 10px;font-size:13px;font-family:var(--font-body);outline:none;resize:vertical;min-height:60px;background:var(--white);"></textarea><button class="btn btn-primary btn-sm" style="margin-top:8px;display:inline-flex;align-items:center;gap:5px;" onclick="this.disabled=true;this.innerHTML=\'✓ Reply sent\';this.style.background=\'var(--success)\';"><svg viewBox=\"0 0 24 24\" width=\"13\" height=\"13\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><line x1=\"22\" y1=\"2\" x2=\"11\" y2=\"13\"/><polygon points=\"22 2 15 22 11 13 2 9 22 2\"/></svg> Post Reply</button></div>'
+          : '<div style="margin-top:8px;padding:8px 10px;background:var(--success-bg);border-radius:7px;font-size:12.5px;color:var(--success);">✓ You have replied: '+r.shop_reply+'</div>')+
+      '</div>';
+    }).join('');
+
+  } catch(e) {
+    console.error('loadReviews:', e);
+    el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-light);font-size:13px;">Could not load reviews. Please refresh.</div>';
+  }
 }
 
 // ── PLANS ──
 function buildPlans(){
   const el=document.getElementById('plansGrid');
   if(!el) return;
+  // Detect current plan from shop data (fallback to 'Basic')
+  const shopPlan = (_currentShop && (_currentShop.plan || _currentShop.plan_name || _currentShop.subscription_plan)) || 'Basic';
+  const currentPlanName = shopPlan.charAt(0).toUpperCase() + shopPlan.slice(1).toLowerCase();
   const plans=[
-    {name:"Basic",icon:'<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',price:"₹0",current:false,recommended:false,color:"var(--text-light)",features:["10 Products","Basic Profile","WhatsApp Button","Standard Listing"]},
-    {name:"Growth",icon:'<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',price:"₹499",current:false,recommended:false,color:"var(--primary)",features:["100 Products","Featured in Search","Analytics Dashboard","Priority Support","Offer Banners"]},
-    {name:"Premium",icon:'<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg>',price:"₹999",current:true,recommended:true,color:"var(--purple)",features:["Unlimited Products","Top Search Ranking","Full Analytics","Dedicated Support","All Offer Types","Homepage Feature"]},
+    {name:"Basic",icon:'<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="#64748b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',price:"₹0",color:"var(--text-light)",features:["10 Products","Basic Profile","WhatsApp Button","Standard Listing"]},
+    {name:"Growth",icon:'<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>',price:"₹499",color:"var(--primary)",features:["100 Products","Featured in Search","Analytics Dashboard","Priority Support","Offer Banners"]},
+    {name:"Premium",icon:'<svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="var(--purple)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg>',price:"₹999",color:"var(--purple)",features:["Unlimited Products","Top Search Ranking","Full Analytics","Dedicated Support","All Offer Types","Homepage Feature"]},
   ];
+  // Mark current plan dynamically
+  plans.forEach(p => {
+    p.current = p.name === currentPlanName;
+    p.recommended = p.name === currentPlanName;
+  });
+  // If none matched exactly, default recommended to Premium
+  if (!plans.some(p=>p.recommended)) plans[2].recommended = true;
   el.innerHTML=plans.map(p=>`
     <div class="plan-card ${p.current?'current':''} ${p.recommended?'recommended':''}">
       ${p.recommended?'<div class="plan-recommend-tag" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="#fff" stroke="#fff" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Current Plan</div>':''}
@@ -2465,26 +2530,62 @@ function buildPlans(){
   ].map(r=>`<tr><td class="td-bold">${r.feat}</td><td>${r.free}</td><td>${r.growth}</td><td style="color:var(--purple);font-weight:700;">${r.premium}</td></tr>`).join('');
 }
 
-// ── PAYMENTS TABLE ──
-function buildPaymentsTable(){
-  const el=document.getElementById('paymentTableBody');
-  if(!el) return;
-  el.innerHTML=[
-    {id:"INV-20241215",plan:"Premium",planIcon:'<svg viewBox="0 0 24 24" width="11" height="11" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg>',amount:"₹999",method:"UPI (GPay)",date:"Dec 15, 2024",status:"paid"},
-    {id:"INV-20241115",plan:"Premium",planIcon:'<svg viewBox="0 0 24 24" width="11" height="11" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg>',amount:"₹999",method:"UPI (GPay)",date:"Nov 15, 2024",status:"paid"},
-    {id:"INV-20241015",plan:"Premium",planIcon:'<svg viewBox="0 0 24 24" width="11" height="11" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg>',amount:"₹999",method:"Bank Transfer",date:"Oct 15, 2024",status:"paid"},
-    {id:"INV-20240915",plan:"Growth",planIcon:'<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/></svg>',amount:"₹499",method:"UPI",date:"Sep 15, 2024",status:"paid"},
-    {id:"INV-20240815",plan:"Growth",planIcon:'<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/></svg>',amount:"₹499",method:"Cash",date:"Aug 15, 2024",status:"paid"},
-  ].map(p=>`
-    <tr>
-      <td class="td-mono" style="font-size:12px;">${p.id}</td>
-      <td class="td-bold" style="display:flex;align-items:center;gap:4px;">${p.planIcon}${p.plan}</td>
-      <td class="td-mono" style="color:var(--success);font-weight:700;">${p.amount}</td>
-      <td style="font-size:12.5px;">${p.method}</td>
-      <td style="font-size:12.5px;color:var(--text-light);">${p.date}</td>
-      <td><span class="badge badge-success" style="display:inline-flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Paid</span></td>
-      <td><button class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;justify-content:center;" onclick="alert('Downloading invoice ${p.id}...')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></button></td>
-    </tr>`).join('');
+// ── PAYMENTS TABLE (real API) ──
+var _paymentsLoaded = false;
+async function loadPayments() {
+  const el = document.getElementById('paymentTableBody');
+  if (!el) return;
+  if (_paymentsLoaded) return;
+  _paymentsLoaded = true;
+
+  el.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:28px;"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" style="animation:spin 1s linear infinite;display:inline-block;vertical-align:middle;margin-right:8px;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><span style="font-size:13px;color:var(--text-light);">Loading payment history…</span></td></tr>';
+
+  const PLAN_ICON = {
+    Premium: '<svg viewBox="0 0 24 24" width="11" height="11" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg>',
+    Growth:  '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 00-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 012-3.95A12.88 12.88 0 0122 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 01-4 2z"/></svg>',
+    Basic:   '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="#64748b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>',
+  };
+
+  try {
+    const res = await fetch(API_BASE + '/payments/history', {
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+    const data = await res.json();
+    const payments = data.payments || data.data || [];
+
+    if (!payments.length) {
+      el.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--text-light);font-size:13px;">No payment records found.</td></tr>';
+      return;
+    }
+
+    el.innerHTML = payments.map(p => {
+      const planName = p.plan_name || p.plan || 'Basic';
+      const icon = PLAN_ICON[planName] || PLAN_ICON.Basic;
+      const amount = p.amount ? '₹' + Number(p.amount).toLocaleString('en-IN') : '₹0';
+      const method = p.payment_method || p.method || 'Online';
+      const dateStr = p.created_at ? new Date(p.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}) : (p.date || '—');
+      const invId = p.invoice_id || p.id || '—';
+      const status = (p.status || 'paid').toLowerCase();
+      const statusBadge = status === 'paid'
+        ? '<span class="badge badge-success" style="display:inline-flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Paid</span>'
+        : status === 'pending'
+          ? '<span class="badge badge-warning">Pending</span>'
+          : '<span class="badge badge-danger">Failed</span>';
+      return `<tr>
+        <td class="td-mono" style="font-size:12px;">${invId}</td>
+        <td class="td-bold" style="display:flex;align-items:center;gap:4px;">${icon}${planName}</td>
+        <td class="td-mono" style="color:var(--success);font-weight:700;">${amount}</td>
+        <td style="font-size:12.5px;">${method}</td>
+        <td style="font-size:12.5px;color:var(--text-light);">${dateStr}</td>
+        <td>${statusBadge}</td>
+        <td><button class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;justify-content:center;" onclick="alert('Invoice download coming soon.')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg></button></td>
+      </tr>`;
+    }).join('');
+
+  } catch (e) {
+    console.error('loadPayments:', e);
+    el.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:28px;color:var(--text-light);font-size:13px;">Could not load payment history. Please refresh.</td></tr>';
+  }
 }
 
 // ── GALLERY ──
@@ -2746,24 +2847,76 @@ function buildAnalytics(){
   }
 }
 
-// ── NOTIFICATIONS ──
-function buildNotifs(){
-  const el=document.getElementById('notifsList');
-  if(!el) return;
-  const notifs=[
-    {color:"#1a56db",title:"New inquiry from Rahul M.","sub":"Re: Men's Kurta Set — 'Size L Royal Blue available?'","time":"15 min ago",unread:true},
-    {color:"#fbbf24",title:"New 5-star review received","sub":"Amit Verma left a review: 'Best shop in Gandhi Nagar!'","time":"1 hr ago",unread:true},
-    {color:"#f97316",title:"Plan expires in 28 days","sub":"Your Premium Plan expires on Jan 15, 2025. Renew now.","time":"Today",unread:true},
-    {color:"#16a34a",title:"Weekly performance report ready","sub":"You got 86 inquiries this week — 18% more than last week!","time":"Yesterday",unread:true},
-    {color:"#1a56db",title:"New inquiry from Priya S.","sub":"Re: Linen Shirt — 'Home delivery to Vijay Nagar?'","time":"2 days ago",unread:false},
-    {color:"#7c3aed",title:"Your shop reached 1,000 WA inquiries!","sub":"Congratulations! Sharma Cloth House hit a major milestone.","time":"3 days ago",unread:false},
-  ];
-  el.innerHTML=notifs.map(n=>`
-    <div class="notif-item ${n.unread?'unread':''}" onclick="this.classList.remove('unread')">
-      <div class="ni-dot" style="background:${n.color};"></div>
-      <div class="ni-body"><div class="ni-title">${n.title}</div><div class="ni-sub">${n.sub}</div></div>
-      <div class="ni-time">${n.time}</div>
-    </div>`).join('');
+// ── NOTIFICATIONS (real API) ──
+var _notifsLoaded = false;
+async function loadNotifs() {
+  const el = document.getElementById('notifsList');
+  if (!el) return;
+  if (_notifsLoaded) return;
+  _notifsLoaded = true;
+
+  el.innerHTML = '<div style="text-align:center;padding:32px;"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" style="animation:spin 1s linear infinite;display:block;margin:0 auto 10px;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><div style="font-size:13px;color:var(--text-light);">Loading notifications…</div></div>';
+
+  try {
+    const res = await fetch(API_BASE + '/notifications', {
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+    const data = await res.json();
+    const notifs = data.notifications || data.data || [];
+
+    // Update unread badge in header
+    const unreadCount = notifs.filter(n => !n.is_read && !n.read_at).length;
+    const headerDot = document.querySelector('.hdr-dot');
+    if (headerDot) headerDot.style.display = unreadCount > 0 ? 'block' : 'none';
+
+    if (!notifs.length) {
+      el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-light);"><div style="font-size:32px;margin-bottom:12px;">🔔</div><div style="font-size:13.5px;font-weight:600;color:var(--text-mid);margin-bottom:6px;">No notifications yet</div><div style="font-size:12.5px;">You\'ll see alerts for new reviews, inquiries, and plan updates here.</div></div>';
+      return;
+    }
+
+    function timeAgo(dateStr) {
+      if (!dateStr) return '';
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const m = Math.floor(diff / 60000);
+      if (m < 1) return 'Just now';
+      if (m < 60) return m + ' min ago';
+      const h = Math.floor(m / 60);
+      if (h < 24) return h + ' hr ago';
+      const d = Math.floor(h / 24);
+      if (d === 1) return 'Yesterday';
+      if (d < 7) return d + ' days ago';
+      return new Date(dateStr).toLocaleDateString('en-IN', {day:'numeric',month:'short'});
+    }
+
+    const COLOR_MAP = { inquiry:'#1a56db', review:'#fbbf24', plan:'#f97316', report:'#16a34a', milestone:'#7c3aed', system:'#64748b' };
+
+    el.innerHTML = notifs.map(n => {
+      const unread = !n.is_read && !n.read_at;
+      const color = COLOR_MAP[n.type] || COLOR_MAP[n.category] || '#1a56db';
+      const time = timeAgo(n.created_at);
+      return `<div class="notif-item ${unread ? 'unread' : ''}" onclick="markNotifRead('${n.id}', this)">
+        <div class="ni-dot" style="background:${color};"></div>
+        <div class="ni-body"><div class="ni-title">${n.title || n.message || 'Notification'}</div><div class="ni-sub">${n.body || n.sub || n.description || ''}</div></div>
+        <div class="ni-time">${time}</div>
+      </div>`;
+    }).join('');
+
+  } catch (e) {
+    console.error('loadNotifs:', e);
+    // Fallback: show a friendly message
+    el.innerHTML = '<div style="text-align:center;padding:30px;color:var(--text-light);font-size:13px;">Could not load notifications. Please refresh.</div>';
+  }
+}
+
+async function markNotifRead(id, el) {
+  if (!id || !el) return;
+  el.classList.remove('unread');
+  try {
+    await fetch(API_BASE + '/notifications/' + id + '/read', {
+      method: 'PATCH',
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+  } catch (e) { /* silent */ }
 }
 
 // ── SELLER FAQ ──
@@ -3241,9 +3394,7 @@ setTimeout(()=>{
   buildOverviewInquiries();
   buildFullInquiries();
   buildTopProducts();
-  buildReviews();
   buildPlans();
-  buildPaymentsTable();
   buildGallery();
   buildProductPhotos();
   buildWorkingHours();
@@ -3251,7 +3402,6 @@ setTimeout(()=>{
   mcInit();
   buildOffers();
   buildAnalytics();
-  buildNotifs();
   buildFAQ();
   // animate progress bars
   setTimeout(()=>{document.querySelectorAll('.prog-fill,.sc-fill,.pc-fill').forEach(b=>{const w=b.style.width;b.style.width='0';setTimeout(()=>{b.style.width=w;},100);});},200);
