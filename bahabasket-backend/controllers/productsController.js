@@ -8,7 +8,7 @@ exports.listProducts = async (req, res, next) => {
 
     let query = supabaseAdmin
       .from('products')
-      .select('*, shops(id, name, slug, city, logo, whatsapp)', { count: 'exact' })
+      .select('*, shops(id, name, slug, city, logo, whatsapp, rating, review_count)', { count: 'exact' })
       .eq('is_active', true)
       .order('created_at', { ascending: false })
       .range(offset, offset + limit - 1);
