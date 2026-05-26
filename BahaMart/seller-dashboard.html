@@ -451,6 +451,10 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
       </div>
 
       <div class="nav-group-label" style="margin-top:8px;">Customers</div>
+      <div class="nav-item" onclick="showSec('orders',this)">
+        <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></span> Orders
+        <span class="ni-badge blue" id="ordersNavBadge" style="display:none;">0</span>
+      </div>
       <div class="nav-item" onclick="showSec('inquiries',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span> WA Inquiries
         <span class="ni-badge red">7</span>
@@ -1208,6 +1212,46 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
       </div>
     </div>
 
+    <!-- ════ ORDERS ════ -->
+    <div class="page-sec" id="sec-orders">
+      <div class="sec-hdr">
+        <div>
+          <div class="sec-title" style="display:flex;align-items:center;gap:8px;">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+            Orders
+          </div>
+          <div class="sec-sub" id="ordersSecSub">Loading orders…</div>
+        </div>
+        <button class="btn btn-ghost btn-sm" onclick="loadOrders()">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <!-- Status filter tabs -->
+      <div style="display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;">
+        <button class="btn btn-primary btn-sm" id="orderTab-all"     onclick="filterOrders('all')">All</button>
+        <button class="btn btn-ghost btn-sm"  id="orderTab-pending"  onclick="filterOrders('pending')">Pending</button>
+        <button class="btn btn-ghost btn-sm"  id="orderTab-confirmed"onclick="filterOrders('confirmed')">Confirmed</button>
+        <button class="btn btn-ghost btn-sm"  id="orderTab-shipped"  onclick="filterOrders('shipped')">Shipped</button>
+        <button class="btn btn-ghost btn-sm"  id="orderTab-delivered"onclick="filterOrders('delivered')">Delivered</button>
+        <button class="btn btn-ghost btn-sm"  id="orderTab-cancelled"onclick="filterOrders('cancelled')">Cancelled</button>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div style="overflow-x:auto;">
+          <table class="prod-table" style="min-width:700px;">
+            <thead>
+              <tr><th>#</th><th>Product</th><th>Buyer</th><th>Qty</th><th>Amount</th><th>Via</th><th>Status</th><th>Date</th><th>Action</th></tr>
+            </thead>
+            <tbody id="ordersTableBody">
+              <tr><td colspan="9" style="text-align:center;padding:32px;color:var(--text-light);">Loading…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
     <!-- ════ INQUIRIES ════ -->
     <div class="page-sec" id="sec-inquiries">
       <div class="sec-hdr">
@@ -1541,7 +1585,7 @@ const PROD_CAT_SLUG = {
 // ── LOAD SHOP PRODUCTS ──
 async function loadShopProducts(shopId) {
   try {
-    const res = await fetch(`${API_BASE}/shops/${shopId}/products`, {
+    const res = await fetch(`${API_BASE}/shops/${shopId}/products?all=true`, {
       headers: { 'Authorization': 'Bearer ' + _bbToken }
     });
     const data = await res.json();
@@ -2011,6 +2055,11 @@ function showSec(id, navEl){
     var title = document.querySelector('#sec-add-product .sec-title');
     if(title && title.textContent.includes('Edit')) resetAddProductForm();
   }
+  // Auto-load orders on first visit to orders section
+  if(id === 'orders' && !_ordersLoaded) {
+    _ordersLoaded = true;
+    loadOrders();
+  }
 }
 function toggleSidebar(){
   const sb=document.getElementById('sidebar'),ov=document.getElementById('sidebarOverlay');
@@ -2089,8 +2138,12 @@ function buildProductsTable() {
       <td>${statusMap[prodStatus(p)]}</td>
       <td style="font-size:12px;color:var(--text-light);">${fmtProductDate(p.created_at)}</td>
       <td>
-        <div style="display:flex;gap:4px;">
+        <div style="display:flex;gap:4px;flex-wrap:wrap;">
           <button class="btn btn-ghost btn-sm btn-icon" title="Edit" onclick="editProduct('${p.id}')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+          <button class="btn btn-ghost btn-sm btn-icon" title="${p.is_active ? 'Move to Draft' : 'Publish'}" onclick="toggleProductStatus('${p.id}',${p.is_active})" style="color:${p.is_active ? 'var(--warning)' : 'var(--success)'};">${p.is_active
+            ? '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>'
+            : '<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
+          }</button>
           <button class="btn btn-ghost btn-sm btn-icon" title="View on Public Page" onclick="window.open('product-detail.html?id=${p.id}','_blank')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button>
           <button class="btn btn-danger btn-sm btn-icon" title="Delete" onclick="deleteProduct('${p.id}',this)"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
         </div>
@@ -2115,6 +2168,154 @@ async function deleteProduct(id, btn) {
     if (sn3) sn3.textContent = liveCount;
   } catch (e) { alert('Error deleting: ' + e.message); }
 }
+
+// ── TOGGLE PRODUCT STATUS (Active ↔ Draft) ──
+async function toggleProductStatus(id, currentActive) {
+  const newStatus = !currentActive;
+  const label = newStatus ? 'publish' : 'move to draft';
+  if (!confirm((newStatus ? 'Publish' : 'Move to draft') + ' this product?')) return;
+  try {
+    const res = await fetch(`${API_BASE}/products/${id}`, {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body: JSON.stringify({ is_active: newStatus })
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Update failed');
+
+    // Update local cache
+    const idx = _shopProducts.findIndex(function(p) { return p.id === id; });
+    if (idx > -1) _shopProducts[idx].is_active = newStatus;
+
+    buildProductsTable();
+    buildTopProducts();
+
+    // Update live count on overview
+    const liveCount = _shopProducts.filter(function(p) { return p.is_active && p.stock > 0; }).length;
+    const sn3 = document.getElementById('sn3');
+    if (sn3) sn3.textContent = liveCount;
+
+  } catch (e) { alert('Error: ' + e.message); }
+}
+
+// ── ORDERS ────────────────────────────────────────────────────────────────────
+var _allOrders = [];
+var _orderFilter = 'all';
+
+const orderStatusColors = {
+  pending:   { bg: '#fff7ed', color: '#c2410c', label: 'Pending' },
+  confirmed: { bg: '#eff6ff', color: '#1d4ed8', label: 'Confirmed' },
+  shipped:   { bg: '#f0fdf4', color: '#15803d', label: 'Shipped' },
+  delivered: { bg: '#dcfce7', color: '#166534', label: 'Delivered' },
+  cancelled: { bg: '#fef2f2', color: '#b91c1c', label: 'Cancelled' }
+};
+
+async function loadOrders() {
+  var tbody = document.getElementById('ordersTableBody');
+  if (!tbody) return;
+  tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:32px;"><div style="display:inline-block;width:28px;height:28px;border:3px solid #e5e7eb;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;"></div></td></tr>';
+
+  try {
+    var res  = await fetch(API_BASE + '/orders', {
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+    var data = await res.json();
+    _allOrders = data.orders || [];
+
+    // Update nav badge
+    var pending = _allOrders.filter(function(o) { return o.status === 'pending'; }).length;
+    var badge = document.getElementById('ordersNavBadge');
+    if (badge) {
+      badge.textContent = pending;
+      badge.style.display = pending > 0 ? 'inline-flex' : 'none';
+    }
+
+    // Update sub text
+    var sub = document.getElementById('ordersSecSub');
+    if (sub) sub.textContent = _allOrders.length + ' total order' + (_allOrders.length !== 1 ? 's' : '') + (pending ? ' · ' + pending + ' pending' : '');
+
+    filterOrders(_orderFilter);
+  } catch(e) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--danger);">Failed to load orders. <a href="#" onclick="loadOrders();return false;" style="color:var(--primary);">Retry</a></td></tr>';
+  }
+}
+
+function filterOrders(status) {
+  _orderFilter = status;
+
+  // Update tab buttons
+  ['all','pending','confirmed','shipped','delivered','cancelled'].forEach(function(s) {
+    var btn = document.getElementById('orderTab-' + s);
+    if (!btn) return;
+    btn.className = s === status ? 'btn btn-primary btn-sm' : 'btn btn-ghost btn-sm';
+  });
+
+  var filtered = status === 'all' ? _allOrders : _allOrders.filter(function(o) { return o.status === status; });
+  buildOrdersTable(filtered);
+}
+
+function buildOrdersTable(orders) {
+  var tbody = document.getElementById('ordersTableBody');
+  if (!tbody) return;
+
+  if (!orders.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:32px;color:var(--text-light);font-size:13.5px;">No orders found.</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = orders.map(function(o, i) {
+    var prod   = o.products || {};
+    var sc     = orderStatusColors[o.status] || orderStatusColors.pending;
+    var date   = o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'2-digit' }) : '';
+    var img    = (prod.images && prod.images[0]) ? '<img src="' + prod.images[0] + '" style="width:32px;height:32px;object-fit:cover;border-radius:6px;margin-right:8px;vertical-align:middle;" onerror="this.style.display=\'none\'">' : '';
+    var nextStatuses = { pending: ['confirmed','cancelled'], confirmed: ['shipped','cancelled'], shipped: ['delivered','cancelled'], delivered: [], cancelled: [] };
+    var nextOpts = (nextStatuses[o.status] || []).map(function(s) {
+      return '<option value="' + s + '">' + (orderStatusColors[s] || {}).label + '</option>';
+    }).join('');
+
+    return '<tr>' +
+      '<td style="font-size:12px;color:var(--text-light);">#' + (i + 1) + '</td>' +
+      '<td>' + img + '<span style="font-size:13px;font-weight:600;">' + (prod.name || '—') + '</span></td>' +
+      '<td style="font-size:13px;">' + (o.buyer_id ? o.buyer_id.slice(0, 8) + '…' : '—') + '</td>' +
+      '<td style="font-size:13px;">' + (o.qty || 1) + '</td>' +
+      '<td style="font-size:13px;font-weight:700;">₹' + (o.total_price ? Number(o.total_price).toLocaleString('en-IN') : '—') + '</td>' +
+      '<td><span style="font-size:11px;background:#f1f5f9;padding:2px 8px;border-radius:4px;">' + (o.via || 'whatsapp') + '</span></td>' +
+      '<td><span style="font-size:11px;font-weight:700;padding:3px 10px;border-radius:6px;background:' + sc.bg + ';color:' + sc.color + ';">' + sc.label + '</span></td>' +
+      '<td style="font-size:12px;color:var(--text-light);">' + date + '</td>' +
+      '<td>' + (nextOpts
+        ? '<select onchange="updateOrderStatus(\'' + o.id + '\',this)" style="font-size:12px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:var(--bg);cursor:pointer;"><option value="">Update…</option>' + nextOpts + '</select>'
+        : '<span style="font-size:12px;color:var(--text-light);">—</span>') +
+      '</td>' +
+    '</tr>';
+  }).join('');
+}
+
+async function updateOrderStatus(orderId, selectEl) {
+  var newStatus = selectEl.value;
+  if (!newStatus) return;
+  try {
+    selectEl.disabled = true;
+    var res  = await fetch(API_BASE + '/orders/' + orderId + '/status', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+      body: JSON.stringify({ status: newStatus })
+    });
+    var data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Update failed');
+
+    // Update local cache
+    var idx = _allOrders.findIndex(function(o) { return o.id === orderId; });
+    if (idx > -1) _allOrders[idx].status = newStatus;
+    filterOrders(_orderFilter);
+  } catch(e) {
+    alert('Error: ' + e.message);
+    selectEl.disabled = false;
+    selectEl.value = '';
+  }
+}
+
+// Load orders when the orders section is shown
+var _ordersLoaded = false;
 
 // ── OVERVIEW INQUIRIES ──
 const inquiriesData=[
