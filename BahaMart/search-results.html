@@ -401,16 +401,10 @@ img{max-width:100%;display:block;}
       </div>
     </div>
   </div>
-  <!-- Related searches -->
-  <div class="related-searches">
+  <!-- Related searches — JS se dynamically fill hota hai -->
+  <div class="related-searches" id="relatedSearchesRow" style="display:none;">
     <span class="rs-label">Related:</span>
-    <span class="rs-chip" onclick="setSearch('cotton kurta')">cotton kurta</span>
-    <span class="rs-chip" onclick="setSearch('kurta set')">kurta set</span>
-    <span class="rs-chip" onclick="setSearch('wedding kurta')">wedding kurta</span>
-    <span class="rs-chip" onclick="setSearch('pathani suit')">pathani suit</span>
-    <span class="rs-chip" onclick="setSearch('ethnic wear')">ethnic wear</span>
-    <span class="rs-chip" onclick="setSearch('sherwani')">sherwani</span>
-    <span class="rs-chip" onclick="setSearch('kurta pajama')">kurta pajama</span>
+    <span id="relatedSearchesChips"></span>
   </div>
 </div>
 
@@ -597,12 +591,12 @@ img{max-width:100%;display:block;}
     </div>
 
     <!-- All-tab shops divider (only visible in All Results mode) -->
-    <div id="shopsDivider" style="display:none;margin:28px 0 18px;display:none;">
+    <div id="shopsDivider" style="display:none;margin:28px 0 18px;">
       <div style="display:flex;align-items:center;gap:12px;">
         <div style="flex:1;height:1px;background:var(--border);"></div>
         <span style="font-size:13px;font-weight:700;color:var(--text-mid);white-space:nowrap;display:flex;align-items:center;gap:6px;">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M1 21h22"/><path d="M9 21V9h6v12"/></svg>
-          Matching Shops <span style="background:var(--primary);color:#fff;font-size:11px;padding:1px 7px;border-radius:20px;font-weight:700;">24</span>
+          Matching Shops <span id="shopsDividerCount" style="background:var(--primary);color:#fff;font-size:11px;padding:1px 7px;border-radius:20px;font-weight:700;">0</span>
         </span>
         <div style="flex:1;height:1px;background:var(--border);"></div>
       </div>
@@ -610,9 +604,7 @@ img{max-width:100%;display:block;}
 
     <!-- Shops section -->
     <div class="shops-section" id="shopsSection">
-      <div style="margin-bottom:14px;font-size:14px;font-weight:600;color:var(--text-mid);">
-        Found <strong style="color:var(--text-dark);">24 shops</strong> matching "kurta" in Indore
-      </div>
+      <div id="shopsCountLabel" style="margin-bottom:14px;font-size:14px;font-weight:600;color:var(--text-mid);"></div>
       <div class="shops-grid" id="shopsGrid"></div>
     </div>
 
@@ -657,8 +649,8 @@ img{max-width:100%;display:block;}
       </div>
     </div>
     <div style="display:flex;gap:10px;">
-      <button style="flex:1;padding:11px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="closeMobileFilter()">Reset</button>
-      <button style="flex:1;padding:11px;border-radius:9px;background:var(--primary);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;" onclick="closeMobileFilter()">Apply Filters</button>
+      <button style="flex:1;padding:11px;border-radius:9px;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);font-size:14px;font-weight:600;cursor:pointer;" onclick="clearAllFilters();closeMobileFilter()">Reset</button>
+      <button style="flex:1;padding:11px;border-radius:9px;background:var(--primary);color:#fff;border:none;font-size:14px;font-weight:700;cursor:pointer;" onclick="closeMobileFilter(true)">Apply Filters</button>
     </div>
   </div>
 </div>
@@ -670,10 +662,14 @@ img{max-width:100%;display:block;}
 <script>
 // ── API ──
 const API_BASE = 'https://bahabasket-production.up.railway.app/api';
+const _bbToken = localStorage.getItem('_bbToken');
 
 // Populated by loadSearchResults()
 var allProducts = [];
 var allShops    = [];
+
+// Active API-level filter state (sent to backend)
+var _activeApiFilters = {};
 
 // ── Map API product → UI format ──
 function apiProductToUI(p) {
@@ -758,11 +754,23 @@ async function loadSearchResults(q, page) {
   try {
     const params = new URLSearchParams({ limit: _srLimit, page: _srPage });
     if (q) params.set('search', q);
+    // Attach API-level filters
+    const f = _activeApiFilters;
+    if (f.category)  params.set('category',  f.category);
+    if (f.min_price) params.set('min_price',  f.min_price);
+    if (f.max_price) params.set('max_price',  f.max_price);
+    if (f.in_stock)  params.set('in_stock',   'true');
+    if (f.city)      params.set('city',        f.city);
+
+    const shopParams = new URLSearchParams({ limit: 8 });
+    if (q)           shopParams.set('search',   q);
+    if (f.category)  shopParams.set('category', f.category);
+    if (f.city)      shopParams.set('city',      f.city);
 
     const promises = [fetch(`${API_BASE}/products?${params}`)];
     // Only load shops on page 1
     if (_srPage === 1) {
-      promises.push(fetch(`${API_BASE}/shops?${new URLSearchParams({ limit: 8, ...(q ? { search: q } : {}) })}`));
+      promises.push(fetch(`${API_BASE}/shops?${shopParams}`));
     }
 
     const results  = await Promise.all(promises);
@@ -773,8 +781,13 @@ async function loadSearchResults(q, page) {
     allProducts = (prodData.success && prodData.products) ? prodData.products.map(apiProductToUI) : [];
     if (shopData) allShops = (shopData.success && shopData.shops) ? shopData.shops.map(apiShopToUI) : [];
 
-    buildProducts(allProducts);
-    if (_srPage === 1) buildShops();
+    // Apply remaining frontend-only filters (rating, discount, etc.) then build
+    const displayProducts = applyFrontendOnlyFilters(allProducts);
+    buildProducts(displayProducts);
+    if (_srPage === 1) {
+      buildShops();
+      buildRelatedSearches(q, allProducts);
+    }
 
     // Result count: "Showing 1–24 of 148 products"
     const start = (_srPage - 1) * _srLimit + 1;
@@ -786,7 +799,7 @@ async function loadSearchResults(q, page) {
         rc.innerHTML = `<strong style="color:var(--text-dark);">0</strong> products found`;
       }
     }
-    if (noRes) noRes.style.display = allProducts.length === 0 ? 'flex' : 'none';
+    if (noRes) noRes.style.display = displayProducts.length === 0 ? 'flex' : 'none';
 
     // Render pagination
     renderSearchPagination(_srTotal, _srPage);
@@ -812,10 +825,38 @@ const badgeMap = {
 // ── ICON HELPERS ──
 const HEART_OUT = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
 const HEART_FILL = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>`;
-function toggleWish(btn){
-  const on = btn.dataset.w === '1';
-  btn.dataset.w = on ? '' : '1';
-  btn.innerHTML = on ? HEART_OUT : HEART_FILL;
+async function toggleWish(btn) {
+  if (!_bbToken) {
+    // Redirect to login
+    window.location.href = 'login-register.html?redirect=' + encodeURIComponent(window.location.href);
+    return;
+  }
+  const productId = btn.dataset.id;
+  if (!productId) return;
+  const on = btn.dataset.w === '1';   // currently in wishlist?
+  // Optimistic UI update
+  btn.dataset.w  = on ? '' : '1';
+  btn.innerHTML  = on ? HEART_OUT : HEART_FILL;
+  if (_wishSet) { on ? _wishSet.delete(productId) : _wishSet.add(productId); }
+  try {
+    if (!on) {
+      await fetch(API_BASE + '/wishlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + _bbToken },
+        body: JSON.stringify({ product_id: productId })
+      });
+    } else {
+      await fetch(API_BASE + '/wishlist/' + productId, {
+        method: 'DELETE',
+        headers: { 'Authorization': 'Bearer ' + _bbToken }
+      });
+    }
+  } catch(e) {
+    // Revert on error
+    btn.dataset.w = on ? '1' : '';
+    btn.innerHTML = on ? HEART_FILL : HEART_OUT;
+    if (_wishSet) { on ? _wishSet.add(productId) : _wishSet.delete(productId); }
+  }
 }
 
 // ── BUILD PRODUCTS ──
@@ -829,11 +870,10 @@ function buildProducts(data){
   else if(sv === 'inquiries') sorted.sort((a,b) => b.inq - a.inq);
   else if(sv === 'newest') sorted.reverse();
   // ── Local bias: relevance sort mein local shop products pehle ──
-  if(sv === 'relevance' && typeof userLocationData !== 'undefined' && userLocationData && (userLocationData.shopAreas||[]).length){
-    const _localNames = getLocalShopNames(userLocationData.shopAreas);
+  if(sv === 'relevance' && userLocationData){
     sorted.sort(function(a,b){
-      const aL = _localNames.some(function(s){ return a.shop.toLowerCase().includes(s); });
-      const bL = _localNames.some(function(s){ return b.shop.toLowerCase().includes(s); });
+      const aL = isProductLocal(a);
+      const bL = isProductLocal(b);
       return (aL === bL) ? 0 : aL ? -1 : 1;
     });
   }
@@ -848,19 +888,23 @@ function buildProducts(data){
   const msgSVG   = `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`;
   const waSVG    = `<svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" stroke="none" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`;
   const eyeSVG   = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`;
+  if(!data.length){
+    grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px 20px;color:var(--text-light);font-size:14px;">No products match your filters. Try adjusting or clearing them.</div>';
+    return;
+  }
   grid.innerHTML = data.map((p,i) => {
     const b  = badgeMap[p.badge];
     const bg = ICON_BG[p.badge]  || ICON_BG[''];
     const st = ICON_STR[p.badge] || ICON_STR[''];
-    const _isLocal = typeof userLocationData !== 'undefined' && userLocationData && (userLocationData.shopAreas||[]).length &&
-      getLocalShopNames(userLocationData.shopAreas).some(function(s){ return p.shop.toLowerCase().includes(s); });
+    const _isLocal = isProductLocal(p);
+    const _inWish  = (_wishSet && _wishSet.has(p.id)) ? '1' : '';
     return `
     <div class="product-card" onclick="window.location='product-detail.html?id=${p.id}'">
       <div class="prod-img-wrap">
         <img src="${p.img}" alt="${p.name}" loading="lazy" onload="this.closest('.prod-img-wrap').style.animation='none'" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         ${shirt(bg,st)}
         ${b ? `<span class="prod-badge ${b.cls}">${b.text}</span>` : ''}
-        <button class="prod-wishlist" onclick="event.stopPropagation();toggleWish(this)" title="Save">${HEART_OUT}</button>
+        <button class="prod-wishlist" data-id="${p.id}" data-w="${_inWish}" onclick="event.stopPropagation();toggleWish(this)" title="Save">${_inWish ? HEART_FILL : HEART_OUT}</button>
         ${_isLocal ? `<span style="position:absolute;bottom:8px;left:8px;background:rgba(26,86,219,.88);color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:5px;backdrop-filter:blur(3px);letter-spacing:.2px;">📍 Near You</span>` : ''}
         <div class="prod-gallery-dots"><div class="dot active"></div><div class="dot"></div><div class="dot"></div></div>
       </div>
@@ -869,14 +913,12 @@ function buildProducts(data){
         <div class="prod-title">${p.name}</div>
         <div class="prod-price-row">
           <span class="prod-price">₹${p.price.toLocaleString('en-IN')}</span>
-          <span class="prod-mrp">₹${p.mrp.toLocaleString('en-IN')}</span>
-          <span class="prod-disc">${p.disc} Off</span>
+          ${p.discNum > 0 ? `<span class="prod-mrp">₹${p.mrp.toLocaleString('en-IN')}</span><span class="prod-disc">${p.disc} Off</span>` : ''}
         </div>
         <div class="prod-rating">
           <span class="stars-xs">★★★★★</span>
-          <span class="rating-val">${p.rating}</span>
-          <span class="rating-cnt-sm">(${p.reviews})</span>
-          <span class="prod-inq">· ${msgSVG}${p.inq}</span>
+          <span class="rating-val">${p.rating > 0 ? p.rating.toFixed(1) : '—'}</span>
+          ${p.reviews > 0 ? `<span class="rating-cnt-sm">(${p.reviews})</span>` : ''}
         </div>
         <button class="btn-wa" onclick="event.stopPropagation();openWAProduct('${p.name}','${p.shop}','${p.shopWA}')">${waSVG} WhatsApp</button>
       </div>
@@ -895,45 +937,125 @@ function buildShops(){
   const chkSVG    = `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:-1px;margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg>`;
   const storeLogo = `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M1 21h22"/><path d="M9 21V9h6v12"/></svg>`;
 
+  // ── Update live counts ──
+  const divCount = document.getElementById('shopsDividerCount');
+  const countLabel = document.getElementById('shopsCountLabel');
+  const q = _srQuery || '';
+  if (divCount) divCount.textContent = allShops.length;
+  if (countLabel) {
+    countLabel.innerHTML = allShops.length > 0
+      ? `Found <strong style="color:var(--text-dark);">${allShops.length} shop${allShops.length !== 1 ? 's' : ''}</strong>${q ? ` matching "<em>${q}</em>"` : ''}`
+      : '';
+  }
+
+  // Hide shops section entirely if no results
+  const shopsSection = document.getElementById('shopsSection');
+  const shopsDivider = document.getElementById('shopsDivider');
+  if (!allShops.length) {
+    if (shopsSection) shopsSection.style.display = 'none';
+    if (shopsDivider) shopsDivider.style.display = 'none';
+    return;
+  }
+  if (shopsSection) shopsSection.style.display = '';
+  if (shopsDivider && currentTab === 'all') shopsDivider.style.display = 'block';
+
   // ── Local bias: user ke area ki shops pehle ──
   const _shopsSorted = [...allShops];
-  if(userLocationData && (userLocationData.shopAreas||[]).length){
-    const _localShopNames = getLocalShopNames(userLocationData.shopAreas);
+  if(userLocationData){
     _shopsSorted.sort(function(a,b){
-      const aL = _localShopNames.some(function(n){ return a.name.toLowerCase().includes(n); });
-      const bL = _localShopNames.some(function(n){ return b.name.toLowerCase().includes(n); });
+      const aL = isShopLocal(a);
+      const bL = isShopLocal(b);
       return (aL === bL) ? 0 : aL ? -1 : 1;
     });
   }
 
   grid.innerHTML = _shopsSorted.map(function(s){
-    const _isLocalShop = userLocationData && (userLocationData.shopAreas||[]).length &&
-      getLocalShopNames(userLocationData.shopAreas).some(function(n){ return s.name.toLowerCase().includes(n); });
+    const _isLocalShop = isShopLocal(s);
+    const shopUrl = s.slug ? 'shop-profile.html?slug='+s.slug : 'shop-profile.html?id='+s.id;
+    const cityLine = [s.area].filter(Boolean).join(', ');
     return `
-    <div class="shop-card" onclick="window.location='shop-profile.html?${s.slug ? 'slug='+s.slug : 'id='+s.id}'" style="${_isLocalShop ? 'border-color:rgba(26,86,219,.3);box-shadow:0 0 0 2px rgba(26,86,219,.08),var(--shadow);' : ''}">
-      <div class="sc-logo" style="background:linear-gradient(135deg,${s.color},${s.color}aa);">${storeLogo}</div>
+    <div class="shop-card" onclick="window.location='${shopUrl}'" style="${_isLocalShop ? 'border-color:rgba(26,86,219,.3);box-shadow:0 0 0 2px rgba(26,86,219,.08),var(--shadow);' : ''}">
+      <div class="sc-logo" style="background:linear-gradient(135deg,${s.color},${s.color}aa);">${s.logo ? `<img src="${s.logo}" alt="${s.name}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">` : storeLogo}</div>
       <div class="sc-body">
         <div class="sc-name-row">
           <span class="sc-name">${s.name}</span>
           ${s.verified ? `<span class="sc-verified">${chkSVG}Verified</span>` : ''}
-          ${s.open ? `<span class="sc-open"><svg width="8" height="8" viewBox="0 0 24 24" fill="#16a34a" stroke="none" style="vertical-align:-1px;margin-right:3px;"><circle cx="12" cy="12" r="12"/></svg>Open</span>` : '<span style="background:var(--danger-bg);color:var(--danger);font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;">Closed</span>'}
+          ${s.open ? `<span class="sc-open"><svg width="8" height="8" viewBox="0 0 24 24" fill="#16a34a" stroke="none" style="vertical-align:-1px;margin-right:3px;"><circle cx="12" cy="12" r="12"/></svg>Open</span>` : ''}
           ${_isLocalShop ? `<span style="background:var(--primary-light);color:var(--primary);font-size:10px;font-weight:700;padding:2px 7px;border-radius:4px;">📍 Near You</span>` : ''}
         </div>
-        <div class="sc-meta">${mapPinSVG}${s.area}, Indore &middot; ${s.cat}</div>
+        ${cityLine ? `<div class="sc-meta">${mapPinSVG}${cityLine} &middot; ${s.cat}</div>` : `<div class="sc-meta">${s.cat}</div>`}
         <div class="sc-stats">
-          <span class="sc-stat">${starSVG}<strong>${s.rating}</strong> (${s.reviews})</span>
-          <span class="sc-stat">${pkgSVG}<strong>${s.products}</strong> products</span>
-          <span class="sc-stat">${msgSVG}<strong>${s.inq.toLocaleString('en-IN')}+</strong> inquiries</span>
+          ${s.rating > 0 ? `<span class="sc-stat">${starSVG}<strong>${s.rating.toFixed(1)}</strong>${s.reviews > 0 ? ` (${s.reviews})` : ''}</span>` : ''}
         </div>
-        <div style="font-size:12.5px;color:var(--text-light);margin-bottom:10px;line-height:1.5;">${s.desc}</div>
+        ${s.desc ? `<div style="font-size:12.5px;color:var(--text-light);margin-bottom:10px;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;">${s.desc}</div>` : ''}
         <div class="sc-actions">
-          <button class="btn-wa-shop" onclick="event.stopPropagation();openWAShop('${s.name}','${s.whatsapp}')">${waSVG} WhatsApp</button>
-          <button class="btn-view-shop" onclick="event.stopPropagation();window.location='shop-profile.html?${s.slug ? 'slug='+s.slug : 'id='+s.id}'">View Shop →</button>
+          ${s.whatsapp ? `<button class="btn-wa-shop" onclick="event.stopPropagation();openWAShop('${s.name}','${s.whatsapp}')">${waSVG} WhatsApp</button>` : ''}
+          <button class="btn-view-shop" onclick="event.stopPropagation();window.location='${shopUrl}'">View Shop →</button>
         </div>
       </div>
     </div>`;
   }).join('');
 }
+
+// ── RELATED SEARCHES (dynamic from actual results) ──
+function buildRelatedSearches(q, products) {
+  const row   = document.getElementById('relatedSearchesRow');
+  const chips = document.getElementById('relatedSearchesChips');
+  if (!row || !chips) return;
+
+  const suggestions = [];
+
+  // 1. Unique categories from results
+  const cats = [...new Set(products.map(function(p){ return p.category; }).filter(Boolean))];
+  cats.slice(0, 4).forEach(function(c){
+    const label = c.replace(/-/g,' ').replace(/\b\w/g, function(l){ return l.toUpperCase(); });
+    if (label.toLowerCase() !== (q||'').toLowerCase()) suggestions.push(label);
+  });
+
+  // 2. If query exists, combine with common modifiers
+  if (q && q.length > 1) {
+    const mods = ['set','cotton','silk','wedding','designer','men','women'];
+    mods.forEach(function(m){
+      if (!q.toLowerCase().includes(m)) suggestions.push(q + ' ' + m);
+    });
+  }
+
+  const final = [...new Set(suggestions)].slice(0, 7);
+  if (!final.length) { row.style.display = 'none'; return; }
+
+  row.style.display = 'flex';
+  chips.innerHTML = final.map(function(s){
+    return `<span class="rs-chip" onclick="setSearch('${s.replace(/'/g,'\\\'')}')">${s}</span>`;
+  }).join('');
+}
+
+// ── LOCAL HELPERS ──
+function isProductLocal(product) {
+  if (!userLocationData) return false;
+  const userCity = (userLocationData.city || '').toLowerCase();
+  const productCity = (product.area || '').toLowerCase();
+  if (!productCity || !userCity) return false;
+  return userCity.includes(productCity) || productCity.includes(userCity);
+}
+function isShopLocal(shop) {
+  if (!userLocationData) return false;
+  const userCity = (userLocationData.city || '').toLowerCase();
+  const shopCity = (shop.area || '').toLowerCase();
+  if (!shopCity || !userCity) return false;
+  return userCity.includes(shopCity) || shopCity.includes(userCity);
+}
+
+// ── WISHLIST state (pre-load saved IDs so hearts show filled) ──
+var _wishSet = null;
+(function loadWishlistIds() {
+  if (!_bbToken) return;
+  fetch(API_BASE + '/wishlist', { headers: { 'Authorization': 'Bearer ' + _bbToken } })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      const items = d.wishlist || d.data || [];
+      _wishSet = new Set(items.map(function(i){ return i.product_id || (i.products && i.products.id); }).filter(Boolean));
+    }).catch(function(){});
+})();
 
 // ── LOCATION STATE ──
 let userLocationData = null;
@@ -1035,126 +1157,155 @@ function syncFromInputs(){
   updateRangeFill();
 }
 
-// Apply Filters (called by button)
-function applyFilters(){
+// ── EXTRACT filters from UI into {apiFilters, frontendFilters} ──
+function extractFilters() {
   const allCat = document.getElementById('fc1').checked;
   const catMap = {fc2:'men-fashion',fc3:'women-fashion',fc4:'kids-wear',fc5:'electronics',fc6:'mobile-accessories',fc7:'footwear',fc8:'jewellery'};
   const selCats = [];
-  if(!allCat) Object.entries(catMap).forEach(([id,cat])=>{ if(document.getElementById(id).checked) selCats.push(cat); });
+  if (!allCat) Object.entries(catMap).forEach(([id,cat]) => { if (document.getElementById(id)?.checked) selCats.push(cat); });
 
   const priceRanges = [
-    {id:'pr0a',min:0,   max:98,        label:'Under ₹99'},
-    {id:'pr0b',min:0,   max:198,       label:'Under ₹199'},
-    {id:'pr0c',min:0,   max:498,       label:'Under ₹499'},
-    {id:'pr0d',min:0,   max:998,       label:'Under ₹999'},
-    {id:'pr3', min:1000,max:2499,      label:'₹1,000 – ₹2,500'},
-    {id:'pr4', min:2500,max:4999,      label:'₹2,500 – ₹5,000'},
-    {id:'pr5', min:5000,max:Infinity,  label:'Above ₹5,000'},
+    {id:'pr0a',min:0,   max:98,       label:'Under ₹99'},
+    {id:'pr0b',min:0,   max:198,      label:'Under ₹199'},
+    {id:'pr0c',min:0,   max:498,      label:'Under ₹499'},
+    {id:'pr0d',min:0,   max:998,      label:'Under ₹999'},
+    {id:'pr3', min:1000,max:2499,     label:'₹1,000 – ₹2,500'},
+    {id:'pr4', min:2500,max:4999,     label:'₹2,500 – ₹5,000'},
+    {id:'pr5', min:5000,max:Infinity, label:'Above ₹5,000'},
   ];
-  const selPrices = priceRanges.filter(r => document.getElementById(r.id).checked);
+  const selPrices = priceRanges.filter(r => document.getElementById(r.id)?.checked);
   const sliderMin = +document.getElementById('priceMin').value || 0;
   const sliderMax = +document.getElementById('priceMax').value || 10000;
   const sliderActive = sliderMin > 0 || sliderMax < 10000;
 
-  const minRating = document.getElementById('r4').checked ? 4.5
-    : document.getElementById('r3').checked ? 4.0
-    : document.getElementById('r2').checked ? 3.0 : 0;
+  // Compute effective min/max from checkboxes + slider
+  let effMin = 0, effMax = 0;
+  if (selPrices.length) {
+    effMin = Math.min(...selPrices.map(r => r.min));
+    effMax = Math.max(...selPrices.map(r => r.max === Infinity ? 999999 : r.max));
+  }
+  if (sliderActive) {
+    effMin = selPrices.length ? Math.min(effMin, sliderMin) : sliderMin;
+    effMax = selPrices.length ? Math.max(effMax, sliderMax) : sliderMax;
+  }
 
-  const needInStock   = document.getElementById('av1').checked;
-  const needOnSale    = document.getElementById('av2').checked;
-  const needNewArr    = document.getElementById('av3').checked;
-  const needFeatured  = document.getElementById('av4').checked;
-  const needVerified  = document.getElementById('av5').checked;
-  const needOpen      = document.getElementById('av6').checked;
-  const needDelivery  = document.getElementById('av7').checked;
+  const needInStock  = document.getElementById('av1')?.checked;
+  const needOnSale   = document.getElementById('av2')?.checked;
+  const needNewArr   = document.getElementById('av3')?.checked;
+  const needFeatured = document.getElementById('av4')?.checked;
+  const needVerified = document.getElementById('av5')?.checked;
+  const needOpen     = document.getElementById('av6')?.checked;
+  const needDelivery = document.getElementById('av7')?.checked;
   const selArea = (document.querySelector('.area-tags .area-tag.active')?.textContent?.trim() || 'All');
 
-  const discLevels = [
-    {id:'dc1',min:10},{id:'dc2',min:20},{id:'dc3',min:30},{id:'dc4',min:40},{id:'dc5',min:50},
-  ];
-  const selDiscs = discLevels.filter(d => document.getElementById(d.id).checked);
+  const discLevels = [{id:'dc1',min:10},{id:'dc2',min:20},{id:'dc3',min:30},{id:'dc4',min:40},{id:'dc5',min:50}];
+  const selDiscs = discLevels.filter(d => document.getElementById(d.id)?.checked);
   const minDisc  = selDiscs.length ? Math.min(...selDiscs.map(d => d.min)) : 0;
 
-  const filtered = allProducts.filter(p => {
-    if(!allCat && selCats.length && !selCats.includes(p.cat)) return false;
-    if(selPrices.length && sliderActive){
-      const inChk    = selPrices.some(r => p.price >= r.min && p.price <= r.max);
-      const inSlider = p.price >= sliderMin && p.price <= sliderMax;
-      if(!inChk && !inSlider) return false;
-    } else if(selPrices.length && !selPrices.some(r => p.price >= r.min && p.price <= r.max)) return false;
-    else if(sliderActive && (p.price < sliderMin || p.price > sliderMax)) return false;
-    if(p.rating < minRating)        return false;
-    if(needInStock  && !p.instock)                              return false;
-    if(needOnSale   && p.discNum <= 0)                          return false;
-    if(needNewArr   && p.badge !== 'new')                       return false;
-    if(needFeatured && p.badge !== 'bestseller' && p.badge !== 'hot') return false;
-    if(needVerified && !p.verified)                             return false;
-    if(needOpen     && !p.open)                                 return false;
-    if(needDelivery && !p.delivery)                             return false;
-    if(minDisc > 0  && p.discNum < minDisc) return false;
-    if(selArea !== 'All' && p.area !== selArea) return false;
-    return true;
-  });
+  const minRating = document.getElementById('r4')?.checked ? 4.5
+    : document.getElementById('r3')?.checked ? 4.0
+    : document.getElementById('r2')?.checked ? 3.0 : 0;
 
-  buildProducts(filtered);
+  // API-level params (supported by backend)
+  const apiFilters = {
+    category:  selCats.length === 1 ? selCats[0] : '',
+    min_price: (selPrices.length || sliderActive) && effMin > 0 ? effMin : '',
+    max_price: (selPrices.length || sliderActive) && effMax > 0 && effMax < 999999 ? effMax : '',
+    in_stock:  needInStock || false,
+  };
 
-  // Result count
-  const rc = document.getElementById('resultCount');
-  if(rc) rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${filtered.length}</strong> product${filtered.length!==1?'s':''}`;
-
-  // No results
-  const noRes = document.getElementById('noResults');
-  if(noRes) noRes.style.display = filtered.length === 0 ? 'flex' : 'none';
-
-  // Active filter tags (af-tag style like product-listings.html)
+  // Labels for active filter chips
+  const labels = {'men-fashion':'Men Fashion','women-fashion':'Women Fashion','kids-wear':'Kids Wear',
+    'electronics':'Electronics','mobile-accessories':'Mobile Accessories','footwear':'Footwear','jewellery':'Jewellery'};
   const chips = [];
-  if(!allCat && selCats.length){
-    const labels = {'men-fashion':'Men Fashion','women-fashion':'Women Fashion','kids-wear':'Kids Wear','electronics':'Electronics','mobile-accessories':'Mobile Accessories','footwear':'Footwear','jewellery':'Jewellery'};
-    selCats.forEach(c => chips.push(labels[c]||c));
-  }
+  if (!allCat && selCats.length) selCats.forEach(c => chips.push(labels[c]||c));
   selPrices.forEach(r => chips.push(r.label));
-  if(sliderActive) chips.push(`₹${sliderMin.toLocaleString('en-IN')} – ₹${sliderMax.toLocaleString('en-IN')}`);
-  if(minRating > 0) chips.push(`${minRating}★ & above`);
-  if(needInStock)  chips.push('In Stock');
-  if(needOnSale)   chips.push('On Sale');
-  if(needNewArr)   chips.push('New Arrivals');
-  if(needFeatured) chips.push('Featured');
-  if(needVerified) chips.push('Verified Shop');
-  if(needOpen)     chips.push('Open Now');
-  if(needDelivery) chips.push('Home Delivery');
-  if(minDisc > 0)  chips.push(`${minDisc}%+ Discount`);
-  if(selArea !== 'All') chips.push(selArea);
+  if (sliderActive) chips.push(`₹${sliderMin.toLocaleString('en-IN')} – ₹${sliderMax.toLocaleString('en-IN')}`);
+  if (minRating > 0)  chips.push(`${minRating}★ & above`);
+  if (needInStock)    chips.push('In Stock');
+  if (needOnSale)     chips.push('On Sale');
+  if (needNewArr)     chips.push('New Arrivals');
+  if (needFeatured)   chips.push('Featured');
+  if (needVerified)   chips.push('Verified Shop');
+  if (needOpen)       chips.push('Open Now');
+  if (needDelivery)   chips.push('Home Delivery');
+  if (minDisc > 0)    chips.push(`${minDisc}%+ Discount`);
+  if (selArea !== 'All') chips.push(selArea);
 
-  const af = document.getElementById('activeFilters');
-  af.innerHTML = chips.map(ch =>
-    `<span class="af-tag">${ch} <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>`
-  ).join('');
+  return { apiFilters, selCats, selPrices, sliderMin, sliderMax, sliderActive, effMin, effMax,
+           minRating, needOnSale, needNewArr, needFeatured, needVerified, needOpen, needDelivery,
+           minDisc, selArea, chips };
 }
 
-// Keep updateFilters as alias so any stale references work
-function updateFilters(){ applyFilters(); }
+// ── FRONTEND-ONLY filter pass (rating, discount, new, etc.) ──
+// Called after API loads, also for sort-only changes
+function applyFrontendOnlyFilters(products) {
+  const f = extractFilters();
+  return products.filter(function(p) {
+    if (f.selCats.length > 1 && !f.selCats.includes(p.cat)) return false; // multi-cat: frontend
+    if (p.rating < f.minRating)                      return false;
+    if (f.needOnSale   && p.discNum <= 0)             return false;
+    if (f.needNewArr   && p.badge !== 'new')          return false;
+    if (f.needFeatured && p.badge !== 'bestseller' && p.badge !== 'hot') return false;
+    if (f.needVerified && !p.verified)                return false;
+    if (f.needOpen     && !p.open)                    return false;
+    if (f.needDelivery && !p.delivery)                return false;
+    if (f.minDisc > 0  && p.discNum < f.minDisc)      return false;
+    if (f.selArea !== 'All' && p.area !== f.selArea)  return false;
+    return true;
+  });
+}
+
+// ── APPLY FILTERS (main entry — triggers API reload if backend params changed) ──
+async function applyFilters() {
+  const { apiFilters, chips } = extractFilters();
+
+  // Render active filter chips
+  const af = document.getElementById('activeFilters');
+  if (af) af.innerHTML = chips.map(function(ch){
+    return `<span class="af-tag">${ch} <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>`;
+  }).join('');
+
+  // Check if API-level params changed
+  const prevStr = JSON.stringify(_activeApiFilters);
+  const nextStr = JSON.stringify(apiFilters);
+
+  if (prevStr !== nextStr) {
+    // Backend filters changed → reload from API (page 1)
+    _activeApiFilters = apiFilters;
+    await loadSearchResults(_srQuery, 1);
+  } else {
+    // Only frontend filters or sort changed → re-filter in memory
+    const filtered = applyFrontendOnlyFilters(allProducts);
+    buildProducts(filtered);
+    const rc = document.getElementById('resultCount');
+    if (rc) rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${filtered.length}</strong> of <strong style="color:var(--text-dark);">${_srTotal}</strong> product${_srTotal !== 1 ? 's' : ''}`;
+    const noRes = document.getElementById('noResults');
+    if (noRes) noRes.style.display = filtered.length === 0 ? 'flex' : 'none';
+  }
+}
+
+// Keep updateFilters as alias
+function updateFilters() { applyFilters(); }
 
 function clearAllFilters(){
   document.querySelectorAll('.filter-body input[type="checkbox"]').forEach(cb => cb.checked = false);
-  ['pr0a','pr0b','pr0c','pr0d','pr3','pr4','pr5'].forEach(id => document.getElementById(id).checked = false);
-  document.getElementById('fc1').checked = true;
-  document.getElementById('av1').checked = true;
+  ['pr0a','pr0b','pr0c','pr0d','pr3','pr4','pr5'].forEach(id => { const el = document.getElementById(id); if(el) el.checked = false; });
+  const fc1 = document.getElementById('fc1'); if(fc1) fc1.checked = true;
   document.querySelectorAll('input[name="rat"]').forEach(r => r.checked = false);
-  document.getElementById('r0').checked = true;
+  const r0 = document.getElementById('r0'); if(r0) r0.checked = true;
   document.querySelectorAll('.area-tags .area-tag').forEach(t => t.classList.remove('active'));
-  document.querySelector('.area-tags .area-tag').classList.add('active');
-  document.getElementById('priceMin').value = 0;
-  document.getElementById('priceMax').value = 10000;
-  document.getElementById('sliderMin').value = 0;
-  document.getElementById('sliderMax').value = 10000;
+  const firstArea = document.querySelector('.area-tags .area-tag'); if(firstArea) firstArea.classList.add('active');
+  const pmn = document.getElementById('priceMin'); if(pmn) pmn.value = 0;
+  const pmx = document.getElementById('priceMax'); if(pmx) pmx.value = 10000;
+  const smn = document.getElementById('sliderMin'); if(smn) smn.value = 0;
+  const smx = document.getElementById('sliderMax'); if(smx) smx.value = 10000;
   updateRangeFill();
-  buildProducts(allProducts);
-  const rc = document.getElementById('resultCount');
-  if(rc) rc.innerHTML = `Showing <strong style="color:var(--text-dark);">${allProducts.length}</strong> products`;
-  const noRes = document.getElementById('noResults');
-  if(noRes) noRes.style.display = 'none';
   const af = document.getElementById('activeFilters');
-  af.innerHTML = `<span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>In Stock <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span><span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>All Areas <span class="rm" onclick="this.closest('.af-tag').remove()">×</span></span>`;
+  if(af) af.innerHTML = '';
+  // Reset API filters and reload
+  _activeApiFilters = {};
+  loadSearchResults(_srQuery, 1);
 }
 
 // Mobile filter sidebar toggle (product-listings.html style)
@@ -1174,10 +1325,11 @@ function toggleMobileFilter(){
   sb.classList.toggle('mobile-open');
   document.body.style.overflow = sb.classList.contains('mobile-open') ? 'hidden' : '';
 }
-function closeMobileFilter(){
+function closeMobileFilter(apply){
   document.getElementById('filterSidebar').classList.remove('mobile-open');
   document.getElementById('filterDrawer').classList.remove('open');
   document.body.style.overflow = '';
+  if(apply) applyFilters();
 }
 
 // ── SEARCH ──
@@ -1526,23 +1678,7 @@ function showLocState(state, areaName){
   }
 }
 
-function getLocalShopNames(shopAreas){
-  const areaShopMap = {
-    'gandhi': ['sharma cloth house','gandhi nagar cloths'],
-    'mg':     ['royal ethnic wear'],
-    'vijay':  ['fashion hub indore','vijay nagar fashions'],
-    'palasia':['style street','vijay nagar fashions'],
-    'sarafa': ['meera saree center'],
-    'south':  ['meera saree center'],
-  };
-  const names = [];
-  (shopAreas||[]).forEach(function(area){
-    (areaShopMap[area]||[]).forEach(function(n){
-      if(names.indexOf(n) === -1) names.push(n);
-    });
-  });
-  return names;
-}
+// getLocalShopNames() removed — replaced by isProductLocal() / isShopLocal()
 
 function applyLocationData(pincode, info, source){
   if(!info) return;
@@ -1575,8 +1711,8 @@ function applyLocationData(pincode, info, source){
       `>📡 Change</button>`;
   }
 
-  // Re-render products + shops with local bias applied
-  applyFilters();
+  // Re-render: reload from API with city bias, then re-sort products with local priority
+  buildProducts(applyFrontendOnlyFilters(allProducts));
   buildShops();
 }
 
@@ -1586,8 +1722,9 @@ function resetLocation(){
   const banner = document.getElementById('localBanner');
   if(banner) banner.style.display = 'none';
   const navLoc = document.getElementById('navLocName');
-  if(navLoc) navLoc.textContent = 'Indore';
-  applyFilters();
+  if(navLoc) navLoc.textContent = 'All Cities';
+  // Re-render with no local bias
+  buildProducts(applyFrontendOnlyFilters(allProducts));
   buildShops();
 }
 </script>
