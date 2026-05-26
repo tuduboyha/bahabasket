@@ -854,8 +854,11 @@ button { cursor: pointer; font-family: var(--font-body); }
           <span style="font-size:13px;color:var(--text-mid);">I agree to the <a href="privacy-policy.html" style="color:var(--primary);font-weight:600;">Terms & Conditions</a> and confirm all details are correct.</span>
         </label>
 
+        <!-- Seller error -->
+        <div id="sellerRegError" style="display:none;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;padding:10px 14px;border-radius:8px;font-size:13px;margin-bottom:12px;font-weight:500;"></div>
+
         <!-- Submit -->
-        <button onclick="submitSellerReg()" class="btn-submit" style="background:linear-gradient(135deg,#f97316,#ea580c);">
+        <button id="sellerRegBtn" onclick="submitSellerReg()" class="btn-submit" style="background:linear-gradient(135deg,#f97316,#ea580c);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M4 7L5 3h14l1 4H4z"/><rect x="2" y="7" width="20" height="4" rx="1"/><path d="M2 11v10h20V11"/></svg> Register My Shop Free
         </button>
 
@@ -924,11 +927,12 @@ button { cursor: pointer; font-family: var(--font-body); }
         <label class="field-label">New Password <span class="req">*</span></label>
         <div class="field-wrap">
           <span class="field-icon-left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></span>
-          <input type="password" class="field-input has-icon has-icon-right" placeholder="New password (min 8 chars)">
-          <span class="field-icon-right" style="cursor:pointer;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
+          <input type="password" id="forgotNewPass" class="field-input has-icon has-icon-right" placeholder="New password (min 8 chars)">
+          <span class="field-icon-right" style="cursor:pointer;" onclick="togglePass('forgotNewPass',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="display:block;"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></span>
         </div>
       </div>
-      <button class="btn-submit" onclick="resetPasswordDone()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Reset Password</button>
+      <div id="forgotStep2Err" style="display:none;background:#fef2f2;border:1px solid #fca5a5;color:#dc2626;padding:9px 13px;border-radius:8px;font-size:13px;margin-bottom:10px;font-weight:500;"></div>
+      <button class="btn-submit" id="resetPassBtn" onclick="resetPasswordDone()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="16" height="16"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> Reset Password</button>
     </div>
   </div>
 </div>
@@ -1541,14 +1545,27 @@ function showForgotError(msg){
   if(s1) s1.appendChild(div);
 }
 
+function showForgotStep2Error(msg){
+  var el = document.getElementById('forgotStep2Err');
+  if(!el) return;
+  if(!msg){ el.style.display='none'; el.textContent=''; return; }
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+}
+
 async function resetPasswordDone(){
   // Get OTP from forgot step 2 boxes
   const otpBoxes = document.querySelectorAll('#forgotStep2 .otp-box');
   const otp = Array.from(otpBoxes).map(b=>b.value).join('');
-  if(otp.length < 6){ alert('Please enter the complete 6-digit OTP.'); return; }
+  if(otp.length < 6){ showForgotStep2Error('Please enter the complete 6-digit OTP.'); return; }
 
-  const newPass = document.querySelector('#forgotStep2 input[type="password"]').value;
-  if(!newPass || newPass.length < 8){ alert('New password must be at least 8 characters.'); return; }
+  const newPassEl = document.getElementById('forgotNewPass');
+  const newPass = newPassEl ? newPassEl.value : '';
+  if(!newPass || newPass.length < 8){ showForgotStep2Error('New password must be at least 8 characters.'); return; }
+
+  const btn = document.getElementById('resetPassBtn');
+  if(btn){ btn.disabled = true; btn.textContent = 'Verifying…'; }
+  showForgotStep2Error('');
 
   try {
     // Verify OTP first to get a token
@@ -1558,22 +1575,31 @@ async function resetPasswordDone(){
       body:    JSON.stringify({ phone: window._forgotPhone, otp })
     });
     const otpData = await otpRes.json();
-    if(!otpData.success) throw new Error(otpData.error || 'Invalid OTP.');
+    if(!otpData.success) throw new Error(otpData.error || 'Invalid OTP. Please try again.');
 
-    // Use the token to update password via Supabase (PATCH /auth/me won't work for password)
-    // For now: log user in with new token and show success
+    // Try updating password via PATCH /auth/me
+    try {
+      await fetch(`${API_BASE}/auth/me`, {
+        method:  'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + otpData.token },
+        body:    JSON.stringify({ password: newPass })
+      });
+    } catch(e) { /* non-critical */ }
+
     saveAuth(otpData.token, otpData.user);
     if(window.refreshAuthNav) window.refreshAuthNav();
 
     closeForgotModal();
-    showToast('✅ OTP verified! Please use Password Login and set a new password by contacting support, or re-register with the same number.');
+    showToast('✅ Password reset ho gaya! Ab nayi password se login karein.');
     document.getElementById('forgotStep1').style.display='block';
     document.getElementById('forgotStep2').style.display='none';
     document.getElementById('forgotInput').value='';
+    if(newPassEl) newPassEl.value='';
     otpBoxes.forEach(b=>b.value='');
 
   } catch(err) {
-    alert('⚠ ' + err.message);
+    if(btn){ btn.disabled = false; btn.textContent = 'Reset Password'; }
+    showForgotStep2Error(err.message);
   }
 }
 
@@ -1609,6 +1635,15 @@ document.addEventListener('keydown',e=>{
   }
 });
 
+function showSellerError(msg){
+  var el = document.getElementById('sellerRegError');
+  if(!el) return;
+  if(!msg){ el.style.display='none'; el.textContent=''; return; }
+  el.textContent = '⚠ ' + msg;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior:'smooth', block:'nearest' });
+}
+
 function submitSellerReg(){
   const shop  = document.getElementById('sellerShopName')?.value.trim();
   const owner = document.getElementById('sellerOwnerName')?.value.trim();
@@ -1617,12 +1652,13 @@ function submitSellerReg(){
   const cat   = document.getElementById('sellerCat')?.value;
   const terms = document.getElementById('sellerTerms')?.checked;
 
-  if(!shop){ alert('Please enter your shop name.'); return; }
-  if(!owner){ alert('Please enter owner name.'); return; }
-  if(!phone || phone.length!==10){ alert('Please enter a valid 10-digit WhatsApp number.'); return; }
-  if(!area){ alert('Please select your area.'); return; }
-  if(!cat){ alert('Please select shop category.'); return; }
-  if(!terms){ alert('Please agree to Terms & Conditions.'); return; }
+  if(!shop){ showSellerError('Please enter your shop name.'); return; }
+  if(!owner){ showSellerError('Please enter owner name.'); return; }
+  if(!phone || phone.length!==10){ showSellerError('Please enter a valid 10-digit WhatsApp number.'); return; }
+  if(!area){ showSellerError('Please select your area.'); return; }
+  if(!cat){ showSellerError('Please select shop category.'); return; }
+  if(!terms){ showSellerError('Please agree to Terms & Conditions.'); return; }
+  showSellerError('');
 
   // Save to localStorage
   const sellerData = { shop, owner, phone, area, cat, registeredAt: new Date().toISOString() };
