@@ -201,8 +201,6 @@ img { max-width: 100%; display: block; }
 .stars-xs { color: #fbbf24; font-size: 11px; }
 .pc-btn { width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; background: var(--whatsapp); color: #fff; border: none; padding: 9px; border-radius: 7px; font-size: 12.5px; font-weight: 700; transition: background .2s; }
 .pc-btn:hover { background: var(--whatsapp-dark); }
-.pc-btn-view { background: var(--primary-light); color: var(--primary); border: 1.5px solid var(--primary); }
-.pc-btn-view:hover { background: var(--primary); color: #fff; }
 
 /* Load more */
 .load-more-wrap { text-align: center; margin-top: 24px; }
@@ -1216,9 +1214,6 @@ function cardHTML(p, i) {
         <span style="font-size:12px;font-weight:600;color:var(--text-dark);">${shopRating}</span>
         <span style="font-size:11px;color:var(--text-light);">(${shopReviews})</span>
       </div>
-      <button class="pc-btn pc-btn-view" onclick="event.stopPropagation();window.location='product-detail.html?id=${p.id}'">
-        View Details →
-      </button>
     </div>
   </div>`;
 }
