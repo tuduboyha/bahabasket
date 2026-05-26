@@ -1373,7 +1373,10 @@ function buildRelatedCard(p, currentId) {
     '</div>' +
     '<div class="rc-body">' +
       '<div class="rc-name">' + (p.name||'Product') + '</div>' +
-      '<div style="display:flex;align-items:center;gap:6px;margin-bottom:8px;">' +
+      (shop.rating > 0
+        ? '<div class="rc-rating"><span class="rc-stars">★★★★★</span><span class="rc-rating-num">' + parseFloat(shop.rating).toFixed(1) + '</span>' + (shop.review_count > 0 ? '<span class="rc-reviews">(' + shop.review_count + ')</span>' : '') + '</div>'
+        : '') +
+      '<div style="display:flex;align-items:center;gap:6px;">' +
         '<span class="rc-price">&#8377;' + price.toLocaleString('en-IN') + '</span>' +
         (mrp > price ? '<span class="rc-mrp">&#8377;' + mrp.toLocaleString('en-IN') + '</span>' : '') +
       '</div>' +
