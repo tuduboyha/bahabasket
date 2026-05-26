@@ -123,13 +123,17 @@ exports.deleteShop = async (req, res, next) => {
 exports.getShopProducts = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { data, error } = await supabaseAdmin
+    const { all } = req.query; // all=true → include drafts (for seller dashboard)
+
+    let query = supabaseAdmin
       .from('products')
       .select('*')
       .eq('shop_id', id)
-      .eq('is_active', true)
       .order('created_at', { ascending: false });
 
+    if (all !== 'true') query = query.eq('is_active', true); // public: active only
+
+    const { data, error } = await query;
     if (error) throw error;
     res.json({ success: true, products: data || [] });
   } catch (err) { next(err); }
