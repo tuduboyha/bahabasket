@@ -1756,7 +1756,7 @@ function buildWLCard(item) {
       <div class="wl-body">
         ${oosHtml}
         <div class="wl-shop">${item.shop}</div>
-        <div class="wl-name">${item.title}</div>
+        <div class="wl-name"><a href="product-detail.html?id=${item.id}" style="color:inherit;">${item.title}</a></div>
         <div class="wl-rating">
           <span class="stars">${stars}</span>
           <span class="rating-val">${item.rating}</span>
