@@ -2537,7 +2537,7 @@ function handleNotifAction(action, id) {
   const actions = {
     'wa':       () => window.open('https://wa.me/919876543210','_blank'),
     'product':  () => window.location='product-detail.html',
-    'wishlist': () => window.location='wishlist.html',
+    'wishlist': () => showSection('wishlist', null),
     'offer':    () => window.location='offers.html',
     'offers':   () => window.location='offers.html',
     'shop':     () => window.location='shop-profile.html',
