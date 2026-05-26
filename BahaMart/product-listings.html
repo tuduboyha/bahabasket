@@ -963,6 +963,10 @@ async function loadProducts(page, append) {
              new URLSearchParams(window.location.search).get('search');
   if (urlQ) params.set('search', urlQ);
 
+  // "In Stock" checkbox filter (checked by default)
+  var inStockCb = document.getElementById('av1');
+  if (inStockCb && inStockCb.checked) params.set('in_stock', 'true');
+
   try {
     var res  = await fetch(API_BASE + '/products?' + params.toString());
     var data = await res.json();
@@ -1384,6 +1388,13 @@ document.addEventListener('DOMContentLoaded', function() {
   updateRangeFill();
 
   // Handle ?cat= URL param
+  var catLabelMap = {
+    'men-fashion':'Men Fashion', 'women-fashion':'Women Fashion', 'kids-wear':'Kids Wear',
+    'electronics':'Electronics', 'mobile-accessories':'Mobile Accessories', 'footwear':'Footwear',
+    'jewellery':'Jewellery', 'home-decor':'Home Decor', 'ethnic-wear':'Ethnic Wear',
+    'bags-wallets':'Bags & Wallets', 'watches':'Watches', 'beauty-care':'Beauty & Care',
+    'sports-fitness':'Sports & Fitness'
+  };
   var urlCat = new URLSearchParams(window.location.search).get('cat');
   if (urlCat) {
     var tab = document.querySelector('.cat-tab[data-cat="' + urlCat + '"]');
@@ -1392,6 +1403,11 @@ document.addEventListener('DOMContentLoaded', function() {
       tab.classList.add('active');
       tab.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
     }
+    // Update page title and heading
+    var catLabel = catLabelMap[urlCat] || (urlCat.charAt(0).toUpperCase() + urlCat.slice(1).replace(/-/g,' '));
+    document.title = catLabel + ' – BahaBasket';
+    var h1 = document.querySelector('.toolbar-heading, .listings-heading, h1');
+    if (h1 && h1.textContent.toLowerCase().includes('product')) h1.textContent = catLabel;
   }
 
   // Handle ?search= or ?q= URL param (show in toolbar)
@@ -1402,10 +1418,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (af) af.innerHTML = '<span class="af-tag"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:3px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>Search: &ldquo;' + urlSearch + '&rdquo; <span class="rm" onclick="this.closest(\'.af-tag\').remove()">&times;</span></span>';
   }
 
-  // Load real products
   loadProducts(1, false);
 });
-</script>
 </script>
 </body>
 </html>
