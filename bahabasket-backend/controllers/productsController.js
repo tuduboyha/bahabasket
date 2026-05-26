@@ -3,7 +3,7 @@ const { supabase, supabaseAdmin } = require('../supabase/client');
 
 exports.listProducts = async (req, res, next) => {
   try {
-    const { category, city, search, min_price, max_price, page = 1, limit = 24 } = req.query;
+    const { category, city, search, min_price, max_price, in_stock, page = 1, limit = 24 } = req.query;
     const offset = (page - 1) * limit;
 
     let query = supabaseAdmin
@@ -17,6 +17,7 @@ exports.listProducts = async (req, res, next) => {
     if (search)    query = query.ilike('name', `%${search}%`);
     if (min_price) query = query.gte('price', min_price);
     if (max_price) query = query.lte('price', max_price);
+    if (in_stock === 'true') query = query.gt('stock', 0);
     if (city)      query = query.eq('shops.city', city);
 
     const { data, error, count } = await query;
