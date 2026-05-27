@@ -1420,7 +1420,7 @@ tr:hover td{background:var(--bg);}
             <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--warning-bg);border-radius:9px;">
               <span style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
               <div style="flex:1;"><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">2FA Not Enabled</div><div style="font-size:12px;color:var(--text-light);">Enable for extra security</div></div>
-              <button class="btn btn-ghost btn-sm" onclick="showToast('🔒 2FA setup is coming soon!','#6366f1')">Enable</button>
+              <button class="btn btn-ghost btn-sm" onclick="showToast(_ICO.lock+' 2FA setup is coming soon!','#6366f1')">Enable</button>
             </div>
           </div>
 
@@ -1479,6 +1479,18 @@ tr:hover td{background:var(--bg);}
 //  USER DASHBOARD — Real Auth & Data
 // ════════════════════════════════════════════════════════
 const API_BASE = 'https://bahabasket-production.up.railway.app/api';
+
+// ── SVG icon helpers for toast / inline use ──
+const _ICO = {
+  ok:    `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><circle cx="8" cy="8" r="7"/><polyline points="5 8 7 10.5 11.5 5.5"/></svg>`,
+  err:   `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.5" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><circle cx="8" cy="8" r="7"/><line x1="5.5" y1="5.5" x2="10.5" y2="10.5"/><line x1="10.5" y1="5.5" x2="5.5" y2="10.5"/></svg>`,
+  clock: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><circle cx="8" cy="8" r="7"/><polyline points="8 4.5 8 8 10.5 8"/></svg>`,
+  lock:  `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><rect x="3" y="7" width="10" height="8" rx="1.5"/><path d="M5 7V5a3 3 0 0 1 6 0v2"/></svg>`,
+  mail:  `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><rect x="1" y="3" width="14" height="10" rx="1.5"/><polyline points="1 3 8 9 15 3"/></svg>`,
+  bin:   `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><polyline points="2 4 4 4 14 4"/><path d="M5.5 4V2.5h5V4M5.5 4v9.5h5V4"/></svg>`,
+  bell:  `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><path d="M8 2a4.5 4.5 0 0 1 4.5 4.5c0 4 1.5 5 1.5 5H2s1.5-1 1.5-5A4.5 4.5 0 0 1 8 2z"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0"/></svg>`,
+  nbell: `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;flex-shrink:0"><path d="M4 8.5C4 5.46 5.79 3 8 3"/><path d="M12.5 8.5c0 4 1.5 5 1.5 5H2s1.5-1 1.5-5"/><path d="M6.5 13.5a1.5 1.5 0 0 0 3 0"/><line x1="1" y1="1" x2="15" y2="15"/></svg>`,
+};
 
 // ── 1. Auth guard: redirect to login if not logged in ──
 const _bbToken = localStorage.getItem('bb_token');
@@ -1728,7 +1740,7 @@ function clearAllWL() {
 }
 function shareWL() {
   if(navigator.share) navigator.share({title:'My Wishlist – BahaBasket', url: window.location.href});
-  else { navigator.clipboard?.writeText(window.location.href); showToast('✅ Wishlist link copied!'); }
+  else { navigator.clipboard?.writeText(window.location.href); showToast(_ICO.ok+' Wishlist link copied!'); }
 }
 function chatWLItem(num, product) {
   const msg = encodeURIComponent('Hello! I saw "' + product + '" on BahaBasket. Is it available?');
@@ -1903,35 +1915,35 @@ function buildSavedShops(){
 // ── MY REVIEWS ──
 const REV_DATA = [
   // ── Shop Reviews ──
-  {id:1, type:'shop', shop:'Sharma Cloth House', shopEmoji:'👔', cat:"Men's Fashion",
+  {id:1, type:'shop', shop:'Sharma Cloth House', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>`, cat:"Men's Fashion",
    shopSlug:'sharma-cloth-house', rating:5,
    title:'Excellent service and quality!',
    text:'Sharma ji and the entire team are super helpful. Great fabric quality, wide variety of ethnic wear, and delivery was quick. Highly recommend for anyone looking for kurtas!',
    date:'12 May 2026', status:'published', helpful:8,
    reply:"Thank you so much! We are glad you liked our collection. Visit again for the Eid collection!"},
-  {id:2, type:'shop', shop:'Meera Saree Center', shopEmoji:'👗', cat:"Women's Fashion",
+  {id:2, type:'shop', shop:'Meera Saree Center', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5" width="26" height="26"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`, cat:"Women's Fashion",
    shopSlug:'meera-saree-center', rating:5,
    title:'Best saree shop in Indore!',
    text:"Meera ji guided me patiently through hundreds of sarees. Huge collection, knowledgeable staff, and very reasonable prices. The shop atmosphere is also very pleasant.",
    date:'8 May 2026', status:'published', helpful:12, reply:null},
-  {id:3, type:'shop', shop:'Digital Zone', shopEmoji:'📱', cat:'Electronics',
+  {id:3, type:'shop', shop:'Digital Zone', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.5" width="26" height="26"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>`, cat:'Electronics',
    shopSlug:'digital-zone', rating:4,
    title:'Good electronics shop, fair prices',
    text:'Staff is helpful and they mostly match online prices. Shop gets a bit crowded on weekends but overall a solid experience. Good after-sales support too.',
    date:'2 May 2026', status:'published', helpful:5,
    reply:"Thank you for your feedback! We keep expanding our stock. Do visit our MG Road store!"},
   // ── Product Reviews ──
-  {id:4, type:'product', shop:'Digital Zone', shopEmoji:'📱', cat:'Electronics',
+  {id:4, type:'product', shop:'Digital Zone', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.5" width="26" height="26"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>`, cat:'Electronics',
    shopSlug:'digital-zone', productSlug:'boat-rockerz-450-headphones', rating:4,
    title:'Great sound quality for the price',
    text:'Bought this for daily commute — bass is punchy and the battery lasts really long (around 20 hours). Build quality is decent too. Excellent value at this price point!',
    product:'boAt Rockerz 450 Headphones', date:'28 Apr 2026', status:'published', helpful:7, reply:null},
-  {id:5, type:'product', shop:'Rani Jewels', shopEmoji:'💍', cat:'Jewellery',
+  {id:5, type:'product', shop:'Rani Jewels', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" width="26" height="26"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0z"/></svg>`, cat:'Jewellery',
    shopSlug:'rani-jewels', productSlug:'diamond-cut-silver-bangles-set-of-4', rating:4,
    title:'Beautiful bangles, great craftsmanship',
    text:'Got these for my mother — the finish is smooth, the diamond cut pattern looks stunning, and the silver is of good quality. The packaging was also very nice. Highly satisfied!',
    product:'Diamond Cut Silver Bangles – Set of 4', date:'22 Apr 2026', status:'published', helpful:3, reply:null},
-  {id:6, type:'product', shop:'Little Star Kids', shopEmoji:'🧒', cat:'Kids Wear',
+  {id:6, type:'product', shop:'Little Star Kids', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="26" height="26"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>`, cat:'Kids Wear',
    shopSlug:'little-star-kids', productSlug:'summer-frock-floral-print', rating:3,
    title:'Good quality but delivery was slow',
    text:'The frock fabric is good and my daughter absolutely loves the floral print. However it took 3 days to arrange and WhatsApp responses were a bit slow. Quality-wise satisfied.',
@@ -1954,7 +1966,7 @@ function revStarsHtml(rating) {
 
 function buildRevCard(r) {
   const statusCls = {published:'status-published', pending:'status-pending', rejected:'status-rejected'};
-  const statusLbl = {published:'✓ Published', pending:'⏳ Pending', rejected:'✗ Rejected'};
+  const statusLbl = {published:'✓ Published', pending:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="11" height="11" style="vertical-align:-1px;margin-right:3px"><circle cx="8" cy="8" r="7"/><polyline points="8 4.5 8 8 10.5 8"/></svg>Pending', rejected:'✗ Rejected'};
 
   // Type badge
   const typeBadge = r.type === 'product'
@@ -1966,13 +1978,12 @@ function buildRevCard(r) {
 
   // Card header: product reviews show product name prominently; shop reviews show shop name prominently
   const cardHeader = r.type === 'product'
-    ? `<div class="rev-shop-img" style="background:#fff7ed;border-color:#fed7aa;font-size:22px;">📦</div>
+    ? `<div class="rev-shop-img" style="background:#fff7ed;border-color:#fed7aa;"><svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="26" height="26"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></div>
         <div class="rev-shop-info">
           <div class="rev-product-name-main">
             <a href="product-detail.html?id=${r.productSlug || ''}" class="rev-link" target="_blank">${r.product || 'Product Review'}${extIcon}</a>
           </div>
           <div class="rev-product-from">
-            ${r.shopEmoji}&nbsp;
             <a href="shop-profile.html?id=${r.shopSlug || ''}" class="rev-link" target="_blank"><strong>${r.shop}</strong></a>
             &nbsp;·&nbsp;${r.cat}
           </div>
@@ -2197,7 +2208,7 @@ function submitRevReview() {
   const newRev = {
     id: Date.now(),
     type: revModalType,
-    shop, shopEmoji:'🏪', cat:'General',
+    shop, shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`, cat:'General',
     rating: revEditingRating, title, text,
     product: revModalType === 'product' ? (product || '') : '',
     date: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
@@ -2206,13 +2217,13 @@ function submitRevReview() {
   revItems.unshift(newRev);
   closeWriteModal();
   renderRevs();
-  revShowToast('✅ Review submitted! It will be published after moderation.');
+  revShowToast(_ICO.ok+' Review submitted! It will be published after moderation.');
 }
 
 function revShowToast(msg) {
   const t = document.createElement('div');
-  t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2);';
-  t.textContent = msg;
+  t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2);display:flex;align-items:center;';
+  t.innerHTML = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 3000);
 }
@@ -2277,10 +2288,10 @@ const NOTIF_DATA = [
   {id:3, type:'order', icon:'package', iconBg:'#fff7ed', iconColor:'#f97316',
    title:'<strong>Shop Visit Reminder</strong> You had planned to visit Gandhi Nagar Cloths today.',
    sub:'Pathani Kurta Suit – Eid Special', time:'3 hr ago', unread:false, pinned:false,
-   btns:[{label:'📍 Get Directions', cls:'notif-btn-primary', action:'map'},{label:'Dismiss', cls:'notif-btn-secondary', action:'dismiss'}]},
+   btns:[{label:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:4px"><path d="M8 1.5A4.5 4.5 0 0 0 3.5 6c0 3.75 4.5 8.5 4.5 8.5S12.5 9.75 12.5 6A4.5 4.5 0 0 0 8 1.5z"/><circle cx="8" cy="6" r="1.5"/></svg>Get Directions', cls:'notif-btn-primary', action:'map'},{label:'Dismiss', cls:'notif-btn-secondary', action:'dismiss'}]},
 
   {id:4, type:'price', icon:'trending-down', iconBg:'#f0fdf4', iconColor:'#16a34a',
-   title:'<strong>Price Drop! 🎉</strong> Samsung Galaxy Buds in your wishlist dropped from ₹2,499 to ₹1,899!',
+   title:'<strong>Price Drop!</strong> Samsung Galaxy Buds in your wishlist dropped from ₹2,499 to ₹1,899!',
    sub:"You save: ₹600 (24% off)", time:'5 hr ago', unread:true, pinned:true,
    btns:[{label:WA_SVG+' Buy via WhatsApp', cls:'notif-btn-wa', action:'wa'},{label:'View in Wishlist', cls:'notif-btn-secondary', action:'wishlist'}]},
 
@@ -2383,7 +2394,7 @@ function renderNotifs() {
   const yesterday = visible.filter(n => n.time === 'Yesterday');
   const older = visible.filter(n => !todayTimes.includes(n.time) && n.time !== 'Yesterday');
   let h = '';
-  if(pinned.length) h += '<div class="date-divider">📌 Pinned</div>' + pinned.map(buildNotifItem).join('');
+  if(pinned.length) h += '<div class="date-divider"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:4px"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></svg>Pinned</div>' + pinned.map(buildNotifItem).join('');
   if(today.length) h += '<div class="date-divider">Today</div>' + today.map(buildNotifItem).join('');
   if(yesterday.length) h += '<div class="date-divider">Yesterday</div>' + yesterday.map(buildNotifItem).join('');
   if(older.length) h += '<div class="date-divider">Earlier</div>' + older.map(buildNotifItem).join('');
@@ -2560,17 +2571,17 @@ function loadMoreNotifs() {
 }
 
 function requestNotifPushPermission() {
-  if(!('Notification' in window)) { showNotifToast('❌ Browser does not support push notifications'); return; }
+  if(!('Notification' in window)) { showNotifToast(_ICO.err+' Browser does not support push notifications'); return; }
   Notification.requestPermission().then(perm => {
     document.getElementById('notifPushBanner')?.style && (document.getElementById('notifPushBanner').style.display='none');
-    showNotifToast(perm === 'granted' ? '🔔 Push notifications enabled!' : '🔕 Notifications blocked');
+    showNotifToast(perm === 'granted' ? _ICO.bell+' Push notifications enabled!' : _ICO.nbell+' Notifications blocked');
   });
 }
 
 function showNotifToast(msg) {
   const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2);';
-  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:90px;left:50%;transform:translateX(-50%);background:#1e293b;color:#fff;padding:10px 20px;border-radius:50px;font-size:13px;z-index:9999;white-space:nowrap;box-shadow:0 8px 24px rgba(0,0,0,.2);display:flex;align-items:center;';
+  t.innerHTML = msg;
   document.body.appendChild(t);
   setTimeout(() => t.remove(), 2500);
 }
@@ -2659,7 +2670,7 @@ async function saveProfile(){
   const city = document.getElementById('fieldCity')?.value.trim()      || '';
   const pin  = document.getElementById('fieldPincode')?.value.trim()   || '';
   const name = (fn + ' ' + ln).trim();
-  if(!name){ showToast('❌ Name is required.','#ef4444'); return; }
+  if(!name){ showToast(_ICO.err+' Name is required.','#ef4444'); return; }
 
   const btn = document.querySelector('#sec-profile .btn-primary');
   const orig = btn ? btn.innerHTML : '';
@@ -2681,10 +2692,10 @@ async function saveProfile(){
     if(window.refreshAuthNav) window.refreshAuthNav();
 
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
-    showToast('✅ Profile updated successfully!');
+    showToast(_ICO.ok+' Profile updated successfully!');
   } catch(err) {
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
-    showToast('❌ ' + err.message, '#ef4444');
+    showToast(_ICO.err+' '+err.message, '#ef4444');
   }
 }
 
@@ -2692,8 +2703,8 @@ async function saveProfile(){
 function showToast(msg, bg){
   bg = bg || '#16a34a';
   const t = document.createElement('div');
-  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:'+bg+';color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.18);white-space:nowrap;';
-  t.textContent = msg;
+  t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:'+bg+';color:#fff;padding:12px 24px;border-radius:50px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.18);white-space:nowrap;display:flex;align-items:center;';
+  t.innerHTML = msg;
   document.body.appendChild(t);
   setTimeout(()=>t.remove(), 3200);
 }
@@ -2701,7 +2712,7 @@ function showToast(msg, bg){
 
 // ── DELETE ACCOUNT ──
 async function confirmDelete(){
-  if(!confirm('⚠️ This will permanently delete your account and all data. Are you absolutely sure?')) return;
+  if(!confirm('Warning: This will permanently delete your account and all data. Are you absolutely sure?')) return;
   if(!confirm('FINAL WARNING: All your saved shops, wishlist, and activity will be lost. Confirm deletion?')) return;
   try {
     const res = await fetch(API_BASE+'/auth/me', {
@@ -2713,27 +2724,27 @@ async function confirmDelete(){
       logoutUser();
     } else {
       // Backend may not support delete yet — show friendly message
-      showToast('✅ Deletion request submitted. You\'ll receive a confirmation email within 24 hours.','#6b7280');
+      showToast(_ICO.ok+' Deletion request submitted. You\'ll receive a confirmation email within 24 hours.','#6b7280');
     }
   } catch(e){
-    showToast('✅ Deletion request submitted. You\'ll receive a confirmation email within 24 hours.','#6b7280');
+    showToast(_ICO.ok+' Deletion request submitted. You\'ll receive a confirmation email within 24 hours.','#6b7280');
   }
 }
 
 // ── SAVE SETTINGS (notification & privacy toggles) ──
 function saveSettings(){
   // These preferences are UI-only for now (no dedicated API endpoint)
-  showToast('✅ Settings saved successfully!');
+  showToast(_ICO.ok+' Settings saved successfully!');
 }
 
 // ── AVATAR UPLOAD ──
 async function uploadAvatar(input){
   const file = input.files && input.files[0];
   if(!file) return;
-  if(file.size > 2 * 1024 * 1024){ showToast('❌ Image must be under 2MB.','#ef4444'); return; }
+  if(file.size > 2 * 1024 * 1024){ showToast(_ICO.err+' Image must be under 2MB.','#ef4444'); return; }
   const form = new FormData();
   form.append('avatar', file);
-  showToast('⏳ Uploading photo…','#6366f1');
+  showToast(_ICO.clock+' Uploading photo…','#6366f1');
   try {
     const res  = await fetch(API_BASE+'/auth/avatar', {
       method:  'POST',
@@ -2742,15 +2753,15 @@ async function uploadAvatar(input){
     });
     const data = await res.json();
     if(data.success && data.avatar_url){
-      showToast('✅ Profile photo updated!');
+      showToast(_ICO.ok+' Profile photo updated!');
       // Update avatar circle with image
       const av = document.querySelector('#sec-profile .card div[style*="border-radius:50%"]');
       if(av){ av.style.backgroundImage='url('+data.avatar_url+')'; av.style.backgroundSize='cover'; av.textContent=''; }
     } else {
-      showToast('✅ Photo uploaded! Changes will appear shortly.','#16a34a');
+      showToast(_ICO.ok+' Photo uploaded! Changes will appear shortly.','#16a34a');
     }
   } catch(e){
-    showToast('❌ Upload failed. Try again.','#ef4444');
+    showToast(_ICO.err+' Upload failed. Try again.','#ef4444');
   }
   input.value = '';
 }
@@ -2760,9 +2771,9 @@ async function updatePassword(){
   const cur  = document.getElementById('pwdCurrent')?.value.trim();
   const nw   = document.getElementById('pwdNew')?.value.trim();
   const conf = document.getElementById('pwdConfirm')?.value.trim();
-  if(!cur)            { showToast('❌ Please enter your current password.','#ef4444'); return; }
-  if(!nw || nw.length < 8) { showToast('❌ New password must be at least 8 characters.','#ef4444'); return; }
-  if(nw !== conf)     { showToast('❌ Passwords do not match.','#ef4444'); return; }
+  if(!cur)            { showToast(_ICO.err+' Please enter your current password.','#ef4444'); return; }
+  if(!nw || nw.length < 8) { showToast(_ICO.err+' New password must be at least 8 characters.','#ef4444'); return; }
+  if(nw !== conf)     { showToast(_ICO.err+' Passwords do not match.','#ef4444'); return; }
 
   const btn = document.getElementById('btnUpdatePwd');
   const orig = btn ? btn.innerHTML : '';
@@ -2780,16 +2791,16 @@ async function updatePassword(){
     document.getElementById('pwdCurrent').value = '';
     document.getElementById('pwdNew').value = '';
     document.getElementById('pwdConfirm').value = '';
-    showToast('✅ Password updated successfully!');
+    showToast(_ICO.ok+' Password updated successfully!');
   } catch(err){
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
-    showToast('❌ ' + err.message,'#ef4444');
+    showToast(_ICO.err+' '+err.message,'#ef4444');
   }
 }
 
 // ── DATA EXPORT ──
 function requestDataExport(){
-  showToast('📧 Your data export will be emailed within 24 hours.');
+  showToast(_ICO.mail+' Your data export will be emailed within 24 hours.');
 }
 
 // ── REMOVE SAVED SHOP ──
@@ -2804,10 +2815,10 @@ async function removeSavedShop(btn, shopId){
     // Remove from local array & re-render
     savedShops = savedShops.filter(s => String(s.id) !== String(shopId));
     buildSavedShops();
-    showToast('🗑️ Removed from saved shops.');
+    showToast(_ICO.bin+' Removed from saved shops.');
   } catch(e){
     if(card) card.style.opacity = '1';
-    showToast('❌ Could not remove shop. Try again.','#ef4444');
+    showToast(_ICO.err+' Could not remove shop. Try again.','#ef4444');
   }
 }
 
@@ -2885,7 +2896,7 @@ async function loadDashboardData() {
       if (items.length === 0) {
         document.getElementById('revList').innerHTML = `
           <div class="rev-empty-state">
-            <div class="empty-icon">⭐</div>
+            <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
             <h3>No reviews yet</h3>
             <p>Share your experience with shops and products you've visited.</p>
           </div>`;
@@ -2895,7 +2906,7 @@ async function loadDashboardData() {
           type:        r.type,
           shop:        r.shops?.name || r.products?.name || 'Unknown',
           shopCat:     r.type === 'product' ? 'Product Review' : 'Shop Review',
-          shopIcon:    r.type === 'product' ? '📦' : '🏪',
+          shopEmoji:   r.type === 'product' ? `<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="26" height="26"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>` : `<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
           productName: r.products?.name || '',
           rating:      r.rating,
           title:       r.title || '',
@@ -2923,7 +2934,7 @@ async function loadDashboardData() {
       if (items.length === 0) {
         document.getElementById('notifList').innerHTML = `
           <div style="text-align:center;padding:48px 20px;color:var(--text-light);">
-            <div style="font-size:48px;margin-bottom:12px;opacity:.4;">🔔</div>
+            <div style="margin-bottom:12px;opacity:.4;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
             <div style="font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:6px;">All caught up!</div>
             <div style="font-size:13px;">No notifications yet.</div>
           </div>`;
@@ -2931,7 +2942,7 @@ async function loadDashboardData() {
         notifItems = items.map(n => ({
           id:      n.id,
           type:    n.type || 'info',
-          icon:    '🔔',
+          icon:    'bell',
           iconBg:  '#e0f2fe',
           title:   n.title || 'Notification',
           sub:     n.message || '',
