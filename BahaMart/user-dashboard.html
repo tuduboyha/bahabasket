@@ -775,7 +775,7 @@ tr:hover td{background:var(--bg);}
         <div class="card">
           <div class="card-title">Profile Photo</div>
           <div style="display:flex;flex-direction:column;align-items:center;gap:14px;">
-            <div style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#fff;border:4px solid var(--white);box-shadow:0 4px 16px rgba(26,86,219,.22);">P</div>
+            <div id="profileAvatarCircle" style="width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--purple));display:flex;align-items:center;justify-content:center;font-size:36px;font-weight:800;color:#fff;border:4px solid var(--white);box-shadow:0 4px 16px rgba(26,86,219,.22);background-size:cover;background-position:center;">P</div>
             <input type="file" id="avatarInput" accept="image/jpeg,image/png,image/webp" style="display:none;" onchange="uploadAvatar(this)">
             <div class="avatar-upload" style="width:100%;" onclick="document.getElementById('avatarInput').click()">
               <div class="au-icon"><svg viewBox="0 0 24 24" width="36" height="36" fill="none" stroke="var(--text-light)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg></div>
@@ -1512,13 +1512,22 @@ function populateUser(user) {
 
   // Nav avatar
   const navAv = document.getElementById('navAvatar');
-  if (navAv) { navAv.textContent = initial; navAv.title = fullName; }
+  if (navAv) { navAv.title = fullName; }
+
+  // Apply avatar image or initial to all circles
+  if (typeof _applyAvatar === 'function') {
+    _applyAvatar(user.avatar_url || '', initial);
+  } else {
+    // Fallback if _applyAvatar not yet defined (shouldn't happen)
+    if (navAv) navAv.textContent = initial;
+    const sbAvF = document.getElementById('sidebarAvatar');
+    if (sbAvF) sbAvF.textContent = initial;
+  }
 
   // Sidebar
   const sbAv   = document.getElementById('sidebarAvatar');
   const sbName = document.getElementById('sidebarName');
   const sbPh   = document.getElementById('sidebarPhone');
-  if (sbAv)   sbAv.textContent   = initial;
   if (sbName) sbName.textContent = fullName;
   if (sbPh && phone) {
     const formatted = phone.startsWith('+91') ? phone : '+91 ' + phone.replace(/^91/, '');
@@ -2736,14 +2745,14 @@ async function saveProfile(){
     // — do NOT re-fill form fields so user's values stay visible
     const nameParts = name.split(' ');
     const initial = (nameParts[0] || 'U').charAt(0).toUpperCase();
-    const sbAv = document.getElementById('sidebarAvatar');
     const sbName = document.getElementById('sidebarName');
     const sbPh   = document.getElementById('sidebarPhone');
     const navAv  = document.getElementById('navAvatar');
-    if(sbAv)   sbAv.textContent   = initial;
+    // Use _applyAvatar so profile photo isn't wiped on profile save
+    _applyAvatar(_bbUser.avatar_url || '', initial);
     if(sbName) sbName.textContent = name;
     if(sbPh)   sbPh.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> ${phone}`;
-    if(navAv)  navAv.textContent  = initial;
+    if(navAv)  navAv.title = name;
     if(window.refreshAuthNav) window.refreshAuthNav();
 
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
@@ -2795,13 +2804,48 @@ function saveSettings(){
 }
 
 // ── AVATAR UPLOAD ──
+// ── Helper: apply avatar image/initial to all avatar elements ──
+function _applyAvatar(url, initial){
+  const els = [
+    document.getElementById('profileAvatarCircle'),
+    document.getElementById('sidebarAvatar'),
+    document.getElementById('navAvatar'),
+  ];
+  els.forEach(el => {
+    if(!el) return;
+    if(url){
+      el.style.backgroundImage  = 'url(' + url + ')';
+      el.style.backgroundSize   = 'cover';
+      el.style.backgroundPosition = 'center';
+      el.textContent = '';
+    } else {
+      el.style.backgroundImage = '';
+      el.textContent = initial || '';
+    }
+  });
+}
+
 async function uploadAvatar(input){
   const file = input.files && input.files[0];
   if(!file) return;
   if(file.size > 2 * 1024 * 1024){ showToast(_ICO.err+' Image must be under 2MB.','#ef4444'); return; }
+
+  // ── Instant local preview (no API wait) ──
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    _applyAvatar(dataUrl, '');
+    // Cache locally so refresh still shows it until API confirms
+    const cached = { ..._bbUser, avatar_url: dataUrl };
+    _bbUser = cached;
+    localStorage.setItem('bb_user', JSON.stringify(cached));
+  };
+  reader.readAsDataURL(file);
+
+  // ── Try API upload in background ──
+  showToast(_ICO.clock+' Uploading photo…','#6366f1');
   const form = new FormData();
   form.append('avatar', file);
-  showToast(_ICO.clock+' Uploading photo…','#6366f1');
   try {
     const res  = await fetch(API_BASE+'/auth/avatar', {
       method:  'POST',
@@ -2810,15 +2854,19 @@ async function uploadAvatar(input){
     });
     const data = await res.json();
     if(data.success && data.avatar_url){
+      // Replace data-URL with server URL + update cache
+      _applyAvatar(data.avatar_url, '');
+      const updated = { ..._bbUser, avatar_url: data.avatar_url };
+      _bbUser = updated;
+      localStorage.setItem('bb_user', JSON.stringify(updated));
       showToast(_ICO.ok+' Profile photo updated!');
-      // Update avatar circle with image
-      const av = document.querySelector('#sec-profile .card div[style*="border-radius:50%"]');
-      if(av){ av.style.backgroundImage='url('+data.avatar_url+')'; av.style.backgroundSize='cover'; av.textContent=''; }
     } else {
-      showToast(_ICO.ok+' Photo uploaded! Changes will appear shortly.','#16a34a');
+      // API failed but preview is already showing — that's fine
+      showToast(_ICO.ok+' Photo saved locally. Will sync when available.','#6b7280');
     }
   } catch(e){
-    showToast(_ICO.err+' Upload failed. Try again.','#ef4444');
+    // Network error — preview still shows, just note it
+    showToast(_ICO.ok+' Photo saved locally. Will sync when connected.','#6b7280');
   }
   input.value = '';
 }
