@@ -45,14 +45,14 @@ exports.createReview = async (req, res, next) => {
       shop_id:    type === 'shop'    ? shop_id    : null,
       product_id: type === 'product' ? product_id : null,
       type, rating, title, text,
-      status: 'pending'
+      status: 'published'
     }).select().single();
 
     if (error) throw error;
 
     if (type === 'shop' && shop_id) await updateShopRating(shop_id);
 
-    res.status(201).json({ success: true, review: data, message: 'Review submitted! It will appear after approval.' });
+    res.status(201).json({ success: true, review: data, message: 'Review published successfully!' });
   } catch (err) { next(err); }
 };
 
