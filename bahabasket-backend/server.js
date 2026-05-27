@@ -90,6 +90,7 @@ app.use('/api/orders',        require('./routes/orders'));
 app.use('/api/payments',      require('./routes/payments'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/upload',        require('./routes/upload'));
+app.use('/api/saved-shops',   require('./routes/savedShops'));
 
 // ─── 404 Handler ──────────────────────────────────────────────────────────────
 app.use((req, res) => {

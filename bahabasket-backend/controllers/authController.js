@@ -163,7 +163,7 @@ exports.getMe = async (req, res, next) => {
 // ─── Update Current User ──────────────────────────────────────────────────────
 exports.updateMe = async (req, res, next) => {
   try {
-    const allowed = ['name', 'city', 'pincode', 'phone', 'dob', 'bio', 'language', 'avatar_url'];
+    const allowed = ['name', 'city', 'pincode', 'phone', 'dob', 'bio', 'language', 'avatar_url', 'categories', 'notification_prefs'];
     const updates = {};
     allowed.forEach(field => { if (req.body[field] !== undefined) updates[field] = req.body[field]; });
 
