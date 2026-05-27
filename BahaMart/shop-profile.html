@@ -607,16 +607,16 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
     <div class="tab-panel" id="tab-reviews">
       <div class="review-summary-card">
         <div class="rev-score-col">
-          <div class="rev-score-num">4.8</div>
-          <div class="rev-score-stars">★★★★★</div>
-          <div class="rev-score-cnt">124 customer reviews</div>
+          <div class="rev-score-num" id="revScoreNum">—</div>
+          <div class="rev-score-stars" id="revScoreStars">☆☆☆☆☆</div>
+          <div class="rev-score-cnt" id="revScoreCnt">0 customer reviews</div>
         </div>
         <div class="rev-bars">
-          <div class="rev-bar-row"><span class="rev-bar-lbl">5★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:82%"></div></div><span class="rev-bar-pct">82%</span></div>
-          <div class="rev-bar-row"><span class="rev-bar-lbl">4★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:12%"></div></div><span class="rev-bar-pct">12%</span></div>
-          <div class="rev-bar-row"><span class="rev-bar-lbl">3★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:4%;background:#f59e0b;"></div></div><span class="rev-bar-pct">4%</span></div>
-          <div class="rev-bar-row"><span class="rev-bar-lbl">2★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:1%;background:#f97316;"></div></div><span class="rev-bar-pct">1%</span></div>
-          <div class="rev-bar-row"><span class="rev-bar-lbl">1★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:1%;background:#dc2626;"></div></div><span class="rev-bar-pct">1%</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-lbl">5★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar5" style="width:0%"></div></div><span class="rev-bar-pct" id="revPct5">0%</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-lbl">4★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar4" style="width:0%"></div></div><span class="rev-bar-pct" id="revPct4">0%</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-lbl">3★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar3" style="width:0%;background:#f59e0b;"></div></div><span class="rev-bar-pct" id="revPct3">0%</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-lbl">2★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar2" style="width:0%;background:#f97316;"></div></div><span class="rev-bar-pct" id="revPct2">0%</span></div>
+          <div class="rev-bar-row"><span class="rev-bar-lbl">1★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar1" style="width:0%;background:#dc2626;"></div></div><span class="rev-bar-pct" id="revPct1">0%</span></div>
         </div>
       </div>
 
@@ -878,7 +878,7 @@ function populateShopPage(shop) {
   if (rc) rc.textContent = rating ? rating.toFixed(1) : '—';
   const rs = document.getElementById('ratingStars');
   if (rs) { const f=Math.round(rating); rs.textContent='★'.repeat(f)+'☆'.repeat(5-f); }
-  setText('reviewCountHdr', revCount + ' reviews');
+  setText('reviewCountHdr', '… reviews'); // will be updated by updateReviewSummary after load
 
   // ── Action buttons ──
   const btnWA = document.getElementById('btnWA');
@@ -948,16 +948,71 @@ function showLoadingState() {
   if (tl) { tl.textContent = 'Please wait...'; tl.style.opacity = '.4'; }
 }
 
+// ── Build actual rating summary from fetched reviews ──
+function updateReviewSummary(reviews) {
+  const total = reviews.length;
+
+  // Rating header (top-right of shop card)
+  setText('reviewCountHdr', total + ' reviews');
+
+  if (total === 0) {
+    setText('revScoreNum',  '—');
+    setText('revScoreCnt',  '0 customer reviews');
+    const rs = document.getElementById('revScoreStars');
+    if (rs) rs.textContent = '☆☆☆☆☆';
+    [1,2,3,4,5].forEach(s => {
+      const bar = document.getElementById('revBar'+s);
+      const pct = document.getElementById('revPct'+s);
+      if (bar) bar.style.width = '0%';
+      if (pct) pct.textContent = '0%';
+    });
+    return;
+  }
+
+  // Count per star
+  const counts = {1:0, 2:0, 3:0, 4:0, 5:0};
+  let sum = 0;
+  reviews.forEach(r => {
+    const s = Math.min(5, Math.max(1, parseInt(r.rating) || 5));
+    counts[s]++;
+    sum += s;
+  });
+
+  const avg = (sum / total).toFixed(1);
+  const stars = Math.round(sum / total);
+
+  setText('revScoreNum',  avg);
+  setText('revScoreCnt',  total + ' customer reviews');
+  const rs = document.getElementById('revScoreStars');
+  if (rs) rs.textContent = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+
+  // Also update header rating display
+  const rc = document.getElementById('ratingCircle');
+  const rsh = document.getElementById('ratingStars');
+  if (rc) rc.textContent = avg;
+  if (rsh) rsh.textContent = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+
+  // Per-star bars
+  [1,2,3,4,5].forEach(s => {
+    const pctVal = Math.round((counts[s] / total) * 100);
+    const bar = document.getElementById('revBar'+s);
+    const pct = document.getElementById('revPct'+s);
+    if (bar) bar.style.width = pctVal + '%';
+    if (pct) pct.textContent = pctVal + '%';
+  });
+}
+
 // ── Load reviews from API ──
 async function loadReviews(shopId) {
   try {
     const res  = await fetch(API_BASE + '/shops/' + shopId + '/reviews');
     const data = await res.json();
-    if (data.success && data.reviews && data.reviews.length > 0) {
-      renderAPIReviews(data.reviews);
-      setText('tabReviewsCount', data.reviews.length);
+    const reviews = (data.success && data.reviews) ? data.reviews : [];
+    updateReviewSummary(reviews);
+    setText('tabReviewsCount', reviews.length);
+    if (reviews.length > 0) {
+      renderAPIReviews(reviews);
     } else {
-      setText('tabReviewsCount', 0);
       const el = document.getElementById('reviewsList');
       if (el) el.innerHTML =
         '<div style="text-align:center;padding:40px 20px;color:var(--text-light);font-size:14px;">' +
