@@ -1058,6 +1058,36 @@ function renderAPIReviews(reviews) {
   }).join('');
 }
 
+// ── Render a single review card (used for immediate display after submit) ──
+function renderSingleReview(r, idx) {
+  const colors = [
+    'linear-gradient(135deg,#1a56db,#3b82f6)',
+    'linear-gradient(135deg,#059669,#34d399)',
+    'linear-gradient(135deg,#f97316,#fb923c)',
+    'linear-gradient(135deg,#7c3aed,#a78bfa)'
+  ];
+  const uName    = (r.users && r.users.name) || 'Anonymous';
+  const uInitial = uName[0].toUpperCase();
+  const stars    = parseInt(r.rating) || 5;
+  const dateStr  = r.created_at
+    ? new Date(r.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'})
+    : 'Just now';
+  return `
+  <div class="review-item">
+    <div class="ri-header">
+      <div class="ri-av" style="background:${colors[idx%colors.length]};">${uInitial}</div>
+      <div class="ri-meta">
+        <div class="ri-name">${uName}</div>
+        <div class="ri-date">${dateStr}</div>
+      </div>
+      <span class="ri-verified"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10" style="vertical-align:-1px;margin-right:3px;"><polyline points="20 6 9 17 4 12"/></svg>Verified</span>
+    </div>
+    <div class="ri-stars">${'★'.repeat(stars)}${'☆'.repeat(5-stars)}</div>
+    <div class="ri-title">${r.title||''}</div>
+    <div class="ri-text">${r.body||r.text||''}</div>
+  </div>`;
+}
+
 // ── Load similar shops ──
 async function loadSimilarShops(shop) {
   const catArr = Array.isArray(shop.category) ? shop.category : (shop.category ? [shop.category] : []);
@@ -1590,6 +1620,47 @@ async function submitReview(){
     const data = await res.json();
     if(!data.success) throw new Error(data.error || 'Review submit failed');
 
+    // ── Immediately show the new review at top of list ──
+    const bbUser    = JSON.parse(localStorage.getItem('bb_user') || '{}');
+    const uName     = bbUser.name || document.getElementById('reviewName')?.value.trim() || 'You';
+    const newReview = {
+      id:         data.review?.id || Date.now(),
+      rating:     shopStars,
+      title:      title || '',
+      body:       text,
+      created_at: new Date().toISOString(),
+      users:      { name: uName }
+    };
+
+    // Prepend to existing rendered list
+    const reviewsList = document.getElementById('reviewsList');
+    if (reviewsList) {
+      // Remove "no reviews" placeholder if present
+      if (reviewsList.querySelector('div[style*="No reviews yet"]') ||
+          reviewsList.textContent.includes('No reviews yet')) {
+        reviewsList.innerHTML = '';
+      }
+      const tmp = document.createElement('div');
+      tmp.innerHTML = renderSingleReview(newReview, 0);
+      reviewsList.insertBefore(tmp.firstElementChild, reviewsList.firstChild);
+    }
+
+    // Update summary counts with the newly added review
+    const allReviewEls = reviewsList ? reviewsList.querySelectorAll('.review-item') : [];
+    const prevCount = parseInt(document.getElementById('tabReviewsCount')?.textContent) || 0;
+    const newCount  = prevCount + 1;
+    setText('tabReviewsCount', newCount);
+    // Recalculate avg from existing summary + new star
+    const prevAvg   = parseFloat(document.getElementById('revScoreNum')?.textContent) || 0;
+    const newAvg    = prevCount === 0 ? shopStars : ((prevAvg * prevCount + shopStars) / newCount);
+    const avgStr    = newAvg.toFixed(1);
+    setText('revScoreNum', avgStr);
+    setText('revScoreCnt', newCount + ' customer reviews');
+    setText('reviewCountHdr', newCount + ' reviews');
+    const stars = Math.round(newAvg);
+    const rsEl  = document.getElementById('revScoreStars');
+    if (rsEl) rsEl.textContent = '★'.repeat(stars) + '☆'.repeat(5 - stars);
+
     // Reset form
     shopStars = 0;
     document.querySelectorAll('.sp-star').forEach(s => s.classList.remove('on'));
@@ -1597,7 +1668,7 @@ async function submitReview(){
       const el = document.getElementById(id); if(el) el.value = '';
     });
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
-    showToast('✅ Review submitted! It will appear after verification within 24 hours.');
+    showToast('✅ Review published successfully!');
 
   } catch(err){
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
