@@ -618,11 +618,11 @@ tr:hover td{background:var(--bg);}
       </div>
       <div class="sidebar-item" onclick="showSection('wishlist',this)">
         <span class="si-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span> Saved / Wishlist
-        <span class="si-badge orange">8</span>
+        <span class="si-badge orange" id="siBadgeWishlist">0</span>
       </div>
       <div class="sidebar-item" onclick="showSection('inquiries',this)">
         <span class="si-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span> My WA Inquiries
-        <span class="si-badge green">12</span>
+        <span class="si-badge green" id="siBadgeInquiries" style="display:none;">0</span>
       </div>
       <div class="sidebar-item" onclick="showSection('saved-shops',this)">
         <span class="si-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg></span> Saved Shops
@@ -637,7 +637,7 @@ tr:hover td{background:var(--bg);}
       </div>
       <div class="sidebar-item" onclick="showSection('notifications',this)">
         <span class="si-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></span> Notifications
-        <span class="si-badge">4</span>
+        <span class="si-badge" id="siBadgeNotif" style="display:none;">0</span>
       </div>
 
       <div class="nav-section-label" style="margin-top:8px;">Settings</div>
@@ -674,22 +674,22 @@ tr:hover td{background:var(--bg);}
       <div class="grid-4" style="margin-bottom:22px;">
         <div class="stat-card blue">
           <div class="stat-icon blue" style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
-          <div class="stat-num">8</div>
+          <div class="stat-num" id="ovStatSavedProducts">—</div>
           <div class="stat-label">Saved Products</div>
         </div>
         <div class="stat-card green">
           <div class="stat-icon green" style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
-          <div class="stat-num">12</div>
+          <div class="stat-num" id="ovStatInquiries">—</div>
           <div class="stat-label">WA Inquiries</div>
         </div>
         <div class="stat-card orange">
           <div class="stat-icon orange" style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg></div>
-          <div class="stat-num">5</div>
+          <div class="stat-num" id="ovStatSavedShops">—</div>
           <div class="stat-label">Saved Shops</div>
         </div>
         <div class="stat-card purple">
           <div class="stat-icon purple" style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-          <div class="stat-num">3</div>
+          <div class="stat-num" id="ovStatReviews">—</div>
           <div class="stat-label">Reviews Given</div>
         </div>
       </div>
@@ -836,23 +836,23 @@ tr:hover td{background:var(--bg);}
           <div style="display:flex;flex-direction:column;gap:10px;">
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:9px;">
               <span style="font-size:13px;color:var(--text-mid);">Member Since</span>
-              <span style="font-size:13px;font-weight:700;color:var(--text-dark);">Jan 2024</span>
+              <span id="acctMemberSince" style="font-size:13px;font-weight:700;color:var(--text-dark);">—</span>
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:9px;">
               <span style="font-size:13px;color:var(--text-mid);">Saved Products</span>
-              <span style="font-size:13px;font-weight:700;color:var(--primary);">8 items</span>
+              <span id="acctSavedItems" style="font-size:13px;font-weight:700;color:var(--primary);">— items</span>
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:9px;">
               <span style="font-size:13px;color:var(--text-mid);">WhatsApp Inquiries</span>
-              <span style="font-size:13px;font-weight:700;color:var(--success);">12 sent</span>
+              <span id="acctInquiries" style="font-size:13px;font-weight:700;color:var(--success);">— sent</span>
             </div>
             <div style="display:flex;align-items:center;justify-content:space-between;padding:10px;background:var(--bg);border-radius:9px;">
               <span style="font-size:13px;color:var(--text-mid);">Reviews Given</span>
-              <span style="font-size:13px;font-weight:700;color:var(--warning);">3 reviews</span>
+              <span id="acctReviews" style="font-size:13px;font-weight:700;color:var(--warning);">— reviews</span>
             </div>
             <div style="padding-top:8px;">
-              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:5px;"><span>Profile Completion</span><span style="font-weight:700;color:var(--primary);">78%</span></div>
-              <div style="height:6px;background:var(--border);border-radius:4px;overflow:hidden;"><div style="width:78%;height:100%;background:linear-gradient(90deg,var(--primary),var(--success));border-radius:4px;"></div></div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:5px;"><span>Profile Completion</span><span id="acctPctLabel" style="font-weight:700;color:var(--primary);">—%</span></div>
+              <div style="height:6px;background:var(--border);border-radius:4px;overflow:hidden;"><div id="acctPctBar" style="width:0%;height:100%;background:linear-gradient(90deg,var(--primary),var(--success));border-radius:4px;transition:width .6s ease;"></div></div>
             </div>
           </div>
         </div>
@@ -1019,7 +1019,7 @@ tr:hover td{background:var(--bg);}
       <div class="section-header">
         <div>
           <div class="section-title">Saved Shops</div>
-          <div class="section-sub">5 shops saved to your favourites.</div>
+          <div class="section-sub" id="savedShopsSub">Loading saved shops…</div>
         </div>
       </div>
       <div class="grid-2" id="savedShopsGrid"></div>
@@ -1292,23 +1292,23 @@ tr:hover td{background:var(--bg);}
           <div class="card-title"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>Notification Preferences</div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>WhatsApp Alerts</strong><small>Inquiry replies, shop updates, new offers</small></div>
-            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togWA" checked><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>New Offer Alerts</strong><small>When shops in your city post new deals</small></div>
-            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togOffers" checked><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>New Shop Alerts</strong><small>When new shops open in your category</small></div>
-            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togNewShops"><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>Wishlist Price Drops</strong><small>Alert when saved item price drops</small></div>
-            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togPriceDrops" checked><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>Platform Updates</strong><small>New features and announcements</small></div>
-            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togPlatform"><span class="toggle-slider"></span></label>
           </div>
         </div>
 
@@ -1316,12 +1316,7 @@ tr:hover td{background:var(--bg);}
           <div class="card-title"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>Display Preferences</div>
           <div class="field-group">
             <label class="field-label">City / Location</label>
-            <select class="field-input">
-              <option selected>Indore, MP</option>
-              <option>Bhopal, MP</option>
-              <option>Jabalpur, MP</option>
-              <option>Other</option>
-            </select>
+            <input type="text" id="settingsCity" class="field-input" placeholder="Your city">
           </div>
           <div class="field-group">
             <label class="field-label">Default Product View</label>
@@ -1338,9 +1333,10 @@ tr:hover td{background:var(--bg);}
           </div>
           <div class="field-group" style="margin-bottom:0;">
             <label class="field-label">Language</label>
-            <select class="field-input">
-              <option selected>English</option>
-              <option>Hindi</option>
+            <select id="settingsLang" class="field-input">
+              <option value="English" selected>English</option>
+              <option value="Hindi">Hindi</option>
+              <option value="English + Hindi">English + Hindi</option>
             </select>
           </div>
         </div>
@@ -1350,19 +1346,19 @@ tr:hover td{background:var(--bg);}
           <div class="card-title"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>Account Preferences</div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>Email Notifications</strong><small>Receive updates on your registered email</small></div>
-            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togEmail" checked><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>Shop Recommendations</strong><small>Personalised shop suggestions near you</small></div>
-            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togShopRec" checked><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>Weekly Digest</strong><small>Summary of new shops and top deals</small></div>
-            <label class="toggle"><input type="checkbox"><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togWeekly"><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row">
             <div class="toggle-info"><strong>Show Profile to Shops</strong><small>Let shops see your basic profile info</small></div>
-            <label class="toggle"><input type="checkbox" checked><span class="toggle-slider"></span></label>
+            <label class="toggle"><input type="checkbox" id="togShowProfile" checked><span class="toggle-slider"></span></label>
           </div>
           <div class="toggle-row" style="border-bottom:none;">
             <div class="toggle-info"><strong>Dark Mode</strong><small>Coming soon</small></div>
@@ -1500,7 +1496,24 @@ if (!_bbToken || !_bbUser) {
   window.location.href = 'login-register.html';
 }
 
-// ── 2. Populate UI with cached user data (instant, no flash) ──
+// ── 2. Profile completion calculator ──
+function calcProfileCompletion(user) {
+  if (!user) return 0;
+  const checks = [
+    !!user.name,
+    !!(user.phone),
+    !!(user.email && user.email.includes('@') && !user.email.includes('@bahabasket.app')),
+    !!(user.city),
+    !!(user.avatar_url),
+    !!(user.dob),
+    !!(user.bio),
+    !!(user.categories && user.categories.length > 0),
+  ];
+  const done = checks.filter(Boolean).length;
+  return Math.round((done / checks.length) * 100);
+}
+
+// ── 3. Populate UI with cached user data (instant, no flash) ──
 function populateUser(user) {
   if (!user) return;
 
@@ -1518,14 +1531,12 @@ function populateUser(user) {
   if (typeof _applyAvatar === 'function') {
     _applyAvatar(user.avatar_url || '', initial);
   } else {
-    // Fallback if _applyAvatar not yet defined (shouldn't happen)
     if (navAv) navAv.textContent = initial;
     const sbAvF = document.getElementById('sidebarAvatar');
     if (sbAvF) sbAvF.textContent = initial;
   }
 
   // Sidebar
-  const sbAv   = document.getElementById('sidebarAvatar');
   const sbName = document.getElementById('sidebarName');
   const sbPh   = document.getElementById('sidebarPhone');
   if (sbName) sbName.textContent = fullName;
@@ -1571,6 +1582,58 @@ function populateUser(user) {
   const secEm = document.getElementById('secEmail');
   if (secPh && phone) secPh.textContent = phone.startsWith('+91') ? phone : '+91 ' + phone.replace(/^91/, '');
   if (secEm && email) secEm.textContent = email;
+
+  // ── Profile completion bars ──
+  const pct = calcProfileCompletion(user);
+  document.querySelectorAll('.pc-fill').forEach(el => el.style.width = pct + '%');
+  document.querySelectorAll('.pc-label span:last-child').forEach(el => { if(el.style.fontWeight) el.textContent = pct + '%'; });
+  const acctBar = document.getElementById('acctPctBar');
+  const acctLbl = document.getElementById('acctPctLabel');
+  if (acctBar) acctBar.style.width = pct + '%';
+  if (acctLbl) acctLbl.textContent = pct + '%';
+  // Sidebar pc-label (span last-child may not match style check — target directly)
+  const pcLabels = document.querySelectorAll('.pc-label');
+  pcLabels.forEach(row => {
+    const spans = row.querySelectorAll('span');
+    if (spans[1]) spans[1].textContent = pct + '%';
+  });
+
+  // ── Member since ──
+  if (user.created_at) {
+    const d = new Date(user.created_at);
+    const memberSince = d.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
+    const el = document.getElementById('acctMemberSince');
+    if (el) el.textContent = memberSince;
+  }
+
+  // ── Settings: populate city + language ──
+  const settCity = document.getElementById('settingsCity');
+  const settLang = document.getElementById('settingsLang');
+  if (settCity && user.city) settCity.value = user.city;
+  if (settLang && user.language) {
+    const opt = [...settLang.options].find(o => o.value === user.language);
+    if (opt) opt.selected = true;
+  }
+
+  // ── Settings: populate notification toggles from notification_prefs ──
+  const prefs = user.notification_prefs || {};
+  const togMap = {
+    togWA: 'wa_alerts', togOffers: 'offer_alerts', togNewShops: 'new_shop_alerts',
+    togPriceDrops: 'price_drops', togPlatform: 'platform_updates',
+    togEmail: 'email_notif', togShopRec: 'shop_rec', togWeekly: 'weekly_digest',
+    togShowProfile: 'show_profile'
+  };
+  // Defaults when key not present
+  const togDefaults = { togWA:true, togOffers:true, togNewShops:false, togPriceDrops:true, togPlatform:false, togEmail:true, togShopRec:true, togWeekly:false, togShowProfile:true };
+  Object.entries(togMap).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) el.checked = key in prefs ? prefs[key] : (togDefaults[id] !== false);
+  });
+
+  // ── Categories chips ──
+  if (typeof buildCatPrefs === 'function') buildCatPrefs();
+  // ── Profile tasks ──
+  if (typeof buildProfileTasks === 'function') buildProfileTasks();
 }
 
 // Populate immediately with cached data
@@ -1880,18 +1943,44 @@ function showWLTooltip(msg) {
   setTimeout(() => t.remove(), 2500);
 }
 
-// ── INQUIRIES DATA ──
-const inquiries = [
-  {product:"Men's Premium Cotton Kurta Set",shop:"Sharma Cloth House",shopIcon:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="22" height="22"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>',msg:"Hello! I want this kurta in Size L, Royal Blue. Is it available?",time:"2 hrs ago",status:"replied"},
-  {product:"Banarasi Silk Saree",shop:"Meera Saree Center",shopIcon:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="22" height="22"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg>',msg:"What is the home delivery charge to Vijay Nagar?",time:"Yesterday",status:"replied"},
-  {product:"Bluetooth Earphones",shop:"Digital Zone",shopIcon:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="22" height="22"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',msg:"Do you have this in black color? Also what is the warranty?",time:"3 days ago",status:"replied"},
-  {product:"Gold Plated Necklace",shop:"Rani Jewels",shopIcon:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="22" height="22"><polyline points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="12" y2="9"/></svg>',msg:"Can I see more photos of this necklace? Planning to buy for Diwali.",time:"5 days ago",status:"pending"},
-  {product:"Kids Party Frock – Pink",shop:"Little Star Kids",shopIcon:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="22" height="22"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>',msg:"Available in Size 6-7 years? Need it for this weekend.",time:"1 week ago",status:"replied"},
-];
+// ── INQUIRIES DATA (WA orders from API) ──
+let inquiries = [];
+
+async function loadInquiries() {
+  if (!_bbToken) return;
+  try {
+    const res = await fetch(`${API_BASE}/orders`, { headers: { 'Authorization': 'Bearer ' + _bbToken } });
+    const d = await res.json();
+    if (d.success) {
+      inquiries = (d.orders || []).map(o => ({
+        id:       o.id,
+        product:  (o.products && o.products.name) ? o.products.name : 'WhatsApp Inquiry',
+        shop:     (o.shops && o.shops.name) ? o.shops.name : 'Shop',
+        waNum:    (o.shops && o.shops.whatsapp) ? '91' + o.shops.whatsapp : '919876543210',
+        shopIcon: '<svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="22" height="22"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg>',
+        msg:      o.note || 'WhatsApp inquiry',
+        time:     timeAgo(o.created_at),
+        status:   o.status === 'confirmed' || o.status === 'delivered' ? 'replied' : 'pending'
+      }));
+      const n = inquiries.length;
+      const badge = document.getElementById('siBadgeInquiries');
+      if (badge) { badge.textContent = n; badge.style.display = n > 0 ? '' : 'none'; }
+      const el = document.getElementById('ovStatInquiries');
+      if (el) el.textContent = n;
+      const acctEl = document.getElementById('acctInquiries');
+      if (acctEl) acctEl.textContent = n + ' sent';
+      buildInquiries('inquiriesList', null);
+      buildInquiries('overviewInquiries', 3);
+    }
+  } catch(e) { /* silently skip */ }
+}
+
 function buildInquiries(container, limit){
   const el = document.getElementById(container);
   if(!el) return;
-  const data = limit ? inquiries.slice(0,limit) : inquiries;
+  const data = limit ? inquiries.slice(0, limit) : inquiries;
+  const emptyHtml = `<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">No WhatsApp inquiries yet. <a href="index.html" style="color:var(--primary);">Browse shops →</a></div>`;
+  if (!data.length) { el.innerHTML = emptyHtml; return; }
   if(container==='overviewInquiries'){
     el.innerHTML = data.map(inq=>`
       <div style="display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);">
@@ -1910,49 +1999,92 @@ function buildInquiries(container, limit){
       <div class="inq-info">
         <div class="inq-product">${inq.product}</div>
         <div class="inq-shop" style="display:flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="11" height="11"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg> ${inq.shop} · ${inq.time}</div>
-        <div class="inq-msg">"${inq.msg}"</div>
         <div class="inq-meta">
           <span class="badge ${inq.status==='replied'?'badge-success':'badge-warning'}">${inq.status==='replied'?'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" width="10" height="10"><polyline points="20 6 9 17 4 12"/></svg> Replied':'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="10" height="10"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Pending'}</span>
         </div>
       </div>
       <div class="inq-actions">
-        <button class="btn btn-wa btn-sm" onclick="openWAProduct('${inq.product}','${inq.shop}')"><svg viewBox="0 0 16 16" fill="#fff" width="13" height="13"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg> Reopen</button>
-        <button class="btn btn-ghost btn-sm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
+        <button class="btn btn-wa btn-sm" onclick="openWAProduct('${inq.product.replace(/'/g,"\\'")}','${inq.shop.replace(/'/g,"\\'")}','${inq.waNum}')"><svg viewBox="0 0 16 16" fill="#fff" width="13" height="13"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg> Reopen</button>
       </div>
     </div>`).join('');
 }
 
-// ── SAVED SHOPS ──
-var savedShops = [
-  {name:"Sharma Cloth House",cat:"Men Fashion",rating:"4.8",reviews:124,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="26" height="26"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>',open:true,city:"Gandhi Nagar, Indore",color:"#1a56db"},
-  {name:"Meera Saree Center",cat:"Women Fashion",rating:"4.9",reviews:88,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="26" height="26"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg>',open:true,city:"Vijay Nagar, Indore",color:"#ec4899"},
-  {name:"Digital Zone",cat:"Electronics",rating:"4.6",reviews:72,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="26" height="26"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg>',open:false,city:"MG Road, Indore",color:"#059669"},
-  {name:"Rani Jewels",cat:"Jewellery",rating:"4.7",reviews:56,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="26" height="26"><polyline points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><line x1="12" y1="3" x2="12" y2="9"/></svg>',open:true,city:"Sarafa Bazaar, Indore",color:"#d97706"},
-  {name:"Little Star Kids",cat:"Kids Wear",rating:"4.5",reviews:42,icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="26" height="26"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>',open:true,city:"South Tukoganj, Indore",color:"#7c3aed"},
-];
+// ── SAVED SHOPS (loaded from API) ──
+let savedShops = [];
+
+async function loadSavedShops() {
+  if (!_bbToken) return;
+  try {
+    const res = await fetch(`${API_BASE}/saved-shops`, { headers: { 'Authorization': 'Bearer ' + _bbToken } });
+    const d = await res.json();
+    if (d.success) {
+      savedShops = (d.shops || []).map(s => ({
+        id:       s.id,
+        savedId:  s.savedId,
+        name:     s.name || 'Shop',
+        slug:     s.slug || '',
+        cat:      s.category || 'Shop',
+        rating:   s.rating ? s.rating.toFixed(1) : '—',
+        reviews:  s.review_count || 0,
+        city:     s.city || '',
+        logo:     s.logo || '',
+        waNum:    s.whatsapp ? '91' + s.whatsapp : '919876543210',
+        color:    '#1a56db',
+      }));
+      const n = savedShops.length;
+      const el = document.getElementById('ovStatSavedShops');
+      if (el) el.textContent = n;
+      const sub = document.getElementById('savedShopsSub');
+      if (sub) sub.textContent = n === 0 ? 'No saved shops yet.' : n + ' shops saved to your favourites.';
+      const acctEl = document.getElementById('acctSavedItems');
+      // saved shops and wishlist items are different — don't override wishlist here
+      buildSavedShops();
+      buildOverviewSavedShops();
+    }
+  } catch(e) { /* silently skip */ }
+}
+
+const _SHOP_COLORS = ['#1a56db','#ec4899','#059669','#d97706','#7c3aed','#0ea5e9','#f97316','#16a34a'];
+const _SHOP_ICON = `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="26" height="26"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg>`;
+
 function buildSavedShops(){
   const el = document.getElementById('savedShopsGrid');
   if(!el) return;
-  el.innerHTML = savedShops.map(s=>`
-    <div class="card" style="display:flex;align-items:flex-start;gap:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.boxShadow=''" onclick="window.location='shop-profile.html'">
-      <div style="width:54px;height:54px;border-radius:13px;background:linear-gradient(135deg,${s.color},${s.color}aa);display:flex;align-items:center;justify-content:center;line-height:0;flex-shrink:0;">${s.icon}</div>
+  if (!savedShops.length) {
+    el.innerHTML = `<div style="grid-column:1/-1;padding:40px;text-align:center;color:var(--text-light);">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48" style="margin:0 auto 12px;display:block;opacity:.4;"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg>
+      <div style="font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:6px;">No saved shops yet</div>
+      <div style="font-size:13px;margin-bottom:12px;">Save shops you like to follow their updates and offers.</div>
+      <a href="index.html" class="btn btn-primary btn-sm">Browse Shops →</a>
+    </div>`;
+    return;
+  }
+  el.innerHTML = savedShops.map((s, i)=>{
+    const color = _SHOP_COLORS[i % _SHOP_COLORS.length];
+    const logoHtml = s.logo
+      ? `<img src="${s.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:13px;" onerror="this.style.display='none'">`
+      : _SHOP_ICON.replace('#fff', '#fff');
+    const shopUrl = s.slug ? `shop-profile.html?id=${s.slug}` : 'shop-profile.html';
+    return `
+    <div class="card" style="display:flex;align-items:flex-start;gap:14px;cursor:pointer;transition:all .2s;" onmouseover="this.style.boxShadow='var(--shadow-hover)'" onmouseout="this.style.boxShadow=''" onclick="window.location='${shopUrl}'">
+      <div style="width:54px;height:54px;border-radius:13px;background:linear-gradient(135deg,${color},${color}aa);display:flex;align-items:center;justify-content:center;line-height:0;flex-shrink:0;overflow:hidden;">${logoHtml}</div>
       <div style="flex:1;min-width:0;">
         <div style="display:flex;align-items:center;gap:7px;margin-bottom:3px;">
           <span style="font-weight:800;font-size:15px;color:var(--text-dark);">${s.name}</span>
-          <span class="badge ${s.open?'badge-success':'badge-gray'}">${s.open?'Open':'Closed'}</span>
         </div>
-        <div style="font-size:12px;color:var(--text-light);margin-bottom:6px;display:flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="11" height="11"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> ${s.city} · ${s.cat}</div>
+        <div style="font-size:12px;color:var(--text-light);margin-bottom:6px;display:flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2" width="11" height="11"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg> ${s.city || '—'} · ${s.cat}</div>
         <div style="display:flex;align-items:center;gap:10px;">
           <span style="color:#fbbf24;font-size:13px;">★</span>
           <span style="font-weight:700;font-size:13px;color:var(--text-dark);">${s.rating}</span>
           <span style="font-size:12px;color:var(--text-light);">(${s.reviews} reviews)</span>
         </div>
         <div style="display:flex;gap:7px;margin-top:10px;">
-          <button class="btn btn-wa btn-sm" onclick="event.stopPropagation();openWAShop('${s.name}')"><svg viewBox="0 0 16 16" fill="#fff" width="13" height="13"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg> WhatsApp</button>
+          <button class="btn btn-wa btn-sm" onclick="event.stopPropagation();openWAShop('${s.name.replace(/'/g,"\\'")}','${s.waNum}')"><svg viewBox="0 0 16 16" fill="#fff" width="13" height="13"><path d="M13.601 2.326A7.854 7.854 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.933 7.933 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.898 7.898 0 0 0 13.6 2.326z"/></svg> WhatsApp</button>
           <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation();removeSavedShop(this,'${s.id}')"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg></button>
         </div>
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
 }
 
 // ── MY REVIEWS ──
@@ -1993,7 +2125,7 @@ const REV_DATA = [
    product:'Summer Frock – Floral Print', date:'20 Apr 2026', status:'pending', helpful:0, reply:null},
 ];
 
-let revItems = [...REV_DATA];
+let revItems = []; // loaded from API in loadDashboardData()
 let revCurrentTab = 'all';
 let revTypeTab = 'all';
 let revModalType = 'shop';
@@ -2210,7 +2342,10 @@ function revEditReview(id) {
 
 function revContactShop(name) {
   const msg = encodeURIComponent('Hello ' + name + '! Regarding my recent review — ');
-  window.open('https://wa.me/919876543210?text='+msg, '_blank');
+  // Try to find the shop's WA number from saved shops
+  const shop = savedShops.find(s => s.name === name);
+  const num  = shop ? shop.waNum : '919876543210';
+  window.open('https://wa.me/' + num + '?text=' + msg, '_blank');
 }
 
 function setRevModalType(type) {
@@ -2223,6 +2358,23 @@ function setRevModalType(type) {
   if(sub) sub.textContent = type === 'product'
     ? 'Rate a product you purchased from a local shop'
     : 'Share your experience with a local shop';
+}
+
+async function loadRevShopDropdown() {
+  const sel = document.getElementById('revModalShop');
+  if (!sel || sel.dataset.loaded) return;
+  try {
+    const city = (_bbUser && _bbUser.city) ? _bbUser.city : '';
+    const params = city ? `?city=${encodeURIComponent(city)}&limit=20` : '?limit=20';
+    const res = await fetch(`${API_BASE}/shops${params}`);
+    const d = await res.json();
+    const shops = d.shops || d.data || [];
+    if (shops.length) {
+      sel.innerHTML = '<option value="">Choose a shop...</option>' +
+        shops.map(s => `<option value="${s.name}" data-id="${s.id}">${s.name}${s.city ? ' — ' + s.city : ''}</option>`).join('');
+      sel.dataset.loaded = '1';
+    }
+  } catch(e) { /* keep existing options */ }
 }
 
 function openWriteModal(defaultType) {
@@ -2239,6 +2391,8 @@ function openWriteModal(defaultType) {
   if(mh) mh.textContent = 'Write a Review';
   const overlay = document.getElementById('revWriteModal');
   if(overlay) { overlay.classList.add('open'); document.body.style.overflow='hidden'; }
+  // Load shop options from API (async, runs in background)
+  loadRevShopDropdown();
 }
 
 function closeWriteModal() {
@@ -2285,21 +2439,49 @@ async function submitRevReview() {
       revShowToast(_ICO.err+' '+e.message);
     }
   } else {
-    // ── NEW review (UI placeholder — real submission done via shop-profile.html) ──
-    const newRev = {
-      id: Date.now(),
-      type: revModalType,
-      shop, shopSlug:'', cat: revModalType === 'product' ? 'Product Review' : 'Shop Review',
-      shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
-      rating: revEditingRating, title, text,
-      product: revModalType === 'product' ? (product || '') : '',
-      date: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
-      status:'published', helpful:0, reply:null
-    };
-    revItems.unshift(newRev);
-    closeWriteModal();
-    renderRevs();
-    revShowToast(_ICO.ok+' Review submitted!');
+    // ── NEW review — POST to API ──
+    // Need shop_id: find from loaded shops dropdown
+    const shopSel = document.getElementById('revModalShop');
+    const shopName = shop;
+    // Try to find shop_id from saved shops or nearby shops store
+    let shopId = null;
+    // Check if the select option has a data-id attribute (set by loadRevShopDropdown)
+    if (shopSel) {
+      const selOpt = shopSel.options[shopSel.selectedIndex];
+      shopId = selOpt ? (selOpt.dataset.id || null) : null;
+    }
+    try {
+      const body = { type: revModalType, rating: revEditingRating, title, text };
+      if (shopId)  body.shop_id    = shopId;
+      if (product) body.product_name = product;
+      // We still need shop_name for display even without shop_id
+      const res  = await fetch(`${API_BASE}/reviews`, {
+        method:  'POST',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
+        body:    JSON.stringify(body)
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Submission failed');
+      // Add to local array with returned data
+      const newRev = {
+        id:        data.review?.id || Date.now(),
+        type:      revModalType,
+        shop:      shopName,
+        shopSlug:  '',
+        cat:       revModalType === 'product' ? 'Product Review' : 'Shop Review',
+        shopEmoji: `<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+        rating:    revEditingRating, title, text,
+        product:   revModalType === 'product' ? (product || '') : '',
+        date:      new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+        status:    'published', helpful: 0, reply: null
+      };
+      revItems.unshift(newRev);
+      closeWriteModal();
+      renderRevs();
+      revShowToast(_ICO.ok+' Review submitted!');
+    } catch(e) {
+      revShowToast(_ICO.err+' ' + e.message);
+    }
   }
 }
 
@@ -2311,20 +2493,43 @@ function revShowToast(msg) {
   setTimeout(() => t.remove(), 3000);
 }
 
-// ── ACTIVITY TIMELINE ──
+// ── ACTIVITY TIMELINE (constructed from real in-memory data) ──
 function buildActivity(){
   const el = document.getElementById('activityTimeline');
   if(!el) return;
-  const acts = [
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="13" height="13"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',bg:"#e8f0fe",title:"Sent WhatsApp inquiry",sub:"Men's Kurta Set at Sharma Cloth House",time:"2 hrs ago"},
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>',bg:"#fee2e2",title:"Saved product to wishlist",sub:"Gold Plated Necklace at Rani Jewels",time:"5 hrs ago"},
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="13" height="13"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg>',bg:"#dcfce7",title:"Saved shop",sub:"Little Star Kids — Indore",time:"Yesterday"},
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="13" height="13"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>',bg:"#fef3c7",title:"Wrote a review",sub:"5 stars for Meera Saree Center",time:"2 days ago"},
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="13" height="13"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',bg:"#e8f0fe",title:"Sent WhatsApp inquiry",sub:"Bluetooth Earphones at Digital Zone",time:"3 days ago"},
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#7c3aed" stroke-width="2" width="13" height="13"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>',bg:"#f3e8ff",title:"Viewed shop profile",sub:"Rani Jewels — Sarafa Bazaar",time:"4 days ago"},
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="13" height="13"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>',bg:"#e8f0fe",title:"Searched for products",sub:'Query: "blue kurta set"',time:"5 days ago"},
-    {icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="13" height="13"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',bg:"#dcfce7",title:"Completed profile",sub:"Added city and phone number",time:"1 week ago"},
-  ];
+  const acts = [];
+  const waIcon  = '<svg viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" width="13" height="13"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>';
+  const stIcon  = '<svg viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2" width="13" height="13"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>';
+  const shIcon  = '<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="13" height="13"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg>';
+  const wlIcon  = '<svg viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" width="13" height="13"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
+  const prIcon  = '<svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2" width="13" height="13"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
+
+  // From WA inquiries (orders)
+  inquiries.slice(0, 3).forEach(inq => {
+    acts.push({ icon:waIcon, bg:'#e8f0fe', title:'Sent WhatsApp inquiry', sub:`${inq.product} at ${inq.shop}`, time:inq.time });
+  });
+  // From reviews
+  revItems.slice(0, 3).forEach(r => {
+    acts.push({ icon:stIcon, bg:'#fef3c7', title:'Wrote a ' + r.rating + '★ review', sub:r.type === 'product' ? (r.product || r.shop) : r.shop, time:r.date });
+  });
+  // From saved shops
+  savedShops.slice(0, 2).forEach(s => {
+    acts.push({ icon:shIcon, bg:'#dcfce7', title:'Saved shop', sub:`${s.name}${s.city ? ' — ' + s.city : ''}`, time:timeAgo(s.savedAt || new Date()) });
+  });
+  // From wishlist items
+  wlItems.slice(0, 2).forEach(w => {
+    acts.push({ icon:wlIcon, bg:'#fee2e2', title:'Saved product to wishlist', sub:`${w.title} at ${w.shop}`, time:w.added || 'Recently' });
+  });
+  // Profile completion
+  const pct = calcProfileCompletion(_bbUser || {});
+  if (pct > 0) {
+    acts.push({ icon:prIcon, bg:'#dcfce7', title:'Profile ' + pct + '% complete', sub:'Keep adding details to unlock more features', time:'Your account' });
+  }
+
+  if (!acts.length) {
+    el.innerHTML = '<div style="padding:24px;text-align:center;color:var(--text-light);font-size:13px;">No activity yet. Start by <a href="index.html" style="color:var(--primary);">browsing shops</a>!</div>';
+    return;
+  }
   el.innerHTML = acts.map(a=>`
     <div class="tl-item">
       <div class="tl-dot" style="background:${a.bg};">${a.icon}</div>
@@ -2420,7 +2625,7 @@ const NOTIF_DATA = [
 ];
 
 let notifCurrentTab = 'all';
-let notifItems = [...NOTIF_DATA];
+let notifItems = []; // loaded from API in loadDashboardData()
 let notifSearchQuery = '';
 let notifVisibleCount = 8;
 const NOTIF_PAGE_SIZE = 8;
@@ -2691,60 +2896,97 @@ function buildOverviewWishlist(){
     </div>`).join('');
 }
 
-// ── PROFILE TASKS ──
+// ── PROFILE TASKS (dynamic from _bbUser) ──
 function buildProfileTasks(){
   const el = document.getElementById('profileTasks');
   if(!el) return;
+  const u = _bbUser || {};
+  const hasRealEmail = u.email && u.email.includes('@') && !u.email.includes('@bahabasket.app');
   const tasks = [
-    {done:true,task:"Phone number verified"},
-    {done:true,task:"Email address added"},
-    {done:true,task:"City selected (Indore)"},
-    {done:false,task:"Upload profile photo"},
-    {done:false,task:"Add favourite categories"},
-    {done:false,task:"Write a shop review"},
+    {done: !!u.phone,                                             task: "Phone number added",         section: 'profile'},
+    {done: hasRealEmail,                                          task: "Email address added",         section: 'profile'},
+    {done: !!u.city,                                              task: "City / Location set",         section: 'profile'},
+    {done: !!u.avatar_url,                                        task: "Upload profile photo",        section: 'profile'},
+    {done: !!(u.categories && u.categories.length > 0),          task: "Add favourite categories",    section: 'profile'},
+    {done: revItems.length > 0,                                   task: "Write your first review",     section: 'reviews'},
   ];
+  const doneTick  = '<svg viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>';
+  const undoneBox = '<svg viewBox="0 0 24 24" fill="none" stroke="var(--border)" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>';
   el.innerHTML = tasks.map(t=>`
     <div style="display:flex;align-items:center;gap:9px;padding:7px 0;border-bottom:1px solid var(--border);font-size:13.5px;">
-      <span style="line-height:0;flex-shrink:0;">${t.done?'<svg viewBox="0 0 24 24" fill="none" stroke="var(--success)" stroke-width="2.5" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>':'<svg viewBox="0 0 24 24" fill="none" stroke="var(--border)" stroke-width="2" width="16" height="16"><rect x="3" y="3" width="18" height="18" rx="3"/></svg>'}</span>
+      <span style="line-height:0;flex-shrink:0;">${t.done ? doneTick : undoneBox}</span>
       <span style="color:${t.done?'var(--text-light)':'var(--text-dark)'};text-decoration:${t.done?'line-through':'none'};">${t.task}</span>
-      ${!t.done?`<span style="margin-left:auto;font-size:11px;color:var(--primary);font-weight:700;cursor:pointer;" onclick="showSection('profile',null)">Do it →</span>`:''}
+      ${!t.done?`<span style="margin-left:auto;font-size:11px;color:var(--primary);font-weight:700;cursor:pointer;" onclick="showSection('${t.section}',null)">Do it →</span>`:''}
     </div>`).join('');
 }
 
-// ── NEARBY SHOPS ──
-function buildNearbyShops(){
+// ── NEARBY SHOPS (from API by user's city) ──
+async function buildNearbyShops(){
   const el = document.getElementById('nearbyShops');
   if(!el) return;
-  el.innerHTML = [
-    {name:"Fashion Palace",cat:"Women Fashion",rating:"4.7",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><path d="M12 2l-4 6H4l2 14h12l2-14h-4l-4-6z"/><line x1="8" y1="8" x2="16" y2="8"/></svg>',color:"#ec4899"},
-    {name:"Gadget World",cat:"Electronics",rating:"4.5",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>',color:"#059669"},
-    {name:"Shoe Bazaar",cat:"Footwear",rating:"4.6",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z"/><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z"/></svg>',color:"#d97706"},
-    {name:"Kids Kingdom",cat:"Kids Wear",rating:"4.8",icon:'<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>',color:"#7c3aed"},
-  ].map(s=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="window.location='shop-profile.html'">
-      <div style="width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,${s.color},${s.color}88);display:flex;align-items:center;justify-content:center;line-height:0;flex-shrink:0;">${s.icon}</div>
-      <div style="flex:1;">
-        <div style="font-weight:600;font-size:13px;color:var(--text-dark);">${s.name}</div>
-        <div style="font-size:11px;color:var(--text-light);">${s.cat}</div>
-      </div>
-      <div style="font-size:13px;color:#fbbf24;font-weight:700;">★ ${s.rating}</div>
-    </div>`).join('');
+  // Update the city label in the widget header
+  const city = (_bbUser && _bbUser.city) ? _bbUser.city : '';
+  const cityLbl = el.closest('.card')?.querySelector('.card-title span');
+  if (cityLbl && city) cityLbl.textContent = city;
+
+  el.innerHTML = '<div style="padding:12px 0;color:var(--text-light);font-size:13px;text-align:center;">Loading shops…</div>';
+  try {
+    const params = city ? `?city=${encodeURIComponent(city)}&limit=4` : '?limit=4';
+    const res = await fetch(`${API_BASE}/shops${params}`);
+    const d = await res.json();
+    const shops = (d.shops || d.data || []).slice(0, 4);
+    if (!shops.length) {
+      el.innerHTML = '<div style="padding:12px 0;color:var(--text-light);font-size:13px;text-align:center;">No shops found near you.<br><a href="index.html" style="color:var(--primary);">Browse all shops →</a></div>';
+      return;
+    }
+    el.innerHTML = shops.map((s, i) => {
+      const color = _SHOP_COLORS[i % _SHOP_COLORS.length];
+      const logoHtml = s.logo
+        ? `<img src="${s.logo}" style="width:36px;height:36px;border-radius:9px;object-fit:cover;" onerror="this.style.display='none'">`
+        : `<div style="width:36px;height:36px;border-radius:9px;background:linear-gradient(135deg,${color},${color}88);display:flex;align-items:center;justify-content:center;"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg></div>`;
+      const shopUrl = s.slug ? `shop-profile.html?id=${s.slug}` : 'shop-profile.html';
+      return `
+        <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="window.location='${shopUrl}'">
+          ${logoHtml}
+          <div style="flex:1;min-width:0;">
+            <div style="font-weight:600;font-size:13px;color:var(--text-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</div>
+            <div style="font-size:11px;color:var(--text-light);">${s.category || 'Shop'}</div>
+          </div>
+          <div style="font-size:13px;color:#fbbf24;font-weight:700;flex-shrink:0;">★ ${s.rating ? s.rating.toFixed(1) : '—'}</div>
+        </div>`;
+    }).join('');
+  } catch(e) {
+    el.innerHTML = '<div style="padding:12px 0;color:var(--text-light);font-size:13px;text-align:center;"><a href="index.html" style="color:var(--primary);">Browse shops →</a></div>';
+  }
 }
 
-// ── CAT PREFERENCE CHIPS ──
+// ── CAT PREFERENCE CHIPS (from _bbUser.categories) ──
 function buildCatPrefs(){
   const el = document.getElementById('catPrefs');
   if(!el) return;
-  const cats = ['Men Fashion','Women Fashion','Electronics','Jewellery','Footwear','Kids Wear'];
-  const selected = ['Men Fashion','Women Fashion','Jewellery'];
-  el.innerHTML = cats.map(c=>`
-    <span onclick="this.classList.toggle('active')" style="padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid ${selected.includes(c)?'var(--primary)':'var(--border)'};background:${selected.includes(c)?'var(--primary-light)':'var(--bg)'};color:${selected.includes(c)?'var(--primary)':'var(--text-mid)'};cursor:pointer;transition:all .18s;" onmouseover="this.style.borderColor='var(--primary)'" onmouseout="">${c}</span>`).join('');
+  const cats = ['Men Fashion','Women Fashion','Electronics','Jewellery','Footwear','Kids Wear','Home & Living','Toys'];
+  const selected = (_bbUser && _bbUser.categories) ? _bbUser.categories : [];
+  el.innerHTML = cats.map(c=>{
+    const active = selected.includes(c);
+    return `<span onclick="toggleCatPref(this,'${c}')" style="padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid ${active?'var(--primary)':'var(--border)'};background:${active?'var(--primary-light)':'var(--bg)'};color:${active?'var(--primary)':'var(--text-mid)'};cursor:pointer;transition:all .18s;">${c}</span>`;
+  }).join('');
+}
+
+function toggleCatPref(el, cat) {
+  const isActive = el.style.background.includes('primary-light') || el.style.color.includes('primary');
+  if (isActive) {
+    el.style.cssText = 'padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);cursor:pointer;transition:all .18s;';
+    if (_bbUser && _bbUser.categories) _bbUser.categories = _bbUser.categories.filter(c => c !== cat);
+  } else {
+    el.style.cssText = 'padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);cursor:pointer;transition:all .18s;';
+    if (_bbUser) { _bbUser.categories = _bbUser.categories || []; if (!_bbUser.categories.includes(cat)) _bbUser.categories.push(cat); }
+  }
 }
 
 // ── WA HELPERS ──
 function openWA(){ window.open('https://wa.me/919876543210?text=Hello! I need help with my BahaBasket account.','_blank'); }
-function openWAProduct(product, shop){ window.open(`https://wa.me/919876543210?text=Hello ${shop}! I want to follow up on my inquiry about: ${product}`,'_blank'); }
-function openWAShop(shop){ window.open(`https://wa.me/919876543210?text=Hello ${shop}! I found your shop on BahaBasket.`,'_blank'); }
+function openWAProduct(product, shop, waNum){ const num = waNum || '919876543210'; window.open(`https://wa.me/${num}?text=${encodeURIComponent('Hello ' + shop + '! I want to follow up on my inquiry about: ' + product)}`,'_blank'); }
+function openWAShop(shop, waNum){ const num = waNum || '919876543210'; window.open(`https://wa.me/${num}?text=${encodeURIComponent('Hello ' + shop + '! I found your shop on BahaBasket.')}`,'_blank'); }
 
 // ── MISC ──
 async function saveProfile(){
@@ -2767,10 +3009,16 @@ async function saveProfile(){
   if(btn){ btn.disabled = true; btn.textContent = 'Saving…'; }
 
   try {
+    // Collect selected categories from chips
+    const selectedCats = Array.from(document.querySelectorAll('#catPrefs span'))
+      .filter(el => el.style.color && el.style.color.includes('primary') || el.style.borderColor && el.style.borderColor.includes('primary'))
+      .map(el => el.textContent.trim());
+    const cats = selectedCats.length ? selectedCats : (_bbUser && _bbUser.categories ? _bbUser.categories : []);
+
     const res  = await fetch(`${API_BASE}/auth/me`, {
       method:  'PATCH',
       headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
-      body:    JSON.stringify({ name, city, pincode: pin, phone, dob, bio, language: lang })
+      body:    JSON.stringify({ name, city, pincode: pin, phone, dob, bio, language: lang, categories: cats })
     });
     const data = await res.json();
     if(!data.success) throw new Error(data.error || 'Update failed');
@@ -2837,10 +3085,40 @@ async function confirmDelete(){
   }
 }
 
-// ── SAVE SETTINGS (notification & privacy toggles) ──
-function saveSettings(){
-  // These preferences are UI-only for now (no dedicated API endpoint)
-  showToast(_ICO.ok+' Settings saved successfully!');
+// ── SAVE SETTINGS (notification toggles + city/language → PATCH /auth/me) ──
+async function saveSettings(){
+  const togMap = {
+    togWA: 'wa_alerts', togOffers: 'offer_alerts', togNewShops: 'new_shop_alerts',
+    togPriceDrops: 'price_drops', togPlatform: 'platform_updates',
+    togEmail: 'email_notif', togShopRec: 'shop_rec', togWeekly: 'weekly_digest',
+    togShowProfile: 'show_profile'
+  };
+  const prefs = {};
+  Object.entries(togMap).forEach(([id, key]) => {
+    const el = document.getElementById(id);
+    if (el) prefs[key] = el.checked;
+  });
+  const city = document.getElementById('settingsCity')?.value.trim() || '';
+  const lang = document.getElementById('settingsLang')?.value || '';
+  const updates = { notification_prefs: prefs };
+  if (city) updates.city = city;
+  if (lang) updates.language = lang;
+  try {
+    const res  = await fetch(`${API_BASE}/auth/me`, {
+      method:  'PATCH',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
+      body:    JSON.stringify(updates)
+    });
+    const data = await res.json();
+    if (!data.success) throw new Error(data.error || 'Save failed');
+    if (data.user) {
+      _bbUser = { ..._bbUser, ...data.user };
+      localStorage.setItem('bb_user', JSON.stringify(_bbUser));
+    }
+    showToast(_ICO.ok+' Settings saved successfully!');
+  } catch(e) {
+    showToast(_ICO.err+' Could not save settings: ' + e.message, '#ef4444');
+  }
 }
 
 // ── AVATAR UPLOAD ──
@@ -2966,7 +3244,7 @@ async function removeSavedShop(btn, shopId){
   const card = btn.closest('.card');
   if(card) card.style.opacity = '0.4';
   try {
-    const res = await fetch(API_BASE+'/shops/saved/'+shopId, {
+    const res = await fetch(API_BASE+'/saved-shops/'+shopId, {
       method:  'DELETE',
       headers: { 'Authorization': 'Bearer '+_bbToken }
     });
@@ -2984,11 +3262,12 @@ async function removeSavedShop(btn, shopId){
 async function loadDashboardData() {
   if (!_bbToken) return;
   const hdrs = { 'Authorization': 'Bearer ' + _bbToken };
+  const set  = (id, v) => { const el = document.getElementById(id); if (el) el.textContent = v; };
 
   // ── Fetch all in parallel ──
   const [wlRes, revRes, notifRes] = await Promise.allSettled([
     fetch(`${API_BASE}/wishlist`,      { headers: hdrs }),
-    fetch(`${API_BASE}/reviews?user_id=${_bbUser?.id}`, { headers: hdrs }),
+    fetch(`${API_BASE}/reviews?user_id=${_bbUser?.id}&limit=50`, { headers: hdrs }),
     fetch(`${API_BASE}/notifications`, { headers: hdrs })
   ]);
 
@@ -2997,10 +3276,17 @@ async function loadDashboardData() {
     const d = await wlRes.value.json();
     if (d.success) {
       const items = (d.wishlist || []);
-      document.querySelector('#sec-overview .stat-card.blue .stat-num').textContent = items.length;
+      const wlCount = items.length;
+      set('ovStatSavedProducts', wlCount);
+      set('acctSavedItems', wlCount + ' items');
+      // Sidebar wishlist badge
+      const wlBadge = document.getElementById('siBadgeWishlist');
+      if (wlBadge) { wlBadge.textContent = wlCount; wlBadge.style.display = wlCount > 0 ? '' : 'none'; }
+      // wlCount also on wishlist header
+      const wlCntEl = document.getElementById('wlCount');
+      if (wlCntEl) wlCntEl.textContent = wlCount;
 
       if (items.length === 0) {
-        // Empty state
         wlItems = [];
         document.getElementById('wlGrid').innerHTML = `
           <div class="wl-empty-state" style="display:block;grid-column:1/-1;">
@@ -3010,8 +3296,8 @@ async function loadDashboardData() {
             <a href="index.html" class="btn btn-primary" style="display:inline-flex;margin-top:8px;">Browse Products</a>
           </div>`;
         document.getElementById('overviewWishlist').innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">No saved products yet. <a href="index.html" style="color:var(--primary);">Browse shops →</a></div>`;
+        document.getElementById('sumItems').textContent = '0';
       } else {
-        // Transform API items to local format
         const icons = ['shirt','dress','phone','headphones','ring','hat','diamond','watch','necklace'];
         const bgs   = ['#dbeafe','#fce7f3','#e0f2fe','#fef9c3','#fdf4ff','#fff7ed','#ecfdf5','#eff6ff','#fdf2f8'];
         wlItems = items.map((item, i) => {
@@ -3026,8 +3312,7 @@ async function loadDashboardData() {
             price:      p.price || 0,
             mrp:        p.mrp  || p.price || 0,
             cat:        'all',
-            badge:      '',
-            badgeText:  '',
+            badge:      '',  badgeText: '',
             added:      timeAgo(item.created_at),
             rating:     p.rating || 0,
             reviews:    p.review_count || 0,
@@ -3040,6 +3325,7 @@ async function loadDashboardData() {
         });
         renderWL();
         buildOverviewWishlist();
+        document.getElementById('sumItems').textContent = wlItems.length;
       }
     }
   }
@@ -3049,33 +3335,35 @@ async function loadDashboardData() {
     const d = await revRes.value.json();
     if (d.success) {
       const items = d.reviews || [];
-      document.querySelector('#sec-overview .stat-card.purple .stat-num').textContent = items.length;
+      set('ovStatReviews', items.length);
+      set('acctReviews', items.length + ' reviews');
 
       if (items.length === 0) {
-        document.getElementById('revList').innerHTML = `
-          <div class="rev-empty-state">
-            <div class="empty-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div>
-            <h3>No reviews yet</h3>
-            <p>Share your experience with shops and products you've visited.</p>
-          </div>`;
+        revItems = [];
+        renderRevs(); // shows empty state
       } else {
         revItems = items.map(r => ({
-          id:          r.id,
-          type:        r.type,
-          shop:        r.shops?.name || r.products?.name || 'Unknown',
-          shopSlug:    r.shops?.slug  || '',
-          cat:         r.type === 'product' ? 'Product Review' : 'Shop Review',
-          shopEmoji:   r.type === 'product' ? `<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="26" height="26"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>` : `<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
-          productName: r.products?.name || '',
-          rating:      r.rating,
-          title:       r.title || '',
-          text:        r.text,
-          date:        new Date(r.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}),
-          status:      r.status,
-          helpful:     r.helpful_count || 0
+          id:        r.id,
+          type:      r.type,
+          shop:      r.shops?.name || r.products?.name || 'Unknown',
+          shopSlug:  r.shops?.slug || '',
+          cat:       r.type === 'product' ? (r.products?.name ? 'Product Review' : 'Product Review') : (r.shops?.category || 'Shop Review'),
+          shopEmoji: r.type === 'product'
+            ? `<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="26" height="26"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>`
+            : `<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+          product:   r.products?.name || '',
+          rating:    r.rating,
+          title:     r.title || '',
+          text:      r.text,
+          date:      new Date(r.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'short',year:'numeric'}),
+          status:    r.status,
+          helpful:   r.helpful_count || 0,
+          reply:     r.shop_reply || null
         }));
         renderRevs();
       }
+      // Rebuild tasks (review count now known)
+      buildProfileTasks();
     }
   }
 
@@ -3084,35 +3372,40 @@ async function loadDashboardData() {
     const d = await notifRes.value.json();
     if (d.success) {
       const items = d.notifications || [];
-      const unread = d.unread_count || 0;
-
-      // Update badge
-      const badge = document.querySelector('.sidebar-item[onclick*="notifications"] .si-badge');
+      const unread = d.unread_count || items.filter(n => !n.is_read).length;
+      const badge = document.getElementById('siBadgeNotif');
       if (badge) { badge.textContent = unread; badge.style.display = unread > 0 ? '' : 'none'; }
 
       if (items.length === 0) {
-        document.getElementById('notifList').innerHTML = `
-          <div style="text-align:center;padding:48px 20px;color:var(--text-light);">
-            <div style="margin-bottom:12px;opacity:.4;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="48" height="48"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg></div>
-            <div style="font-size:16px;font-weight:700;color:var(--text-dark);margin-bottom:6px;">All caught up!</div>
-            <div style="font-size:13px;">No notifications yet.</div>
-          </div>`;
+        notifItems = [];
+        renderNotifs();
       } else {
         notifItems = items.map(n => ({
           id:      n.id,
-          type:    n.type || 'info',
-          icon:    'bell',
+          type:    n.type || 'system',
+          icon:    n.icon_name || 'star',
           iconBg:  '#e0f2fe',
-          title:   n.title || 'Notification',
+          iconColor: '#1a56db',
+          title:   '<strong>' + (n.title || 'Notification') + '</strong>',
           sub:     n.message || '',
           time:    timeAgo(n.created_at),
-          isRead:  n.is_read,
-          pinned:  false
+          unread:  !n.is_read,
+          pinned:  false,
+          btns:    []
         }));
         renderNotifs();
       }
     }
   }
+
+  // ── 4. SAVED SHOPS ──
+  await loadSavedShops();
+
+  // ── 5. ORDERS / INQUIRIES ──
+  await loadInquiries();
+
+  // ── 6. Rebuild activity with fresh data ──
+  buildActivity();
 }
 
 function timeAgo(dateStr) {
@@ -3131,40 +3424,51 @@ function timeAgo(dateStr) {
 function buildOverviewSavedShops(){
   const el = document.getElementById('overviewSavedShops');
   if(!el) return;
-  el.innerHTML = savedShops.slice(0,3).map(s=>`
-    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);">
-      <div style="width:36px;height:36px;border-radius:9px;background:${s.color};display:flex;align-items:center;justify-content:center;flex-shrink:0;">${s.icon.replace('width="26" height="26"','width="18" height="18"')}</div>
+  if (!savedShops.length) {
+    el.innerHTML = `<div style="padding:16px;text-align:center;color:var(--text-light);font-size:13px;">No saved shops yet. <a href="index.html" style="color:var(--primary);">Browse shops →</a></div>`;
+    return;
+  }
+  el.innerHTML = savedShops.slice(0,3).map((s,i)=>{
+    const color = _SHOP_COLORS[i % _SHOP_COLORS.length];
+    const shopUrl = s.slug ? `shop-profile.html?id=${s.slug}` : 'shop-profile.html';
+    const logoHtml = s.logo
+      ? `<img src="${s.logo}" style="width:100%;height:100%;object-fit:cover;border-radius:9px;" onerror="this.style.display='none'">`
+      : `<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" width="18" height="18"><path d="M3 9h18l-2 11H5L3 9z"/><path d="M8 9V5a4 4 0 0 1 8 0v4"/></svg>`;
+    return `
+    <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);cursor:pointer;" onclick="window.location='${shopUrl}'">
+      <div style="width:36px;height:36px;border-radius:9px;background:${color};display:flex;align-items:center;justify-content:center;flex-shrink:0;overflow:hidden;">${logoHtml}</div>
       <div style="flex:1;min-width:0;">
         <div style="font-size:13px;font-weight:600;color:var(--text-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${s.name}</div>
-        <div style="font-size:11.5px;color:var(--text-light);">${s.cat} · ${s.city}</div>
+        <div style="font-size:11.5px;color:var(--text-light);">${s.cat}${s.city ? ' · ' + s.city : ''}</div>
       </div>
       <div style="font-size:11.5px;font-weight:700;color:var(--warning);">&#9733; ${s.rating}</div>
-    </div>`).join('') +
-    `<div style="padding-top:8px;text-align:center;"><button class="btn btn-ghost btn-sm" onclick="showSection('saved-shops',null)">View All ${savedShops.length} Shops →</button></div>`;
+    </div>`;
+  }).join('') +
+  `<div style="padding-top:8px;text-align:center;"><button class="btn btn-ghost btn-sm" onclick="showSection('saved-shops',null)">View All ${savedShops.length} Shops →</button></div>`;
 }
 
 // ── INIT ──
-renderWL();
-buildInquiries('inquiriesList', null);
-buildInquiries('overviewInquiries', 3);
-buildSavedShops();
-buildMyReviews();
-buildActivity();
-buildNotifs();
-buildOverviewWishlist();
-buildOverviewSavedShops();
-buildProfileTasks();
-buildNearbyShops();
-buildCatPrefs();
+// Show empty states immediately (no dummy data)
+renderWL();          // empty wishlist grid
+buildMyReviews();    // empty reviews
+buildNotifs();       // empty notifications
+buildInquiries('inquiriesList', null);    // empty inquiries list
+buildInquiries('overviewInquiries', 3);  // empty overview panel
+buildSavedShops();   // empty saved shops grid
+buildOverviewSavedShops();  // empty overview panel
+buildActivity();     // empty activity (will rebuild after API loads)
+buildCatPrefs();     // cat chips from _bbUser (may be empty)
+buildProfileTasks(); // tasks from _bbUser
+buildNearbyShops();  // fetches from API immediately
 
-// Load real data from API (overrides mock data above)
+// Load all real data from API
 loadDashboardData();
 </script>
 
 <!-- WRITE REVIEW MODAL -->
 <div class="rev-modal-overlay" id="revWriteModal" onclick="if(event.target===this)closeWriteModal()">
   <div class="rev-modal">
-    <h3>Write a Review</h3>
+    <h3 id="revModalHeading">Write a Review</h3>
     <div class="rev-modal-sub" id="revModalSub">Share your experience with this shop</div>
 
     <!-- Type toggle -->
@@ -3183,12 +3487,6 @@ loadDashboardData();
       <label class="rev-form-label">Select Shop</label>
       <select class="rev-form-input" id="revModalShop">
         <option value="">Choose a shop...</option>
-        <option>Sharma Cloth House</option>
-        <option>Meera Saree Center</option>
-        <option>Digital Zone</option>
-        <option>Rani Jewels</option>
-        <option>Little Star Kids</option>
-        <option>Step In Style</option>
       </select>
     </div>
 
