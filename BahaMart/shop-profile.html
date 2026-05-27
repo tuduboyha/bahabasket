@@ -456,16 +456,12 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
         <div class="slbl">Reviews</div>
       </div>
       <div class="shop-stat">
-        <div class="snum">500+</div>
-        <div class="slbl">Customers</div>
-      </div>
-      <div class="shop-stat">
         <div class="snum" id="statYears">—</div>
-        <div class="slbl">Years in Business</div>
+        <div class="slbl">Years Active</div>
       </div>
       <div class="shop-stat">
-        <div class="snum">1,240+</div>
-        <div class="slbl">WA Inquiries</div>
+        <div class="snum" id="statProducts">—</div>
+        <div class="slbl">Products</div>
       </div>
       <div class="shop-stat">
         <div class="snum" id="statRating">4.8★</div>
@@ -494,12 +490,8 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
     <div class="tab-panel active" id="tab-products">
       <div class="section-toolbar">
         <div class="section-title-sm">All Products</div>
-        <div class="filter-row">
+        <div class="filter-row" id="filterRow">
           <div class="filter-chip active" onclick="filterCat(this,'all')">All</div>
-          <div class="filter-chip" onclick="filterCat(this,'kurta')">Kurta Sets</div>
-          <div class="filter-chip" onclick="filterCat(this,'shirt')">Shirts</div>
-          <div class="filter-chip" onclick="filterCat(this,'sherwani')">Sherwani</div>
-          <div class="filter-chip" onclick="filterCat(this,'trouser')">Trousers</div>
         </div>
         <select class="filter-select" id="sortSelect" onchange="applySort(this.value)">
           <option value="featured">Sort: Featured</option>
@@ -535,38 +527,26 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
         <!-- Shop Info -->
         <div class="about-card">
           <div class="about-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>Shop Information</div>
-          <ul class="info-list">
+          <ul class="info-list" id="aboutInfoList">
             <li>
               <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
-              <div><strong>Owner Name</strong>Ramesh Kumar Sharma</div>
+              <div><strong>Owner</strong><span id="aboutOwner">—</span></div>
             </li>
             <li>
               <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-              <div><strong>Established</strong>1998 (26 Years in Business)</div>
+              <div><strong>On BahaBasket Since</strong><span id="aboutSince">—</span></div>
             </li>
             <li>
               <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg></div>
-              <div><strong>Category</strong><span id="aboutCategory">Men's Fashion — Ethnic & Western</span></div>
+              <div><strong>Category</strong><span id="aboutCategory">—</span></div>
             </li>
             <li>
-              <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div>
-              <div><strong>Price Range</strong>₹299 – ₹8,999</div>
-            </li>
-            <li>
-              <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="1" y="3" width="15" height="13" rx="1"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
-              <div><strong>Delivery</strong>Available within 10 km (Free above ₹800)</div>
+              <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg></div>
+              <div><strong>City</strong><span id="aboutCity">—</span></div>
             </li>
             <li>
               <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div>
-              <div><strong>Payment Methods</strong>Cash, UPI (GPay / PhonePe), Card</div>
-            </li>
-            <li>
-              <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 102.13-9.36L1 10"/></svg></div>
-              <div><strong>Exchange Policy</strong>7 days exchange on size issues</div>
-            </li>
-            <li>
-              <div class="il-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg></div>
-              <div><strong>Bulk / Wholesale</strong>Available — min. 10 pieces</div>
+              <div><strong>Plan</strong><span id="aboutPlan">—</span></div>
             </li>
           </ul>
         </div>
@@ -574,17 +554,17 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
         <!-- Working Hours -->
         <div class="about-card">
           <div class="about-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="17" height="17"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Working Hours</div>
-          <div class="hours-table">
+          <div class="hours-table" id="hoursTable">
             <div class="hours-row">
               <span class="hours-day">Monday</span>
-              <span class="hours-time today">10:00 AM – 7:00 PM <span class="open-now-tag"><span class="open-dot"></span>Open Now</span></span>
+              <span class="hours-time" id="hday-1">10:00 AM – 7:00 PM</span>
             </div>
-            <div class="hours-row"><span class="hours-day">Tuesday</span><span class="hours-time">10:00 AM – 7:00 PM</span></div>
-            <div class="hours-row"><span class="hours-day">Wednesday</span><span class="hours-time">10:00 AM – 7:00 PM</span></div>
-            <div class="hours-row"><span class="hours-day">Thursday</span><span class="hours-time">10:00 AM – 7:00 PM</span></div>
-            <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time">10:00 AM – 7:00 PM</span></div>
-            <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time">10:00 AM – 6:00 PM</span></div>
-            <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time closed">Closed</span></div>
+            <div class="hours-row"><span class="hours-day">Tuesday</span><span class="hours-time" id="hday-2">10:00 AM – 7:00 PM</span></div>
+            <div class="hours-row"><span class="hours-day">Wednesday</span><span class="hours-time" id="hday-3">10:00 AM – 7:00 PM</span></div>
+            <div class="hours-row"><span class="hours-day">Thursday</span><span class="hours-time" id="hday-4">10:00 AM – 7:00 PM</span></div>
+            <div class="hours-row"><span class="hours-day">Friday</span><span class="hours-time" id="hday-5">10:00 AM – 7:00 PM</span></div>
+            <div class="hours-row"><span class="hours-day">Saturday</span><span class="hours-time" id="hday-6">10:00 AM – 6:00 PM</span></div>
+            <div class="hours-row"><span class="hours-day">Sunday</span><span class="hours-time closed" id="hday-0">Closed</span></div>
           </div>
         </div>
 
@@ -593,10 +573,10 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
           <div class="map-placeholder" onclick="openMap()">
             <div class="map-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="40" height="40"><polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/></svg></div>
             <div class="map-text">View Shop Location on Map</div>
-            <div class="map-addr">Shop No. 12, Gandhi Nagar Market, Near SBI Bank, Indore – 452001</div>
+            <div class="map-addr" id="mapAddrShort">—</div>
           </div>
           <div class="map-card-body">
-            <div class="addr-text"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg><strong>Shop No. 12, Gandhi Nagar Market</strong>, Near SBI Bank, Gandhi Nagar, Indore, Madhya Pradesh – 452001</div>
+            <div class="addr-text" id="mapAddrFull"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>—</div>
             <button class="btn-directions" onclick="openMap()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>Get Directions on Google Maps</button>
           </div>
         </div>
@@ -703,7 +683,7 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
       <div style="display:flex;flex-direction:column;gap:8px;">
         <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg);border-radius:8px;">
           <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:#fef9c3;border-radius:8px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="#f59e0b" width="18" height="18"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></span>
-          <div><div style="font-size:13px;font-weight:700;color:var(--text-dark);">Top Rated Shop</div><div style="font-size:11px;color:var(--text-light);">4.8 / 5 stars — 124 reviews</div></div>
+          <div><div style="font-size:13px;font-weight:700;color:var(--text-dark);">Top Rated Shop</div><div style="font-size:11px;color:var(--text-light);" id="hlRatingSub">— / 5 stars</div></div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;padding:8px;background:var(--bg);border-radius:8px;">
           <span style="display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:#dcfce7;border-radius:8px;flex-shrink:0;"><svg viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" width="18" height="18"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
@@ -723,18 +703,7 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
     <!-- Tags -->
     <div class="side-card">
       <div class="side-card-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7" stroke-linecap="round" stroke-width="3"/></svg>Shop Tags</div>
-      <div class="tags-cloud" id="shopTagsCloud">
-        <span class="tag-pill">Kurta Sets</span>
-        <span class="tag-pill">Cotton Fabric</span>
-        <span class="tag-pill">Ethnic Wear</span>
-        <span class="tag-pill">Wedding</span>
-        <span class="tag-pill">Festive</span>
-        <span class="tag-pill">Formal Shirts</span>
-        <span class="tag-pill">Sherwani</span>
-        <span class="tag-pill">Wholesale</span>
-        <span class="tag-pill">Custom Stitching</span>
-        <span class="tag-pill">Best Price</span>
-      </div>
+      <div class="tags-cloud" id="shopTagsCloud"></div>
     </div>
 
     <!-- Share Shop -->
@@ -897,10 +866,47 @@ function populateShopPage(shop) {
   // ── About tab ──
   setText('aboutTitle', 'About ' + name);
   const aText = document.getElementById('aboutText');
-  if (aText && description) {
-    aText.innerHTML = '<p>' + description.replace(/\n/g,'</p><p>') + '</p>';
+  if (aText) {
+    aText.innerHTML = description
+      ? '<p>' + description.replace(/\n/g,'</p><p>') + '</p>'
+      : '<p style="color:var(--text-light);">No description provided.</p>';
   }
   setText('aboutCategory', cats);
+  setText('aboutCity', city || '—');
+
+  // Owner name (from joined users table)
+  const ownerName = (shop.users && shop.users.name) ? shop.users.name : '—';
+  setText('aboutOwner', ownerName);
+
+  // "On BahaBasket Since" + Years stat
+  if (shop.created_at) {
+    const joinYear = new Date(shop.created_at).getFullYear();
+    setText('aboutSince', joinYear);
+    const yearsActive = new Date().getFullYear() - joinYear;
+    setText('statYears', yearsActive > 0 ? yearsActive + '+' : '< 1');
+  }
+
+  // Plan label
+  const planLabel = shop.plan
+    ? shop.plan.charAt(0).toUpperCase() + shop.plan.slice(1)
+    : 'Free';
+  setText('aboutPlan', planLabel);
+
+  // ── Shop Highlights sidebar ──
+  if (rating && revCount) {
+    setText('hlRatingSub', rating.toFixed(1) + ' / 5 stars — ' + revCount + ' reviews');
+  } else if (rating) {
+    setText('hlRatingSub', rating.toFixed(1) + ' / 5 stars');
+  }
+
+  // ── Map card address ──
+  const fullAddr = [address, city, shop.pincode ? '– ' + shop.pincode : ''].filter(Boolean).join(', ');
+  setText('mapAddrShort', fullAddr || '—');
+  const mapAddrFull = document.getElementById('mapAddrFull');
+  if (mapAddrFull) {
+    mapAddrFull.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13" style="vertical-align:-1px;margin-right:4px;"><path d="M12 2C8.686 2 6 4.686 6 8c0 5.25 6 13 6 13s6-7.75 6-13c0-3.314-2.686-6-6-6z"/><circle cx="12" cy="8" r="2" fill="currentColor" stroke="none"/></svg>'
+      + (fullAddr || '—');
+  }
 
   // ── Sidebar contact ──
   const waFmt = fmtWA(waClean);
@@ -1144,10 +1150,31 @@ async function initShopPage() {
     const data = await res.json();
     if (!data.success || !data.shop) { showShopNotFound(); return; }
     populateShopPage(data.shop);
+
+    // Pre-fill reviewer name from logged-in user
+    const bbUser = (() => { try { return JSON.parse(localStorage.getItem('bb_user')||'{}'); } catch(e){ return {}; } })();
+    if (bbUser.name) {
+      const rnEl = document.getElementById('reviewName');
+      if (rnEl && !rnEl.value) rnEl.value = bbUser.name;
+    }
+
+    // Highlight today's working hours row
+    (function highlightToday(){
+      const dow = new Date().getDay(); // 0=Sun…6=Sat
+      const el  = document.getElementById('hday-' + dow);
+      if (!el) return;
+      const isClosed = el.classList.contains('closed');
+      const openTag  = isClosed ? '' : ' <span class="open-now-tag"><span class="open-dot"></span>Open Now</span>';
+      el.classList.add('today');
+      el.innerHTML = el.textContent.trim() + openTag;
+    })();
+
     await Promise.all([
       loadReviews(data.shop.id),
       loadSimilarShops(data.shop),
-      loadProducts(data.shop.id)
+      loadProducts(data.shop.id),
+      loadShopOffers(data.shop.id),
+      checkSavedState()
     ]);
   } catch (e) {
     showShopNotFound();
@@ -1172,6 +1199,22 @@ async function loadProducts(shopId) {
     // Update "Products (N)" tab count + stat
     setText('tabProductsCount', products.length);
     setText('statProducts', products.length);
+
+    // ── Build dynamic filter chips from product categories ──
+    const catSet = new Set();
+    products.forEach(p => {
+      if (Array.isArray(p.category)) p.category.forEach(c => catSet.add(c));
+      else if (p.category) catSet.add(p.category);
+    });
+    const filterRow = document.getElementById('filterRow');
+    if (filterRow && catSet.size > 0) {
+      const extraChips = Array.from(catSet).slice(0, 6).map(c => {
+        const label = c.charAt(0).toUpperCase() + c.slice(1).replace(/-/g, ' ');
+        return `<div class="filter-chip" onclick="filterCat(this,'${c}')">${label}</div>`;
+      });
+      filterRow.innerHTML = '<div class="filter-chip active" onclick="filterCat(this,\'all\')">All</div>'
+        + extraChips.join('');
+    }
 
     resetGrid();
     updateGalleryFromProducts();
@@ -1408,23 +1451,50 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowLeft') lbNav(-1);
 });
 
-// ── SHOP OFFERS ──
-document.getElementById('shopOffersList').innerHTML = [
-  {title:"Festive Kurta Sale",disc:"Up to 40% Off",desc:"All kurta sets on special festive discount. Limited stock — order now via WhatsApp.",expires:"31 Dec 2024",color:"linear-gradient(135deg,#1a56db,#2563eb)"},
-  {title:"Buy 2 Get 1 Free",disc:"33% Saving",desc:"Purchase any 2 shirts or kurtas and get 1 similar item absolutely free. WhatsApp to avail.",expires:"25 Dec 2024",color:"linear-gradient(135deg,#f97316,#fb923c)"},
-  {title:"Wedding Season Special",disc:"Flat 20% Off",desc:"All sherwani and wedding collection items at flat 20% off. Custom stitching included free.",expires:"15 Jan 2025",color:"linear-gradient(135deg,#7c3aed,#a78bfa)"},
-].map(o=>`
-  <div style="border-radius:var(--radius);padding:24px 26px;position:relative;overflow:hidden;background:${o.color};cursor:pointer;transition:transform .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
-    <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:.12;"><svg viewBox="0 0 24 24" fill="white" width="72" height="72"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
-    <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Limited Time Offer</div>
-    <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;">${o.title}</div>
-    <div style="background:rgba(0,0,0,.2);color:#fff;font-size:13px;font-weight:800;padding:3px 10px;border-radius:5px;display:inline-block;margin-bottom:8px;">${o.disc}</div>
-    <div style="font-size:13px;color:rgba(255,255,255,.82);margin-bottom:14px;">${o.desc}</div>
-    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
-      <div style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.65)" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>Expires: ${o.expires}</div>
-      <button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:8px 18px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:6px;" onclick="openWA('offer','${o.title}')"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>Avail via WhatsApp →</button>
-    </div>
-  </div>`).join('');
+// ── SHOP OFFERS — loaded from API ──
+async function loadShopOffers(shopId){
+  const el = document.getElementById('shopOffersList');
+  if(!el) return;
+  const offerColors = [
+    'linear-gradient(135deg,#1a56db,#2563eb)',
+    'linear-gradient(135deg,#f97316,#fb923c)',
+    'linear-gradient(135deg,#7c3aed,#a78bfa)',
+    'linear-gradient(135deg,#059669,#10b981)',
+    'linear-gradient(135deg,#be185d,#f472b6)'
+  ];
+  try {
+    const res  = await fetch(API_BASE + '/shops/' + shopId + '/offers');
+    if(!res.ok) throw new Error('no-offers-endpoint');
+    const data = await res.json();
+    const offers = (data.success && Array.isArray(data.offers)) ? data.offers : [];
+    if(!offers.length) throw new Error('empty');
+    el.innerHTML = offers.map((o,i) => {
+      const color = offerColors[i % offerColors.length];
+      const expires = o.expires_at ? 'Expires: ' + new Date(o.expires_at).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}) : '';
+      return `<div style="border-radius:var(--radius);padding:24px 26px;position:relative;overflow:hidden;background:${color};cursor:pointer;transition:transform .2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform=''">
+        <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:.12;"><svg viewBox="0 0 24 24" fill="white" width="72" height="72"><path d="M20 12v10H4V12"/><path d="M22 7H2v5h20V7z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
+        <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,.75);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Limited Time Offer</div>
+        <div style="font-family:var(--font-display);font-size:22px;font-weight:800;color:#fff;margin-bottom:4px;">${o.title||'Special Offer'}</div>
+        ${o.discount ? `<div style="background:rgba(0,0,0,.2);color:#fff;font-size:13px;font-weight:800;padding:3px 10px;border-radius:5px;display:inline-block;margin-bottom:8px;">${o.discount}</div>` : ''}
+        <div style="font-size:13px;color:rgba(255,255,255,.82);margin-bottom:14px;">${o.description||''}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;">
+          ${expires ? `<div style="font-size:12px;color:rgba(255,255,255,.65);display:flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.65)" stroke-width="2" width="12" height="12"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${expires}</div>` : '<div></div>'}
+          <button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.4);color:#fff;padding:8px 18px;border-radius:7px;font-size:13px;font-weight:700;cursor:pointer;" onclick="openWA('offer','${(o.title||'this offer').replace(/'/g,'\\\'')}')" >Avail via WhatsApp →</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e){
+    el.innerHTML = `<div style="text-align:center;padding:48px 24px;">
+      <div style="font-size:40px;margin-bottom:14px;">🎁</div>
+      <div style="font-family:var(--font-display);font-size:18px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">No Active Offers Right Now</div>
+      <div style="font-size:14px;color:var(--text-light);margin-bottom:20px;">This shop hasn't posted any special offers yet.<br>WhatsApp them directly to ask about deals!</div>
+      <button style="background:var(--whatsapp);color:#fff;border:none;padding:10px 24px;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:8px;" onclick="openWA('inquiry')">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Ask About Deals
+      </button>
+    </div>`;
+  }
+}
 
 // ── SIMILAR SHOPS — placeholder until API responds ──
 document.getElementById('similarShops').innerHTML =
@@ -1500,13 +1570,14 @@ async function toggleSaveShop(){
 
   try {
     if(!wassaved){
-      await fetch(API_BASE + '/shops/' + _shopData?.id + '/save', {
+      await fetch(API_BASE + '/saved-shops', {
         method:  'POST',
-        headers: { 'Authorization': 'Bearer ' + token }
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body:    JSON.stringify({ shop_id: _shopData?.id })
       });
       showToast('❤️ Shop saved!');
     } else {
-      await fetch(API_BASE + '/shops/' + _shopData?.id + '/save', {
+      await fetch(API_BASE + '/saved-shops/' + _shopData?.id, {
         method:  'DELETE',
         headers: { 'Authorization': 'Bearer ' + token }
       });
@@ -1514,9 +1585,25 @@ async function toggleSaveShop(){
     }
   } catch(e){
     // Revert on error
-    shopSaved = wasaved;
+    shopSaved = wassaved;
     if(btn) btn.innerHTML = shopSaved ? HEART_FILLED : HEART_EMPTY;
   }
+}
+
+// ── Check if current user has already saved this shop ──
+async function checkSavedState(){
+  const token = localStorage.getItem('bb_token');
+  if(!token || !_shopData?.id) return;
+  try {
+    const res  = await fetch(API_BASE + '/saved-shops', { headers: { 'Authorization': 'Bearer ' + token } });
+    const data = await res.json();
+    const saved = data.success && Array.isArray(data.saved_shops)
+      ? data.saved_shops
+      : (Array.isArray(data) ? data : []);
+    shopSaved = saved.some(s => String(s.shop_id || s.id) === String(_shopData.id));
+    const btn = document.getElementById('saveShopBtn');
+    if(btn) btn.innerHTML = shopSaved ? HEART_FILLED : HEART_EMPTY;
+  } catch(e){ /* silently ignore — defaults to unsaved */ }
 }
 
 // ── SHARE ──
@@ -1564,7 +1651,11 @@ async function submitReport(){
   closeReportModal();
   showToast('✅ Report submitted. We will review within 24 hours.');
 }
-function openMap(){ window.open('https://maps.google.com/?q=Gandhi+Nagar+Market+Indore+Madhya+Pradesh','_blank'); }
+function openMap(){
+  const addr  = _shopData ? [_shopData.address, _shopData.city].filter(Boolean).join(', ') : '';
+  const query = encodeURIComponent(addr || 'India');
+  window.open('https://maps.google.com/?q=' + query, '_blank');
+}
 function loadMore(){
   const btn = document.getElementById('loadMoreBtn');
   btn.disabled = true;
