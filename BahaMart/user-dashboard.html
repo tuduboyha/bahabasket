@@ -2806,6 +2806,7 @@ function saveSettings(){
 // ── AVATAR UPLOAD ──
 // ── Helper: apply avatar image/initial to all avatar elements ──
 function _applyAvatar(url, initial){
+  const fallbackBg = 'linear-gradient(135deg,var(--primary),var(--purple))';
   const els = [
     document.getElementById('profileAvatarCircle'),
     document.getElementById('sidebarAvatar'),
@@ -2814,12 +2815,10 @@ function _applyAvatar(url, initial){
   els.forEach(el => {
     if(!el) return;
     if(url){
-      el.style.backgroundImage  = 'url(' + url + ')';
-      el.style.backgroundSize   = 'cover';
-      el.style.backgroundPosition = 'center';
+      el.style.background = 'url(' + url + ') center/cover no-repeat';
       el.textContent = '';
     } else {
-      el.style.backgroundImage = '';
+      el.style.background = fallbackBg;
       el.textContent = initial || '';
     }
   });
