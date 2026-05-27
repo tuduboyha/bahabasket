@@ -826,7 +826,7 @@ tr:hover td{background:var(--bg);}
           </div>
           <div class="field-group" style="margin-bottom:0;">
             <label class="field-label">Date of Birth</label>
-            <input type="date" class="field-input" value="1995-06-15">
+            <input type="date" id="fieldDob" class="field-input" value="1995-06-15">
           </div>
         </div>
 
@@ -870,7 +870,7 @@ tr:hover td{background:var(--bg);}
           </div>
           <div class="field-group">
             <label class="field-label">Language Preference</label>
-            <select class="field-input">
+            <select id="fieldLang" class="field-input">
               <option selected>English</option>
               <option>Hindi</option>
               <option>English + Hindi</option>
@@ -879,7 +879,7 @@ tr:hover td{background:var(--bg);}
         </div>
         <div class="field-group" style="margin-bottom:0;">
           <label class="field-label">Short Bio (optional)</label>
-          <textarea class="field-input" rows="3" placeholder="Tell shops a bit about yourself...">Fashion lover from Indore. Always looking for the best local deals!</textarea>
+          <textarea id="fieldBio" class="field-input" rows="3" placeholder="Tell shops a bit about yourself...">Fashion lover from Indore. Always looking for the best local deals!</textarea>
         </div>
       </div>
 
@@ -1494,7 +1494,7 @@ const _ICO = {
 
 // ── 1. Auth guard: redirect to login if not logged in ──
 const _bbToken = localStorage.getItem('bb_token');
-const _bbUser  = JSON.parse(localStorage.getItem('bb_user') || 'null');
+let   _bbUser  = JSON.parse(localStorage.getItem('bb_user') || 'null');
 
 if (!_bbToken || !_bbUser) {
   window.location.href = 'login-register.html';
@@ -1543,8 +1543,19 @@ function populateUser(user) {
   if (fieldLN) fieldLN.value = lName;
   if (fieldPh && phone) fieldPh.value = phone.startsWith('+91') ? phone : '+91 ' + phone.replace(/^91/, '');
   if (fieldEm && email) fieldEm.value = email;
-  if (fieldCt && user.city)    fieldCt.value    = user.city;
-  if (fieldPin && user.pincode) fieldPin.value  = user.pincode;
+  if (fieldCt && user.city)     fieldCt.value  = user.city;
+  if (fieldPin && user.pincode) fieldPin.value = user.pincode;
+
+  // DOB, Bio, Language
+  const fieldDob  = document.getElementById('fieldDob');
+  const fieldBio  = document.getElementById('fieldBio');
+  const fieldLang = document.getElementById('fieldLang');
+  if (fieldDob  && user.dob)      fieldDob.value  = user.dob;
+  if (fieldBio  && user.bio)      fieldBio.value  = user.bio;
+  if (fieldLang && user.language) {
+    const opt = [...fieldLang.options].find(o => o.value === user.language);
+    if(opt) opt.selected = true;
+  }
 
   // Security section
   const secPh = document.getElementById('secPhone');
@@ -1557,6 +1568,9 @@ function populateUser(user) {
 populateUser(_bbUser);
 
 // ── 3. Fetch fresh data from API in background ──
+// Flag: set true while user is actively saving — prevents race-condition overwrite
+let _bbSaving = false;
+
 async function refreshUserFromAPI() {
   try {
     const res  = await fetch(`${API_BASE}/auth/me`, {
@@ -1564,8 +1578,10 @@ async function refreshUserFromAPI() {
     });
     const data = await res.json();
     if (data.success && data.user) {
+      _bbUser = data.user;
       localStorage.setItem('bb_user', JSON.stringify(data.user));
-      populateUser(data.user);
+      // Only populate form fields if user is NOT mid-save (prevents overwriting edits)
+      if (!_bbSaving) populateUser(data.user);
     } else if (res.status === 401) {
       // Token expired → force logout
       logoutUser();
@@ -2665,15 +2681,20 @@ function openWAShop(shop){ window.open(`https://wa.me/919876543210?text=Hello ${
 
 // ── MISC ──
 async function saveProfile(){
+  // Read ALL editable fields from DOM
   const fn    = document.getElementById('fieldFirstName')?.value.trim() || '';
   const ln    = document.getElementById('fieldLastName')?.value.trim()  || '';
   const city  = document.getElementById('fieldCity')?.value.trim()      || '';
   const pin   = document.getElementById('fieldPincode')?.value.trim()   || '';
   const phone = document.getElementById('fieldPhone')?.value.trim()     || '';
+  const dob   = document.getElementById('fieldDob')?.value              || '';
+  const bio   = document.getElementById('fieldBio')?.value.trim()       || '';
+  const lang  = document.getElementById('fieldLang')?.value             || '';
   const name  = (fn + ' ' + ln).trim();
   if(!name){ showToast(_ICO.err+' Name is required.','#ef4444'); return; }
   if(!phone){ showToast(_ICO.err+' WhatsApp number is required.','#ef4444'); return; }
 
+  _bbSaving = true;
   const btn = document.querySelector('#sec-profile .btn-primary');
   const orig = btn ? btn.innerHTML : '';
   if(btn){ btn.disabled = true; btn.textContent = 'Saving…'; }
@@ -2682,15 +2703,29 @@ async function saveProfile(){
     const res  = await fetch(`${API_BASE}/auth/me`, {
       method:  'PATCH',
       headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
-      body:    JSON.stringify({ name, city, pincode: pin, phone })
+      body:    JSON.stringify({ name, city, pincode: pin, phone, dob, bio, language: lang })
     });
     const data = await res.json();
     if(!data.success) throw new Error(data.error || 'Update failed');
 
-    // Update localStorage + UI
-    const updated = { ..._bbUser, ...data.user };
+    // Merge: current _bbUser + API response + actual form values (form values win)
+    // This prevents API response omissions from reverting what user typed
+    const updated = { ..._bbUser, ...(data.user || {}), name, phone, city, pincode: pin, dob, bio, language: lang };
+    _bbUser = updated;                                          // keep in-memory ref fresh
     localStorage.setItem('bb_user', JSON.stringify(updated));
-    populateUser(updated);
+
+    // Update only non-form UI (sidebar name, avatar, phone display)
+    // — do NOT re-fill form fields so user's values stay visible
+    const nameParts = name.split(' ');
+    const initial = (nameParts[0] || 'U').charAt(0).toUpperCase();
+    const sbAv = document.getElementById('sidebarAvatar');
+    const sbName = document.getElementById('sidebarName');
+    const sbPh   = document.getElementById('sidebarPhone');
+    const navAv  = document.getElementById('navAvatar');
+    if(sbAv)   sbAv.textContent   = initial;
+    if(sbName) sbName.textContent = name;
+    if(sbPh)   sbPh.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> ${phone}`;
+    if(navAv)  navAv.textContent  = initial;
     if(window.refreshAuthNav) window.refreshAuthNav();
 
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
@@ -2698,6 +2733,8 @@ async function saveProfile(){
   } catch(err) {
     if(btn){ btn.disabled = false; btn.innerHTML = orig; }
     showToast(_ICO.err+' '+err.message, '#ef4444');
+  } finally {
+    _bbSaving = false;
   }
 }
 
