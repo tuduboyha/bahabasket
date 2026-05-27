@@ -51,7 +51,7 @@ exports.getShop = async (req, res, next) => {
 
     // Support both slug and UUID id
     const isUUID = /^[0-9a-f-]{36}$/.test(slug);
-    let query = supabaseAdmin.from('shops').select('*, users(name, avatar)').eq('is_active', true);
+    let query = supabaseAdmin.from('shops').select('*, users(name, avatar_url)').eq('is_active', true);
     query = isUUID ? query.eq('id', slug) : query.eq('slug', slug);
 
     const { data, error } = await query.single();
@@ -145,7 +145,7 @@ exports.getShopReviews = async (req, res, next) => {
     const { id } = req.params;
     const { data, error } = await supabaseAdmin
       .from('reviews')
-      .select('*, users(name, avatar)')
+      .select('*, users(name, avatar_url)')
       .eq('shop_id', id)
       .eq('type', 'shop')
       .eq('status', 'published')

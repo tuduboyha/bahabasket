@@ -6,7 +6,7 @@ exports.listReviews = async (req, res, next) => {
     const { shop_id, product_id, type, user_id } = req.query;
     let query = supabaseAdmin
       .from('reviews')
-      .select('*, users(name, avatar), shops(name, slug), products(name)')
+      .select('*, users(name, avatar_url), shops(name, slug), products(name)')
       .order('created_at', { ascending: false });
 
     // If user_id provided, show all statuses for that user (for user dashboard)
