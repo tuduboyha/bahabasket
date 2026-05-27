@@ -412,12 +412,12 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
         <span class="ssb-badge ssb-open" style="display:inline-flex;align-items:center;gap:3px;"><span style="width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block;"></span> Open</span>
       </div>
       <div class="plan-expiry">
-        <span class="pe-text" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Plan expires: Jan 15, 2025</span>
+        <span id="planExpiryText" class="pe-text" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Plan expires: —</span>
         <span class="pe-renew" onclick="showSec('plans',null)">Renew →</span>
       </div>
       <div class="shop-completeness">
-        <div class="sc-label"><span>Shop Profile</span><span style="font-weight:700;color:var(--primary);">88%</span></div>
-        <div class="sc-bar"><div class="sc-fill" style="width:88%;"></div></div>
+        <div class="sc-label"><span>Shop Profile</span><span id="scPct" style="font-weight:700;color:var(--primary);">0%</span></div>
+        <div class="sc-bar"><div id="scFill" class="sc-fill" style="width:0%;"></div></div>
       </div>
     </div>
 
@@ -444,7 +444,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
       </div>
       <div class="nav-item" onclick="showSec('offers',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg></span> My Offers
-        <span class="ni-badge green">3</span>
+        <span class="ni-badge green" id="offersNavBadge" style="display:none;">0</span>
       </div>
       <div class="nav-item" onclick="showSec('gallery',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span> Photo Gallery
@@ -457,11 +457,11 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
       </div>
       <div class="nav-item" onclick="showSec('inquiries',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></span> WA Inquiries
-        <span class="ni-badge red">7</span>
+        <span class="ni-badge red" id="inqNavBadge" style="display:none;">0</span>
       </div>
       <div class="nav-item" onclick="showSec('reviews',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></span> Reviews
-        <span class="ni-badge orange">124</span>
+        <span class="ni-badge orange" id="revNavBadge" style="display:none;">0</span>
       </div>
 
       <div class="nav-group-label" style="margin-top:8px;">Finance</div>
@@ -475,7 +475,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
       <div class="nav-group-label" style="margin-top:8px;">Account</div>
       <div class="nav-item" onclick="showSec('notifications',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></span> Notifications
-        <span class="ni-badge red">5</span>
+        <span class="ni-badge red" id="notifNavBadge" style="display:none;">0</span>
       </div>
       <div class="nav-item" onclick="showSec('settings',this)">
         <span class="ni-icon"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></span> Settings
@@ -530,7 +530,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
         <div class="stat-card purple">
           <div class="sc-glow"></div>
           <div class="sc-hdr"><div class="sc-icon purple"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg></div><span class="sc-trend up">↑ 2%</span></div>
-          <div class="sc-num">4.8</div>
+          <div class="sc-num" id="sn4">—</div>
           <div class="sc-label">Average Rating</div>
         </div>
       </div>
@@ -546,8 +546,8 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
           </div>
           <div class="chart-wrap" id="weekChart"></div>
           <div style="display:flex;justify-content:space-between;margin-top:10px;font-size:12px;color:var(--text-light);">
-            <span>Total this week: <strong style="color:var(--text-mid);">86 inquiries</strong></span>
-            <span>Best day: <strong style="color:var(--success);">Thursday (22)</strong></span>
+            <span>Total this week: <strong id="weekTotalInq" style="color:var(--text-mid);">—</strong></span>
+            <span>Best day: <strong id="weekBestDay" style="color:var(--success);">—</strong></span>
           </div>
         </div>
 
@@ -591,10 +591,10 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
       </div>
 
       <div class="grid-4" style="margin-bottom:18px;">
-        <div class="stat-card blue"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon blue"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><span class="sc-trend up">↑ 34%</span></div><div class="sc-num">4,820</div><div class="sc-label">Total Profile Views</div></div>
-        <div class="stat-card green"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon green"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><span class="sc-trend up">↑ 28%</span></div><div class="sc-num">1,240</div><div class="sc-label">Total WA Clicks</div></div>
-        <div class="stat-card orange"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon orange"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></div><span class="sc-trend up">↑ 15%</span></div><div class="sc-num">2,380</div><div class="sc-label">Search Appearances</div></div>
-        <div class="stat-card purple"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon purple"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div></div><div class="sc-num">25.7%</div><div class="sc-label">Inquiry Rate</div></div>
+        <div class="stat-card blue"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon blue"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div><span class="sc-trend up">↑ 34%</span></div><div class="sc-num" id="anViews">—</div><div class="sc-label">Total Profile Views</div></div>
+        <div class="stat-card green"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon green"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><span class="sc-trend up">↑ 28%</span></div><div class="sc-num" id="anWAClicks">—</div><div class="sc-label">Total WA Clicks</div></div>
+        <div class="stat-card orange"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon orange"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="22" y2="22"/></svg></div><span class="sc-trend up">↑ 15%</span></div><div class="sc-num" id="anSearch">—</div><div class="sc-label">Search Appearances</div></div>
+        <div class="stat-card purple"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon purple"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div></div><div class="sc-num" id="anInqRate">—</div><div class="sc-label">Inquiry Rate</div></div>
       </div>
 
       <div class="grid-2" style="margin-bottom:18px;">
@@ -1256,14 +1256,14 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
     <!-- ════ INQUIRIES ════ -->
     <div class="page-sec" id="sec-inquiries">
       <div class="sec-hdr">
-        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> WA Inquiries Received</div><div class="sec-sub">Track all WhatsApp inquiries from buyers. <strong style="color:var(--danger);">7 new today.</strong></div></div>
+        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> WA Inquiries Received</div><div class="sec-sub" id="inqSecSub">WhatsApp inquiries go directly to your phone. Orders data shown below.</div></div>
         <button class="btn btn-ghost btn-sm"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Export</button>
       </div>
       <div class="grid-4" style="margin-bottom:16px;">
-        <div class="stat-card green"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon green"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div></div><div class="sc-num">48</div><div class="sc-label">This Month</div></div>
-        <div class="stat-card blue"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon blue"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div></div><div class="sc-num">1,240</div><div class="sc-label">All Time</div></div>
-        <div class="stat-card orange"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon orange"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 21 12 17 16 21"/><line x1="12" y1="17" x2="12" y2="10"/><path d="M17 3H7l-3 7c0 4.418 3.582 8 8 8s8-3.582 8-8l-3-7z"/><path d="M5 10H2m17 0h3"/></svg></div></div><div class="sc-num">Kurta Set</div><div class="sc-label">Most Inquired Product</div></div>
-        <div class="stat-card purple"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon purple"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div><div class="sc-num">~12 min</div><div class="sc-label">Avg Response Time</div></div>
+        <div class="stat-card green"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon green"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div></div><div class="sc-num" id="inqThisMonth">—</div><div class="sc-label">This Month</div></div>
+        <div class="stat-card blue"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon blue"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div></div><div class="sc-num" id="inqAllTime">—</div><div class="sc-label">All Time</div></div>
+        <div class="stat-card orange"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon orange"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="8 21 12 17 16 21"/><line x1="12" y1="17" x2="12" y2="10"/><path d="M17 3H7l-3 7c0 4.418 3.582 8 8 8s8-3.582 8-8l-3-7z"/><path d="M5 10H2m17 0h3"/></svg></div></div><div class="sc-num" id="inqTopProduct">—</div><div class="sc-label">Most Inquired Product</div></div>
+        <div class="stat-card purple"><div class="sc-glow"></div><div class="sc-hdr"><div class="sc-icon purple"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--purple)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div><div class="sc-num" id="inqAvgResp">—</div><div class="sc-label">Avg Response Time</div></div>
       </div>
       <div class="card">
         <div id="inquiriesListFull"></div>
@@ -1273,12 +1273,12 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
     <!-- ════ REVIEWS ════ -->
     <div class="page-sec" id="sec-reviews">
       <div class="sec-hdr">
-        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Customer Reviews</div><div class="sec-sub">124 reviews · Average 4.8 / 5</div></div>
+        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Customer Reviews</div><div class="sec-sub" id="reviewsSecSub">Loading reviews…</div></div>
       </div>
       <div class="grid-2" style="margin-bottom:16px;">
         <div class="card" style="display:flex;align-items:center;gap:20px;">
           <div style="text-align:center;">
-            <div style="font-size:52px;font-weight:800;color:var(--text-dark);font-family:var(--font-mono);">4.8</div>
+            <div id="reviewAvgNum" style="font-size:52px;font-weight:800;color:var(--text-dark);font-family:var(--font-mono);">—</div>
             <div style="display:flex;gap:2px;">
               <svg viewBox="0 0 24 24" width="18" height="18" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               <svg viewBox="0 0 24 24" width="18" height="18" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1286,7 +1286,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
               <svg viewBox="0 0 24 24" width="18" height="18" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
               <svg viewBox="0 0 24 24" width="18" height="18" fill="#fbbf24" stroke="#fbbf24" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
             </div>
-            <div style="font-size:12px;color:var(--text-light);margin-top:3px;">124 reviews</div>
+            <div id="reviewTotalCnt" style="font-size:12px;color:var(--text-light);margin-top:3px;">—</div>
           </div>
           <div style="flex:1;">
             <div id="reviewBars"></div>
@@ -1306,7 +1306,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
     <!-- ════ PLANS ════ -->
     <div class="page-sec" id="sec-plans">
       <div class="sec-hdr">
-        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><polyline points="6 3 12 9 18 3"/></svg> Membership Plan</div><div class="sec-sub">Current plan: <strong style="color:var(--purple);display:inline-flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg> Premium — ₹999/month</strong> · Expires Jan 15, 2025</div></div>
+        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 18 3 22 9 12 22 2 9"/><line x1="2" y1="9" x2="22" y2="9"/><polyline points="6 3 12 9 18 3"/></svg> Membership Plan</div><div class="sec-sub" id="planSecSub">Loading plan info…</div></div>
       </div>
       <div class="grid-3" style="margin-bottom:20px;" id="plansGrid"></div>
       <div class="card">
@@ -1330,15 +1330,15 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
         <div class="payout-card">
           <div class="payout-card-bg-icon"><svg viewBox="0 0 24 24" width="80" height="80" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16"/></svg></div>
           <div class="pc-label">Total Paid (All Time)</div>
-          <div class="pc-amount">₹8,991</div>
-          <div class="pc-meta">9 months on paid plans · Member since March 2024</div>
+          <div class="pc-amount" id="payTotalAmt">₹—</div>
+          <div class="pc-meta" id="payTotalMeta">Loading payment history…</div>
           <button class="btn-payout" onclick="downloadAllInvoices()" style="display:inline-flex;align-items:center;gap:6px;"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg> Download All Invoices</button>
         </div>
         <div class="card">
           <div class="card-title">Next Billing</div>
-          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Plan</span><strong style="display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg> Premium</strong></div>
-          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Due Date</span><strong>January 15, 2025</strong></div>
-          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Amount</span><strong style="color:var(--primary);">₹999</strong></div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Plan</span><strong id="nextBillPlan" style="display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg> —</strong></div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Due Date</span><strong id="nextBillDate">—</strong></div>
+          <div style="padding:12px 0;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Amount</span><strong id="nextBillAmt" style="color:var(--primary);">—</strong></div>
           <div style="padding:12px 0;display:flex;justify-content:space-between;font-size:14px;"><span style="color:var(--text-light);">Auto-renewal</span><span class="badge badge-success" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Enabled</span></div>
           <div style="display:flex;gap:8px;margin-top:10px;">
             <button class="btn btn-primary btn-sm" style="flex:1;" onclick="initiatePayment('Premium')"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg> Pay Now</button>
@@ -1360,7 +1360,7 @@ select.field-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(2
     <!-- ════ NOTIFICATIONS ════ -->
     <div class="page-sec" id="sec-notifications">
       <div class="sec-hdr">
-        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg> Notifications</div><div class="sec-sub">5 unread notifications.</div></div>
+        <div><div class="sec-title" style="display:flex;align-items:center;gap:8px;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg> Notifications</div><div class="sec-sub" id="notifSecSub">Loading notifications…</div></div>
         <button class="btn btn-ghost btn-sm" onclick="document.querySelectorAll('.notif-item.unread').forEach(n=>n.classList.remove('unread'))" style="display:inline-flex;align-items:center;gap:5px;"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Mark All Read</button>
       </div>
       <div class="card" id="notifsList"></div>
@@ -1571,6 +1571,50 @@ function populateSeller(user, shop) {
     viewBtn.onclick = function() { window.location = 'shop-profile.html?slug=' + shop.slug; };
   }
 
+  // ── Plan expiry ──
+  const expiryEl = document.getElementById('planExpiryText');
+  const planSecSubEl = document.getElementById('planSecSub');
+  let expiryDateStr = '—';
+  const expiryRaw = shop.plan_expires_at || shop.plan_expiry || shop.subscription_expires_at || null;
+  if (expiryRaw) {
+    const expiryDate = new Date(expiryRaw);
+    expiryDateStr = expiryDate.toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
+    if (expiryEl) {
+      expiryEl.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Plan expires: ${expiryDateStr}`;
+    }
+    if (planSecSubEl) {
+      planSecSubEl.innerHTML = `Current plan: <strong style="color:var(--purple);display:inline-flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg> ${planName}</strong> · Expires ${expiryDateStr}`;
+    }
+    // Update next billing due date
+    const nbDate = document.getElementById('nextBillDate');
+    if (nbDate) nbDate.textContent = expiryDateStr;
+  } else {
+    if (expiryEl) expiryEl.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Plan: ${planName}`;
+    if (planSecSubEl) {
+      planSecSubEl.innerHTML = `Current plan: <strong style="color:var(--purple);display:inline-flex;align-items:center;gap:3px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg> ${planName}</strong>`;
+    }
+  }
+
+  // ── Next billing plan name ──
+  const nbPlan = document.getElementById('nextBillPlan');
+  if (nbPlan) nbPlan.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg> ${planName}`;
+  const nbAmt = document.getElementById('nextBillAmt');
+  if (nbAmt) {
+    const planPrices = { basic: '₹0', free: '₹0', growth: '₹499', premium: '₹999' };
+    nbAmt.textContent = planPrices[planRaw.toLowerCase()] || '₹—';
+  }
+
+  // ── Profile completeness ──
+  const fields = [shop.name, shop.description, shop.whatsapp, shop.address, shop.city, shop.pincode,
+                  shop.logo, shop.cover_image, (Array.isArray(shop.category) ? shop.category.length > 0 : !!shop.category),
+                  (shop.working_hours && Object.keys(shop.working_hours).length > 0)];
+  const filled = fields.filter(Boolean).length;
+  const pct = Math.round(filled / fields.length * 100);
+  const scPctEl = document.getElementById('scPct');
+  const scFillEl = document.getElementById('scFill');
+  if (scPctEl) scPctEl.textContent = pct + '%';
+  if (scFillEl) scFillEl.style.width = pct + '%';
+
   // Store for shareShop()
   window._currentShopData = shop;
 }
@@ -1710,12 +1754,23 @@ async function initSellerDashboard() {
     const data = await res.json();
     const shop = (data.success && data.shop) ? data.shop : null;
     populateSeller(_bbUser, shop);
+    // Always init UI builders that don't need shop data
+    mcInit();
+    buildProductPhotos();
     if (shop) {
       loadShopProducts(shop.id);
       // Load async sections that depend on shop data
       loadReviews();
       loadNotifs();
       loadPayments();
+      loadOrders();   // also triggers buildOverviewInquiries(), buildFullInquiries(), buildWeekChart()
+      buildOffers();
+      buildPlans();
+      buildGallery();
+      buildWorkingHours();
+      buildPaymentMethods();
+      buildAnalytics();
+      buildFAQ();
     } else {
       // No shop found — show create-shop prompt
       showCreateShopPrompt();
@@ -1723,6 +1778,8 @@ async function initSellerDashboard() {
   } catch (e) {
     // Network error — still populate greeting from cached user
     populateSeller(_bbUser, null);
+    mcInit();
+    buildProductPhotos();
   }
 }
 
@@ -2244,6 +2301,8 @@ const orderStatusColors = {
 };
 
 async function loadOrders() {
+  if (_ordersLoaded) return;
+  _ordersLoaded = true;
   var tbody = document.getElementById('ordersTableBody');
   if (!tbody) return;
   tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:32px;"><div style="display:inline-block;width:28px;height:28px;border:3px solid #e5e7eb;border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite;"></div></td></tr>';
@@ -2268,6 +2327,11 @@ async function loadOrders() {
     if (sub) sub.textContent = _allOrders.length + ' total order' + (_allOrders.length !== 1 ? 's' : '') + (pending ? ' · ' + pending + ' pending' : '');
 
     filterOrders(_orderFilter);
+    // Update overview and inquiry sections with real order data
+    buildOverviewInquiries();
+    buildFullInquiries();
+    buildWeekChart();
+    buildAnalytics();
   } catch(e) {
     tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--danger);">Failed to load orders. <a href="#" onclick="loadOrders();return false;" style="color:var(--primary);">Retry</a></td></tr>';
   }
@@ -2351,46 +2415,94 @@ async function updateOrderStatus(orderId, selectEl) {
 var _ordersLoaded = false;
 
 // ── OVERVIEW INQUIRIES ──
-const inquiriesData=[
-  {name:"Rahul M.",product:"Men's Kurta Set",msg:"Size L Royal Blue available?",time:"15 min ago",color:"#1a56db"},
-  {name:"Priya S.",product:"Linen Shirt",msg:"Home delivery to Vijay Nagar?",time:"1 hr ago",color:"#ec4899"},
-  {name:"Arjun K.",product:"Sherwani Set",msg:"Can I see more photos?",time:"2 hrs ago",color:"#059669"},
-  {name:"Sunita R.",product:"Pathani Suit",msg:"What fabric is this?",time:"3 hrs ago",color:"#d97706"},
-];
+// WA inquiries happen outside the platform (directly on WhatsApp).
+// We show orders as "inquiries" equivalent, or an informational empty state.
 function buildOverviewInquiries(){
   const el=document.getElementById('overviewInquiries');
   if(!el) return;
-  el.innerHTML=inquiriesData.slice(0,4).map(inq=>`
-    <div class="inq-card">
-      <div class="inq-av" style="background:${inq.color};">${inq.name[0]}</div>
-      <div class="inq-body">
-        <div class="inq-name">${inq.name}</div>
-        <div class="inq-product">re: ${inq.product}</div>
-        <div class="inq-msg">"${inq.msg}"</div>
-        <div class="inq-meta"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${inq.time}</span></div>
-      </div>
-      <div class="inq-actions">
-        <button class="btn btn-wa btn-sm" style="display:inline-flex;align-items:center;gap:5px;" onclick="openWAReply('${inq.name}')"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Reply</button>
-      </div>
-    </div>`).join('');
+  // Show recent orders as inquiries (orders are the closest real data we have)
+  if (_allOrders && _allOrders.length > 0) {
+    const COLORS = ['#1a56db','#059669','#f97316','#7c3aed','#dc2626','#0891b2'];
+    el.innerHTML = _allOrders.slice(0, 4).map((o, i) => {
+      const prod = o.products || {};
+      const name = 'Customer ' + (i + 1);
+      const color = COLORS[i % COLORS.length];
+      const dateStr = o.created_at ? new Date(o.created_at).toLocaleDateString('en-IN', {day:'numeric',month:'short'}) : '';
+      return `<div class="inq-card">
+        <div class="inq-av" style="background:${color};">${String(i+1)}</div>
+        <div class="inq-body">
+          <div class="inq-name">${name}</div>
+          <div class="inq-product">re: ${prod.name || 'Product'}</div>
+          <div class="inq-msg">Order placed — Qty: ${o.qty || 1} · ₹${o.total_price ? Number(o.total_price).toLocaleString('en-IN') : '—'}</div>
+          <div class="inq-meta"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${dateStr}</span></div>
+        </div>
+        <div class="inq-actions">
+          <button class="btn btn-ghost btn-sm" onclick="showSec('orders',null)">View →</button>
+        </div>
+      </div>`;
+    }).join('');
+  } else {
+    el.innerHTML = `<div style="text-align:center;padding:28px 16px;">
+      <div style="font-size:32px;margin-bottom:10px;">💬</div>
+      <div style="font-size:14px;font-weight:700;color:var(--text-dark);margin-bottom:5px;">WhatsApp Inquiries</div>
+      <div style="font-size:12.5px;color:var(--text-light);line-height:1.6;">Customers contact you directly on WhatsApp. Share your shop link to start receiving inquiries.</div>
+      <button class="btn btn-wa btn-sm" style="margin-top:12px;display:inline-flex;align-items:center;gap:5px;" onclick="shareShop()">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Share Shop
+      </button>
+    </div>`;
+  }
 }
+
 function buildFullInquiries(){
   const el=document.getElementById('inquiriesListFull');
   if(!el) return;
-  el.innerHTML=inquiriesData.map(inq=>`
-    <div class="inq-card">
-      <div class="inq-av" style="background:${inq.color};">${inq.name[0]}</div>
-      <div class="inq-body">
-        <div class="inq-name">${inq.name}</div>
-        <div class="inq-product" style="display:flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 002 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>${inq.product}</div>
-        <div class="inq-msg">"${inq.msg}"</div>
-        <div class="inq-meta"><span style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>${inq.time}</span><span class="badge badge-warning">New</span></div>
-      </div>
-      <div class="inq-actions">
-        <button class="btn btn-wa btn-sm" style="display:inline-flex;align-items:center;gap:5px;" onclick="openWAReply('${inq.name}')"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Reply on WhatsApp</button>
-        <button class="btn btn-ghost btn-sm" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Mark Replied</button>
-      </div>
-    </div>`).join('');
+  // Update inquiry section stats from orders data
+  if (_allOrders) {
+    const now = new Date();
+    const thisMonthOrders = _allOrders.filter(o => {
+      if (!o.created_at) return false;
+      const d = new Date(o.created_at);
+      return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+    const inqThisMonth = document.getElementById('inqThisMonth');
+    if (inqThisMonth) inqThisMonth.textContent = thisMonthOrders.length;
+    const inqAllTime = document.getElementById('inqAllTime');
+    if (inqAllTime) inqAllTime.textContent = _allOrders.length;
+
+    // Most ordered product
+    const prodCount = {};
+    _allOrders.forEach(o => {
+      const pn = (o.products && o.products.name) ? o.products.name : null;
+      if (pn) prodCount[pn] = (prodCount[pn] || 0) + 1;
+    });
+    const topProd = Object.keys(prodCount).sort((a, b) => prodCount[b] - prodCount[a])[0];
+    const inqTopProduct = document.getElementById('inqTopProduct');
+    if (inqTopProduct) inqTopProduct.textContent = topProd ? topProd.slice(0, 12) + (topProd.length > 12 ? '…' : '') : '—';
+
+    const inqAvgResp = document.getElementById('inqAvgResp');
+    if (inqAvgResp) inqAvgResp.textContent = '—';
+
+    // Inquiries section subtitle
+    const inqSecSub = document.querySelector('#sec-inquiries .sec-sub');
+    if (inqSecSub) inqSecSub.textContent = _allOrders.length + ' total orders · ' + thisMonthOrders.length + ' this month';
+  }
+
+  el.innerHTML = `<div style="text-align:center;padding:40px 20px;">
+    <div style="font-size:40px;margin-bottom:14px;">📲</div>
+    <div style="font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:8px;">WhatsApp Inquiries</div>
+    <div style="font-size:13px;color:var(--text-light);max-width:420px;margin:0 auto 16px;line-height:1.7;">
+      Customers contact you directly via WhatsApp — those conversations happen outside BahaBasket.<br>
+      Share your shop link to receive more inquiries.
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+      <button class="btn btn-wa" style="display:inline-flex;align-items:center;gap:6px;" onclick="shareShop()">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg> Share Shop on WhatsApp
+      </button>
+      <button class="btn btn-ghost" style="display:inline-flex;align-items:center;gap:6px;" onclick="showSec('orders',null)">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg> View Orders Instead
+      </button>
+    </div>
+  </div>`;
 }
 
 // ── TOP PRODUCTS ──
@@ -2433,6 +2545,8 @@ async function loadReviews() {
 
     if (!reviews.length) {
       el.innerHTML = '<div style="text-align:center;padding:48px 20px;"><div style="font-size:36px;margin-bottom:12px;">💬</div><div style="font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:5px;">No reviews yet</div><div style="font-size:13px;color:var(--text-light);">Customer reviews will appear here once received.</div></div>';
+      const revSecSub = document.getElementById('reviewsSecSub');
+      if (revSecSub) revSecSub.textContent = '0 reviews';
       return;
     }
 
@@ -2455,6 +2569,35 @@ async function loadReviews() {
     if (revAvg) revAvg.textContent = avgRating.toFixed(1);
     var revCnt = document.getElementById('reviewTotalCnt');
     if (revCnt) revCnt.textContent = total + ' reviews';
+    // Overview stat card
+    var sn4 = document.getElementById('sn4');
+    if (sn4) sn4.textContent = avgRating.toFixed(1);
+
+    // Reviews section subtitle
+    var revSecSub = document.getElementById('reviewsSecSub');
+    if (revSecSub) revSecSub.textContent = total + ' reviews · Average ' + avgRating.toFixed(1) + ' / 5';
+
+    // Reviews nav badge
+    var revBadge = document.getElementById('revNavBadge');
+    if (revBadge) { revBadge.textContent = total; revBadge.style.display = total > 0 ? 'inline' : 'none'; }
+
+    // Review insights
+    var insightsEl = document.getElementById('reviewInsights');
+    if (insightsEl) {
+      var fiveStar = reviews.filter(function(r){ return Math.round(parseFloat(r.rating)||0) === 5; }).length;
+      var replied = reviews.filter(function(r){ return !!r.shop_reply; }).length;
+      insightsEl.innerHTML = [
+        ['Total Reviews', total, 'var(--primary)'],
+        ['5-Star Reviews', fiveStar + ' (' + (total ? Math.round(fiveStar/total*100) : 0) + '%)', 'var(--success)'],
+        ['Avg Rating', avgRating.toFixed(1) + ' / 5', '#fbbf24'],
+        ['Replied', replied + ' / ' + total, 'var(--warning)']
+      ].map(function(item) {
+        return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--border);">'
+          + '<span style="font-size:13px;color:var(--text-mid);">' + item[0] + '</span>'
+          + '<strong style="font-size:13.5px;color:' + item[2] + ';">' + item[1] + '</strong>'
+          + '</div>';
+      }).join('');
+    }
 
     // Reviews list
     el.innerHTML = reviews.map(function(r) {
@@ -2558,7 +2701,37 @@ async function loadPayments() {
 
     if (!payments.length) {
       el.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:36px;color:var(--text-light);font-size:13px;">No payment records found.</td></tr>';
+      const payTotalAmt = document.getElementById('payTotalAmt');
+      if (payTotalAmt) payTotalAmt.textContent = '₹0';
+      const payTotalMeta = document.getElementById('payTotalMeta');
+      if (payTotalMeta) payTotalMeta.textContent = 'No payments yet.';
       return;
+    }
+
+    // ── Update payment total card ──
+    const totalPaid = payments.reduce((s, p) => s + (parseFloat(p.amount) || 0), 0);
+    const payTotalAmtEl = document.getElementById('payTotalAmt');
+    if (payTotalAmtEl) payTotalAmtEl.textContent = '₹' + totalPaid.toLocaleString('en-IN');
+
+    const paidCount = payments.filter(p => (p.status || 'paid').toLowerCase() === 'paid').length;
+    // Member since = earliest payment date
+    const allDates = payments.map(p => p.created_at || p.date).filter(Boolean).sort();
+    const memberSinceStr = allDates.length
+      ? new Date(allDates[0]).toLocaleDateString('en-IN', { month:'long', year:'numeric' })
+      : '';
+    const payTotalMetaEl = document.getElementById('payTotalMeta');
+    if (payTotalMetaEl) payTotalMetaEl.textContent = paidCount + ' payment' + (paidCount === 1 ? '' : 's') + (memberSinceStr ? ' · Member since ' + memberSinceStr : '');
+
+    // ── Most recent paid payment for next billing ──
+    const lastPaid = payments.find(p => (p.status || 'paid').toLowerCase() === 'paid');
+    if (lastPaid) {
+      const nbPlan = document.getElementById('nextBillPlan');
+      if (nbPlan) {
+        const pn = lastPaid.plan_name || lastPaid.plan || 'Basic';
+        nbPlan.innerHTML = `<svg viewBox="0 0 24 24" width="12" height="12" fill="var(--purple)"><path d="M3 17l2-8 4 4 3-7 3 7 4-4 2 8H3z"/></svg> ${pn}`;
+      }
+      const nbAmt = document.getElementById('nextBillAmt');
+      if (nbAmt && lastPaid.amount) nbAmt.textContent = '₹' + Number(lastPaid.amount).toLocaleString('en-IN');
     }
 
     el.innerHTML = payments.map(p => {
@@ -2759,15 +2932,27 @@ function buildWorkingHours(){
   const el=document.getElementById('workingHoursGrid');
   if(!el) return;
   el.style.cssText='display:flex;flex-direction:column;gap:5px;';
-  const days=[
-    {d:'Monday',   open:'10:00 AM', close:'7:00 PM', closed:false},
-    {d:'Tuesday',  open:'10:00 AM', close:'7:00 PM', closed:false},
-    {d:'Wednesday',open:'10:00 AM', close:'7:00 PM', closed:false},
-    {d:'Thursday', open:'10:00 AM', close:'7:00 PM', closed:false},
-    {d:'Friday',   open:'10:00 AM', close:'7:00 PM', closed:false},
-    {d:'Saturday', open:'10:00 AM', close:'6:00 PM', closed:false},
-    {d:'Sunday',   open:'10:00 AM', close:'5:00 PM', closed:true},
-  ];
+  // Defaults
+  const defaultHours = {
+    Monday:   {open:'10:00 AM', close:'7:00 PM', closed:false},
+    Tuesday:  {open:'10:00 AM', close:'7:00 PM', closed:false},
+    Wednesday:{open:'10:00 AM', close:'7:00 PM', closed:false},
+    Thursday: {open:'10:00 AM', close:'7:00 PM', closed:false},
+    Friday:   {open:'10:00 AM', close:'7:00 PM', closed:false},
+    Saturday: {open:'10:00 AM', close:'6:00 PM', closed:false},
+    Sunday:   {open:'10:00 AM', close:'5:00 PM', closed:true},
+  };
+  // Merge with shop data if available
+  const shopWH = (_currentShop && _currentShop.working_hours) ? _currentShop.working_hours : {};
+  const days = Object.keys(defaultHours).map(d => {
+    const shopDay = shopWH[d] || shopWH[d.toLowerCase()] || {};
+    return {
+      d,
+      open:   shopDay.open   || defaultHours[d].open,
+      close:  shopDay.close  || defaultHours[d].close,
+      closed: shopDay.closed !== undefined ? shopDay.closed : defaultHours[d].closed
+    };
+  });
   el.innerHTML=days.map(({d,open,close,closed})=>`
     <div id="wh-row-${d}" class="wh-row${closed?' closed':''}">
       <div class="wh-day">${d.slice(0,3)}<span>${d.slice(3)}</span></div>
@@ -2792,62 +2977,195 @@ function buildWorkingHours(){
 function buildPaymentMethods(){
   const el=document.getElementById('paymentMethods');
   if(!el) return;
-  const methods=[{m:'Cash',on:true},{m:'UPI (GPay)',on:true},{m:'PhonePe',on:true},{m:'Paytm',on:true},{m:'Credit Card',on:false},{m:'Bank Transfer',on:true}];
+  const ALL_METHODS = ['Cash','UPI (GPay)','PhonePe','Paytm','Credit Card','Bank Transfer'];
+  const DEFAULT_ON  = ['Cash','UPI (GPay)','PhonePe','Paytm','Bank Transfer'];
+  // Use shop data if available, otherwise defaults
+  const shopMethods = (_currentShop && Array.isArray(_currentShop.payment_methods) && _currentShop.payment_methods.length)
+    ? _currentShop.payment_methods
+    : DEFAULT_ON;
+  const methods = ALL_METHODS.map(m => ({
+    m,
+    on: shopMethods.some(sm => sm.toLowerCase().replace(/[^a-z]/g,'').includes(m.toLowerCase().replace(/[^a-z]/g,'').slice(0,4)))
+  }));
   el.innerHTML=methods.map(p=>`
     <div style="display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:8px;border:1.5px solid ${p.on?'var(--primary)':'var(--border)'};background:${p.on?'var(--primary-light)':'var(--bg)'};cursor:pointer;" onclick="this.style.borderColor=this.style.borderColor==='rgb(26, 86, 219)'?'var(--border)':'var(--primary)';this.style.background=this.style.background.includes('rgb(232, 240, 254)')?'var(--bg)':'var(--primary-light)';">
       <span style="font-size:13px;font-weight:700;color:${p.on?'var(--primary)':'var(--text-light)'};display:inline-flex;align-items:center;gap:5px;">${p.on?'<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>':'<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg>'} ${p.m}</span>
     </div>`).join('');
 }
 
-// ── OFFERS ──
-function buildOffers(){
-  const el=document.getElementById('offersListSeller');
-  if(!el) return;
-  [{title:"Festive Kurta Sale",disc:"40% Off All Kurtas",desc:"Valid on all kurta sets in the festive season.",expires:"Dec 31, 2024",status:"active",color:"linear-gradient(135deg,#1a56db,#2563eb)"},
-   {title:"Buy 2 Get 1 Free",disc:"33% Effective Saving",desc:"Purchase any 2 items from shirt section, get 1 free.",expires:"Dec 25, 2024",status:"active",color:"linear-gradient(135deg,#f97316,#fb923c)"},
-   {title:"Winter Clearance",disc:"Up to 60% Off",desc:"End-of-season clearance on selected items.",expires:"Jan 5, 2025",status:"draft",color:"linear-gradient(135deg,#7c3aed,#a78bfa)"},
-  ].forEach(o=>{
-    const div=document.createElement('div');
-    div.style.cssText='border-radius:var(--radius);padding:22px 24px;position:relative;overflow:hidden;';
-    div.style.background=o.color;
-    div.innerHTML=`
-      <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:.1;line-height:0;"><svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
-      <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:flex;align-items:center;gap:4px;">${o.status==='active'?'<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Active':'<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Draft'}</div>
-      <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:#fff;margin-bottom:3px;">${o.title}</div>
-      <div style="background:rgba(0,0,0,.2);color:#fff;font-size:12px;font-weight:800;padding:2px 9px;border-radius:4px;display:inline-block;margin-bottom:7px;">${o.disc}</div>
-      <div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:12px;">${o.desc}</div>
-      <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
-        <span style="font-size:12px;color:rgba(255,255,255,.65);display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Expires: ${o.expires}</span>
-        <div style="display:flex;gap:6px;">
-          <button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:6px 14px;border-radius:7px;font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;" onclick="openEditOffer(this)"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>
-          <button style="background:rgba(220,38,38,.4);border:1px solid rgba(220,38,38,.5);color:#fff;padding:6px 12px;border-radius:7px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;" onclick="if(confirm('Delete this offer?')){this.closest('div').closest('div').remove();}"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
-        </div>
-      </div>`;
-    el.appendChild(div);
-  });
+// ── OFFERS (real API) ──
+const OFFER_COLORS = [
+  'linear-gradient(135deg,#1a56db,#2563eb)',
+  'linear-gradient(135deg,#f97316,#fb923c)',
+  'linear-gradient(135deg,#7c3aed,#a78bfa)',
+  'linear-gradient(135deg,#059669,#10b981)',
+  'linear-gradient(135deg,#dc2626,#f87171)',
+];
+async function buildOffers() {
+  const el = document.getElementById('offersListSeller');
+  if (!el) return;
+  if (!_currentShop) return;
+
+  el.innerHTML = '<div style="text-align:center;padding:32px;"><svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" style="animation:spin 1s linear infinite;display:block;margin:0 auto 10px;"><path d="M21 12a9 9 0 11-6.219-8.56"/></svg><div style="font-size:13px;color:var(--text-light);">Loading offers…</div></div>';
+
+  try {
+    const res  = await fetch(API_BASE + '/offers?shop_id=' + _currentShop.id, {
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+    const data = await res.json();
+    const offers = data.offers || data.data || [];
+
+    // Update sidebar badge
+    const badge = document.getElementById('offersNavBadge');
+    const activeOffers = offers.filter(o => (o.status || o.is_active) === 'active' || o.is_active === true);
+    if (badge) {
+      if (offers.length > 0) { badge.textContent = offers.length; badge.style.display = 'inline'; }
+      else badge.style.display = 'none';
+    }
+
+    // Update offers section subtitle
+    const offerSub = document.querySelector('#sec-offers .sec-sub');
+    if (offerSub) offerSub.textContent = offers.length + ' offer' + (offers.length === 1 ? '' : 's') + ' — ' + activeOffers.length + ' active.';
+
+    if (!offers.length) {
+      el.innerHTML = '<div style="text-align:center;padding:48px 20px;"><div style="font-size:40px;margin-bottom:12px;">🏷️</div><div style="font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:5px;">No offers yet</div><div style="font-size:13px;color:var(--text-light);">Create your first offer to attract more customers.</div></div>';
+      return;
+    }
+
+    el.innerHTML = '';
+    offers.forEach((o, idx) => {
+      const color = OFFER_COLORS[idx % OFFER_COLORS.length];
+      const status = o.status || (o.is_active ? 'active' : 'draft');
+      const title  = o.title || o.name || 'Offer';
+      const disc   = o.discount_text || o.discount || o.description || '';
+      const desc   = o.terms || o.details || '';
+      const expiresRaw = o.expires_at || o.end_date || o.valid_until || null;
+      const expiresStr = expiresRaw
+        ? new Date(expiresRaw).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})
+        : 'No expiry';
+      const div = document.createElement('div');
+      div.style.cssText = 'border-radius:var(--radius);padding:22px 24px;position:relative;overflow:hidden;margin-bottom:12px;';
+      div.style.background = color;
+      div.innerHTML = `
+        <div style="position:absolute;right:16px;top:50%;transform:translateY(-50%);opacity:.1;line-height:0;"><svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#fff" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 12 20 22 4 22 4 12"/><rect x="2" y="7" width="20" height="5"/><line x1="12" y1="22" x2="12" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 010-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 000-5C13 2 12 7 12 7z"/></svg></div>
+        <div style="font-size:10px;font-weight:700;color:rgba(255,255,255,.7);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;display:flex;align-items:center;gap:4px;">${status==='active'?'<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Active':'<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> Draft'}</div>
+        <div style="font-family:var(--font-display);font-size:20px;font-weight:800;color:#fff;margin-bottom:3px;">${title}</div>
+        ${disc ? `<div style="background:rgba(0,0,0,.2);color:#fff;font-size:12px;font-weight:800;padding:2px 9px;border-radius:4px;display:inline-block;margin-bottom:7px;">${disc}</div>` : ''}
+        ${desc ? `<div style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:12px;">${desc}</div>` : ''}
+        <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+          <span style="font-size:12px;color:rgba(255,255,255,.65);display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg> Expires: ${expiresStr}</span>
+          <div style="display:flex;gap:6px;">
+            <button style="background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.35);color:#fff;padding:6px 14px;border-radius:7px;font-size:12.5px;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;" onclick="openEditOffer(this)"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit</button>
+            <button data-offer-id="${o.id}" style="background:rgba(220,38,38,.4);border:1px solid rgba(220,38,38,.5);color:#fff;padding:6px 12px;border-radius:7px;font-size:12.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;" onclick="deleteOffer('${o.id}',this.closest('div[style*=border-radius]'))"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a1 1 0 011-1h4a1 1 0 011 1v2"/></svg></button>
+          </div>
+        </div>`;
+      el.appendChild(div);
+    });
+
+  } catch (e) {
+    console.error('buildOffers:', e);
+    el.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-light);font-size:13px;">Could not load offers. Please refresh.</div>';
+  }
+}
+
+async function deleteOffer(id, cardEl) {
+  if (!confirm('Delete this offer?')) return;
+  try {
+    const res = await fetch(API_BASE + '/offers/' + id, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+    if (res.ok && cardEl) cardEl.remove();
+    else showToast('⚠️ Could not delete offer.', '#dc2626');
+  } catch (e) { showToast('⚠️ Error: ' + e.message, '#dc2626'); }
 }
 
 // ── ANALYTICS ──
 function buildAnalytics(){
+  // Analytics stats — use real product count; others are "coming soon"
+  const totalProds  = _shopProducts.length;
+  const liveProds   = _shopProducts.filter(p => p.is_active && p.stock > 0).length;
+  const totalOrders = _allOrders ? _allOrders.length : 0;
+
+  const anViews   = document.getElementById('anViews');
+  const anWAClicks= document.getElementById('anWAClicks');
+  const anSearch  = document.getElementById('anSearch');
+  const anInqRate = document.getElementById('anInqRate');
+  if (anViews)    anViews.textContent    = '—';
+  if (anWAClicks) anWAClicks.textContent = '—';
+  if (anSearch)   anSearch.textContent   = '—';
+  if (anInqRate)  anInqRate.textContent  = '—';
+
+  // Analytics coming-soon note
+  const anSec = document.getElementById('sec-analytics');
+  const anSubEl = anSec ? anSec.querySelector('.sec-sub') : null;
+  if (anSubEl && !anSubEl.dataset.real) {
+    anSubEl.textContent = 'Detailed analytics coming soon. Showing available data.';
+    anSubEl.dataset.real = '1';
+  }
+
   const ts=document.getElementById('trafficSources');
-  if(ts) ts.innerHTML=[[52,'Search','#1a56db'],[28,'Direct Link','#16a34a'],[12,'Homepage Featured','#f97316'],[8,'WhatsApp Share','#25D366']].map(([p,l,c])=>`
-    <div class="prog-row">
-      <div class="prog-lbl"><span>${l}</span><span class="pval">${p}%</span></div>
-      <div class="prog-bg"><div class="prog-fill" style="width:${p}%;background:${c};"></div></div>
-    </div>`).join('');
+  if(ts) ts.innerHTML = `<div style="text-align:center;padding:24px 16px;color:var(--text-light);">
+    <div style="font-size:28px;margin-bottom:8px;">📊</div>
+    <div style="font-size:13.5px;font-weight:600;color:var(--text-mid);margin-bottom:4px;">Traffic Analytics</div>
+    <div style="font-size:12.5px;">Detailed traffic breakdown coming soon.</div>
+  </div>`;
+
   const pi = document.getElementById('productsByInquiry');
   if (pi) {
     const topProds = _shopProducts.slice(0, 5);
     if (topProds.length) {
       pi.innerHTML = topProds.map((p, i) => `
         <div class="prog-row">
-          <div class="prog-lbl"><span>${p.name.slice(0, 28)}${p.name.length > 28 ? '…' : ''}</span><span class="pval">—</span></div>
+          <div class="prog-lbl"><span>${p.name.slice(0, 28)}${p.name.length > 28 ? '…' : ''}</span><span class="pval badge badge-${p.is_active && p.stock > 0 ? 'success' : 'warning'}" style="font-size:10px;">${p.is_active && p.stock > 0 ? 'Live' : 'Draft'}</span></div>
           <div class="prog-bg"><div class="prog-fill" style="width:${Math.round((5 - i) / 5 * 80 + 10)}%;background:var(--primary);"></div></div>
         </div>`).join('');
     } else {
       pi.innerHTML = '<div style="color:var(--text-light);font-size:13px;padding:8px 0;">No products listed yet.</div>';
     }
   }
+
+  // Weekly chart — show orders by day of week
+  buildWeekChart();
+
+  // Monthly chart placeholder
+  const mc = document.getElementById('monthlyChart');
+  if (mc) {
+    mc.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;color:var(--text-light);font-size:12.5px;">Monthly trend analytics coming soon.</div>';
+  }
+}
+
+function buildWeekChart() {
+  const el = document.getElementById('weekChart');
+  if (!el) return;
+  const DAY_LABELS = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const counts = [0,0,0,0,0,0,0];
+  if (_allOrders && _allOrders.length) {
+    const now = new Date();
+    const weekAgo = new Date(now.getTime() - 7 * 24 * 3600000);
+    _allOrders.forEach(o => {
+      if (!o.created_at) return;
+      const d = new Date(o.created_at);
+      if (d >= weekAgo) counts[d.getDay()]++;
+    });
+  }
+  const maxVal = Math.max(...counts, 1);
+  const total  = counts.reduce((a,b) => a+b, 0);
+  const bestIdx = counts.indexOf(Math.max(...counts));
+
+  el.innerHTML = counts.map((c, i) => {
+    const h = Math.round(c / maxVal * 100);
+    const isToday = i === new Date().getDay();
+    return `<div class="chart-col">
+      <div class="chart-bar" style="height:${h}%;background:${isToday ? 'var(--primary)' : '#93c5fd'};"></div>
+      <div class="chart-lbl">${DAY_LABELS[i]}</div>
+    </div>`;
+  }).join('');
+
+  const weekTotalEl = document.getElementById('weekTotalInq');
+  if (weekTotalEl) weekTotalEl.textContent = total + ' order' + (total === 1 ? '' : 's');
+  const weekBestEl = document.getElementById('weekBestDay');
+  if (weekBestEl) weekBestEl.textContent = total > 0 ? DAY_LABELS[bestIdx] + ' (' + counts[bestIdx] + ')' : '—';
 }
 
 // ── NOTIFICATIONS (real API) ──
@@ -2867,10 +3185,21 @@ async function loadNotifs() {
     const data = await res.json();
     const notifs = data.notifications || data.data || [];
 
-    // Update unread badge in header
+    // Update unread badge in header dot
     const unreadCount = notifs.filter(n => !n.is_read && !n.read_at).length;
     const headerDot = document.querySelector('.hdr-dot');
     if (headerDot) headerDot.style.display = unreadCount > 0 ? 'block' : 'none';
+
+    // Update sidebar notif badge
+    const notifBadge = document.getElementById('notifNavBadge');
+    if (notifBadge) {
+      if (unreadCount > 0) { notifBadge.textContent = unreadCount; notifBadge.style.display = 'inline'; }
+      else notifBadge.style.display = 'none';
+    }
+
+    // Update notifications section subtitle
+    const notifSecSub = document.getElementById('notifSecSub');
+    if (notifSecSub) notifSecSub.textContent = unreadCount > 0 ? unreadCount + ' unread notification' + (unreadCount === 1 ? '' : 's') + '.' : 'All caught up — no unread notifications.';
 
     if (!notifs.length) {
       el.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text-light);"><div style="font-size:32px;margin-bottom:12px;">🔔</div><div style="font-size:13.5px;font-weight:600;color:var(--text-mid);margin-bottom:6px;">No notifications yet</div><div style="font-size:12.5px;">You\'ll see alerts for new reviews, inquiries, and plan updates here.</div></div>';
@@ -2926,9 +3255,16 @@ async function markNotifRead(id, el) {
 function buildFAQ(){
   const el=document.getElementById('sellerFAQ');
   if(!el) return;
+  // Get dynamic plan expiry date
+  const expiryRaw = _currentShop ? (_currentShop.plan_expires_at || _currentShop.plan_expiry || _currentShop.subscription_expires_at || null) : null;
+  const expiryStr = expiryRaw
+    ? new Date(expiryRaw).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})
+    : 'Check your Plan section';
+  const planName = _currentShop ? ((_currentShop.plan || 'free').charAt(0).toUpperCase() + (_currentShop.plan || 'free').slice(1)) : 'Free';
   const faqs=[
     {q:"How do I add more products?",a:"Go to Add Product in the sidebar."},
-    {q:"When does my plan renew?",a:"Jan 15, 2025. You'll get a 7-day reminder."},
+    {q:"When does my plan renew?",a:expiryStr + ". You'll get a 7-day reminder before expiry."},
+    {q:"What is my current plan?",a: planName + " plan. Go to Membership Plan to upgrade."},
     {q:"How do I respond to reviews?",a:"Go to Reviews tab and click Post Reply."},
     {q:"Can I change my WhatsApp number?",a:"Yes — in Shop Profile settings."},
   ];
