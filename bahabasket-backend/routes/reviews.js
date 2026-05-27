@@ -11,6 +11,9 @@ router.get('/', reviewsCtrl.listReviews);
 // POST /api/reviews             → Submit a review (must be logged in)
 router.post('/', requireAuth, validate(schemas.createReview), reviewsCtrl.createReview);
 
+// PATCH /api/reviews/:id          → Update review content (owner only)
+router.patch('/:id', requireAuth, reviewsCtrl.updateReview);
+
 // PATCH /api/reviews/:id/helpful → Mark review as helpful (+1)
 router.patch('/:id/helpful', requireAuth, reviewsCtrl.markHelpful);
 

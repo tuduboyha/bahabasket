@@ -56,6 +56,34 @@ exports.createReview = async (req, res, next) => {
   } catch (err) { next(err); }
 };
 
+// ─── Update Review (owner only) ──────────────────────────────────────────────
+exports.updateReview = async (req, res, next) => {
+  try {
+    const { rating, title, text } = req.body;
+    const updates = {};
+    if (rating !== undefined) updates.rating = rating;
+    if (title  !== undefined) updates.title  = title;
+    if (text   !== undefined) updates.text   = text;
+
+    if (!Object.keys(updates).length)
+      return res.status(400).json({ success: false, error: 'Nothing to update' });
+
+    // Verify ownership
+    const { data: existing } = await supabaseAdmin
+      .from('reviews').select('user_id, shop_id, type').eq('id', req.params.id).single();
+    if (!existing || existing.user_id !== req.user.id)
+      return res.status(403).json({ success: false, error: 'Not your review' });
+
+    const { data, error } = await supabaseAdmin
+      .from('reviews').update(updates).eq('id', req.params.id).select().single();
+    if (error) throw error;
+
+    if (existing.type === 'shop' && existing.shop_id) await updateShopRating(existing.shop_id);
+
+    res.json({ success: true, review: data });
+  } catch (err) { next(err); }
+};
+
 exports.markHelpful = async (req, res, next) => {
   try {
     const { data: review } = await supabaseAdmin.from('reviews').select('helpful_count').eq('id', req.params.id).single();
