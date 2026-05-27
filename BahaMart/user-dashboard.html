@@ -1610,10 +1610,28 @@ function showSection(id, navEl){
   document.querySelectorAll('.page-section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));
   document.getElementById('sec-'+id).classList.add('active');
-  if(navEl) navEl.classList.add('active');
+  // Highlight correct sidebar item if navEl not passed (e.g. called from buttons)
+  if(navEl) {
+    navEl.classList.add('active');
+  } else {
+    const match = document.querySelector(`.sidebar-item[onclick*="'${id}'"]`);
+    if(match) match.classList.add('active');
+  }
+  // Save active section in URL hash so refresh restores it
+  history.replaceState(null, '', '#' + id);
   window.scrollTo({top:0,behavior:'smooth'});
   if(window.innerWidth <= 860) closeSidebar();
 }
+
+// ── Restore section from URL hash on page load / refresh ──
+(function restoreSectionFromHash(){
+  const hash = window.location.hash.replace('#','');
+  const validSections = ['overview','profile','wishlist','inquiries','saved-shops','reviews','activity','notifications','settings','security'];
+  if(hash && validSections.includes(hash)){
+    // Defer slightly so DOM is fully ready
+    setTimeout(() => showSection(hash, null), 0);
+  }
+})();
 
 // ── SIDEBAR MOBILE ──
 function toggleSidebar(){
