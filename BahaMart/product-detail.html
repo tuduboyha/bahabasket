@@ -716,7 +716,7 @@ textarea.rev-input{resize:vertical;min-height:90px;}
           <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
           Order on WhatsApp
         </button>
-        <button class="btn-call" onclick="window.location='tel:+919876543210'" style="display:flex;align-items:center;justify-content:center;gap:8px;">
+        <button class="btn-call" id="btnCall" onclick="window.location='tel:+919876543210'" style="display:flex;align-items:center;justify-content:center;gap:8px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" style="flex-shrink:0;"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.1 12.72 19.79 19.79 0 012.03 4.1 2 2 0 014 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>Call the Shop
         </button>
         <div class="btns-row">
@@ -791,9 +791,9 @@ textarea.rev-input{resize:vertical;min-height:90px;}
   <div class="tabs-bar">
     <button class="tab-btn active" onclick="showTab('description',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>Description</button>
     <button class="tab-btn" onclick="showTab('specifications',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>Specifications</button>
-    <button class="tab-btn" onclick="showTab('reviews',this)" id="reviewsTabBtn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="14" height="14" style="vertical-align:-2px;margin-right:5px;color:#fbbf24;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Reviews (124)</button>
+    <button class="tab-btn" onclick="showTab('reviews',this)" id="reviewsTabBtn"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="14" height="14" style="vertical-align:-2px;margin-right:5px;color:#fbbf24;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Reviews (<span id="revTabCount">…</span>)</button>
     <button class="tab-btn" onclick="showTab('shipping',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><rect x="1" y="3" width="15" height="13" rx="1"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>Delivery & Returns</button>
-    <button class="tab-btn" onclick="showTab('qa',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Q&A (18)</button>
+    <button class="tab-btn" onclick="showTab('qa',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>Q&A (<span id="qaTabCount">…</span>)</button>
   </div>
 
   <!-- DESCRIPTION TAB -->
@@ -844,11 +844,11 @@ textarea.rev-input{resize:vertical;min-height:90px;}
         <div class="cnt" id="revBigCnt">—</div>
       </div>
       <div class="rev-bars">
-        <div class="rev-bar-row"><span class="lbl">5★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:82%;"></div></div><span class="pct">82%</span></div>
-        <div class="rev-bar-row"><span class="lbl">4★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:12%;"></div></div><span class="pct">12%</span></div>
-        <div class="rev-bar-row"><span class="lbl">3★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:4%;background:#f59e0b;"></div></div><span class="pct">4%</span></div>
-        <div class="rev-bar-row"><span class="lbl">2★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:1%;background:#f97316;"></div></div><span class="pct">1%</span></div>
-        <div class="rev-bar-row"><span class="lbl">1★</span><div class="rev-bar-bg"><div class="rev-bar-fill" style="width:1%;background:#dc2626;"></div></div><span class="pct">1%</span></div>
+        <div class="rev-bar-row"><span class="lbl">5★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar5" style="width:0%;"></div></div><span class="pct" id="revPct5">—</span></div>
+        <div class="rev-bar-row"><span class="lbl">4★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar4" style="width:0%;"></div></div><span class="pct" id="revPct4">—</span></div>
+        <div class="rev-bar-row"><span class="lbl">3★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar3" style="width:0%;background:#f59e0b;"></div></div><span class="pct" id="revPct3">—</span></div>
+        <div class="rev-bar-row"><span class="lbl">2★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar2" style="width:0%;background:#f97316;"></div></div><span class="pct" id="revPct2">—</span></div>
+        <div class="rev-bar-row"><span class="lbl">1★</span><div class="rev-bar-bg"><div class="rev-bar-fill" id="revBar1" style="width:0%;background:#dc2626;"></div></div><span class="pct" id="revPct1">—</span></div>
       </div>
     </div>
 
@@ -956,7 +956,7 @@ textarea.rev-input{resize:vertical;min-height:90px;}
 <div class="related-section">
   <div class="section-header-row">
     <div class="section-heading"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20" style="vertical-align:-3px;margin-right:6px;"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>Related <span>Products</span></div>
-    <a href="product-listings.html?cat=men-fashion" class="view-all-btn">All Men Fashion →</a>
+    <a href="product-listings.html" id="viewAllLink" class="view-all-btn">All Products →</a>
   </div>
   <div class="related-grid" id="relatedGrid"></div>
 </div>
@@ -1281,22 +1281,59 @@ function changeQty(dir){
 }
 
 // ── WISHLIST ──
+const HEART_FILLED_LG = '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+const HEART_EMPTY_LG  = '<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+const HEART_FILLED_SM = '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+const HEART_EMPTY_SM  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
+
 let wishlisted = false;
-function toggleWishlist(){
-  wishlisted = !wishlisted;
-  const btn = document.getElementById('wishlistBtn');
-  btn.innerHTML = wishlisted ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
-  btn.classList.toggle('active', wishlisted);
+
+function _syncWishlistUI(state) {
+  wishlisted = state;
+  var wb = document.getElementById('wishlistBtn');
+  var sb = document.getElementById('saveBtn');
+  if (wb) { wb.innerHTML = state ? HEART_FILLED_LG : HEART_EMPTY_LG; wb.classList.toggle('active', state); }
+  if (sb) { sb.innerHTML = (state ? HEART_FILLED_SM + ' Saved to Wishlist!' : HEART_EMPTY_SM + ' Save to Wishlist'); sb.classList.toggle('saved', state); }
 }
-let saved = false;
-function toggleSave(){
-  saved = !saved;
-  const btn = document.getElementById('saveBtn');
-  btn.innerHTML = saved ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> Saved to Wishlist!' : '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg> Save to Wishlist';
-  btn.classList.toggle('saved', saved);
-  // sync wishlist btn
-  document.getElementById('wishlistBtn').innerHTML = saved ? '<svg viewBox="0 0 24 24" fill="#dc2626" stroke="#dc2626" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>' : '<svg viewBox="0 0 24 24" fill="none" stroke="#94a3b8" stroke-width="2" width="18" height="18"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>';
-  document.getElementById('wishlistBtn').classList.toggle('active', saved);
+
+async function _callWishlistAPI(adding) {
+  var token = localStorage.getItem('bb_token');
+  if (!token) { window.location.href = 'login-register.html?next=' + encodeURIComponent(window.location.href); return false; }
+  var id = _product && _product.id;
+  if (!id) return false;
+  try {
+    if (adding) {
+      await fetch(API_BASE + '/wishlist', { method:'POST', headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'}, body:JSON.stringify({product_id:id}) });
+      showToast('❤️ Added to Wishlist!');
+    } else {
+      await fetch(API_BASE + '/wishlist/' + id, { method:'DELETE', headers:{'Authorization':'Bearer '+token} });
+      showToast('Removed from Wishlist.');
+    }
+    return true;
+  } catch(e) { return false; }
+}
+
+async function toggleWishlist() {
+  var prev = wishlisted;
+  _syncWishlistUI(!prev); // optimistic
+  var ok = await _callWishlistAPI(!prev);
+  if (!ok) _syncWishlistUI(prev); // revert on error
+}
+
+// Save button calls same toggle
+async function toggleSave() { await toggleWishlist(); }
+
+// Check initial wishlist state after product loads
+async function checkWishlistState(productId) {
+  var token = localStorage.getItem('bb_token');
+  if (!token) return;
+  try {
+    var res  = await fetch(API_BASE + '/wishlist', { headers:{'Authorization':'Bearer '+token} });
+    var data = await res.json();
+    var items = data.wishlist || data.items || (Array.isArray(data) ? data : []);
+    var inWL = items.some(function(i){ return String(i.product_id || i.id) === String(productId); });
+    _syncWishlistUI(inWL);
+  } catch(e) { /* silently ignore */ }
 }
 
 // ── SHARE ──
@@ -1396,6 +1433,38 @@ async function loadProductReviews(productId) {
     // Filter to approved only (or all if no status field)
     reviews = reviews.filter(function(r){ return !r.status || r.status === 'approved'; });
 
+    // Update Reviews tab count
+    var revTabCountEl = document.getElementById('revTabCount');
+    if (revTabCountEl) revTabCountEl.textContent = reviews.length;
+
+    // Compute per-star distribution
+    var starCounts = {1:0, 2:0, 3:0, 4:0, 5:0};
+    var starSum = 0;
+    reviews.forEach(function(r) {
+      var s = Math.min(5, Math.max(1, Math.round(parseFloat(r.rating) || 0)));
+      starCounts[s]++;
+      starSum += s;
+    });
+    var avgRating = reviews.length ? (starSum / reviews.length) : 0;
+    var avgStarsFull = Math.round(avgRating);
+
+    // Update review summary block
+    var revBigNumEl   = document.getElementById('revBigNum');
+    var revBigStarsEl = document.getElementById('revBigStars');
+    var revBigCntEl   = document.getElementById('revBigCnt');
+    if (revBigNumEl)   revBigNumEl.textContent   = reviews.length ? avgRating.toFixed(1) : '—';
+    if (revBigStarsEl) revBigStarsEl.textContent  = '★'.repeat(avgStarsFull) + '☆'.repeat(5 - avgStarsFull);
+    if (revBigCntEl)   revBigCntEl.textContent    = reviews.length + (reviews.length === 1 ? ' review' : ' reviews');
+
+    // Update star bars
+    [5,4,3,2,1].forEach(function(s) {
+      var pct = reviews.length ? Math.round((starCounts[s] / reviews.length) * 100) : 0;
+      var barEl = document.getElementById('revBar' + s);
+      var pctEl = document.getElementById('revPct' + s);
+      if (barEl) barEl.style.width = pct + '%';
+      if (pctEl) pctEl.textContent  = pct + '%';
+    });
+
     if (!reviews.length) {
       revList.innerHTML =
         '<div style="text-align:center;padding:56px 20px;">' +
@@ -1473,23 +1542,48 @@ async function loadRelatedProducts(category, currentId) {
 
 // recentGrid and relatedGrid are loaded by loadProduct() via loadRelatedProducts()
 
-// ── Q&A ──
-document.getElementById('qaList').innerHTML = [
-  {q:"Is dry wash required for this kurta?",a:"No! Machine wash on cold setting works fine. However, hand washing is recommended for the first wash to let it set properly.",date:"10 Dec 2024"},
-  {q:"Where can I find the size guide?",a:"Message us on WhatsApp — we will send you a detailed size chart. We generally recommend sizing up by one.",date:"8 Dec 2024"},
-  {q:"Is customization available?",a:"Absolutely! Embroidery customization is available for an extra charge of ₹150–₹300. Discuss on WhatsApp.",date:"5 Dec 2024"},
-  {q:"How many days will delivery take?",a:"Same day pickup is available. Local delivery (within 10 km) in 2–4 hours. Courier delivery to other cities in 3–5 days.",date:"1 Dec 2024"},
-].map(qa=>`
-  <div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">
-    <div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;">
-      <span style="background:var(--primary-light);color:var(--primary);font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;">Q</span>
-      <div style="font-size:14px;font-weight:600;color:var(--text-dark);">${qa.q}</div>
-    </div>
-    <div style="display:flex;align-items:flex-start;gap:8px;">
-      <span style="background:#dcfce7;color:var(--success);font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;">A</span>
-      <div style="font-size:14px;color:var(--text-mid);line-height:1.6;">${qa.a} <span style="font-size:11px;color:var(--text-light);margin-left:6px;">${qa.date}</span></div>
-    </div>
-  </div>`).join('');
+// ── Q&A — loaded from API ──
+async function loadQA(productId) {
+  var listEl = document.getElementById('qaList');
+  if (!listEl) return;
+  try {
+    var res  = await fetch(API_BASE + '/questions?product_id=' + productId + '&limit=10');
+    if (!res.ok) throw new Error('no-qa');
+    var data = await res.json();
+    var items = data.questions || data.data || [];
+    // Update tab count
+    var qaCount = document.getElementById('qaTabCount');
+    if (qaCount) qaCount.textContent = items.length;
+
+    if (!items.length) throw new Error('empty');
+    listEl.innerHTML = items.map(function(qa) {
+      var dateStr = qa.created_at
+        ? new Date(qa.created_at).toLocaleDateString('en-IN', {day:'numeric', month:'short', year:'numeric'})
+        : '';
+      return '<div style="background:var(--white);border:1px solid var(--border);border-radius:var(--radius);padding:16px 20px;">' +
+        '<div style="display:flex;align-items:flex-start;gap:8px;margin-bottom:10px;">' +
+          '<span style="background:var(--primary-light);color:var(--primary);font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;">Q</span>' +
+          '<div style="font-size:14px;font-weight:600;color:var(--text-dark);">' + (qa.question || qa.body || '') + '</div>' +
+        '</div>' +
+        (qa.answer ? (
+          '<div style="display:flex;align-items:flex-start;gap:8px;">' +
+            '<span style="background:#dcfce7;color:var(--success);font-size:13px;font-weight:700;padding:2px 8px;border-radius:4px;flex-shrink:0;">A</span>' +
+            '<div style="font-size:14px;color:var(--text-mid);line-height:1.6;">' + qa.answer + (dateStr ? ' <span style="font-size:11px;color:var(--text-light);margin-left:6px;">' + dateStr + '</span>' : '') + '</div>' +
+          '</div>'
+        ) : '<div style="font-size:12px;color:var(--text-light);margin-top:4px;padding-left:36px;">Awaiting seller reply…</div>') +
+      '</div>';
+    }).join('');
+  } catch(e) {
+    var qaCount = document.getElementById('qaTabCount');
+    if (qaCount) qaCount.textContent = '0';
+    listEl.innerHTML =
+      '<div style="text-align:center;padding:40px 20px;">' +
+        '<div style="font-size:36px;margin-bottom:12px;">💬</div>' +
+        '<div style="font-size:15px;font-weight:700;color:var(--text-dark);margin-bottom:6px;">No questions yet</div>' +
+        '<div style="font-size:13px;color:var(--text-light);">Be the first to ask — the seller will reply within 24 hours!</div>' +
+      '</div>';
+  }
+}
 
 // ── CLEAR STALE TEMPLATE DATA (runs before API call) ──
 function clearProductUI() {
@@ -1760,22 +1854,7 @@ async function loadProduct() {
     if (ratingNumEl) ratingNumEl.textContent = shopRating > 0 ? shopRating.toFixed(1) : '—';
     if (ratingCntEl) ratingCntEl.innerHTML   = '<a href="#reviews">' + (shopRevCount > 0 ? shopRevCount + ' reviews' : 'No reviews yet') + '</a>';
 
-    // ── Reviews summary block ──
-    var revBigNum   = document.getElementById('revBigNum');
-    var revBigStars = document.getElementById('revBigStars');
-    var revBigCnt   = document.getElementById('revBigCnt');
-    if (revBigNum)   revBigNum.textContent = shopRating > 0 ? shopRating.toFixed(1) : '—';
-    if (revBigStars) {
-      var starsFull  = Math.round(shopRating);
-      revBigStars.textContent = '★'.repeat(starsFull) + '☆'.repeat(5 - starsFull);
-    }
-    if (revBigCnt) revBigCnt.textContent = shopRevCount + ' reviews';
-
-    // ── Reviews tab button count ──
-    var reviewsTabBtn = document.getElementById('reviewsTabBtn');
-    if (reviewsTabBtn) {
-      reviewsTabBtn.innerHTML = reviewsTabBtn.innerHTML.replace(/Reviews \(\d+\)/, 'Reviews (' + shopRevCount + ')');
-    }
+    // ── Reviews summary block — populated by loadProductReviews() ──
 
     // ── Breadcrumb category link ──
     var catBreadcrumb = document.querySelector('.breadcrumb a[href*="product-listings"]');
@@ -1802,6 +1881,21 @@ async function loadProduct() {
           '<span>' + h.text + '</span>' +
         '</div>';
       }).join('');
+    }
+
+    // ── Call button — use real WA number as tel ──
+    var btnCallEl = document.getElementById('btnCall');
+    if (btnCallEl && shop.whatsapp) {
+      var telNum = shop.whatsapp.replace(/\D/g,'');
+      btnCallEl.onclick = function() { window.location = 'tel:+' + telNum; };
+    }
+
+    // ── View All related link ──
+    var viewAllLinkEl = document.getElementById('viewAllLink');
+    if (viewAllLinkEl && p.category) {
+      var catLabel__ = p.category.charAt(0).toUpperCase() + p.category.slice(1).replace(/-/g,' ');
+      viewAllLinkEl.href = 'product-listings.html?cat=' + encodeURIComponent(p.category);
+      viewAllLinkEl.textContent = 'All ' + catLabel__ + ' →';
     }
 
     // ── Load reviews + init review form ──
@@ -1832,8 +1926,10 @@ async function loadProduct() {
       floatWa.onclick = function() { openWA('order'); };
     }
 
-    // Load related
+    // Load related, Q&A, wishlist state
     loadRelatedProducts(p.category, p.id);
+    loadQA(p.id);
+    checkWishlistState(p.id);
 
     // ── Sab data aa gaya — info column dikhao ──
     var infoCol = document.getElementById('infoColumn');
