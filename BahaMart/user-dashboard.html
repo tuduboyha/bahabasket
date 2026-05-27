@@ -2000,6 +2000,7 @@ let revModalType = 'shop';
 let revLastDeleted = null;
 let revUndoTimer = null;
 let revEditingRating = 0;
+let revEditingId = null; // ID of review being edited (null = new review)
 
 function revStarsHtml(rating) {
   return [1,2,3,4,5].map(i =>
@@ -2066,11 +2067,11 @@ function buildRevCard(r) {
       <div class="rev-text">${r.text}</div>
       ${replyHtml}
       <div class="rev-actions">
-        <button class="btn-rev-edit" onclick="revEditReview(${r.id})">
+        <button class="btn-rev-edit" onclick="revEditReview('${r.id}')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
           Edit
         </button>
-        <button class="btn-rev-delete" onclick="revDeleteReview(${r.id})">
+        <button class="btn-rev-delete" onclick="revDeleteReview('${r.id}')">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/></svg>
           Delete
         </button>
@@ -2154,11 +2155,19 @@ function filterRevTab(tab, el) {
   renderRevs();
 }
 
-function revDeleteReview(id) {
+async function revDeleteReview(id) {
   const el = document.getElementById('rev-'+id);
   if(el) { el.style.transition='all .3s'; el.style.opacity='0'; el.style.transform='translateX(20px)'; }
   revLastDeleted = revItems.find(r => r.id===id);
   setTimeout(() => { revItems = revItems.filter(r => r.id!==id); renderRevs(); revShowUndo(); }, 300);
+
+  // Call API in background
+  try {
+    await fetch(`${API_BASE}/reviews/${id}`, {
+      method: 'DELETE',
+      headers: { 'Authorization': 'Bearer ' + _bbToken }
+    });
+  } catch(e) { /* silently fail — UI already updated */ }
 }
 
 function revShowUndo() {
@@ -2183,17 +2192,20 @@ function revUndoDelete() {
 function revEditReview(id) {
   const r = revItems.find(i => i.id===id);
   if(!r) return;
-  openWriteModal(r.type || 'shop'); // open + clear + set type
-  // Fill in existing values after opening
+  revEditingId = id; // mark as editing
+  openWriteModal(r.type || 'shop');
   const ms = document.getElementById('revModalShop');
   const mt = document.getElementById('revModalTitle');
   const mx = document.getElementById('revModalText');
   const mp = document.getElementById('revModalProduct');
-  if(ms) ms.value = r.shop;
+  if(ms) { ms.value = r.shop; ms.disabled = true; } // shop can't change on edit
   if(mt) mt.value = r.title;
   if(mx) mx.value = r.text;
   if(mp) mp.value = r.product || '';
   setRevRating(r.rating);
+  // Update modal title to say "Edit Review"
+  const mh = document.getElementById('revModalHeading');
+  if(mh) mh.textContent = 'Edit Review';
 }
 
 function revContactShop(name) {
@@ -2215,13 +2227,16 @@ function setRevModalType(type) {
 
 function openWriteModal(defaultType) {
   revEditingRating = 0;
+  revEditingId = null; // reset editing state
   setRevRating(0);
   const initType = defaultType || (revTypeTab === 'product' ? 'product' : 'shop');
   setRevModalType(initType);
   ['revModalShop','revModalTitle','revModalText','revModalProduct'].forEach(id => {
     const el = document.getElementById(id);
-    if(el) el.value = '';
+    if(el) { el.value = ''; el.disabled = false; }
   });
+  const mh = document.getElementById('revModalHeading');
+  if(mh) mh.textContent = 'Write a Review';
   const overlay = document.getElementById('revWriteModal');
   if(overlay) { overlay.classList.add('open'); document.body.style.overflow='hidden'; }
 }
@@ -2238,29 +2253,54 @@ function setRevRating(val) {
   });
 }
 
-function submitRevReview() {
-  const shop = document.getElementById('revModalShop')?.value;
-  const title = document.getElementById('revModalTitle')?.value.trim();
-  const text = document.getElementById('revModalText')?.value.trim();
+async function submitRevReview() {
+  const shop    = document.getElementById('revModalShop')?.value;
+  const title   = document.getElementById('revModalTitle')?.value.trim();
+  const text    = document.getElementById('revModalText')?.value.trim();
   const product = document.getElementById('revModalProduct')?.value.trim();
-  if(!shop) { document.getElementById('revModalShop').style.borderColor='var(--danger)'; return; }
+  if(!shop)  { document.getElementById('revModalShop').style.borderColor='var(--danger)'; return; }
   if(revModalType === 'product' && !product) { document.getElementById('revModalProduct').style.borderColor='var(--danger)'; return; }
   if(!revEditingRating) { document.querySelector('.rev-star-select').style.outline='2px solid var(--danger)'; return; }
   if(!title) { document.getElementById('revModalTitle').style.borderColor='var(--danger)'; return; }
-  if(!text) { document.getElementById('revModalText').style.borderColor='var(--danger)'; return; }
-  const newRev = {
-    id: Date.now(),
-    type: revModalType,
-    shop, shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`, cat:'General',
-    rating: revEditingRating, title, text,
-    product: revModalType === 'product' ? (product || '') : '',
-    date: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
-    status:'pending', helpful:0, reply:null
-  };
-  revItems.unshift(newRev);
-  closeWriteModal();
-  renderRevs();
-  revShowToast(_ICO.ok+' Review submitted! It will be published after moderation.');
+  if(!text)  { document.getElementById('revModalText').style.borderColor='var(--danger)'; return; }
+
+  if (revEditingId) {
+    // ── EDIT existing review via API ──
+    try {
+      const res  = await fetch(`${API_BASE}/reviews/${revEditingId}`, {
+        method:  'PATCH',
+        headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
+        body:    JSON.stringify({ rating: revEditingRating, title, text })
+      });
+      const data = await res.json();
+      if (!data.success) throw new Error(data.error || 'Update failed');
+
+      // Update in-memory item and re-render
+      const idx = revItems.findIndex(r => r.id === revEditingId);
+      if (idx !== -1) revItems[idx] = { ...revItems[idx], rating: revEditingRating, title, text };
+      closeWriteModal();
+      renderRevs();
+      revShowToast(_ICO.ok+' Review updated successfully!');
+    } catch(e) {
+      revShowToast(_ICO.err+' '+e.message);
+    }
+  } else {
+    // ── NEW review (UI placeholder — real submission done via shop-profile.html) ──
+    const newRev = {
+      id: Date.now(),
+      type: revModalType,
+      shop, shopSlug:'', cat: revModalType === 'product' ? 'Product Review' : 'Shop Review',
+      shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+      rating: revEditingRating, title, text,
+      product: revModalType === 'product' ? (product || '') : '',
+      date: new Date().toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'}),
+      status:'published', helpful:0, reply:null
+    };
+    revItems.unshift(newRev);
+    closeWriteModal();
+    renderRevs();
+    revShowToast(_ICO.ok+' Review submitted!');
+  }
 }
 
 function revShowToast(msg) {
@@ -3023,7 +3063,8 @@ async function loadDashboardData() {
           id:          r.id,
           type:        r.type,
           shop:        r.shops?.name || r.products?.name || 'Unknown',
-          shopCat:     r.type === 'product' ? 'Product Review' : 'Shop Review',
+          shopSlug:    r.shops?.slug  || '',
+          cat:         r.type === 'product' ? 'Product Review' : 'Shop Review',
           shopEmoji:   r.type === 'product' ? `<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="26" height="26"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>` : `<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
           productName: r.products?.name || '',
           rating:      r.rating,
