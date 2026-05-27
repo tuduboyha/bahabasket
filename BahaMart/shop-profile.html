@@ -483,10 +483,10 @@ textarea.wr-input { resize: vertical; min-height: 80px; }
 
     <!-- Tab Bar -->
     <div class="tab-bar">
-      <button class="tab-btn active" onclick="showTab('products',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Products (240)</button>
+      <button class="tab-btn active" id="productsTab" onclick="showTab('products',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>Products (<span id="tabProductsCount">…</span>)</button>
       <button class="tab-btn" onclick="showTab('about',this)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>About Shop</button>
-      <button class="tab-btn" id="tabReviews" onclick="showTab('reviews',this)"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="14" height="14" style="vertical-align:-2px;margin-right:5px;color:#fbbf24;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Reviews (<span id="tabReviewsCount">124</span>)</button>
-      <button class="tab-btn" onclick="showTab('gallery',this)" id="galleryTab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>Gallery (8)</button>
+      <button class="tab-btn" id="tabReviews" onclick="showTab('reviews',this)"><svg viewBox="0 0 24 24" fill="currentColor" stroke="none" width="14" height="14" style="vertical-align:-2px;margin-right:5px;color:#fbbf24;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Reviews (<span id="tabReviewsCount">…</span>)</button>
+      <button class="tab-btn" onclick="showTab('gallery',this)" id="galleryTab"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:5px;"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>Gallery (<span id="tabGalleryCount">…</span>)</button>
       <button class="tab-btn" onclick="showTab('offers',this)"><svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14" style="vertical-align:-2px;margin-right:5px;color:#f97316;"><path d="M12 2c0 0-5 5.5-5 10a5 5 0 0010 0C17 7.5 12 2 12 2zm0 3.5c0 0-2.5 3-2.5 6a2.5 2.5 0 005 0c0-3-2.5-6-2.5-6z"/></svg>Shop Offers</button>
     </div>
 
@@ -955,7 +955,9 @@ async function loadReviews(shopId) {
     const data = await res.json();
     if (data.success && data.reviews && data.reviews.length > 0) {
       renderAPIReviews(data.reviews);
+      setText('tabReviewsCount', data.reviews.length);
     } else {
+      setText('tabReviewsCount', 0);
       const el = document.getElementById('reviewsList');
       if (el) el.innerHTML =
         '<div style="text-align:center;padding:40px 20px;color:var(--text-light);font-size:14px;">' +
@@ -1082,13 +1084,9 @@ async function loadProducts(shopId) {
     products = data.products || [];
     _productsLoaded = true;
 
-    // Update "Products (N)" tab button text
-    const prodTabBtn = document.querySelector('.tab-btn');
-    if (prodTabBtn) prodTabBtn.innerHTML = prodTabBtn.innerHTML.replace(/Products.*/, `Products (${products.length})`);
-
-    // Update statProducts (overview section stat)
-    const sp = document.getElementById('statProducts');
-    if (sp) sp.textContent = products.length;
+    // Update "Products (N)" tab count + stat
+    setText('tabProductsCount', products.length);
+    setText('statProducts', products.length);
 
     resetGrid();
     updateGalleryFromProducts();
@@ -1110,6 +1108,9 @@ function updateGalleryFromProducts() {
 
   // Update global galleryImgs array
   galleryImgs.splice(0, galleryImgs.length, ...allImgs);
+
+  // Update "Gallery (N)" tab count
+  setText('tabGalleryCount', allImgs.length);
 
   // Re-render gallery grid
   var gg = document.getElementById('galleryGrid');
