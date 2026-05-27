@@ -595,15 +595,15 @@ tr:hover td{background:var(--bg);}
         <div class="profile-avatar" id="sidebarAvatar">P</div>
         <div class="avatar-edit" onclick="showSection('profile',null)" title="Edit Avatar"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></div>
       </div>
-      <div class="profile-name" id="sidebarName">Priya Singh</div>
-      <div class="profile-phone" id="sidebarPhone"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg> +91 98765 43210</div>
+      <div class="profile-name" id="sidebarName">Loading…</div>
+      <div class="profile-phone" id="sidebarPhone"><svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="vertical-align:-1px;margin-right:3px;"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
       <div class="profile-badges">
         <span class="profile-badge badge-buyer" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg> Buyer</span>
         <span class="profile-badge badge-verified" style="display:inline-flex;align-items:center;gap:4px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg> Verified</span>
       </div>
       <div class="profile-completeness">
-        <div class="pc-label"><span>Profile Complete</span><span style="font-weight:700;color:var(--primary);">78%</span></div>
-        <div class="pc-bar"><div class="pc-fill" style="width:78%;"></div></div>
+        <div class="pc-label"><span>Profile Complete</span><span style="font-weight:700;color:var(--primary);">0%</span></div>
+        <div class="pc-bar"><div class="pc-fill" style="width:0%;"></div></div>
       </div>
     </div>
 
@@ -664,7 +664,7 @@ tr:hover td{background:var(--bg);}
     <div class="page-section active" id="sec-overview">
       <div class="section-header">
         <div>
-          <div class="section-title">Welcome back, <span id="greetName">Priya</span>!</div>
+          <div class="section-title">Welcome back, <span id="greetName"></span>!</div>
           <div class="section-sub">Here's what's happening in your BahaBasket account.</div>
         </div>
         <button class="btn btn-primary btn-sm" onclick="showSection('profile',null)"><svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Edit Profile</button>
@@ -791,20 +791,20 @@ tr:hover td{background:var(--bg);}
           <div class="field-row-2">
             <div class="field-group">
               <label class="field-label">First Name <span class="req">*</span></label>
-              <input type="text" id="fieldFirstName" class="field-input" value="Priya">
+              <input type="text" id="fieldFirstName" class="field-input" value="" placeholder="First name">
             </div>
             <div class="field-group">
               <label class="field-label">Last Name <span class="req">*</span></label>
-              <input type="text" id="fieldLastName" class="field-input" value="Singh">
+              <input type="text" id="fieldLastName" class="field-input" value="" placeholder="Last name">
             </div>
           </div>
           <div class="field-group">
             <label class="field-label">WhatsApp Number <span class="req">*</span></label>
-            <input type="tel" id="fieldPhone" class="field-input" value="+91 98765 43210">
+            <input type="tel" id="fieldPhone" class="field-input" value="" placeholder="+91 XXXXX XXXXX">
           </div>
           <div class="field-group">
             <label class="field-label">Email Address</label>
-            <input type="email" id="fieldEmail" class="field-input" value="priya.singh@email.com">
+            <input type="email" id="fieldEmail" class="field-input" value="" placeholder="your@email.com">
           </div>
           <div class="field-row-2">
             <div class="field-group">
@@ -826,7 +826,7 @@ tr:hover td{background:var(--bg);}
           </div>
           <div class="field-group" style="margin-bottom:0;">
             <label class="field-label">Date of Birth</label>
-            <input type="date" id="fieldDob" class="field-input" value="1995-06-15">
+            <input type="date" id="fieldDob" class="field-input" value="">
           </div>
         </div>
 
@@ -879,7 +879,7 @@ tr:hover td{background:var(--bg);}
         </div>
         <div class="field-group" style="margin-bottom:0;">
           <label class="field-label">Short Bio (optional)</label>
-          <textarea id="fieldBio" class="field-input" rows="3" placeholder="Tell shops a bit about yourself...">Fashion lover from Indore. Always looking for the best local deals!</textarea>
+          <textarea id="fieldBio" class="field-input" rows="3" placeholder="Tell shops a bit about yourself..."></textarea>
         </div>
       </div>
 
@@ -1407,11 +1407,11 @@ tr:hover td{background:var(--bg);}
           <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;">
             <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--success-bg);border-radius:9px;">
               <span style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-              <div><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">Phone Verified</div><div id="secPhone" style="font-size:12px;color:var(--text-light);">+91 98765 43210</div></div>
+              <div><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">Phone Verified</div><div id="secPhone" style="font-size:12px;color:var(--text-light);"></div></div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--success-bg);border-radius:9px;">
               <span style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--success)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
-              <div><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">Email Verified</div><div id="secEmail" style="font-size:12px;color:var(--text-light);">priya.singh@email.com</div></div>
+              <div><div style="font-weight:600;font-size:13.5px;color:var(--text-dark);">Email Verified</div><div id="secEmail" style="font-size:12px;color:var(--text-light);"></div></div>
             </div>
             <div style="display:flex;align-items:center;gap:10px;padding:10px;background:var(--warning-bg);border-radius:9px;">
               <span style="line-height:0;"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--warning)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg></span>
@@ -1730,20 +1730,6 @@ var PRODUCT_ICONS = {
   necklace:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" width="56" height="56"><path d="M6 4a6 6 0 0012 0"/><circle cx="12" cy="19" r="3"/><path d="M6 4c0 6 2 10 4.5 12.1M18 4c0 6-2 10-4.5 12.1"/></svg>'
 };
 
-const WISHLIST = [
-  {id:1,  icon:'shirt',      bg:'#dbeafe', title:"Men's Premium Cotton Kurta Set – Festive Collection",      shop:'Sharma Cloth House',  price:599,  mrp:999,  cat:'men',         badge:'bestseller', badgeText:'Bestseller', added:'2 days ago',  rating:4.8, reviews:124, inStock:true,  priceAlert:false, collection:'daily',   waNum:'919876543210'},
-  {id:2,  icon:'ring',       bg:'#fef9c3', title:"Gold Plated Kundan Necklace Set – Bridal Collection",      shop:'Rani Jewels',         price:1299, mrp:2499, cat:'jewellery',   badge:'sale',       badgeText:'Sale',       added:'3 days ago',  rating:4.6, reviews:88,  inStock:true,  priceAlert:true,  collection:'wedding', waNum:'919876543211'},
-  {id:3,  icon:'dress',      bg:'#fce7f3', title:"Women's Silk Saree – Kanjivaram Style, 6 Colors",          shop:'Meera Saree Center',  price:2199, mrp:3999, cat:'women',       badge:'new',        badgeText:'New',        added:'4 days ago',  rating:4.9, reviews:210, inStock:true,  priceAlert:false, collection:'wedding', waNum:'919876543212'},
-  {id:4,  icon:'headphones', bg:'#e0f2fe', title:"Samsung Galaxy Buds – True Wireless Earbuds, Black",       shop:'Digital Zone',        price:2499, mrp:3999, cat:'electronics', badge:'hot',        badgeText:'Hot',        added:'5 days ago',  rating:4.6, reviews:96,  inStock:false, priceAlert:true,  collection:'gifts',   waNum:'919876543213'},
-  {id:5,  icon:'dress',      bg:'#f5f3ff', title:"Banarasi Silk Lehenga – Wedding Special, Red & Gold",       shop:'Ethnic Bazaar',       price:4999, mrp:8999, cat:'women',       badge:'sale',       badgeText:'Sale',       added:'6 days ago',  rating:4.7, reviews:156, inStock:true,  priceAlert:false, collection:'wedding', waNum:'919876543214'},
-  {id:6,  icon:'headphones', bg:'#f0fdf4', title:"boAt Rockerz 450 Bluetooth Headphones – On-Ear",           shop:'Digital Zone',        price:1299, mrp:2499, cat:'electronics', badge:'',           badgeText:'',           added:'1 week ago',  rating:4.4, reviews:312, inStock:true,  priceAlert:false, collection:'gifts',   waNum:'919876543213'},
-  {id:7,  icon:'hat',        bg:'#fff7ed', title:"Men's Pathani Kurta Suit – Eid Special, Off White",         shop:'Gandhi Nagar Cloths', price:799,  mrp:1299, cat:'men',         badge:'hot',        badgeText:'Hot',        added:'1 week ago',  rating:4.8, reviews:96,  inStock:true,  priceAlert:false, collection:'daily',   waNum:'919876543215'},
-  {id:8,  icon:'diamond',    bg:'#fdf2f8', title:"Diamond Cut Silver Bangles – Set of 4, Traditional",        shop:'Rani Jewels',         price:899,  mrp:1599, cat:'jewellery',   badge:'',           badgeText:'',           added:'2 weeks ago', rating:4.5, reviews:64,  inStock:false, priceAlert:true,  collection:'gifts',   waNum:'919876543211'},
-  {id:9,  icon:'dress',      bg:'#ecfdf5', title:"Women's Cotton Anarkali Suit – Floral Print, 5 Colors",     shop:'Style Street',        price:1199, mrp:1999, cat:'women',       badge:'new',        badgeText:'New',        added:'2 weeks ago', rating:4.3, reviews:78,  inStock:true,  priceAlert:false, collection:'daily',   waNum:'919876543216'},
-  {id:10, icon:'watch',      bg:'#eff6ff', title:"Fastrack Analog Watch – Stainless Steel, Blue Dial",        shop:'Digital Zone',        price:1599, mrp:2499, cat:'electronics', badge:'',           badgeText:'',           added:'2 weeks ago', rating:4.2, reviews:188, inStock:true,  priceAlert:false, collection:'gifts',   waNum:'919876543213'},
-  {id:11, icon:'shirt',      bg:'#fef3c7', title:"Pashmina Shawl – Pure Wool, Kashmiri Embroidery",           shop:'Sharma Cloth House',  price:1499, mrp:2999, cat:'men',         badge:'bestseller', badgeText:'Bestseller', added:'3 weeks ago', rating:4.9, reviews:44,  inStock:true,  priceAlert:false, collection:'daily',   waNum:'919876543210'},
-  {id:12, icon:'necklace',   bg:'#fdf4ff', title:"Meenakari Jhumka Earrings – Rajasthani Style, Multi Color",  shop:'Rani Jewels',         price:599,  mrp:999,  cat:'jewellery',   badge:'sale',       badgeText:'Sale',       added:'3 weeks ago', rating:4.7, reviews:52,  inStock:true,  priceAlert:true,  collection:'daily',   waNum:'919876543211'},
-];
 
 var WL_STAR_FILLED = '<svg viewBox="0 0 24 24" width="12" height="12" fill="#f59e0b" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
 var WL_STAR_EMPTY  = '<svg viewBox="0 0 24 24" width="12" height="12" fill="#d1d5db" style="display:inline-block;vertical-align:middle;flex-shrink:0;"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>';
@@ -1751,7 +1737,7 @@ var WL_ICON_X     = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" 
 var WL_ICON_BELL  = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>';
 
 var wlCat = 'all', wlSort = 'recent', wlCol = 'all';
-var wlItems = [...WISHLIST];
+var wlItems = []; // loaded from API in loadDashboardData()
 var wlLastRemoved = null, wlUndoTimer = null, wlSelectedIcon = '';
 
 function wlDisc(p, m){ return Math.round((m-p)/m*100); }
@@ -1855,9 +1841,13 @@ function chatWLItem(num, product) {
 function chatAllWL() {
   const inStockItems = wlItems.filter(i => i.inStock);
   if(!inStockItems.length) { showToast('No in-stock items in your wishlist.','#6b7280'); return; }
-  const list = inStockItems.slice(0,5).map((i,n) => (n+1)+'. '+i.title).join('\n');
+  // Group by shop and open WA for the first shop that has items
+  const firstItem = inStockItems[0];
+  const waNum = firstItem.waNum || '919876543210';
+  const shopItems = inStockItems.filter(i => i.waNum === waNum);
+  const list = shopItems.slice(0,5).map((i,n) => (n+1)+'. '+i.title).join('\n');
   const msg = encodeURIComponent('Hello! I am interested in these items from BahaBasket:\n\n' + list + '\n\nPlease share availability and prices.');
-  window.open('https://wa.me/919876543210?text=' + msg, '_blank');
+  window.open('https://wa.me/' + waNum + '?text=' + msg, '_blank');
 }
 function removeWLItem(id) {
   const card = document.getElementById('wl-card-' + id);
@@ -2088,42 +2078,6 @@ function buildSavedShops(){
 }
 
 // ── MY REVIEWS ──
-const REV_DATA = [
-  // ── Shop Reviews ──
-  {id:1, type:'shop', shop:'Sharma Cloth House', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" width="26" height="26"><path d="M20.38 3.46L16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.57a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.57a2 2 0 0 0-1.34-2.23z"/></svg>`, cat:"Men's Fashion",
-   shopSlug:'sharma-cloth-house', rating:5,
-   title:'Excellent service and quality!',
-   text:'Sharma ji and the entire team are super helpful. Great fabric quality, wide variety of ethnic wear, and delivery was quick. Highly recommend for anyone looking for kurtas!',
-   date:'12 May 2026', status:'published', helpful:8,
-   reply:"Thank you so much! We are glad you liked our collection. Visit again for the Eid collection!"},
-  {id:2, type:'shop', shop:'Meera Saree Center', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="1.5" width="26" height="26"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`, cat:"Women's Fashion",
-   shopSlug:'meera-saree-center', rating:5,
-   title:'Best saree shop in Indore!',
-   text:"Meera ji guided me patiently through hundreds of sarees. Huge collection, knowledgeable staff, and very reasonable prices. The shop atmosphere is also very pleasant.",
-   date:'8 May 2026', status:'published', helpful:12, reply:null},
-  {id:3, type:'shop', shop:'Digital Zone', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.5" width="26" height="26"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>`, cat:'Electronics',
-   shopSlug:'digital-zone', rating:4,
-   title:'Good electronics shop, fair prices',
-   text:'Staff is helpful and they mostly match online prices. Shop gets a bit crowded on weekends but overall a solid experience. Good after-sales support too.',
-   date:'2 May 2026', status:'published', helpful:5,
-   reply:"Thank you for your feedback! We keep expanding our stock. Do visit our MG Road store!"},
-  // ── Product Reviews ──
-  {id:4, type:'product', shop:'Digital Zone', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#0ea5e9" stroke-width="1.5" width="26" height="26"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18" stroke-width="3"/></svg>`, cat:'Electronics',
-   shopSlug:'digital-zone', productSlug:'boat-rockerz-450-headphones', rating:4,
-   title:'Great sound quality for the price',
-   text:'Bought this for daily commute — bass is punchy and the battery lasts really long (around 20 hours). Build quality is decent too. Excellent value at this price point!',
-   product:'boAt Rockerz 450 Headphones', date:'28 Apr 2026', status:'published', helpful:7, reply:null},
-  {id:5, type:'product', shop:'Rani Jewels', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#a855f7" stroke-width="1.5" width="26" height="26"><path d="M2.7 10.3a2.41 2.41 0 0 0 0 3.41l7.59 7.59a2.41 2.41 0 0 0 3.41 0l7.59-7.59a2.41 2.41 0 0 0 0-3.41l-7.59-7.59a2.41 2.41 0 0 0-3.41 0z"/></svg>`, cat:'Jewellery',
-   shopSlug:'rani-jewels', productSlug:'diamond-cut-silver-bangles-set-of-4', rating:4,
-   title:'Beautiful bangles, great craftsmanship',
-   text:'Got these for my mother — the finish is smooth, the diamond cut pattern looks stunning, and the silver is of good quality. The packaging was also very nice. Highly satisfied!',
-   product:'Diamond Cut Silver Bangles – Set of 4', date:'22 Apr 2026', status:'published', helpful:3, reply:null},
-  {id:6, type:'product', shop:'Little Star Kids', shopEmoji:`<svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="1.5" width="26" height="26"><circle cx="12" cy="7" r="4"/><path d="M6 21v-2a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v2"/></svg>`, cat:'Kids Wear',
-   shopSlug:'little-star-kids', productSlug:'summer-frock-floral-print', rating:3,
-   title:'Good quality but delivery was slow',
-   text:'The frock fabric is good and my daughter absolutely loves the floral print. However it took 3 days to arrange and WhatsApp responses were a bit slow. Quality-wise satisfied.',
-   product:'Summer Frock – Floral Print', date:'20 Apr 2026', status:'pending', helpful:0, reply:null},
-];
 
 let revItems = []; // loaded from API in loadDashboardData()
 let revCurrentTab = 'all';
@@ -2290,8 +2244,8 @@ function filterRevTab(tab, el) {
 async function revDeleteReview(id) {
   const el = document.getElementById('rev-'+id);
   if(el) { el.style.transition='all .3s'; el.style.opacity='0'; el.style.transform='translateX(20px)'; }
-  revLastDeleted = revItems.find(r => r.id===id);
-  setTimeout(() => { revItems = revItems.filter(r => r.id!==id); renderRevs(); revShowUndo(); }, 300);
+  revLastDeleted = revItems.find(r => String(r.id)===String(id));
+  setTimeout(() => { revItems = revItems.filter(r => String(r.id)!==String(id)); renderRevs(); revShowUndo(); }, 300);
 
   // Call API in background
   try {
@@ -2322,7 +2276,7 @@ function revUndoDelete() {
 }
 
 function revEditReview(id) {
-  const r = revItems.find(i => i.id===id);
+  const r = revItems.find(i => String(i.id)===String(id));
   if(!r) return;
   revEditingId = id; // mark as editing
   openWriteModal(r.type || 'shop');
@@ -2542,7 +2496,6 @@ function buildActivity(){
 }
 
 // ── NOTIFICATIONS ──
-// ── NOTIFICATIONS ──
 const NOTIF_ICONS = {
   'shopping-cart':'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>',
   'circle-check':'<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>',
@@ -2562,67 +2515,7 @@ function getNotifIcon(name, color) {
 
 const WA_SVG = '<svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.124.554 4.122 1.522 5.863L.044 23.428a.75.75 0 00.918.943l5.878-1.543A11.942 11.942 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.727 9.727 0 01-5.031-1.404l-.36-.214-3.733.98.997-3.642-.234-.374A9.718 9.718 0 012.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/></svg>';
 
-const NOTIF_DATA = [
-  {id:1, type:'order', icon:'shopping-cart', iconBg:'#dbeafe', iconColor:'#1a56db',
-   title:'<strong>Enquiry Replied!</strong> Sharma Cloth House has responded to your kurta enquiry.',
-   sub:"Men's Premium Cotton Kurta Set", time:'2 min ago', unread:true, pinned:false,
-   btns:[{label:WA_SVG+' View Reply', cls:'notif-btn-wa', action:'wa'},{label:'View Product', cls:'notif-btn-secondary', action:'product'}]},
-
-  {id:2, type:'order', icon:'circle-check', iconBg:'#dcfce7', iconColor:'#16a34a',
-   title:'<strong>Item In Stock!</strong> Meera Saree Center has confirmed your Silk Saree is available.',
-   sub:"Women's Silk Saree – Kanjivaram Style", time:'1 hr ago', unread:true, pinned:false,
-   btns:[{label:WA_SVG+' Chat on WhatsApp', cls:'notif-btn-wa', action:'wa'},{label:'View Wishlist', cls:'notif-btn-secondary', action:'wishlist'}]},
-
-  {id:3, type:'order', icon:'package', iconBg:'#fff7ed', iconColor:'#f97316',
-   title:'<strong>Shop Visit Reminder</strong> You had planned to visit Gandhi Nagar Cloths today.',
-   sub:'Pathani Kurta Suit – Eid Special', time:'3 hr ago', unread:false, pinned:false,
-   btns:[{label:'<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:4px"><path d="M8 1.5A4.5 4.5 0 0 0 3.5 6c0 3.75 4.5 8.5 4.5 8.5S12.5 9.75 12.5 6A4.5 4.5 0 0 0 8 1.5z"/><circle cx="8" cy="6" r="1.5"/></svg>Get Directions', cls:'notif-btn-primary', action:'map'},{label:'Dismiss', cls:'notif-btn-secondary', action:'dismiss'}]},
-
-  {id:4, type:'price', icon:'trending-down', iconBg:'#f0fdf4', iconColor:'#16a34a',
-   title:'<strong>Price Drop!</strong> Samsung Galaxy Buds in your wishlist dropped from ₹2,499 to ₹1,899!',
-   sub:"You save: ₹600 (24% off)", time:'5 hr ago', unread:true, pinned:true,
-   btns:[{label:WA_SVG+' Buy via WhatsApp', cls:'notif-btn-wa', action:'wa'},{label:'View in Wishlist', cls:'notif-btn-secondary', action:'wishlist'}]},
-
-  {id:5, type:'price', icon:'coin', iconBg:'#fef9c3', iconColor:'#ca8a04',
-   title:'<strong>Flash Sale!</strong> Rani Jewels is offering 40% extra discount on Gold Plated Necklace Set.',
-   sub:"Limited time offer — ends in 2 hours", time:'6 hr ago', unread:true, pinned:false,
-   btns:[{label:WA_SVG+' Chat Now', cls:'notif-btn-wa', action:'wa'},{label:'View Offer', cls:'notif-btn-secondary', action:'offer'}]},
-
-  {id:6, type:'price', icon:'trending-down', iconBg:'#f0fdf4', iconColor:'#16a34a',
-   title:'<strong>Price Drop!</strong> boAt Rockerz 450 Headphones now at ₹1,299 — was ₹1,799.',
-   sub:"Save ₹500 (28% off) — Limited Stock", time:'Yesterday', unread:false, pinned:false,
-   btns:[{label:WA_SVG+' Enquire Now', cls:'notif-btn-wa', action:'wa'}]},
-
-  {id:7, type:'price', icon:'tag', iconBg:'#fdf4ff', iconColor:'#9333ea',
-   title:'<strong>Wishlist Alert!</strong> 3 items in your wishlist are on sale today.',
-   sub:"Men's Kurta, Silver Bangles, Anarkali Suit", time:'Yesterday', unread:false, pinned:false,
-   btns:[{label:'View Wishlist', cls:'notif-btn-primary', action:'wishlist'}]},
-
-  {id:8, type:'offer', icon:'gift', iconBg:'#fce7f3', iconColor:'#ec4899',
-   title:'<strong>New Offer Near You!</strong> Ethnic Bazaar is offering 30% off on Wedding Collection — Gandhi Nagar.',
-   sub:"Valid till Sunday | Code: WEDDING30", time:'Yesterday', unread:true, pinned:false,
-   btns:[{label:WA_SVG+' Chat with Shop', cls:'notif-btn-wa', action:'wa'},{label:'View Offer', cls:'notif-btn-secondary', action:'offer'}]},
-
-  {id:9, type:'offer', icon:'flame', iconBg:'#fff7ed', iconColor:'#f97316',
-   title:'<strong>Weekend Sale!</strong> Special weekend offers across 50+ shops on BahaBasket.',
-   sub:"Offers valid Saturday & Sunday only", time:'2 days ago', unread:false, pinned:false,
-   btns:[{label:'Explore Offers', cls:'notif-btn-primary', action:'offers'}]},
-
-  {id:10, type:'offer', icon:'star', iconBg:'#fef9c3', iconColor:'#ca8a04',
-   title:'<strong>Featured Shop!</strong> Digital Zone is now a Featured Shop — exclusive deals available.',
-   sub:"Electronics | MG Road, Indore", time:'2 days ago', unread:false, pinned:false,
-   btns:[{label:'Visit Shop', cls:'notif-btn-secondary', action:'shop'}]},
-
-  {id:11, type:'system', icon:'circle-check', iconBg:'#dcfce7', iconColor:'#16a34a',
-   title:'<strong>Profile Verified!</strong> Your account has been successfully verified.',
-   sub:"You can now write reviews for shops", time:'3 days ago', unread:false, pinned:false,
-   btns:[]},
-
-  {id:12, type:'system', icon:'lock', iconBg:'#eff6ff', iconColor:'#1a56db',
-   title:'<strong>Security Alert</strong> A new device logged into your account — Indore, MP.',
-   sub:"If this wasn't you, please change your password", time:'5 days ago', unread:false, pinned:false,
-   btns:[{label:'Change Password', cls:'notif-btn-primary', action:'security'},{label:'It was me', cls:'notif-btn-secondary', action:'dismiss'}]},
-];
+// (NOTIF_DATA removed — notifications loaded from API in loadDashboardData)
 
 let notifCurrentTab = 'all';
 let notifItems = []; // loaded from API in loadDashboardData()
@@ -2677,10 +2570,26 @@ function renderNotifs() {
   const unpinned = filtered.filter(n => !n.pinned);
   const visible = unpinned.slice(0, notifVisibleCount);
   const hasMore = unpinned.length > notifVisibleCount;
-  const todayTimes = ['2 min ago','1 hr ago','3 hr ago','5 hr ago','6 hr ago'];
-  const today = visible.filter(n => todayTimes.includes(n.time));
-  const yesterday = visible.filter(n => n.time === 'Yesterday');
-  const older = visible.filter(n => !todayTimes.includes(n.time) && n.time !== 'Yesterday');
+  // Group by actual date (using _raw_ts if available, else fall back to timeAgo string heuristic)
+  const _now = new Date();
+  const _todayStr = _now.toDateString();
+  const _yest = new Date(_now); _yest.setDate(_yest.getDate()-1);
+  const _yestStr = _yest.toDateString();
+  function _notifDateGroup(n) {
+    if (n._raw_ts) {
+      const d = new Date(n._raw_ts).toDateString();
+      if (d === _todayStr) return 'today';
+      if (d === _yestStr)  return 'yesterday';
+      return 'older';
+    }
+    // Fallback: timeAgo heuristic for legacy items
+    if (!n.time || n.time === 'just now' || /^\d+m ago$/.test(n.time) || /^\d+h ago$/.test(n.time)) return 'today';
+    if (n.time === 'Yesterday' || n.time === '1d ago') return 'yesterday';
+    return 'older';
+  }
+  const today = visible.filter(n => _notifDateGroup(n) === 'today');
+  const yesterday = visible.filter(n => _notifDateGroup(n) === 'yesterday');
+  const older = visible.filter(n => _notifDateGroup(n) === 'older');
   let h = '';
   if(pinned.length) h += '<div class="date-divider"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="12" height="12" style="vertical-align:-1px;margin-right:4px"><line x1="12" y1="17" x2="12" y2="22"/><path d="M5 17h14v-1.76a2 2 0 0 0-1.11-1.79l-1.78-.9A2 2 0 0 1 15 10.76V6h1a2 2 0 0 0 0-4H8a2 2 0 0 0 0 4h1v4.76a2 2 0 0 1-1.11 1.79l-1.78.9A2 2 0 0 0 5 15.24z"/></svg>Pinned</div>' + pinned.map(buildNotifItem).join('');
   if(today.length) h += '<div class="date-divider">Today</div>' + today.map(buildNotifItem).join('');
@@ -2741,14 +2650,14 @@ function handleNotifAction(action, id) {
   event.stopPropagation();
   markNotifRead(id);
   const actions = {
-    'wa':       () => window.open('https://wa.me/919876543210','_blank'),
+    'wa':       () => { const n = notifItems.find(x=>x.id===id); window.open('https://wa.me/'+(n&&n.waNum||'919876543210'),'_blank'); },
     'product':  () => window.location='product-detail.html',
     'wishlist': () => showSection('wishlist', null),
     'offer':    () => window.location='offers.html',
     'offers':   () => window.location='offers.html',
     'shop':     () => window.location='shop-profile.html',
     'map':      () => window.open('https://maps.google.com','_blank'),
-    'security': () => showSection('sec-profile', null),
+    'security': () => showSection('security', null),
     'dismiss':  () => deleteNotif(id),
   };
   if(actions[action]) actions[action]();
@@ -2883,7 +2792,11 @@ document.addEventListener('click', () => {
 function buildOverviewWishlist(){
   const el = document.getElementById('overviewWishlist');
   if(!el) return;
-  el.innerHTML = WISHLIST.slice(0,3).map(item=>`
+  if(!wlItems.length){
+    el.innerHTML = `<div style="padding:20px;text-align:center;color:var(--text-light);font-size:13px;">No saved products yet. <a href="index.html" style="color:var(--primary);">Browse shops →</a></div>`;
+    return;
+  }
+  el.innerHTML = wlItems.slice(0,3).map(item=>`
     <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--border);">
       <span style="flex-shrink:0;width:36px;height:36px;border-radius:7px;background:${item.bg};display:flex;align-items:center;justify-content:center;overflow:hidden;">
         ${(PRODUCT_ICONS[item.icon]||'').replace('currentColor','#9ca3af').replace('width="56" height="56"','width="20" height="20"')}
@@ -2968,16 +2881,18 @@ function buildCatPrefs(){
   const selected = (_bbUser && _bbUser.categories) ? _bbUser.categories : [];
   el.innerHTML = cats.map(c=>{
     const active = selected.includes(c);
-    return `<span onclick="toggleCatPref(this,'${c}')" style="padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid ${active?'var(--primary)':'var(--border)'};background:${active?'var(--primary-light)':'var(--bg)'};color:${active?'var(--primary)':'var(--text-mid)'};cursor:pointer;transition:all .18s;">${c}</span>`;
+    return `<span onclick="toggleCatPref(this,'${c}')" data-active="${active?'1':''}" style="padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid ${active?'var(--primary)':'var(--border)'};background:${active?'var(--primary-light)':'var(--bg)'};color:${active?'var(--primary)':'var(--text-mid)'};cursor:pointer;transition:all .18s;">${c}</span>`;
   }).join('');
 }
 
 function toggleCatPref(el, cat) {
-  const isActive = el.style.background.includes('primary-light') || el.style.color.includes('primary');
+  const isActive = el.dataset.active === '1';
   if (isActive) {
+    el.dataset.active = '';
     el.style.cssText = 'padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid var(--border);background:var(--bg);color:var(--text-mid);cursor:pointer;transition:all .18s;';
     if (_bbUser && _bbUser.categories) _bbUser.categories = _bbUser.categories.filter(c => c !== cat);
   } else {
+    el.dataset.active = '1';
     el.style.cssText = 'padding:5px 12px;border-radius:16px;font-size:12px;font-weight:600;border:1.5px solid var(--primary);background:var(--primary-light);color:var(--primary);cursor:pointer;transition:all .18s;';
     if (_bbUser) { _bbUser.categories = _bbUser.categories || []; if (!_bbUser.categories.includes(cat)) _bbUser.categories.push(cat); }
   }
@@ -3009,9 +2924,9 @@ async function saveProfile(){
   if(btn){ btn.disabled = true; btn.textContent = 'Saving…'; }
 
   try {
-    // Collect selected categories from chips
+    // Collect selected categories from chips (use data-active to avoid CSS-var resolved-value mismatch)
     const selectedCats = Array.from(document.querySelectorAll('#catPrefs span'))
-      .filter(el => el.style.color && el.style.color.includes('primary') || el.style.borderColor && el.style.borderColor.includes('primary'))
+      .filter(el => el.dataset.active === '1')
       .map(el => el.textContent.trim());
     const cats = selectedCats.length ? selectedCats : (_bbUser && _bbUser.categories ? _bbUser.categories : []);
 
@@ -3389,6 +3304,7 @@ async function loadDashboardData() {
           title:   '<strong>' + (n.title || 'Notification') + '</strong>',
           sub:     n.message || '',
           time:    timeAgo(n.created_at),
+          _raw_ts: n.created_at,
           unread:  !n.is_read,
           pinned:  false,
           btns:    []
