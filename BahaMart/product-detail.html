@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Men's Premium Cotton Kurta Set – BahaBasket</title>
+<title>Product – BahaBasket</title>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Noto+Sans:wght@300;400;500;600&family=Baloo+2:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
@@ -973,9 +973,10 @@ textarea.rev-input{resize:vertical;min-height:90px;}
 
 <!-- STICKY MOBILE BAR -->
 <div class="sticky-mobile-bar" id="stickyBar">
-  <div>
-    <div class="sticky-price">₹599 <small>₹999</small></div>
-    <div style="font-size:11px;color:var(--success);font-weight:600;">40% Off — In Stock</div>
+  <div style="min-width:0;flex:1;overflow:hidden;">
+    <div id="stickyProductName" style="font-size:12px;font-weight:700;color:var(--text-dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;"></div>
+    <div class="sticky-price">₹<span id="stickyPriceVal">…</span></div>
+    <div id="stickyStatus" style="font-size:11px;color:var(--success);font-weight:600;"></div>
   </div>
   <button class="sticky-wa-btn" onclick="openWA('order')" style="display:flex;align-items:center;justify-content:center;gap:7px;"><svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="flex-shrink:0;"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.136.558 4.14 1.535 5.874L0 24l6.306-1.506A11.955 11.955 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.65-.505-5.17-1.386l-.37-.22-3.742.894.934-3.636-.24-.38A9.96 9.96 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>WhatsApp Order</button>
 </div>
@@ -1591,7 +1592,7 @@ function clearProductUI() {
   var mainImg = document.getElementById('mainImg');
   if (mainImg) { mainImg.src = 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7'; mainImg.alt = ''; }
   // Thumbnails
-  var thumbWrap = document.getElementById('thumbsWrap');
+  var thumbWrap = document.getElementById('thumbStrip');
   if (thumbWrap) thumbWrap.innerHTML = '';
   // Dots
   var dotsEl = document.getElementById('imgDots');
@@ -1620,6 +1621,9 @@ function clearProductUI() {
   document.title = 'Loading… – BahaBasket';
   var bc = document.querySelector('.breadcrumb .current');
   if (bc) bc.textContent = 'Loading…';
+  // Clear category link in breadcrumb
+  var catBcLink = document.querySelector('.breadcrumb a[href*="product-listings"]');
+  if (catBcLink) { catBcLink.textContent = '…'; }
   // Shop card
   var shopName = document.querySelector('.shop-name-link'); if (shopName) shopName.textContent = '';
   var shopMeta = document.querySelector('.shop-meta-sm');   if (shopMeta) shopMeta.innerHTML  = '';
@@ -1686,7 +1690,15 @@ async function loadProduct() {
 
     // ── Title skeleton replace ──
     var titleEl = document.getElementById('prodTitleEl');
-    if (titleEl) titleEl.textContent = p.name || 'Product';
+    if (titleEl) {
+      titleEl.textContent = p.name || 'Product';
+      // Reset any shimmer inline styles applied by clearProductUI()
+      titleEl.style.background = '';
+      titleEl.style.backgroundSize = '';
+      titleEl.style.animation = '';
+      titleEl.style.minHeight = '';
+      titleEl.style.borderRadius = '';
+    }
 
     // ── Prices ──
     var saving = mrp - price;
@@ -1903,18 +1915,15 @@ async function loadProduct() {
     initReviewForm();
 
     // ── Sticky bar ──
-    var stickyBar = document.getElementById('stickyBar');
-    if (stickyBar) {
-      var stickyPriceEl = stickyBar.querySelector('.sticky-price');
-      if (stickyPriceEl) {
-        stickyPriceEl.innerHTML = '₹' + price.toLocaleString('en-IN') +
-          (mrp > price ? ' <small>₹' + mrp.toLocaleString('en-IN') + '</small>' : '');
-      }
-      var stickyStatusEl = stickyBar.querySelector('.sticky-price + div');
-      if (stickyStatusEl) {
-        stickyStatusEl.textContent = (disc > 0 ? disc + '% Off — ' : '') + (instock ? 'In Stock' : 'Out of Stock');
-        stickyStatusEl.style.color = instock ? 'var(--success)' : 'var(--danger)';
-      }
+    var stickyPriceValEl = document.getElementById('stickyPriceVal');
+    if (stickyPriceValEl) {
+      stickyPriceValEl.parentElement.innerHTML = '₹' + price.toLocaleString('en-IN') +
+        (mrp > price ? ' <small>₹' + mrp.toLocaleString('en-IN') + '</small>' : '');
+    }
+    var stickyStatusEl = document.getElementById('stickyStatus');
+    if (stickyStatusEl) {
+      stickyStatusEl.textContent = (disc > 0 ? disc + '% Off — ' : '') + (instock ? 'In Stock' : 'Out of Stock');
+      stickyStatusEl.style.color = instock ? 'var(--success)' : 'var(--danger)';
     }
     var stickyName = document.getElementById('stickyProductName');
     if (stickyName) stickyName.textContent = p.name;
@@ -1956,6 +1965,7 @@ function showLoadError(msg) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
+  clearProductUI();   // clear any hardcoded placeholder content before API loads
   loadProduct();
 });
 
