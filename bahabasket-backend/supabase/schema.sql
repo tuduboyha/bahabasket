@@ -47,7 +47,10 @@ CREATE TABLE IF NOT EXISTS users (
   role       TEXT NOT NULL DEFAULT 'buyer' CHECK (role IN ('buyer', 'seller', 'admin')),
   city       TEXT DEFAULT '',
   pincode    TEXT DEFAULT '',
-  avatar     TEXT DEFAULT '',
+  avatar_url TEXT DEFAULT '',
+  dob        TEXT DEFAULT '',
+  bio        TEXT DEFAULT '',
+  language   TEXT DEFAULT '',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

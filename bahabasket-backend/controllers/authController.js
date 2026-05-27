@@ -163,9 +163,13 @@ exports.getMe = async (req, res, next) => {
 // ─── Update Current User ──────────────────────────────────────────────────────
 exports.updateMe = async (req, res, next) => {
   try {
-    const allowed = ['name', 'city', 'pincode', 'avatar'];
+    const allowed = ['name', 'city', 'pincode', 'phone', 'dob', 'bio', 'language', 'avatar_url'];
     const updates = {};
     allowed.forEach(field => { if (req.body[field] !== undefined) updates[field] = req.body[field]; });
+
+    if (!Object.keys(updates).length) {
+      return res.status(400).json({ success: false, error: 'No valid fields to update' });
+    }
 
     const { data, error } = await supabaseAdmin
       .from('users')
