@@ -2665,12 +2665,14 @@ function openWAShop(shop){ window.open(`https://wa.me/919876543210?text=Hello ${
 
 // ── MISC ──
 async function saveProfile(){
-  const fn   = document.getElementById('fieldFirstName')?.value.trim() || '';
-  const ln   = document.getElementById('fieldLastName')?.value.trim()  || '';
-  const city = document.getElementById('fieldCity')?.value.trim()      || '';
-  const pin  = document.getElementById('fieldPincode')?.value.trim()   || '';
-  const name = (fn + ' ' + ln).trim();
+  const fn    = document.getElementById('fieldFirstName')?.value.trim() || '';
+  const ln    = document.getElementById('fieldLastName')?.value.trim()  || '';
+  const city  = document.getElementById('fieldCity')?.value.trim()      || '';
+  const pin   = document.getElementById('fieldPincode')?.value.trim()   || '';
+  const phone = document.getElementById('fieldPhone')?.value.trim()     || '';
+  const name  = (fn + ' ' + ln).trim();
   if(!name){ showToast(_ICO.err+' Name is required.','#ef4444'); return; }
+  if(!phone){ showToast(_ICO.err+' WhatsApp number is required.','#ef4444'); return; }
 
   const btn = document.querySelector('#sec-profile .btn-primary');
   const orig = btn ? btn.innerHTML : '';
@@ -2680,7 +2682,7 @@ async function saveProfile(){
     const res  = await fetch(`${API_BASE}/auth/me`, {
       method:  'PATCH',
       headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
-      body:    JSON.stringify({ name, city, pincode: pin })
+      body:    JSON.stringify({ name, city, pincode: pin, phone })
     });
     const data = await res.json();
     if(!data.success) throw new Error(data.error || 'Update failed');
