@@ -2841,31 +2841,45 @@ async function uploadAvatar(input){
   };
   reader.readAsDataURL(file);
 
-  // ── Try API upload in background ──
+  // ── Upload to server via base64 → /upload/image → then PATCH profile ──
   showToast(_ICO.clock+' Uploading photo…','#6366f1');
-  const form = new FormData();
-  form.append('avatar', file);
   try {
-    const res  = await fetch(API_BASE+'/auth/avatar', {
-      method:  'POST',
-      headers: { 'Authorization': 'Bearer '+_bbToken },
-      body:    form
+    // Convert file to base64
+    const base64 = await new Promise((resolve, reject) => {
+      const r = new FileReader();
+      r.onload  = () => resolve(r.result.split(',')[1]);
+      r.onerror = reject;
+      r.readAsDataURL(file);
     });
-    const data = await res.json();
-    if(data.success && data.avatar_url){
-      // Replace data-URL with server URL + update cache
-      _applyAvatar(data.avatar_url, '');
-      const updated = { ..._bbUser, avatar_url: data.avatar_url };
-      _bbUser = updated;
-      localStorage.setItem('bb_user', JSON.stringify(updated));
-      showToast(_ICO.ok+' Profile photo updated!');
-    } else {
-      // API failed but preview is already showing — that's fine
-      showToast(_ICO.ok+' Photo saved locally. Will sync when available.','#6b7280');
-    }
+
+    // Step 1: upload image to storage
+    const upRes  = await fetch(API_BASE+'/upload/image', {
+      method:  'POST',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
+      body:    JSON.stringify({ base64, fileName: file.name, contentType: file.type, folder: 'avatars' })
+    });
+    const upData = await upRes.json();
+    if(!upData.success || !upData.url) throw new Error(upData.error || 'Upload failed');
+
+    // Step 2: save avatar_url to user profile
+    const patchRes  = await fetch(API_BASE+'/auth/me', {
+      method:  'PATCH',
+      headers: { 'Content-Type':'application/json', 'Authorization':'Bearer '+_bbToken },
+      body:    JSON.stringify({ avatar_url: upData.url })
+    });
+    const patchData = await patchRes.json();
+    if(!patchData.success) throw new Error(patchData.error || 'Profile update failed');
+
+    // Replace data-URL preview with permanent server URL
+    const serverUrl = upData.url;
+    _applyAvatar(serverUrl, '');
+    const updated = { ..._bbUser, avatar_url: serverUrl };
+    _bbUser = updated;
+    localStorage.setItem('bb_user', JSON.stringify(updated));
+    showToast(_ICO.ok+' Profile photo updated!');
   } catch(e){
-    // Network error — preview still shows, just note it
-    showToast(_ICO.ok+' Photo saved locally. Will sync when connected.','#6b7280');
+    // Preview is already showing locally — note that server sync failed
+    showToast(_ICO.ok+' Photo saved locally. Will sync when available.','#6b7280');
   }
   input.value = '';
 }
