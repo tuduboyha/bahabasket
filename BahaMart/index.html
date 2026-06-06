@@ -1763,6 +1763,10 @@ function buildHomeProducts(cat, count){
         ${getCatIcon(p.cat)}
         ${p.badge ? `<span class="product-badge ${p.badge==='hot'?'offer':p.badge==='sale'?'offer':'new'}" style="font-size:10px;font-weight:800;">${p.badgeText}</span>` : ''}
         <div class="product-wishlist" onclick="event.stopPropagation();this.textContent=this.textContent==='🤍'?'❤️':'🤍'">🤍</div>
+        <div style="position:absolute;bottom:8px;right:8px;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:700;padding:3px 7px;border-radius:20px;display:flex;align-items:center;gap:3px;z-index:2;">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          ${p.rating} <span style="font-weight:400;opacity:.8;">(${p.reviews})</span>
+        </div>
       </div>
       <div class="product-body">
         <div class="product-shop"><span class="product-shop-dot"></span>${p.shop}</div>
@@ -1771,11 +1775,6 @@ function buildHomeProducts(cat, count){
           <span class="product-price">₹${p.price}</span>
           <span class="product-mrp">₹${p.mrp}</span>
           <span class="product-discount">${p.disc} Off</span>
-          <span style="margin-left:auto;display:flex;align-items:center;gap:3px;font-size:12px;color:var(--text-light);flex-shrink:0;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="#fbbf24" stroke="#fbbf24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-            <span style="font-weight:700;color:var(--text-dark);">${p.rating}</span>
-            <span>(${p.reviews})</span>
-          </span>
         </div>
         <button class="btn-livechat card-chat-btn" onclick="event.stopPropagation();window.location='live-chat.html?shop='+encodeURIComponent('${p.shop}')+'&product='+encodeURIComponent('${p.title}')+'&price='+encodeURIComponent('${p.price}')+'&mrp='+encodeURIComponent('${p.mrp}')+'&emoji='+encodeURIComponent('${p.emoji||'🛍️'}')">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Live Chat
