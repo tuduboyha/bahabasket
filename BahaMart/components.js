@@ -188,38 +188,6 @@
 
     <!-- Desktop nav links (Shop Via pill grouped here so it stays left of Login) -->
     <div class="nav-links">
-      <div class="nav-shop-via-wrap" style="position:relative;flex-shrink:0;">
-        <button id="navShopViaBtn"
-          onclick="typeof openShopViaMenu==='function' && openShopViaMenu()"
-          style="display:flex;align-items:center;gap:7px;flex-shrink:0;height:40px;padding:0 14px;background:var(--bg);border:2px solid var(--border);border-radius:50px;cursor:pointer;transition:all .25s;white-space:nowrap;box-shadow:0 2px 8px rgba(0,0,0,.06);"
-          onmouseover="this.style.borderColor='#25d366';this.style.boxShadow='0 0 0 4px rgba(37,211,102,.12),0 4px 16px rgba(37,211,102,.18)';this.style.background='var(--white)'"
-          onmouseout="this.style.borderColor='var(--border)';this.style.boxShadow='0 2px 8px rgba(0,0,0,.06)';this.style.background='var(--bg)'">
-          <span id="shopViaIcon" style="display:flex;align-items:center;line-height:0;flex-shrink:0;">
-            <svg viewBox="0 0 24 24" fill="#25d366" width="15" height="15"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg>
-          </span>
-          <span style="font-size:12.5px;font-weight:500;color:var(--text-light);">Shop Via :</span>
-          <span id="shopViaLabel" style="font-size:13px;font-weight:700;color:#128C7E;">WhatsApp</span>
-          <svg id="shopViaChevron" viewBox="0 0 24 24" fill="none" stroke="var(--text-light)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="12" height="12" style="flex-shrink:0;transition:transform .2s;"><polyline points="9 18 15 12 9 6"/></svg>
-        </button>
-        <!-- Dropdown -->
-        <div id="shopViaDropdown" style="display:none;position:absolute;top:calc(100% + 8px);right:0;min-width:230px;background:#fff;border:1.5px solid var(--border);border-radius:14px;box-shadow:0 16px 40px rgba(0,0,0,.15);z-index:999;padding:8px;flex-direction:column;gap:4px;animation:menuSlide .2s ease;">
-          <div style="padding:8px 14px 6px;font-size:11px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:.5px;">Choose Shopping Method</div>
-          <button id="shopViaOptWA" onclick="selectShopVia('wa',event)"
-            style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;border:none;background:transparent;width:100%;cursor:pointer;text-align:left;transition:background .18s;"
-            onmouseover="this.style.background='#f0fdf4'" onmouseout="this.style.background='transparent'">
-            <span style="width:34px;height:34px;background:#25d366;border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:0;">
-              <svg viewBox="0 0 24 24" fill="#fff" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg>
-            </span>
-            <div style="flex:1;text-align:left;">
-              <div style="font-size:13.5px;font-weight:700;color:var(--text-dark);white-space:nowrap;">WhatsApp Shopping</div>
-              <div style="font-size:12px;color:var(--text-light);font-weight:400;margin-top:2px;">Buy directly from seller</div>
-            </div>
-            <span id="shopViaCheckWA" style="display:flex;line-height:0;color:#25d366;flex-shrink:0;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-          </button>
-        </div>
-      </div>
       <a href="login-register.html" class="nav-link-login" id="navLoginBtn">
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         Login
@@ -300,31 +268,6 @@
 
   <!-- Body -->
   <div class="drawer-body">
-
-    <!-- Shop Via -->
-    <div class="drawer-section">
-      <div class="drawer-section-title">Shop Via</div>
-      <a href="https://wa.me/919876543210?text=Hello! I want to shop from BahaBasket." target="_blank" class="drawer-link">
-        <span class="drawer-link-icon" style="background:#dcfce7;">
-          <svg viewBox="0 0 24 24" fill="#25d366" width="18" height="18"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347zm-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884z"/></svg>
-        </span>
-        <div>
-          <div style="font-size:13.5px;font-weight:700;">WhatsApp Shopping</div>
-          <div style="font-size:12px;color:var(--text-light);font-weight:400;margin-top:1px;">Buy directly from seller</div>
-        </div>
-      </a>
-      <button class="drawer-link" onclick="toggleMobileMenu();openLiveChatPopup();">
-        <span class="drawer-link-icon" style="background:var(--primary-light);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </span>
-        <div>
-          <div style="font-size:13.5px;font-weight:700;">Live Chat</div>
-          <div style="font-size:12px;color:var(--text-light);font-weight:400;margin-top:1px;">Buy without sharing your number</div>
-        </div>
-      </button>
-    </div>
-
-    <div class="drawer-divider"></div>
 
     <!-- Browse -->
     <div class="drawer-section">
