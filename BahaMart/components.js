@@ -218,20 +218,6 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
             </span>
           </button>
-          <button id="shopViaOptChat" onclick="selectShopVia('chat',event)"
-            style="display:flex;align-items:center;gap:10px;padding:11px 14px;border-radius:10px;border:none;background:transparent;width:100%;cursor:pointer;text-align:left;transition:background .18s;"
-            onmouseover="this.style.background='var(--primary-light)'" onmouseout="this.style.background='transparent'">
-            <span style="width:34px;height:34px;background:var(--primary);border-radius:9px;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:0;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            </span>
-            <div style="flex:1;text-align:left;">
-              <div style="font-size:13.5px;font-weight:700;color:var(--text-dark);">Live Chat</div>
-              <div style="font-size:12px;color:var(--text-light);font-weight:400;margin-top:2px;">Buy without sharing your number</div>
-            </div>
-            <span id="shopViaCheckChat" style="display:none;line-height:0;color:var(--primary);flex-shrink:0;">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"/></svg>
-            </span>
-          </button>
         </div>
       </div>
       <a href="login-register.html" class="nav-link-login" id="navLoginBtn">
