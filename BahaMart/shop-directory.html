@@ -884,7 +884,7 @@ var CAT_COLORS = {
 function buildShopCard(shop) {
   const cats     = Array.isArray(shop.category) ? shop.category : [shop.category || ''];
   const catSlug  = (cats[0] || '').toLowerCase().replace(/\s+/g,'-');
-  const catLabel = cats[0] || 'General';
+  const catLabel = (cats[0] || 'General').replace(/-/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
   const bg       = CAT_COLORS[catSlug] || CAT_COLORS['default'];
   const rating   = parseFloat(shop.rating) || 0;
   const stars    = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
