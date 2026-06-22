@@ -128,6 +128,29 @@
 .cat-pill .cat-svg{width:18px;height:18px;stroke-width:2.2;}
 #catBarLeft[disabled],#catBarRight[disabled]{opacity:.35;pointer-events:none;cursor:default;}
 
+/* ── PROFILE PILL (Desktop Nav) ── */
+.nav-profile-wrap{position:relative;display:flex;align-items:center;}
+.nav-profile-pill{display:flex;align-items:center;gap:8px;height:40px;padding:0 14px 0 8px;background:#fff;border:2px solid var(--border);border-radius:50px;cursor:pointer;transition:all .22s;user-select:none;font-family:inherit;}
+.nav-profile-pill:hover,.nav-profile-pill.open{border-color:var(--primary);box-shadow:0 0 0 4px rgba(26,86,219,.08);}
+.nav-avatar{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.nav-profile-name{font-size:13.5px;font-weight:600;color:var(--text-dark);}
+.nav-profile-chevron{transition:transform .22s;flex-shrink:0;}
+.nav-profile-pill.open .nav-profile-chevron{transform:rotate(180deg);}
+.nav-profile-dropdown{position:absolute;top:calc(100% + 10px);right:0;width:236px;background:#fff;border:1.5px solid var(--border);border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.13);z-index:9999;opacity:0;visibility:hidden;transform:translateY(-8px);transition:all .22s;pointer-events:none;}
+.nav-profile-dropdown.open{opacity:1;visibility:visible;transform:translateY(0);pointer-events:auto;}
+.npd-header{padding:16px 16px 12px;border-bottom:1px solid var(--border);}
+.npd-header-inner{display:flex;align-items:center;gap:10px;}
+.npd-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:16px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.npd-name{font-size:14px;font-weight:700;color:var(--text-dark);line-height:1.3;}
+.npd-sub{font-size:11.5px;color:var(--text-light);margin-top:2px;word-break:break-all;}
+.npd-items{padding:6px 8px;}
+.npd-item{display:flex;align-items:center;gap:10px;padding:10px 10px;border-radius:10px;font-size:13.5px;font-weight:500;color:var(--text-dark);cursor:pointer;text-decoration:none;transition:background .18s,color .18s;border:none;background:transparent;width:100%;text-align:left;font-family:inherit;}
+.npd-item:hover{background:var(--primary-light);color:var(--primary);}
+.npd-item svg{flex-shrink:0;}
+.npd-divider{height:1px;background:var(--border);margin:4px 10px;}
+.npd-item.npd-logout{color:#dc2626;}
+.npd-item.npd-logout:hover{background:#fff1f0;color:#dc2626;}
+
 /* ── RESPONSIVE ── */
 @media(max-width:1100px){
   .nav-shop-via-wrap #shopViaDropdown{left:auto;right:0;}
@@ -762,64 +785,101 @@
   injectComponents();
 
   /* ─────────────────────────────────────────────────────────
-     10. AUTH NAV — Login button → user name + Logout if logged in
+     10. AUTH NAV — Profile pill + dropdown if logged in
   ───────────────────────────────────────────────────────── */
   function applyAuthNav() {
     var token = localStorage.getItem('bb_token');
     var user  = null;
     try { user = JSON.parse(localStorage.getItem('bb_user')); } catch(e) {}
-    if (!token || !user) return; // not logged in — keep defaults
+    if (!token || !user) return;
 
-    // Support both custom users table format AND raw Supabase auth user format
-    var meta      = user.user_metadata || {};
-    var userName  = (user.name || meta.name || user.phone || meta.phone || 'My Account').split(' ')[0];
-    // Use login type chosen by user (not DB role) — buyer tab → user dashboard
-    var loginType = localStorage.getItem('bb_login_type') || 'buyer';
-    var isSeller  = (loginType === 'seller');
+    var meta       = user.user_metadata || {};
+    var userName   = user.name || meta.name || user.phone || meta.phone || 'My Account';
+    var userSub    = user.email || meta.email || user.phone || meta.phone || '';
+    var firstName  = userName.split(' ')[0];
+    var avatarChar = firstName.charAt(0).toUpperCase();
+    var loginType  = localStorage.getItem('bb_login_type') || 'buyer';
+    var isSeller   = (loginType === 'seller');
+    var dashUrl    = isSeller ? 'seller-dashboard.html' : 'user-dashboard.html';
+    var editUrl    = isSeller ? 'seller-dashboard.html?tab=profile' : 'user-dashboard.html?tab=profile';
 
-    var personSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
-    var logoutSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+    // SVG icons
+    var dashSVG   = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>';
+    var editSVG   = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>';
+    var logoutSVG = '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+    var chevSVG   = '<svg class="nav-profile-chevron" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#6b7280" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>';
 
     function doLogout(e) {
-      e.preventDefault();
+      e && e.preventDefault();
       localStorage.removeItem('bb_token');
       localStorage.removeItem('bb_user');
+      localStorage.removeItem('bb_login_type');
       window.location.href = 'index.html';
     }
 
-    // ── Desktop navbar ──
-    var navLogin = document.getElementById('navLoginBtn');
-    var navReg   = document.getElementById('navRegisterBtn');
-    if (navLogin) {
-      navLogin.removeAttribute('href');
-      navLogin.style.cursor = 'pointer';
-      navLogin.innerHTML = personSVG + ' ' + userName;
-      navLogin.onclick = function() {
-        window.location.href = isSeller ? 'seller-dashboard.html' : 'user-dashboard.html';
+    // ── Desktop: replace nav-links with profile pill + dropdown ──
+    var navLinks = document.querySelector('.nav-links');
+    if (navLinks) {
+      navLinks.innerHTML =
+        '<div class="nav-profile-wrap" id="navProfileWrap">' +
+          '<button class="nav-profile-pill" id="navProfilePill" type="button">' +
+            '<div class="nav-avatar">' + avatarChar + '</div>' +
+            '<span class="nav-profile-name">' + firstName + '</span>' +
+            chevSVG +
+          '</button>' +
+          '<div class="nav-profile-dropdown" id="navProfileDropdown">' +
+            '<div class="npd-header">' +
+              '<div class="npd-header-inner">' +
+                '<div class="npd-avatar">' + avatarChar + '</div>' +
+                '<div>' +
+                  '<div class="npd-name">' + userName + '</div>' +
+                  '<div class="npd-sub">' + userSub + '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>' +
+            '<div class="npd-items">' +
+              '<a href="' + dashUrl + '" class="npd-item">' + dashSVG + ' Dashboard</a>' +
+              '<a href="' + editUrl + '" class="npd-item">' + editSVG + ' Edit Profile</a>' +
+              '<div class="npd-divider"></div>' +
+              '<button class="npd-item npd-logout" id="navLogoutBtn" type="button">' + logoutSVG + ' Logout</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      var pill = document.getElementById('navProfilePill');
+      var dd   = document.getElementById('navProfileDropdown');
+      pill.onclick = function() {
+        dd.classList.toggle('open');
+        pill.classList.toggle('open');
       };
-    }
-    if (navReg) {
-      navReg.removeAttribute('href');
-      navReg.style.background = 'linear-gradient(135deg,#dc2626,#b91c1c)';
-      navReg.innerHTML = logoutSVG + ' Logout';
-      navReg.onclick = doLogout;
+      document.getElementById('navLogoutBtn').onclick = doLogout;
+
+      // Close on outside click
+      document.addEventListener('click', function(e) {
+        var wrap = document.getElementById('navProfileWrap');
+        if (wrap && !wrap.contains(e.target)) {
+          dd.classList.remove('open');
+          pill.classList.remove('open');
+        }
+      });
     }
 
-    // ── Mobile drawer ──
+    // ── Mobile drawer: replace auth section with user card ──
     var drLogin = document.getElementById('drawerLoginBtn');
-    var drReg   = document.getElementById('drawerRegisterBtn');
     if (drLogin) {
-      drLogin.removeAttribute('href');
-      drLogin.innerHTML = personSVG + ' ' + userName;
-      drLogin.onclick = function() {
-        window.location.href = isSeller ? 'seller-dashboard.html' : 'user-dashboard.html';
-      };
-    }
-    if (drReg) {
-      drReg.removeAttribute('href');
-      drReg.style.background = 'linear-gradient(135deg,#dc2626,#b91c1c)';
-      drReg.innerHTML = logoutSVG + ' Logout';
-      drReg.onclick = doLogout;
+      var authSection = drLogin.parentElement;
+      authSection.innerHTML =
+        '<div style="display:flex;align-items:center;gap:12px;padding:2px 0 10px;">' +
+          '<div style="width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:20px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">' + avatarChar + '</div>' +
+          '<div style="flex:1;min-width:0;">' +
+            '<div style="font-size:15px;font-weight:700;color:var(--text-dark);line-height:1.2;">' + userName + '</div>' +
+            '<div style="font-size:12px;color:var(--text-light);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">' + userSub + '</div>' +
+          '</div>' +
+        '</div>' +
+        '<a href="' + dashUrl + '" class="drawer-btn-login">' + dashSVG + ' Dashboard</a>' +
+        '<button class="drawer-btn-login" id="drawerLogoutBtn" style="background:linear-gradient(135deg,#dc2626,#b91c1c);cursor:pointer;border:none;font-family:inherit;">' + logoutSVG + ' Logout</button>';
+
+      document.getElementById('drawerLogoutBtn').onclick = doLogout;
     }
   }
 
