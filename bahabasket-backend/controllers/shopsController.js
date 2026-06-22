@@ -9,7 +9,7 @@ exports.listShops = async (req, res, next) => {
 
     let query = supabaseAdmin
       .from('shops')
-      .select('id, name, slug, category, description, whatsapp, city, logo, cover_image, rating, review_count, plan, is_verified', { count: 'exact' })
+      .select('id, name, slug, category, description, whatsapp, city, logo, cover_image, rating, review_count, product_count, plan, is_verified', { count: 'exact' })
       .eq('is_active', true)
       .order('is_verified', { ascending: false })
       .order('rating',      { ascending: false })
