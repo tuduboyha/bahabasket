@@ -9,7 +9,7 @@ exports.listShops = async (req, res, next) => {
 
     let query = supabaseAdmin
       .from('shops')
-      .select('id, name, slug, category, description, whatsapp, city, logo, cover_image, rating, review_count, product_count, plan, is_verified', { count: 'exact' })
+      .select('id, name, slug, category, description, whatsapp, city, logo, cover_image, rating, review_count, plan, is_verified, products(count)', { count: 'exact' })
       .eq('is_active', true)
       .order('is_verified', { ascending: false })
       .order('rating',      { ascending: false })
@@ -23,7 +23,12 @@ exports.listShops = async (req, res, next) => {
     const { data, error, count } = await query;
     if (error) throw error;
 
-    res.json({ success: true, shops: data || [], total: count || 0, page: +page, limit: +limit });
+    const shops = (data || []).map(({ products: pc, ...s }) => ({
+      ...s,
+      product_count: Array.isArray(pc) ? (pc[0]?.count ?? 0) : (pc?.count ?? 0)
+    }));
+
+    res.json({ success: true, shops, total: count || 0, page: +page, limit: +limit });
   } catch (err) { next(err); }
 };
 
