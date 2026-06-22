@@ -100,6 +100,22 @@ app.use((req, res) => {
 // ─── Global Error Handler ─────────────────────────────────────────────────────
 app.use(require('./middleware/errorHandler'));
 
+// ─── Supabase Keep-Alive Cron (every 5 days at 9 AM) ────────────────────────
+// Prevents Supabase free-tier from auto-pausing due to inactivity (pauses after 7 days)
+const cron = require('node-cron');
+const { supabaseAdmin } = require('./supabase/client');
+
+cron.schedule('0 9 */5 * *', async () => {
+  try {
+    const { count } = await supabaseAdmin
+      .from('shops')
+      .select('id', { count: 'exact', head: true });
+    console.log(`[keep-alive] Supabase ping OK — ${count} shops`);
+  } catch (err) {
+    console.error('[keep-alive] Supabase ping failed:', err.message);
+  }
+});
+
 // ─── Start Server ─────────────────────────────────────────────────────────────
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
